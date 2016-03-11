@@ -59,7 +59,7 @@ signup = function (req, res, next) {
     });
 };
 
-checkAuth =function (req, res, next) {
+checkAuth = function (req, res, next) {
   // checking to see if the user is authenticated
   // grab the token in the header is any
   // then decode the token, which we end up being the user object
