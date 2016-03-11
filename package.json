@@ -1,5 +1,5 @@
 {
-  "name": "dropnet",
+  "name": "",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
@@ -11,7 +11,7 @@
     "url": "git+https://github.com/BuoyantPyramid/buoyantpyramid.git"
   },
   "author": "buoyantPyramid",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/BuoyantPyramid/buoyantpyramid/issues"
   },
