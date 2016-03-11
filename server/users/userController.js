@@ -7,7 +7,7 @@ var findUser = Q.nbind(User.findOne, User);
 var createUser = Q.nbind(User.create, User);
 
 
-signin = function (req, res, next) {
+var signin = function (req, res, next) {
   var username = req.body.username;
   var password = req.body.password;
 
@@ -32,7 +32,7 @@ signin = function (req, res, next) {
     });
 };
 
-signup = function (req, res, next) {
+var signup = function (req, res, next) {
   var username = req.body.username;
   var password = req.body.password;
 
@@ -59,7 +59,7 @@ signup = function (req, res, next) {
     });
 };
 
-checkAuth = function (req, res, next) {
+var checkAuth = function (req, res, next) {
   // checking to see if the user is authenticated
   // grab the token in the header is any
   // then decode the token, which we end up being the user object

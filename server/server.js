@@ -7,10 +7,8 @@ var app = express();
 // connect to mongo database named "dropnet"
 mongoose.connect(config.mongoURL);
 
-// Get port from environment and store in Express.
-config.port = normalizePort(process.env.PORT || config.port);
 
-function normalizePort(val) {
+var normalizePort = function(val) {
   var port = parseInt(val, 10);
   if (isNaN(port)) {
     return val;
@@ -20,6 +18,9 @@ function normalizePort(val) {
   }
   return false;
 }
+
+// Get port from environment and store in Express.
+config.port = normalizePort(process.env.PORT || config.port);
 
 // configure our server with all the middleware and routing
 require('./config/middleware.js')(app, express);
