@@ -1,22 +1,25 @@
 // Each of these commands will run in a new tab!
 var commandsList = [];
 
-commandsList[0] = 'chrome https://github.com/BuoyantPyramid/buoyantpyramid';
-// commandsList[2] = 'next commands;
+commandsList[0] = 'mongod';
+commandsList[1] = 'nodemon server/server.js';
+commandsList[2] = 'chrome https://github.com/BuoyantPyramid/buoyantpyramid http://localhost:3000';
 
 
 var exec = require('child_process').exec;
 var dir = __dirname;
 
 for( var i = 0; i < commandsList.length; i++ ) {
+
   var thisCommand = commandsList[i];
-  setTimeout(function(){
-    console.log(thisCommand);
-    exec('runInTab ' + thisCommand);
-  }, i*1000);
+  
+  (function(thisCommand) {
+    setTimeout(function(){
+      // console.log(thisCommand);
+      exec('runInTab ' + thisCommand);
+    }, i * 1500);
+  })(thisCommand);
 }
-
-
 
 // Save below script to     /usr/local/bin as "runInTab"
 // ensure this is executeable
