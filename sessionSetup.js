@@ -1,5 +1,8 @@
 // Each of these commands will run in a new tab!
-var commandsList = ['ls -a', 'ls -a'];
+var commandsList = [];
+
+commandsList[0] = 'chrome https://github.com/BuoyantPyramid/buoyantpyramid';
+// commandsList[2] = 'next commands;
 
 
 var exec = require('child_process').exec;
