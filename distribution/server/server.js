@@ -8,7 +8,7 @@ var app = express();
 mongoose.connect(config.mongoURL);
 
 // Get port from environment and store in Express.
-config.port = normalizePort(process.env.PORT || config.localPort);
+config.port = normalizePort(process.env.PORT || config.port);
 
 function normalizePort(val) {
   var port = parseInt(val, 10);

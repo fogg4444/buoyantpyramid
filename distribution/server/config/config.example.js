@@ -1,8 +1,11 @@
 var server = require('../server.js');
 var config = {};
 
-config.mongoURL = 'mongodb://localhost/dropnet';
+// Copy the contents of this file into a new file named config.js
+// and complete commented lines
 
-config.localPort = 3000;
+config.mongoURL = // 'mongodb://localhost/dropnet';
+
+config.port = // 3000;
 
 module.exports = config;

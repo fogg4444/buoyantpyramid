@@ -25,8 +25,6 @@
 ## Requirements
 
 - Node 0.10.x
-- Redis 2.6.x
-- Postgresql 9.1.x
 - etc
 - etc
 
@@ -37,10 +35,11 @@
 From within the root directory:
 
 ```sh
-sudo npm install -g bower
-npm install
-bower install
+sudo npm install
 ```
+### Server configuration
+
+Open distribution/server/config/config.example.js and use template to create config.js.
 
 ### Roadmap
 
