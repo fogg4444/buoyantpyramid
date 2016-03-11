@@ -17,7 +17,7 @@ for( var i = 0; i < commandsList.length; i++ ) {
     setTimeout(function(){
       // console.log(thisCommand);
       exec('runInTab ' + thisCommand);
-    }, i * 1500);
+    }, i * 1000);
   })(thisCommand);
 }
 
