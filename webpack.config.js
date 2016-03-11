@@ -28,7 +28,7 @@ module.exports = {
       },
       concurrency: 3,
     }),
-    new webpack.optimize.OccurenceOrderPlugin(),
+    new webpack.optimize.OccurenceOrderPlugin()
   ],
   module: {
     loaders: [{
