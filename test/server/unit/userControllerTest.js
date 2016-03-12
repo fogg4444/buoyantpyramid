@@ -5,12 +5,6 @@ var mongoose = require('mongoose');
 var UserController = require('../../../server/users/userController.js');
 var User = require('../../../server/users/userModel.js');
 
-
-var Q = require('q');
-var mongoose = require('mongoose');
-var bcrypt = require('bcrypt-nodejs');
-var SALT_WORK_FACTOR = 10;
-
 var dbURI = 'mongodb://localhost/testDB';
 
 // The `clearDB` helper function, when invoked, will clear the database
@@ -75,6 +69,24 @@ describe('User Controller', function () {
       UserController.signup(req, res, function() {});
     });
 
+    it('should creat a new user in the database', function (done) {
+      var req = {
+        body: {
+          username: 'jake@ooo.com',
+          password: 'thedog'
+        }
+      };
+
+      var res = {};
+
+      res.json = function(jsonresponse) {
+        mongoose.connection.collections.users.findOne({username: 'jake@ooo.com'}, function(err, user){
+          expect(user.username).to.equal('jake@ooo.com');
+          done();
+        });
+      };
+      UserController.signup(req, res, function() {});
+    });
 
     it('should not allow duplicate email addresses', function (done) {
       var req = {
