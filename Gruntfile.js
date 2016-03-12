@@ -2,7 +2,7 @@ module.exports = function(grunt) {
   // load up all of the necessary grunt plugins
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-copy');
-  grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks("gruntify-eslint");
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-express-server');
   grunt.loadNpmTasks('grunt-shell');
@@ -11,9 +11,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-casperjs');
   grunt.loadNpmTasks('grunt-mocha');
 
-
-  // in what order should the files be concatenated
-  // var clientIncludeOrder = require('./include.conf.js');
 
   // grunt setup
   grunt.initConfig({
@@ -26,51 +23,7 @@ module.exports = function(grunt) {
       results: 'results/*'
     },
 
-    // what files should be linted
-    jshint: {
-      gruntfile: 'Gruntfile.js',
-      client: 'client/**/*.js',
-      server: 'server/**/*.js',
-      options: {
-        globals: {
-          eqeqeq: true
-        }
-      }
-    },
 
-    // uglify the files
-    // uglify: {
-    //   todo: {
-    //     files: {
-    //       'dist/client/scripts/todo.js': clientIncludeOrder
-    //     }
-    //   }
-    // },
-
-    // copy necessary files to our dist folder
-    // copy: {
-    //   // create a task for client files
-    //   client: {
-    //     // Copy everything but the to-be-concatenated todo JS files
-    //     src: [ 'client/**', '!client/scripts/todo/**' ],
-    //     dest: 'dist/'
-    //   },
-    //   // create a task for server files
-    //   server: {
-    //     src: [ 'server/**' ],
-    //     dest: 'dist/'
-    //   }
-    // },
-
-    // concat all the js files
-    // concat: {
-    //   todo: {
-    //     files: {
-    //       // concat all the todo js files into one file
-    //       'dist/client/scripts/todo.js': clientIncludeOrder
-    //     }
-    //   }
-    // },
 
     // configure the server
     express: {
