@@ -9,12 +9,12 @@ commandsList[2] = 'chrome https://github.com/BuoyantPyramid/buoyantpyramid http:
 var exec = require('child_process').exec;
 var dir = __dirname;
 
-for( var i = 0; i < commandsList.length; i++ ) {
+for ( var i = 0; i < commandsList.length; i++ ) {
 
   var thisCommand = commandsList[i];
   
-  (function(thisCommand) {
-    setTimeout(function(){
+  (function (thisCommand) {
+    setTimeout(function() {
       // console.log(thisCommand);
       exec('runInTab ' + thisCommand);
     }, i * 1000);
