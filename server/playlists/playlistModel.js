@@ -10,8 +10,8 @@ var PlaylistSchema = new Schema({
     type: String
   },
   songs: [{
-    type : Schema.ObjectId,
-    ref : 'Song'
+    type: Schema.ObjectId,
+    ref: 'Song'
   }]
 });
 

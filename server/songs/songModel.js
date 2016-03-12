@@ -18,11 +18,11 @@ var SongSchema = new Schema({
   },
   address: {
     type: String,
-    default: "" // Complete url
+    default: '' // Complete url
   },
   imageUrl: {
     type: String,
-    default: "" // Complete url
+    default: '' // Complete url
   },
   uploadedBy: {
     type: Schema.ObjectId,
