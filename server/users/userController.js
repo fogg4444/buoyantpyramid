@@ -8,10 +8,10 @@ var createUser = Q.nbind(User.create, User);
 
 
 var signin = function (req, res, next) {
-  var username = req.body.username;
+  var email = req.body.email;
   var password = req.body.password;
 
-  findUser({username: username})
+  findUser({email: email})
     .then(function (user) {
       if (!user) {
         throw Error('User does not exist');
@@ -33,18 +33,20 @@ var signin = function (req, res, next) {
 };
 
 var signup = function (req, res, next) {
-  var username = req.body.username;
+  var displayName = req.body.displayName;
+  var email = req.body.email;
   var password = req.body.password;
 
   // check to see if user already exists
-  findUser({username: username})
+  findUser({email: email})
     .then(function (user) {
       if (user) {
         throw Error('User already exists!');
       } else {
         // make a new user if not one
         return createUser({
-          username: username,
+          displayName: displayName,
+          email: email,
           password: password
         });
       }
@@ -69,7 +71,7 @@ var checkAuth = function (req, res, next) {
     next(new Error('No token'));
   } else {
     var user = jwt.decode(token, 'secret');
-    findUser({username: user.username})
+    findUser({email: user.email})
       .then(function (foundUser) {
         if (foundUser) {
           res.send(200);
