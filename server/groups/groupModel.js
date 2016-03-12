@@ -1,25 +1,25 @@
 var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
 
-var GroupSchema = new mongoose.Schema({
+var User = require('../users/userModel.js');
+var Song = require('../songs/songModel.js');
+
+var GroupSchema = new Schema({
   groupname: {
     type: String,
     required: true
   },
   administrators: {
-    type: Array,
-    default: []
+    type: [User]
   },
   members: {
-    type: Array,
-    default: []
+    type: [User]
   },
   pendingMembers: {
-    type: Array,
-    default: []
+    type: [User]
   },
   songs: {
-    type: Array,
-    default: []
+    type: [Song]
   },
   bannerUrl: {
     type: String,

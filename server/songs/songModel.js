@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
 
-var SongSchema = new mongoose.Schema({
+var SongSchema = new Schema({
   title: {
     type: String,
     required: true
@@ -24,7 +25,7 @@ var SongSchema = new mongoose.Schema({
     default: "" // Complete url
   },
   uploadedBy: {
-    type: ObjectId,
+    type: Schema.ObjectId,
     required: true
   },
   markers: {
@@ -33,4 +34,4 @@ var SongSchema = new mongoose.Schema({
   }
 });
 
-module.exports = mongoose.model('Group', GroupSchema);
+module.exports = mongoose.model('Song', SongSchema);

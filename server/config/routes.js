@@ -1,4 +1,6 @@
 var userController = require('../users/userController.js');
+var songController = require('../songs/songController.js');
+var groupController = require('../groups/groupController.js');
 var helpers = require('./helpers.js');
 
 module.exports = function (app, express) {
