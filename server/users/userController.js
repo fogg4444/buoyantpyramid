@@ -14,7 +14,7 @@ var signin = function (req, res, next) {
   findUser({username: username})
     .then(function (user) {
       if (!user) {
-        next(new Error('User does not exist'));
+        throw Error('User does not exist');
       } else {
         return user.comparePasswords(password)
           .then(function (foundUser) {
@@ -40,7 +40,7 @@ var signup = function (req, res, next) {
   findUser({username: username})
     .then(function (user) {
       if (user) {
-        next(new Error('User already exist!'));
+        throw Error('User already exists!');
       } else {
         // make a new user if not one
         return createUser({
