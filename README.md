@@ -1,12 +1,12 @@
-# Project Name
+# SLACK FOR SOUNDCLOUD!!!
 
-> Pithy project description
+Audio organization system for stoned musicians
 
 ## Team
 
-  - __Product Owner__: teamMember
-  - __Scrum Master__: teamMember
-  - __Development Team Members__: teamMember, teamMember
+  - __Product Owner__: Brian Fogg
+  - __Scrum Master__: Nick Echols
+  - __Development Team Members__: Sondra Silverhawk, Erick Paepke
 
 ## Table of Contents
 
@@ -20,30 +20,38 @@
 
 ## Usage
 
-> Some usage instructions
+
 
 ## Requirements
 
-- Node 0.10.x
-- etc
-- etc
+- Node
+- Nodemon
+- Eslint
 
 ## Development
 
 ### Installing Dependencies
 
-From within the root directory:
+From within the main directory of the repo:
 
 ```sh
-sudo npm install
+npm install -g nodemon
+npm install -g eslint
+npm install -g webpack-cli
+npm install
+sh ./pomander.sh
 ```
+
+
+
 ### Server configuration
 
 Open distribution/server/config/config.example.js and use template to create config.js.
 
+
 ### Roadmap
 
-View the project roadmap [here](LINK_TO_PROJECT_ISSUES)
+View the project roadmap [here](https://github.com/BuoyantPyramid/buoyantpyramid/issues)
 
 
 ## Contributing
