@@ -1,8 +1,9 @@
 var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
-
 var User = require('../users/userModel.js');
 var Song = require('../songs/songModel.js');
+var Playlist = require('../playlists/playlistModel.js');
+
+var Schema = mongoose.Schema;
 
 var GroupSchema = new Schema({
   groupname: {
@@ -20,6 +21,9 @@ var GroupSchema = new Schema({
   },
   songs: {
     type: [Song]
+  },
+  playlists: {
+    type: [Playlist]
   },
   bannerUrl: {
     type: String,
