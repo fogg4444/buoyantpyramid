@@ -37,6 +37,7 @@ From within the main directory of the repo:
 ```sh
 npm install -g nodemon
 npm install -g eslint
+npm install -g eslint-plugin-react
 npm install -g webpack-cli
 npm install
 sh ./pomander.sh
