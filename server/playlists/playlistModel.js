@@ -1,6 +1,4 @@
 var mongoose = require('mongoose');
-var Song = require('../songs/songModel.js');
-
 var Schema = mongoose.Schema;
 
 var PlaylistSchema = new Schema({
@@ -11,9 +9,10 @@ var PlaylistSchema = new Schema({
   description: {
     type: String
   },
-  songs: {
-    type: [Song]
-  }
+  songs: [{
+    type : Schema.ObjectId,
+    ref : 'Song'
+  }]
 });
 
 module.exports = mongoose.model('Playlist', PlaylistSchema);

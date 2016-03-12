@@ -1,7 +1,8 @@
-var userController = require('../users/userController.js');
-var songController = require('../songs/songController.js');
 var groupController = require('../groups/groupController.js');
 var helpers = require('./helpers.js');
+var playlistController = require('../playlists/playlistController.js');
+var songController = require('../songs/songController.js');
+var userController = require('../users/userController.js');
 
 module.exports = function (app, express) {
   app.post('/api/users/signin', userController.signin);

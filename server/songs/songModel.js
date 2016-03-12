@@ -1,5 +1,4 @@
 var mongoose = require('mongoose');
-
 var Schema = mongoose.Schema;
 
 var SongSchema = new Schema({
@@ -21,13 +20,13 @@ var SongSchema = new Schema({
     type: String,
     default: "" // Complete url
   },
-  coverUrl: {
+  imageUrl: {
     type: String,
     default: "" // Complete url
   },
   uploadedBy: {
     type: Schema.ObjectId,
-    required: true
+    ref: 'User'
   },
   markers: {
     type: Array,
