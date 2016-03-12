@@ -5,7 +5,11 @@ var SALT_WORK_FACTOR = 10;
 var Schema = mongoose.Schema;
 
 var UserSchema = new Schema({
-  username: {
+  email: {
+    type: String,
+    required: true
+  },
+  displayName: {
     type: String,
     required: true,
     unique: true
@@ -14,7 +18,11 @@ var UserSchema = new Schema({
     type: String,
     required: true
   },
-  salt: String
+  salt: String,
+  avatarURL: {
+    type: String,
+    default: "" // Complete
+  }
 });
 
 UserSchema.methods.comparePasswords = function (candidatePassword) {
