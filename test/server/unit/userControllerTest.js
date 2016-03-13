@@ -79,7 +79,7 @@ describe('User Controller', function () {
       var res = {};
 
       res.json = function(jsonresponse) {
-        mongoose.connection.collections.users.findOne({username: 'jake@ooo.com'}, function(err, user){
+        mongoose.connection.collections.users.findOne({username: 'jake@ooo.com'}, function(err, user) {
           expect(user.username).to.equal('jake@ooo.com');
           done();
         });
