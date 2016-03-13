@@ -49,11 +49,11 @@ describe('User Controller', function () {
       done();
     });
   });
-  describe ('sign in', function() {
+  describe ('sign up', function() {
     it('should respond to valid input with a jwt token in a json object', function (done) {
       var req = {
         body: {
-          username: 'jake',
+          username: 'jake@ooo.com',
           password: 'thedog'
         }
       };
@@ -64,6 +64,46 @@ describe('User Controller', function () {
       res.json = function(jsonresponse) {
         expect(jsonresponse).to.have.property('token');
         done();
+      };
+      // var spy = res.json = sinon.stub();
+      UserController.signup(req, res, function() {});
+    });
+
+    it('should creat a new user in the database', function (done) {
+      var req = {
+        body: {
+          username: 'jake@ooo.com',
+          password: 'thedog'
+        }
+      };
+
+      var res = {};
+
+      res.json = function(jsonresponse) {
+        mongoose.connection.collections.users.findOne({username: 'jake@ooo.com'}, function(err, user){
+          expect(user.username).to.equal('jake@ooo.com');
+          done();
+        });
+      };
+      UserController.signup(req, res, function() {});
+    });
+
+    it('should not allow duplicate email addresses', function (done) {
+      var req = {
+        body: {
+          username: 'jake@ooo.com',
+          password: 'thedog'
+        }
+      };
+
+      var res = {};
+
+      // after one sign up, try to sign up with same email
+      res.json = function(jsonresponse) {
+        UserController.signup(req, res, function(err) {
+          expect(err).to.be.instanceof(Error);
+          done();
+        });  
       };
       // var spy = res.json = sinon.stub();
       UserController.signup(req, res, function() {});
