@@ -25,28 +25,27 @@ describe('User Controller', function () {
   // Clear database before each test and then seed it with example `users` so that you can run tests
   beforeEach(function (done) {
     clearDB(function () {
-      // var users = [
-      //   {
-      //     username: 'nick',
-      //     password: 'nickspassword'
-      //   },
-      //   {
-      //     name: 'sondra',
-      //     email: 'sondraspassword'
-      //   },
-      //   {
-      //     name: 'brian',
-      //     email: 'brianspassword'
-      //   },
-      //   {
-      //     name: 'erick',
-      //     email: 'erickspassword'
-      //   },
-      // ];
+      var users = [
+        {
+          username: 'nick',
+          password: 'nickspassword'
+        },
+        {
+          username: 'sondra',
+          password: 'sondraspassword'
+        },
+        {
+          username: 'brian',
+          password: 'brianspassword'
+        },
+        {
+          username: 'erick',
+          password: 'erickspassword'
+        },
+      ];
 
-      // // See http://mongoosejs.com/docs/models.html for details on the `create` method
-      // User.create(users, done);
-      done();
+      // See http://mongoosejs.com/docs/models.html for details on the `create` method
+      User.create(users, done);
     });
   });
   describe ('sign up', function() {
@@ -69,7 +68,7 @@ describe('User Controller', function () {
       UserController.signup(req, res, function() {});
     });
 
-    it('should creat a new user in the database', function (done) {
+    it('should create a new user in the database', function (done) {
       var req = {
         body: {
           username: 'jake@ooo.com',
