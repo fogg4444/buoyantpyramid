@@ -12,6 +12,6 @@ var routing = function (app, express) {
   // Handle error logging of requests that are destined for above routes
   app.use(helpers.errorLogger);
   app.use(helpers.errorHandler);
-}
+};
 
 module.exports = routing;
