@@ -1,19 +1,15 @@
-// var groupController = require('../groups/groupController.js');
 var helpers = require('./helpers.js');
-var Song = require('../models/songs')
-var Group = require('../models/groups')
-// var playlistController = require('../playlists/playlistController.js');
-// var songController = require('../songs/songController.js');
-// var userController = require('../users/userController.js');
+var Song = require('../models/song')
+var Group = require('../models/group')
 
 var routing = function (app, express) {
-  // app.post('/api/users/signin', userController.signin);
-  // app.post('/api/users/signup', userController.signup);
-  // app.get('/api/users/signedin', userController.checkAuth);
-
+  // Add and retrieve songs
   app.post('/api/songs/', Song.addSong);
-  app.post('/api/groups/', Group.createGroup);
   app.get('/api/songs/:id', Group.fetchSongs);
+
+  //Add and retrieve groups
+  app.post('/api/groups/', Group.createGroup);
+
   // Handle error logging of requests that are destined for above routes
   app.use(helpers.errorLogger);
   app.use(helpers.errorHandler);
