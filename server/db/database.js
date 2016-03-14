@@ -82,18 +82,32 @@ var UserGroups = config.db.define('userGroups', {
 );
 
 // Define associations
-Group.belongsToMany(User, {through: UserGroups});
-User.belongsToMany(Group, {through: UserGroups});
+Group.belongsToMany(User, {through: 'userGroups'});
+User.belongsToMany(Group, {through: 'userGroups'});
 
 Group.hasMany(Song);
 Song.belongsTo(Group);
 
+Group.hasMany(Playlist);
+Playlist.belongsTo(Group);
+
+Playlist.hasMany(Song);
+Song.belongsTo(Playlist);
+
 // Sync models to define postgres tables and capture associations
 User.sync()
-  .then(Group.sync())
-  .then(Song.sync())
-  .then(Playlist.sync())
-  .then(UserGroups.sync({force: true}));
+  .then(function() {
+    return Group.sync()
+  })
+  .then(function() {
+    return Song.sync()
+  })
+  .then(function() {
+    return Playlist.sync()
+  })
+  .then(function() {
+    return UserGroups.sync({force: true})
+  });
 
 module.exports = {
   User: User,
