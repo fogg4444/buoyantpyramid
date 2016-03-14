@@ -34,8 +34,37 @@ var Group = config.db.define('group', {
   }
 });
 
+var Song = config.db.define('song', {
+  title: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  description: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  dateRecorded: {
+    type: Sequelize.DATE,
+    allowNull: false
+  },
+  duration: {
+    type: Sequelize.INTEGER,
+    allowNull: false
+  },
+  address: {
+    type: Sequelize.STRING,
+    allowNull: false,
+    defaultValue: 'http://imgur.com/gallery/QI8f5gx' // Update
+  },
+  imageUrl: {
+    type: Sequelize.STRING,
+    defaultValue: 'http://imgur.com/gallery/QI8f5gx' // Update
+  }
+});
+
 User.sync()
-  .then(Group.sync());
+  .then(Group.sync())
+  .then(Song.sync())
 
 module.exports = {
   User: User,
