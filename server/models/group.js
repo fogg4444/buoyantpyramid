@@ -11,29 +11,29 @@ var createGroup = function(req, res) {
   })
   .catch(function(err) {
     res.send(err);
-  })
-}
+  });
+};
 
 var fetchSongs = function(req, res) {
   Group.findAll({
     where: {
       id: req.params.id
     },
-    include: {model: Song}
-    , raw: true})
+    include: {model: Song},
+    raw: true})
   .then(function(group) {
     var songs = group.map(function(song) {
       return song['songs.title'];
-    })
+    });
     res.send(JSON.stringify(songs));
   })
   .catch(function(err) {
     res.send(err);
-  })
-}
+  });
+};
 
 
 module.exports = {
   createGroup: createGroup,
   fetchSongs: fetchSongs
-}
+};

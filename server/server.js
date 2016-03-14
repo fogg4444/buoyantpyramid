@@ -1,7 +1,7 @@
 var express = require('express');
 var sequelize = require('sequelize');
 var config = require('./config/config');
-var database = require('./db/database')
+var database = require('./db/database');
 var app = express();
 
 var normalizePort = function(val) {

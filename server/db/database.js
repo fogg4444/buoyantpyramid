@@ -20,7 +20,7 @@ var User = config.db.define('user', {
   salt: Sequelize.STRING,
   avatarURL: {
     type: Sequelize.STRING,
-    defaultValue: "" // Complete
+    defaultValue: '' // Complete
   }
 });
 
@@ -97,16 +97,16 @@ Song.belongsTo(Playlist);
 // Sync models to define postgres tables and capture associations
 User.sync()
   .then(function() {
-    return Group.sync()
+    return Group.sync();
   })
   .then(function() {
-    return Playlist.sync()
+    return Playlist.sync();
   })
   .then(function() {
-    return Song.sync()
+    return Song.sync();
   })
   .then(function() {
-    return UserGroups.sync({force: true})
+    return UserGroups.sync();
   });
 
 module.exports = {

@@ -1,6 +1,6 @@
 var helpers = require('./helpers.js');
-var Song = require('../models/song')
-var Group = require('../models/group')
+var Song = require('../models/song');
+var Group = require('../models/group');
 
 var routing = function (app, express) {
   // Add and retrieve songs
