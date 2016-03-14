@@ -115,3 +115,6 @@ module.exports = {
   Song: Song,
   Playlist: Playlist
 };
+
+// Command to drop all tables in postgres
+// drop table users cascade; drop table groups cascade; drop table users; drop table groups; drop table "userGroups"; drop table playlists; drop table songs;

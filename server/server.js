@@ -1,14 +1,8 @@
 var express = require('express');
-// var mongoose = require('mongoose');
 var sequelize = require('sequelize');
 var config = require('./config/config');
 var database = require('./db/database')
-
 var app = express();
-
-// connect to mongo database named "dropnet"
-// mongoose.connect(config.mongoURL);
-
 
 var normalizePort = function(val) {
   var port = parseInt(val, 10);
