@@ -2,6 +2,7 @@ var express = require('express');
 // var mongoose = require('mongoose');
 var sequelize = require('sequelize');
 var config = require('./config/config');
+var database = require('./db/database')
 
 var app = express();
 
