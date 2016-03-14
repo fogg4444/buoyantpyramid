@@ -1,6 +1,7 @@
 var config = require('../config/config.js'); 
 var Sequelize = require('sequelize');
 
+// Define table schemas
 var User = config.db.define('user', {
   email: {
     type: Sequelize.STRING,
@@ -72,6 +73,7 @@ var Playlist = config.db.define('playlist', {
   }
 });
 
+// Define join tables
 var UserGroups = config.db.define('userGroups', {
   role: {
     type: Sequelize.STRING,
@@ -79,11 +81,19 @@ var UserGroups = config.db.define('userGroups', {
   {timestamps: false}
 );
 
+// Define associations
+Group.belongsToMany(User, {through: UserGroups});
+User.belongsToMany(Group, {through: UserGroups});
+
+Group.hasMany(Song);
+Song.belongsTo(Group);
+
+// Sync models to define postgres tables and capture associations
 User.sync()
   .then(Group.sync())
   .then(Song.sync())
   .then(Playlist.sync())
-  .then(UserGroups.sync());
+  .then(UserGroups.sync({force: true}));
 
 module.exports = {
   User: User,
