@@ -62,11 +62,32 @@ var Song = config.db.define('song', {
   }
 });
 
+var Playlist = config.db.define('playlist', {
+  title: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  description: {
+    type: Sequelize.STRING,
+  }
+});
+
+var UserGroups = config.db.define('userGroups', {
+  role: {
+    type: Sequelize.STRING,
+  }}, 
+  {timestamps: false}
+);
+
 User.sync()
   .then(Group.sync())
   .then(Song.sync())
+  .then(Playlist.sync())
+  .then(UserGroups.sync());
 
 module.exports = {
   User: User,
-  Group: Group
+  Group: Group,
+  Song: Song,
+  Playlist: Playlist
 };
