@@ -26,10 +26,12 @@
     "jwt-simple": "^0.4.1",
     "mongoose": "^4.4.6",
     "morgan": "^1.7.0",
+    "mysql": "^2.10.2",
     "path": "^0.12.7",
     "q": "^1.4.1",
     "react": "^0.14.3",
     "react-dom": "^0.14.3",
+    "sequelize": "^3.19.3",
     "webpack": "^1.12.13"
   },
   "devDependencies": {
