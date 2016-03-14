@@ -100,10 +100,10 @@ User.sync()
     return Group.sync()
   })
   .then(function() {
-    return Song.sync()
+    return Playlist.sync()
   })
   .then(function() {
-    return Playlist.sync()
+    return Song.sync()
   })
   .then(function() {
     return UserGroups.sync({force: true})
