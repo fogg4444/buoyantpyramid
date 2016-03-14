@@ -23,8 +23,21 @@ var User = config.db.define('user', {
   }
 });
 
-User.sync();
+var Group = config.db.define('group', {
+  name: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  bannerUrl: {
+    type: Sequelize.STRING,
+    defaultValue: 'http://imgur.com/gallery/QI8f5gx' // Update
+  }
+});
+
+User.sync()
+  .then(Group.sync());
 
 module.exports = {
-  User: User
+  User: User,
+  Group: Group
 };
