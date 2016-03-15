@@ -1,8 +1,9 @@
 var express = require('express');
-var sequelize = require('sequelize');
 var config = require('./config/config');
 var database = require('./db/database');
+
 var app = express();
+var path = require('path');
 
 var normalizePort = function(val) {
   var port = parseInt(val, 10);
