@@ -49,7 +49,7 @@ var fetchSongs = function(req, res) {
   }).then(function(playlist) {
     var songs = playlist.map(function(playlist) {
       return playlist['songs.title'];
-    })
+    });
     res.send(JSON.stringify(songs));
   })
   .catch(function(err) {

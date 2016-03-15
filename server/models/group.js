@@ -1,6 +1,7 @@
 var db = require('../db/database');
 var Group = db.Group;
 var Song = db.Song;
+var User = db.User;
 
 var createGroup = function(req, res) {
   Group.create({
@@ -32,8 +33,27 @@ var fetchSongs = function(req, res) {
   });
 };
 
+var addMember = function(req, res) {
+  var groupId = req.body.groupId;
+  var userId = req.body.userId;
+  Group.findOne({where: {id: groupId}})
+  .then(function(group) {
+    console.log('group.....................', group);
+    User.findOne({id: userId})
+    .then(function(user) {
+      console.log('user ....................', user);
+      group.addUser(user, {role: 'member'});
+      res.send(JSON.stringify(user));
+    })
+  })
+  .catch(function(err) {
+    res.send(err);
+  });
+};
+
 
 module.exports = {
   createGroup: createGroup,
-  fetchSongs: fetchSongs
+  fetchSongs: fetchSongs,
+  addMember: addMember
 };
