@@ -56,9 +56,9 @@ describe('User Controller', function () {
     it('should create a new user in the database', function (done) {
       var req = {
         body: {
-          email: 'jake@ooo.com',
-          displayName: 'Jake',
-          password: 'thedog'
+          email: 'finn@ooo.com',
+          displayName: 'Finn',
+          password: 'thehuman'
         }
       };
 
