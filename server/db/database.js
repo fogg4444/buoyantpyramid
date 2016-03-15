@@ -1,8 +1,10 @@
 var config = require('../config/config.js'); 
+var pg = require('pg');
 var Sequelize = require('sequelize');
+var db = new Sequelize(config.connectionString);
 
 // Define table schemas
-var User = config.db.define('user', {
+var User = db.define('user', {
   email: {
     type: Sequelize.STRING,
     unique: true,
@@ -24,7 +26,7 @@ var User = config.db.define('user', {
   }
 });
 
-var Group = config.db.define('group', {
+var Group = db.define('group', {
   name: {
     type: Sequelize.STRING,
     allowNull: false
@@ -35,7 +37,7 @@ var Group = config.db.define('group', {
   }
 });
 
-var Song = config.db.define('song', {
+var Song = db.define('song', {
   title: {
     type: Sequelize.STRING,
     allowNull: false
@@ -63,7 +65,7 @@ var Song = config.db.define('song', {
   }
 });
 
-var Playlist = config.db.define('playlist', {
+var Playlist = db.define('playlist', {
   title: {
     type: Sequelize.STRING,
     allowNull: false
@@ -74,7 +76,7 @@ var Playlist = config.db.define('playlist', {
 });
 
 // Define join tables
-var UserGroups = config.db.define('userGroups', {
+var UserGroups = db.define('userGroups', {
   role: {
     type: Sequelize.STRING,
   }}, 
