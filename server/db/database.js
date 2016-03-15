@@ -6,8 +6,8 @@ var Promise = require('bluebird');
 
 
 var connectionString = (process.env.NODE_ENV === 'test') ? config.testConnectionString : config.connectionString;
-var db = new Sequelize(connectionString);
-console.log(connectionString);
+var sqldebug = process.env.SQL_DEBUG || false;
+var db = new Sequelize(connectionString, {logging: sqldebug});
 
 // Define table schemas
 var User = db.define('user', {
@@ -125,18 +125,18 @@ Song.belongsTo(Playlist);
 var logSync = false; //(process.env.NODE_ENV === 'test') ? false : console.log;
 
 // Sync models to define postgres tables and capture associations
-User.sync({logging: logSync})
+User.sync()
   .then(function() {
-    return Group.sync({logging: logSync});
+    return Group.sync();
   })
   .then(function() {
-    return Playlist.sync({logging: logSync});
+    return Playlist.sync();
   })
   .then(function() {
-    return Song.sync({logging: logSync});
+    return Song.sync();
   })
   .then(function() {
-    return UserGroups.sync({logging: logSync});
+    return UserGroups.sync();
   });
 
 module.exports = {

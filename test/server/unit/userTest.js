@@ -33,7 +33,7 @@ var clearDB = function(done) {
   };
   dbModels.db.query('DELETE from USERS where true')
     .spread(function(results, metadata) {
-      UserController.signup(dupeReq, res);
+      UserController.signup(dupeReq, res, console.error);
     });
 };
 
@@ -79,7 +79,7 @@ describe('User Controller', function() {
             done();
           });
       };
-      UserController.signup(req, res, function() {});
+      UserController.signup(req, res, console.error);
     });
 
     it('should store a hashed password', function(done) {
@@ -93,7 +93,7 @@ describe('User Controller', function() {
             done();
           });
       };
-      UserController.signup(req, res, function() {});
+      UserController.signup(req, res, console.error);
     });
 
     it('should not allow a duplicate email address', function(done) {
@@ -115,7 +115,7 @@ describe('User Controller', function() {
             done();
           });
       };
-      UserController.signup(req, res, function() {});
+      UserController.signup(req, res, console.error);
     });
 
     it('should correctly verify a password against the hashed password', function(done) {
@@ -123,6 +123,16 @@ describe('User Controller', function() {
         user.comparePassword(dupeReq.body.password)
         .then( function(doesMatch) {
           expect(doesMatch).to.be.true;
+          done();
+        });
+      });
+    });
+
+    it('should correctly reject an incorrect password', function(done) {
+      User.findOne({ where: {email: dupeReq.body.email} }).then(function(user) {
+        user.comparePassword('wrong')
+        .then( function(doesMatch) {
+          expect(doesMatch).to.be.false;
           done();
         });
       });
