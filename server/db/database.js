@@ -1,6 +1,9 @@
 var config = require('../config/config.js'); 
 var pg = require('pg');
 var Sequelize = require('sequelize');
+var bcrypt = require('bcrypt-nodejs');
+var Promise = require('bluebird');
+
 
 var connectionString = (process.env.NODE_ENV === 'test') ? config.testConnectionString : config.connectionString;
 var db = new Sequelize(connectionString);
@@ -22,10 +25,31 @@ var User = db.define('user', {
     type: Sequelize.STRING,
     allowNull: false
   },
-  salt: Sequelize.STRING,
   avatarURL: {
     type: Sequelize.STRING,
     defaultValue: '' // Complete
+  }
+}, {
+  classMethods: {
+    hashPassword: function(password) {
+      var hashAsync = Promise.promisify(bcrypt.hash);
+      return hashAsync(password, null, null).bind(this);
+    } 
+  },
+  instanceMethods: {
+    comparePassword: function(attemptedPassword, callback) {
+      bcrypt.compare(attemptedPassword, this.get('password'), function(err, isMatch) {
+        callback(isMatch);
+      });
+    } 
+  },
+  hooks: {
+    beforeCreate: function(user, options) {
+      return this.hashPassword(user.password)
+        .then(function(hash) {
+          user.password = hash;
+        });
+    }
   }
 });
 
