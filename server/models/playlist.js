@@ -42,11 +42,15 @@ var addSong = function(req, res) {
 
 var fetchSongs = function(req, res) {
   var playlistId = req.params.id;
-  Playlist.find({
+  Playlist.findAll({
     where: {id: playlistId},
-    include: {model: Song}
+    include: {model: Song},
+    raw: true
   }).then(function(playlist) {
-    res.send(JSON.stringify(playlist));
+    var songs = playlist.map(function(playlist) {
+      return playlist['songs.title'];
+    })
+    res.send(JSON.stringify(songs));
   })
   .catch(function(err) {
     res.send(err);
