@@ -1,6 +1,8 @@
 var db = require('../db/database');
-var User = db.User;
 var jwt = require('jwt-simple');
+
+var User = db.User;
+var Group = db.Group;
 
 // TODO: Add authentication
 var signup = function (req, res, next) {
@@ -9,21 +11,29 @@ var signup = function (req, res, next) {
   var password = req.body.password;
 
   User.findOne({where: {email: email}})
-    .then(function (user) {
-      if (user) {
+    .then(function (existingUser) {
+      if (existingUser) {
         throw new Error('User already exists!');
       } else {
-        return User.create({
-          displayName: displayName,
-          email: email,
-          password: password
+        return Group.create({
+          name: req.body.displayName,
         });
       }
     })
-    .then(function (user) {
-      var token = jwt.encode(user, 'secret');
-      res.json({token: token});
-    })
+    .then(function (group) {
+      User.create({
+        displayName: displayName,
+        email: email,
+        password: password
+      })
+      .then(function (user) {
+        group.addUser(user, {role: 'admin'})
+        .then(function() {
+          var token = jwt.encode(user, 'secret');
+          res.json({ token: token });
+        });
+      });
+    }) 
     .catch(function (error) {
       next(error);
     });

@@ -3,7 +3,7 @@ var Group = db.Group;
 var Song = db.Song;
 var User = db.User;
 
-var createGroup = function(req, res) {
+var createGroup = function(req, res, next) {
   Group.create({
     name: req.body.name
     // TODO: Add banner
@@ -11,11 +11,11 @@ var createGroup = function(req, res) {
     res.json(group);
   })
   .catch(function(err) {
-    res.send(err);
+    next(err);
   });
 };
 
-var fetchSongs = function(req, res) {
+var fetchSongs = function(req, res, next) {
   Group.findAll({
     where: {
       id: req.params.id
@@ -26,14 +26,14 @@ var fetchSongs = function(req, res) {
     var songs = group.map(function(song) {
       return song['songs.title'];
     });
-    res.send(JSON.stringify(songs));
+    res.json(songs);
   })
   .catch(function(err) {
-    res.send(err);
+    next(err);
   });
 };
 
-var addUser = function(req, res) {
+var addUser = function(req, res, next) {
   // roles:
   //  admin, member, pending
   var role = req.body.role;
@@ -44,15 +44,15 @@ var addUser = function(req, res) {
     User.findOne({where: {id: userId}})
     .then(function(user) {
       group.addUser(user, {role: role});
-      res.send(JSON.stringify(user));
+      res.json(user);
     });
   })
   .catch(function(err) {
-    res.send(err);
+    next(err);
   });
 };
 
-var fetchUsers = function(req, res) {
+var fetchUsers = function(req, res, next) {
   // roles:
   //  admin, member, pending
   var groupId = req.params.id;
@@ -63,10 +63,10 @@ var fetchUsers = function(req, res) {
     var users = group.map(function(group) {
       return group['users.displayName'];
     });
-    res.send(users);
+    res.json(users);
   })
   .catch(function(err) {
-    res.send(err);
+    next(err);
   });
 };
 
