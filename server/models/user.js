@@ -29,7 +29,7 @@ var signup = function (req, res, next) {
     });
 };
 
-var signin = function (req, res, next) {
+var login = function (req, res, next) {
   var email = req.body.email;
   var password = req.body.password;
 
@@ -56,5 +56,5 @@ var signin = function (req, res, next) {
 
 module.exports = {
   signup: signup,
-  sigin: signin
+  login: login
 };
