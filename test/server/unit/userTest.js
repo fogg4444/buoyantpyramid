@@ -103,5 +103,29 @@ describe('User Controller', function() {
         done();
       });
     });
+
+    it('should store a hashed password', function(done) {
+      var res = {};
+      res.json = function(jsonresponse) {
+        dbModels.db.query('SELECT * FROM users WHERE email = :email ', { replacements: { email: req.body.email }, type: Sequelize.QueryTypes.SELECT })
+          .then(function(users) {
+            expect(users[0].email).to.equal(req.body.email);
+            expect(users[0].password.length).to.be.above(0);
+            expect(users[0].password).to.not.equal(req.body.password);
+            done();
+          });
+      };
+      UserController.createUser(req, res, function() {});
+    });
+
+    it('should correctly verify a password against the hashed password', function(done) {
+      User.findOne({ where: {email: dupeReq.body.email} }).then(function(user) {
+        user.comparePassword(dupeReq.body.password)
+        .then( function(doesMatch) {
+          expect(doesMatch).to.be.true;
+          done();
+        });
+      });
+    });
   });
 });

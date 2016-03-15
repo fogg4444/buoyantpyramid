@@ -37,10 +37,9 @@ var User = db.define('user', {
     } 
   },
   instanceMethods: {
-    comparePassword: function(attemptedPassword, callback) {
-      bcrypt.compare(attemptedPassword, this.get('password'), function(err, isMatch) {
-        callback(isMatch);
-      });
+    comparePassword: function(attemptedPassword) {
+      var compareAsync = Promise.promisify(bcrypt.compare);
+      return compareAsync(attemptedPassword, this.password);
     } 
   },
   hooks: {
