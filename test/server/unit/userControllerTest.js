@@ -19,7 +19,7 @@ describe('User Controller', function () {
 
   // Connect to database before any tests
   before(function (done) {
-    dbModels.db.sync()
+    User.sync({force: true})
       .then(function() {
         done();
       });
@@ -35,9 +35,9 @@ describe('User Controller', function () {
     it('should call res.json to return a json object', function (done) {
       var req = {
         body: {
-          email: 'jake@ooo.com',
-          displayName: 'Jake',
-          password: 'thedog'
+          email: 'finn@ooo.com',
+          displayName: 'Finn',
+          password: 'thehuman'
         }
       };
 
@@ -56,9 +56,9 @@ describe('User Controller', function () {
     it('should create a new user in the database', function (done) {
       var req = {
         body: {
-          email: 'finn@ooo.com',
-          displayName: 'Finn',
-          password: 'thehuman'
+          email: 'jake@ooo.com',
+          displayName: 'Jake',
+          password: 'thedog'
         }
       };
 
