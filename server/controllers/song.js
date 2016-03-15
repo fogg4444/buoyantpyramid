@@ -3,7 +3,7 @@ var Song = db.Song;
 var Group = db.Group;
 
 var addSong = function(req, res, next) {
-  var groupId = req.body.groupId;
+  var groupId = req.params.id;
   Song.create({
     title: req.body.title,
     description: req.body.description,
