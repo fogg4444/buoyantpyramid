@@ -2,7 +2,7 @@ var db = require('../db/database');
 var Song = db.Song;
 var Group = db.Group;
 
-var addSong = function(req, res) {
+var addSong = function(req, res, next) {
   var groupId = req.body.groupId;
   Song.create({
     title: req.body.title,
@@ -18,7 +18,7 @@ var addSong = function(req, res) {
     res.json(song);
   })
   .catch(function(err) {
-    res.send(err);
+    next(err);
   });
 };
 

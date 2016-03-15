@@ -4,7 +4,6 @@ var jwt = require('jwt-simple');
 var User = db.User;
 var Group = db.Group;
 
-// TODO: Add authentication
 var signup = function (req, res, next) {
   var displayName = req.body.displayName;
   var email = req.body.email;
