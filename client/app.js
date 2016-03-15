@@ -7,21 +7,21 @@ angular.module('jam', [
 ])
 .config(function ($routeProvider, $httpProvider) {
   $routeProvider
-    .when('/signin', {
-      templateUrl: 'client/auth/signin.html',
+    .when('/login', {
+      templateUrl: 'auth/login.html',
       controller: 'AuthController'
     })
     .when('/signup', {
-      templateUrl: 'client/auth/signup.html',
+      templateUrl: 'auth/signup.html',
       controller: 'AuthController'
     })
     .when('/songs', {
-      templateUrl: 'client/songs/songs.html',
+      templateUrl: 'songs/songs.html',
       controller: 'SongsController',
       authenticate: true
     })
     .when('/profile', {
-      templateUrl: 'client/profile/profile.html',
+      templateUrl: 'profile/profile.html',
       controller: 'ProfileController',
       authenticate: true
     })
@@ -57,10 +57,10 @@ angular.module('jam', [
   // we listen for when angular is trying to change routes
   // when it does change routes, we then look for the token in localstorage
   // and send that token to the server to see if it is a real user or hasn't expired
-  // if it's not valid, we then redirect back to signin/signup
+  // if it's not valid, we then redirect back to login/signup
   $rootScope.$on('$routeChangeStart', function (evt, next, current) {
     if (next.$$route && next.$$route.authenticate && !Auth.isAuth()) {
-      $location.path('/signin');
+      $location.path('/login');
     }
   });
 });

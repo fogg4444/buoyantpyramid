@@ -43,12 +43,12 @@ angular.module('jam.services', [])
   // by exchanging the user's username and password
   // for a JWT from the server
   // that JWT is then stored in localStorage as 'com.jam'
-  // after you signin/signup open devtools, click resources,
+  // after you login/signup open devtools, click resources,
   // then localStorage and you'll see your token from the server
-  var signin = function (user) {
+  var login = function (user) {
     return $http({
       method: 'POST',
-      url: '/api/users/signin',
+      url: '/api/users/login',
       data: user
     })
     .then(function (resp) {
@@ -73,12 +73,12 @@ angular.module('jam.services', [])
 
   var signout = function () {
     $window.localStorage.removeItem('com.jam');
-    $location.path('/signin');
+    $location.path('/login');
   };
 
 
   return {
-    signin: signin,
+    login: login,
     signup: signup,
     isAuth: isAuth,
     signout: signout
