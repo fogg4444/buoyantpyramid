@@ -18,8 +18,12 @@ var clearDB = function (done) {
 describe('User Controller', function () {
 
   // Connect to database before any tests
-  // before(function (done) {
-  // });
+  before(function (done) {
+    User.sync()
+      .then(function() {
+        done();
+      });
+  });
 
   describe ('create user', function() {
   // Clear database before each test and then seed it with example `users` so that you can run tests
