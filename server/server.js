@@ -1,8 +1,10 @@
 var express = require('express');
-var sequelize = require('sequelize');
+// var sequelize = require('sequelize');
 var config = require('./config/config');
-var database = require('./db/database');
+// var database = require('./db/database');
+
 var app = express();
+var path = require('path');
 
 var normalizePort = function(val) {
   var port = parseInt(val, 10);
@@ -17,6 +19,10 @@ var normalizePort = function(val) {
 
 // Get port from environment and store in Express.
 config.port = normalizePort(process.env.PORT || config.port);
+
+app.use('/', function(req, res) {
+  res.sendFile(path.join(__dirname + '/../client/index.html'));
+});
 
 // configure our server with all the middleware and routing
 require('./config/middleware.js')(app, express);
