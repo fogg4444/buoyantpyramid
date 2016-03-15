@@ -5,8 +5,8 @@ var Sequelize = require('sequelize');
 var dbModels = require('../../../server/db/database.js');
 var Song = dbModels.Song; 
 var Group = dbModels.Song; 
-var GroupController = require('../../../server/models/group.js');
-var SongController = require('../../../server/models/song.js');
+var GroupController = require('../../../server/controllers/group.js');
+var SongController = require('../../../server/controllers/song.js');
 
 dbModels.db.options.logging = false;
 
@@ -23,7 +23,9 @@ var songReq = {
   body: {
     title: 'Margaritaville',
     description: 'Wasted again',
-    groupId: '1'
+  },
+  params: {
+    id: 1
   }
 };
 
@@ -39,8 +41,7 @@ describe('Song Controller', function () {
   before(function (done) {
     var res = {};
     res.json = function(jsonresponse) {
-      console.log(JSON.stringify(jsonresponse));
-      songReq.body.groupId = jsonresponse.id;
+      songReq.params.groupId = jsonresponse.id;
       done();
     };
 

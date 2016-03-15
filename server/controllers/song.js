@@ -2,8 +2,8 @@ var db = require('../db/database');
 var Song = db.Song;
 var Group = db.Group;
 
-var addSong = function(req, res) {
-  var groupId = req.body.groupId;
+var addSong = function(req, res, next) {
+  var groupId = req.params.id;
   Song.create({
     title: req.body.title,
     description: req.body.description,
@@ -18,7 +18,7 @@ var addSong = function(req, res) {
     res.json(song);
   })
   .catch(function(err) {
-    res.send(err);
+    next(err);
   });
 };
 

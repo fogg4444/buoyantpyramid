@@ -3,7 +3,7 @@ var Group = db.Group;
 var Playlist = db.Playlist;
 var Song = db.Song;
 
-var createPlaylist = function(req, res) {
+var createPlaylist = function(req, res, next) {
   var groupId = req.body.groupId;
   Playlist.create({
     title: req.body.title,
@@ -13,14 +13,14 @@ var createPlaylist = function(req, res) {
   {include: {
     model: Group}
   }).then(function(playlist) {
-    res.send(JSON.stringify(playlist));
+    res.json(playlist);
   })
   .catch(function(err) {
-    res.send(err);
+    next(err);
   });
 };
 
-var addSong = function(req, res) {
+var addSong = function(req, res, next) {
   var songId = req.body.songId;
   var playlistId = req.body.playlistId;
   Song.update(
@@ -33,14 +33,14 @@ var addSong = function(req, res) {
   {include: {
     model: Playlist}
   }).then(function(song) {
-    res.send(JSON.stringify(song));
+    res.json(song);
   })
   .catch(function(err) {
-    res.send(err);
+    next(err);
   });
 };
 
-var fetchSongs = function(req, res) {
+var fetchSongs = function(req, res, next) {
   var playlistId = req.params.id;
   Playlist.findAll({
     where: {id: playlistId},
@@ -50,10 +50,10 @@ var fetchSongs = function(req, res) {
     var songs = playlist.map(function(playlist) {
       return playlist['songs.title'];
     });
-    res.send(JSON.stringify(songs));
+    res.json(songs);
   })
   .catch(function(err) {
-    res.send(err);
+    next(err);
   });
 };
 

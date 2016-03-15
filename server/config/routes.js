@@ -1,14 +1,10 @@
 var helpers = require('./helpers.js');
-var Song = require('../models/song');
-var Group = require('../models/group');
-var Playlist = require('../models/playlist');
-var User = require('../models/user');
+var Song = require('../controllers/song');
+var Group = require('../controllers/group');
+var Playlist = require('../controllers/playlist');
+var User = require('../controllers/user');
 
 var routing = function (app, express) {
-
-
-
-
 
   // Create users
   app.post('/api/users/signup', User.signup);
@@ -22,7 +18,6 @@ var routing = function (app, express) {
   // Add and retrieve songs
   app.post('/api/groups/:id/songs/', Song.addSong);
   app.get('/api/groups/:id/songs/', Group.fetchSongs);
-
 
   // Add and retrieve playlists
   app.post('/api/playlists/', Playlist.createPlaylist);

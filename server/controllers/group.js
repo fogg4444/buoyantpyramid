@@ -16,9 +16,10 @@ var createGroup = function(req, res, next) {
 };
 
 var fetchSongs = function(req, res, next) {
+  var groupId = req.params.id;
   Group.findAll({
     where: {
-      id: req.params.id
+      id: groupId
     },
     include: {model: Song},
     raw: true})
@@ -37,7 +38,7 @@ var addUser = function(req, res, next) {
   // roles:
   //  admin, member, pending
   var role = req.body.role;
-  var groupId = req.body.groupId;
+  var groupId = req.params.id;
   var userId = req.body.userId;
   Group.findOne({where: {id: groupId}})
   .then(function(group) {
