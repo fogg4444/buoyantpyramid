@@ -122,7 +122,8 @@ Playlist.belongsTo(Group);
 Playlist.hasMany(Song);
 Song.belongsTo(Playlist);
 
-var logSync = (process.env.NODE_ENV === 'test') ? false : console.log;
+var logSync = false; //(process.env.NODE_ENV === 'test') ? false : console.log;
+
 // Sync models to define postgres tables and capture associations
 User.sync({logging: logSync})
   .then(function() {

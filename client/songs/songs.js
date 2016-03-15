@@ -1,3 +1,4 @@
+console.log("Songs");
 angular.module('jam.songs', [])
 
 .controller('SongsController', function ($scope, Songs) {
