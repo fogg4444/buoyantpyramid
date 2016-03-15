@@ -33,18 +33,19 @@ var fetchSongs = function(req, res) {
   });
 };
 
-var addMember = function(req, res) {
+var addUser = function(req, res) {
+  // roles:
+  //  admin, member, pending
+  var role = req.body.role;
   var groupId = req.body.groupId;
   var userId = req.body.userId;
   Group.findOne({where: {id: groupId}})
   .then(function(group) {
-    console.log('group.....................', group);
     User.findOne({id: userId})
     .then(function(user) {
-      console.log('user ....................', user);
-      group.addUser(user, {role: 'member'});
+      group.addUser(user, {role: role});
       res.send(JSON.stringify(user));
-    })
+    });
   })
   .catch(function(err) {
     res.send(err);
@@ -55,5 +56,5 @@ var addMember = function(req, res) {
 module.exports = {
   createGroup: createGroup,
   fetchSongs: fetchSongs,
-  addMember: addMember
+  addUser: addUser
 };
