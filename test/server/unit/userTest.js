@@ -1,5 +1,4 @@
 var expect = require('chai').expect;
-// var config = require('../config/config.js'); 
 var Sequelize = require('sequelize');
 var dbModels = require('../../../server/db/database.js');
 var User = dbModels.User; 
