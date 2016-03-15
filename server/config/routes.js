@@ -14,6 +14,7 @@ var routing = function (app, express) {
   // Add and retrieve playlists
   app.post('/api/playlists/create', Playlist.createPlaylist);
   app.post('/api/playlists/add', Playlist.addSong);
+  app.get('/api/playlists/:id', Playlist.fetchSongs);
 
   // Handle error logging of requests that are destined for above routes
   app.use(helpers.errorLogger);

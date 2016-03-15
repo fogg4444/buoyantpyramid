@@ -24,12 +24,12 @@ var addSong = function(req, res) {
   var songId = req.body.songId;
   var playlistId = req.body.playlistId;
   Song.update(
-  {
-    playlistId: playlistId
-  },
-  {
-    where: {id: songId}
-  },
+    {
+      playlistId: playlistId
+    },
+    {
+      where: {id: songId}
+    },
   {include: {
     model: Playlist}
   }).then(function(song) {
@@ -40,7 +40,21 @@ var addSong = function(req, res) {
   });
 };
 
+var fetchSongs = function(req, res) {
+  var playlistId = req.params.id;
+  Playlist.find({
+    where: {id: playlistId},
+    include: {model: Song}
+  }).then(function(playlist) {
+    res.send(JSON.stringify(playlist));
+  })
+  .catch(function(err) {
+    res.send(err);
+  });
+};
+
 module.exports = {
   createPlaylist: createPlaylist,
-  addSong: addSong
+  addSong: addSong,
+  fetchSongs: fetchSongs
 };
