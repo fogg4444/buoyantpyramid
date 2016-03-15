@@ -4,9 +4,13 @@
   "description": "",
   "main": "server.js",
   "scripts": {
+    "clean": "rimraf dist/*",
+    "open:dev": "opener http://localhost:8080",
     "test": "mocha  --recursive test",
     "setup": "node sessionSetup.js",
-    "lint": "./node_modules/eslint/bin/eslint.js ."
+    "lint": "./node_modules/eslint/bin/eslint.js .",
+    "start": "npm run clean & nodemon server/server.js & webpack-dev-server & npm run open:dev",
+    "killnode": "killall -9 node"
   },
   "repository": {
     "type": "git",
@@ -19,7 +23,7 @@
   },
   "homepage": "https://github.com/BuoyantPyramid/buoyantpyramid#readme",
   "dependencies": {
-   "babel-cli": "^6.4.0",
+    "babel-cli": "^6.4.0",
     "babel-core": "^6.7.2",
     "babel-loader": "^6.2.4",
     "babel-polyfill": "^6.7.2",
@@ -30,14 +34,14 @@
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.15.0",
     "express": "^4.13.4",
-    "html-webpack-plugin": "^2.10.0",    
+    "html-webpack-plugin": "^2.10.0",
     "jwt-simple": "^0.4.1",
     "morgan": "^1.7.0",
+    "opener": "^1.4.1",
     "pg": "^4.5.1",
     "q": "^1.4.1",
     "react": "^0.14.3",
     "react-dom": "^0.14.3",
-    "sequelize": "^3.19.3",
     "react-redux": "^4.4.0",
     "react-router": "^2.0.1",
     "react-router-redux": "^4.0.0",
@@ -46,6 +50,8 @@
     "redux": "^3.3.1",
     "redux-devtools": "^3.1.1",
     "redux-thunk": "^2.0.1",
+    "rimraf": "^2.5.2",
+    "sequelize": "^3.19.3",
     "webpack": "^1.12.13",
     "webpack-closure-compiler": "^2.0.2"
   },
