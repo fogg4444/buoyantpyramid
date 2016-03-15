@@ -9,13 +9,10 @@ dbModels.db.options.logging = false;
 
 // The `clearDB` helper function, when invoked, will clear the database
 var clearDB = function (done) {
-  User.sync()
-      .then(function() {
-        return dbModels.db.query('DELETE from USERS where true');
-      })
-      .spread(function(results, metadata) {
-        done();
-      });
+  dbModels.db.query('DELETE from USERS where true')
+    .spread(function(results, metadata) {
+      done();
+    });
 };
 
 describe('User Controller', function () {
