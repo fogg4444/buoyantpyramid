@@ -4,6 +4,7 @@ var expect = chai.expect;
 var Sequelize = require('sequelize');
 var dbModels = require('../../../server/db/database.js');
 var Song = dbModels.Song; 
+var Group = dbModels.Song; 
 var GroupController = require('../../../server/models/group.js');
 var SongController = require('../../../server/models/song.js');
 dbModels.db.options.logging = false;
@@ -43,6 +44,9 @@ describe('Song Controller', function () {
     };
 
     Song.sync({force: true})
+      .then(function() {
+        return Group.sync({force: true});
+      })
       .then(function() {
         GroupController.createGroup(groupReq, res);
         // done();
