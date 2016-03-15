@@ -10,7 +10,7 @@
     "setup": "node sessionSetup.js",
     "lint": "./node_modules/eslint/bin/eslint.js .",
     "start": "npm run clean & nodemon server/server.js & webpack-dev-server & npm run open:dev",
-    "nodekill": "killall -9 node"
+    "killnode": "killall -9 node"
   },
   "repository": {
     "type": "git",
