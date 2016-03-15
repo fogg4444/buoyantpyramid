@@ -20,7 +20,27 @@ var createPlaylist = function(req, res) {
   });
 };
 
+var addSong = function(req, res) {
+  var songId = req.body.songId;
+  var playlistId = req.body.playlistId;
+  Song.update(
+  {
+    playlistId: playlistId
+  },
+  {
+    where: {id: songId}
+  },
+  {include: {
+    model: Playlist}
+  }).then(function(song) {
+    res.send(JSON.stringify(song));
+  })
+  .catch(function(err) {
+    res.send(err);
+  });
+};
+
 module.exports = {
-  createPlaylist: createPlaylist
-  // addSong: addSong
+  createPlaylist: createPlaylist,
+  addSong: addSong
 };
