@@ -14,7 +14,8 @@ var routing = function (app, express) {
 
   // Add and retrieve groups
   app.post('/api/groups/', Group.createGroup);
-  app.post('/api/groups/user', Group.addUser);
+  app.post('/api/groups/users', Group.addUser);
+  app.get('/api/groups/users/:id', Group.fetchUsers);
 
 
   // Add and retrieve playlists
