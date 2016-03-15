@@ -62,7 +62,7 @@ var fetchUsers = function(req, res) {
   .then(function(group) {
     var users = group.map(function(group) {
       return group['users.displayName'];
-    })
+    });
     res.send(users);
   })
   .catch(function(err) {
