@@ -27,10 +27,34 @@ var signup = function (req, res, next) {
     .catch(function (error) {
       next(error);
     });
-}
+};
 
-var signin = function()
+var signin = function (req, res, next) {
+  var email = req.body.email;
+  var password = req.body.password;
+
+  User.findOne({where: {username: username}})
+    .then(function (user) {
+      if (!user) {
+        next(new Error('User does not exist'));
+      } else {
+        return user.comparePasswords(password)
+          .then(function (foundUser) {
+            if (foundUser) {
+              var token = jwt.encode(user, 'secret');
+              res.json({token: token});
+            } else {
+              return next(new Error('No user'));
+            }
+          });
+      }
+    })
+    .fail(function (error) {
+      next(error);
+    });
+};
 
 module.exports = {
-  signup: signup
+  signup: signup,
+  sigin: signin
 };
