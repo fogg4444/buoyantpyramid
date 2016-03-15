@@ -2,7 +2,7 @@ var sinon = require('sinon');
 var chai = require('chai');
 var expect = chai.expect;
 var mongoose = require('mongoose');
-var UserController = require('../../../server/users/userController.js');
+// var UserController = require('../../../server/users/userController.js');
 var User = require('../../../server/users/userModel.js');
 
 var dbURI = 'mongodb://localhost/testDB';
