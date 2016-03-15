@@ -28,6 +28,10 @@ var User = db.define('user', {
   avatarURL: {
     type: Sequelize.STRING,
     defaultValue: '' // Complete
+  },
+  currentGroupId: {
+    type: Sequelize.INTEGER,
+    allowNull: false
   }
 }, {
   classMethods: {

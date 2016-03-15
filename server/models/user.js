@@ -24,7 +24,8 @@ var signup = function (req, res, next) {
       User.create({
         displayName: displayName,
         email: email,
-        password: password
+        password: password,
+        currentGroupId: group.id
       })
       .then(function (user) {
         group.addUser(user, {role: 'admin'})
