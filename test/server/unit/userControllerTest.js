@@ -1,54 +1,81 @@
 var sinon = require('sinon');
 var chai = require('chai');
 var expect = chai.expect;
-var mongoose = require('mongoose');
-var UserController = require('../../../server/users/userController.js');
-var User = require('../../../server/users/userModel.js');
-
-var dbURI = 'mongodb://localhost/testDB';
+var Sequelize = require('sequelize');
+var dbModels = require('../../../server/db/database.js');
+var User = dbModels.User; 
+var UserController = require('../../../server/models/user.js');
+dbModels.db.options.logging = false;
 
 // The `clearDB` helper function, when invoked, will clear the database
 var clearDB = function (done) {
-  mongoose.connection.collections.users.remove(done);
+  dbModels.db.query('DELETE from USERS where true')
+    .spread(function(results, metadata) {
+      done();
+    });
 };
 
 describe('User Controller', function () {
 
   // Connect to database before any tests
   before(function (done) {
-    if (mongoose.connection.db) {
-      return done();
-    }
-    mongoose.connect(dbURI, done);
+    User.sync({force: true})
+      .then(function() {
+        done();
+      });
   });
 
+  describe ('create user', function() {
   // Clear database before each test and then seed it with example `users` so that you can run tests
-  beforeEach(function (done) {
-    clearDB(function () {
-      var users = [
-        {
-          username: 'nick',
-          password: 'nickspassword'
-        },
-        {
-          username: 'sondra',
-          password: 'sondraspassword'
-        },
-        {
-          username: 'brian',
-          password: 'brianspassword'
-        },
-        {
-          username: 'erick',
-          password: 'erickspassword'
-        },
-      ];
-
-      // See http://mongoosejs.com/docs/models.html for details on the `create` method
-      User.create(users, done);
+    beforeEach(function (done) {
+      clearDB(function () {
+        done();
+      });
     });
+    it('should call res.json to return a json object', function (done) {
+      var req = {
+        body: {
+          email: 'finn@ooo.com',
+          displayName: 'Finn',
+          password: 'thehuman'
+        }
+      };
+
+      var res = {};
+
+      // make my own damn spy
+      res.json = function(jsonresponse) {
+        expect(jsonresponse).to.have.property('email');
+        done();
+      };
+      // var spy = res.json = sinon.stub();
+      UserController.createUser(req, res);
+    });
+
+
+    it('should create a new user in the database', function (done) {
+      var req = {
+        body: {
+          email: 'jake@ooo.com',
+          displayName: 'Jake',
+          password: 'thedog'
+        }
+      };
+
+      var res = {};
+
+      res.json = function(jsonresponse) {
+        dbModels.db.query('SELECT * FROM users WHERE email = :email ', { replacements: {email: 'jake@ooo.com'}, type: Sequelize.QueryTypes.SELECT})
+        .then( function(users) {
+          expect(users[0].email).to.equal('jake@ooo.com');
+          done();
+        });
+      };
+      UserController.createUser(req, res, function() {});
+    });
+
   });
-  describe ('sign up', function() {
+  xdescribe ('sign up', function() {
     it('should respond to valid input with a jwt token in a json object', function (done) {
       var req = {
         body: {

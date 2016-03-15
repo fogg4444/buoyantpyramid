@@ -8,7 +8,7 @@ var createGroup = function(req, res) {
     name: req.body.name
     // TODO: Add banner
   }).then(function(group) {
-    res.send(JSON.stringify(group));
+    res.json(group);
   })
   .catch(function(err) {
     res.send(err);

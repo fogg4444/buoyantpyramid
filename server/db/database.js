@@ -1,7 +1,10 @@
 var config = require('../config/config.js'); 
 var pg = require('pg');
 var Sequelize = require('sequelize');
-var db = new Sequelize(config.connectionString);
+
+var connectionString = (process.env.NODE_ENV === 'test') ? config.testConnectionString : config.connectionString;
+var db = new Sequelize(connectionString);
+console.log(connectionString);
 
 // Define table schemas
 var User = db.define('user', {
@@ -96,22 +99,24 @@ Playlist.belongsTo(Group);
 Playlist.hasMany(Song);
 Song.belongsTo(Playlist);
 
+var logSync = (process.env.NODE_ENV === 'test') ? false : console.log;
 // Sync models to define postgres tables and capture associations
-User.sync()
+User.sync({logging: logSync})
   .then(function() {
-    return Group.sync();
+    return Group.sync({logging: logSync});
   })
   .then(function() {
-    return Playlist.sync();
+    return Playlist.sync({logging: logSync});
   })
   .then(function() {
-    return Song.sync();
+    return Song.sync({logging: logSync});
   })
   .then(function() {
-    return UserGroups.sync();
+    return UserGroups.sync({logging: logSync});
   });
 
 module.exports = {
+  db: db,
   User: User,
   Group: Group,
   Song: Song,

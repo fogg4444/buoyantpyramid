@@ -6,7 +6,7 @@
   "scripts": {
     "clean": "rimraf dist/*",
     "open:dev": "opener http://localhost:8080",
-    "test": "mocha  --recursive test",
+    "test": "NODE_ENV=test mocha  --recursive test",
     "setup": "node sessionSetup.js",
     "lint": "./node_modules/eslint/bin/eslint.js .",
     "start": "npm run clean & nodemon server/server.js & webpack-dev-server & npm run open:dev",

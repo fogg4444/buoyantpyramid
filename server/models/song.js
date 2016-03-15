@@ -15,7 +15,7 @@ var addSong = function(req, res) {
   {include: {
     model: Group}
   }).then(function(song) {
-    res.send(JSON.stringify(song));
+    res.json(song);
   })
   .catch(function(err) {
     res.send(err);

@@ -13,7 +13,7 @@ var createUser = function(req, res) {
     password: password,
     salt: 'a'
   }).then(function(user) {
-    res.send(JSON.stringify(user));
+    res.json(user);
   });
 };
 
