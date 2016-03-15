@@ -23,7 +23,9 @@ var songReq = {
   body: {
     title: 'Margaritaville',
     description: 'Wasted again',
-    groupId: '1'
+  },
+  params: {
+    id: 1
   }
 };
 
@@ -39,8 +41,7 @@ describe('Song Controller', function () {
   before(function (done) {
     var res = {};
     res.json = function(jsonresponse) {
-      console.log(JSON.stringify(jsonresponse));
-      songReq.body.groupId = jsonresponse.id;
+      songReq.params.groupId = jsonresponse.id;
       done();
     };
 
