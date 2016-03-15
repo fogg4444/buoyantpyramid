@@ -8,20 +8,22 @@ var routing = function (app, express) {
   // Create users
   app.post('/api/users/', User.createUser);
 
-  // Add and retrieve songs
-  app.post('/api/songs/', Song.addSong);
-  app.get('/api/songs/:id', Group.fetchSongs);
-
   // Add and retrieve groups
   app.post('/api/groups/', Group.createGroup);
-  app.post('/api/groups/users', Group.addUser);
-  app.get('/api/groups/users/:id', Group.fetchUsers);
+  app.post('/api/groups/:id/users/', Group.addUser);
+  app.get('/api/groups/:id/users/', Group.fetchUsers);
+
+  // Add and retrieve songs
+  app.post('/api/groups/:id/songs/', Song.addSong);
+  app.get('/api/groups/:id/songs/', Group.fetchSongs);
 
 
   // Add and retrieve playlists
-  app.post('/api/playlists/create', Playlist.createPlaylist);
-  app.post('/api/playlists/add', Playlist.addSong);
-  app.get('/api/playlists/:id', Playlist.fetchSongs);
+  app.post('/api/playlists/', Playlist.createPlaylist);
+  app.put('/api/playlists/:id/add/', Playlist.addSong);
+  // app.put('/api/playlists/:id/remove', Playlist.removeSong);
+  app.get('/api/playlists/:id/', Playlist.fetchSongs);
+  // app.delete('/api/playlists/:id', Playlist.delete);
 
   // Handle error logging of requests that are destined for above routes
   app.use(helpers.errorLogger);
