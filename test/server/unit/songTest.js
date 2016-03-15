@@ -7,6 +7,7 @@ var Song = dbModels.Song;
 var Group = dbModels.Song; 
 var GroupController = require('../../../server/models/group.js');
 var SongController = require('../../../server/models/song.js');
+
 dbModels.db.options.logging = false;
 
 // The `clearDB` helper function, when invoked, will clear the database
