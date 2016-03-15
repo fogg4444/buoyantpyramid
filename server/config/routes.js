@@ -6,10 +6,6 @@ var User = require('../controllers/user');
 
 var routing = function (app, express) {
 
-
-
-
-
   // Create users
   app.post('/api/users/signup', User.signup);
   app.post('/api/users/login', User.login);
@@ -22,7 +18,6 @@ var routing = function (app, express) {
   // Add and retrieve songs
   app.post('/api/groups/:id/songs/', Song.addSong);
   app.get('/api/groups/:id/songs/', Group.fetchSongs);
-
 
   // Add and retrieve playlists
   app.post('/api/playlists/', Playlist.createPlaylist);
