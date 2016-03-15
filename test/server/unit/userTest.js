@@ -127,5 +127,15 @@ describe('User Controller', function() {
         });
       });
     });
+
+    it('should correctly reject an incorrect password', function(done) {
+      User.findOne({ where: {email: dupeReq.body.email} }).then(function(user) {
+        user.comparePassword('wrong')
+        .then( function(doesMatch) {
+          expect(doesMatch).to.be.false;
+          done();
+        });
+      });
+    });
   });
 });
