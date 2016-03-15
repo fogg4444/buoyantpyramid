@@ -24,6 +24,5 @@ describe('User Model', function () {
       expect(Object.keys(schema).length).to.be.above(0);
       done();
     });
-
   });
 });

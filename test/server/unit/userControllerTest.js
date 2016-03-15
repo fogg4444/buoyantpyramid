@@ -19,7 +19,7 @@ describe('User Controller', function () {
 
   // Connect to database before any tests
   before(function (done) {
-    User.sync()
+    dbModels.db.sync()
       .then(function() {
         done();
       });
