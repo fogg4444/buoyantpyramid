@@ -44,6 +44,9 @@ describe('Song Controller', function () {
 
     Song.sync({force: true})
       .then(function() {
+        return Group.sync({force: true});
+      })
+      .then(function() {
         GroupController.createGroup(groupReq, res);
         // done();
       });
