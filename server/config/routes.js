@@ -6,7 +6,8 @@ var User = require('../models/user');
 
 var routing = function (app, express) {
   // Create users
-  app.post('/api/users/', User.createUser);
+  app.post('/api/users/signup', User.signup);
+  app.post('/api/users/signin', User.signin);
 
   // Add and retrieve groups
   app.post('/api/groups/', Group.createGroup);

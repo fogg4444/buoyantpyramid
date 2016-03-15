@@ -33,7 +33,7 @@ var clearDB = function(done) {
   };
   dbModels.db.query('DELETE from USERS where true')
     .spread(function(results, metadata) {
-      UserController.createUser(dupeReq, res);
+      UserController.signup(dupeReq, res);
     });
 };
 
@@ -61,11 +61,11 @@ describe('User Controller', function() {
       var res = {};
       // make my own damn spy
       res.json = function(jsonresponse) {
-        expect(jsonresponse).to.have.property('email');
+        expect(jsonresponse).to.have.property('token');
         done();
       };
       // var spy = res.json = sinon.stub();
-      UserController.createUser(req, res);
+      UserController.signup(req, res, console.error);
     });
 
 
@@ -79,7 +79,7 @@ describe('User Controller', function() {
             done();
           });
       };
-      UserController.createUser(req, res, function() {});
+      UserController.signup(req, res, function() {});
     });
 
     it('should store a hashed password', function(done) {
@@ -93,12 +93,12 @@ describe('User Controller', function() {
             done();
           });
       };
-      UserController.createUser(req, res, function() {});
+      UserController.signup(req, res, function() {});
     });
 
     it('should not allow a duplicate email address', function(done) {
       var res = {};
-      UserController.createUser(dupeReq, res, function(error) {
+      UserController.signup(dupeReq, res, function(error) {
         expect(error).to.be.instanceOf(Error);
         done();
       });
@@ -115,7 +115,7 @@ describe('User Controller', function() {
             done();
           });
       };
-      UserController.createUser(req, res, function() {});
+      UserController.signup(req, res, function() {});
     });
 
     it('should correctly verify a password against the hashed password', function(done) {
