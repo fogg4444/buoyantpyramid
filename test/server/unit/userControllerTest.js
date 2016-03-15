@@ -24,34 +24,13 @@ describe('User Controller', function () {
   // before(function (done) {
   // });
 
-  // Clear database before each test and then seed it with example `users` so that you can run tests
-  beforeEach(function (done) {
-    clearDB(function () {
-      // var users = [
-      //   {
-      //     username: 'nick',
-      //     password: 'nickspassword'
-      //   },
-      //   {
-      //     username: 'sondra',
-      //     password: 'sondraspassword'
-      //   },
-      //   {
-      //     username: 'brian',
-      //     password: 'brianspassword'
-      //   },
-      //   {
-      //     username: 'erick',
-      //     password: 'erickspassword'
-      //   },
-      // ];
-
-      // // See http://mongoosejs.com/docs/models.html for details on the `create` method
-      // User.create(users, done);
-      done();
-    });
-  });
   describe ('create user', function() {
+  // Clear database before each test and then seed it with example `users` so that you can run tests
+    beforeEach(function (done) {
+      clearDB(function () {
+        done();
+      });
+    });
     it('should call res.json to return a json object', function (done) {
       var req = {
         body: {
