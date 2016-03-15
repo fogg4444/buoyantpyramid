@@ -5,8 +5,8 @@ var Sequelize = require('sequelize');
 var dbModels = require('../../../server/db/database.js');
 var Song = dbModels.Song; 
 var Group = dbModels.Song; 
-var GroupController = require('../../../server/models/group.js');
-var SongController = require('../../../server/models/song.js');
+var GroupController = require('../../../server/controllers/group.js');
+var SongController = require('../../../server/controllers/song.js');
 
 dbModels.db.options.logging = false;
 

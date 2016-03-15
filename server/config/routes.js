@@ -1,8 +1,8 @@
 var helpers = require('./helpers.js');
-var Song = require('../models/song');
-var Group = require('../models/group');
-var Playlist = require('../models/playlist');
-var User = require('../models/user');
+var Song = require('../controllers/song');
+var Group = require('../controllers/group');
+var Playlist = require('../controllers/playlist');
+var User = require('../controllers/user');
 
 var routing = function (app, express) {
 
