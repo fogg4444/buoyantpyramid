@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "clean": "rimraf dist/*",
-    "open:dev": "opener http://localhost:8080",
+    "open:dev": "opener http://localhost:3000",
     "test": "NODE_ENV=test mocha  --recursive test",
     "setup": "node sessionSetup.js",
     "lint": "./node_modules/eslint/bin/eslint.js .",
