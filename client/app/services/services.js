@@ -2,11 +2,11 @@ angular.module('jam.services', [])
 
 .factory('Songs', ['$http', function (http) {
 
-  var addSong = function (url) {
+  var addSong = function (song, groupId) {
     return http({
       method: 'POST',
-      url: '/api/songs',
-      data: url
+      url: '/api/groups/' + groupId + '/songs/',
+      data: song
     })
     .then(function (res) {
       return res;
@@ -14,10 +14,10 @@ angular.module('jam.services', [])
   };
 
 
-  var getAllSongs = function () {
+  var getAllSongs = function (groupId) {
     return http({
       method: 'GET',
-      url: '/api/songs'
+      url: '/api/groups/' + groupId + '/songs/'
     })
     .then(function (res) {
       return res.data;
