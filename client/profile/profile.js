@@ -1,14 +1,18 @@
 angular.module('jam.profile', [])
 
-.controller('ProfileController', function ($scope, $location, Profile) {
-  // When user adds a new link, put it in the collection
-  $scope.profile = {};
-  Profile.updateUser()
-  .then(function (res) {
-    console.log('Profile updated', res.data);
-    $location.path('/songs');
-  })
-  .catch(function (error) {
-    console.error(error);
-  });
+.controller('ProfileController', function ($scope, $location, Profile, Auth, $rootScope) {
+  if (!$rootScope.user) {
+    Auth.logout();
+  }
+  $scope.profile = $rootScope.user;
+  $scope.updateProfile = function () {
+    Profile.updateUser($scope.profile)
+    .then(function (res) {
+      console.log('Profile updated', res.data);
+      $location.path('/songs');
+    })
+    .catch(function (error) {
+      console.error(error);
+    });
+  };
 });

@@ -58,7 +58,7 @@ angular.module('jam.services', [])
       data: user
     })
     .then(function (resp) {
-      return resp.data.token;
+      return resp.data;
     });
   };
 
@@ -69,15 +69,27 @@ angular.module('jam.services', [])
       data: user
     })
     .then(function (resp) {
-      return resp.data.token;
+      return resp.data;
     });
   };
+
+  var getUser = function(userId) {
+    console.log('services headers:', $window.localStorage.getItem('com.jam'));
+    return $http({
+      method: 'GET',
+      url: '/api/users/' + userId
+    })
+    .then(function(resp) {
+      return resp.data;
+    });
+  };
+
 
   var isAuth = function () {
     return !!$window.localStorage.getItem('com.jam');
   };
 
-  var signout = function () {
+  var logout = function () {
     $window.localStorage.removeItem('com.jam');
     $location.path('/login');
   };
@@ -85,7 +97,8 @@ angular.module('jam.services', [])
   return {
     login: login,
     signup: signup,
+    getUser: getUser,
     isAuth: isAuth,
-    signout: signout
+    logout: logout
   };
 });
