@@ -7,7 +7,7 @@ angular.module('jam.auth', [])
   $scope.user = {};
 
   $scope.login = function () {
-    Auth.login($scope.user)
+    Auth.login($scope.email)
       .then(function (token) {
         $window.localStorage.setItem('com.jam', token);
         $location.path('/songs');
@@ -18,6 +18,7 @@ angular.module('jam.auth', [])
   };
 
   $scope.signup = function () {
+    $scope.user.displayName = 'anonymous';
     Auth.signup($scope.user)
       .then(function (token) {
         $window.localStorage.setItem('com.jam', token);

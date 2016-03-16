@@ -29,6 +29,7 @@ angular.module('jam.services', [])
     getAllSongs: getAllSongs
   };
 })
+
 .factory('Profile', function($http) {
   var updateUser = function(profile) {
     return $http({
@@ -37,10 +38,15 @@ angular.module('jam.services', [])
       data: profile
     });
   };
+
+  return {
+    updateUser: updateUser
+  };
 })
+
 .factory('Auth', function ($http, $location, $window) {
   // This is responsible for authenticating our user
-  // by exchanging the user's username and password
+  // by exchanging the user's email and password
   // for a JWT from the server
   // that JWT is then stored in localStorage as 'com.jam'
   // after you login/signup open devtools, click resources,
@@ -75,7 +81,6 @@ angular.module('jam.services', [])
     $window.localStorage.removeItem('com.jam');
     $location.path('/login');
   };
-
 
   return {
     login: login,

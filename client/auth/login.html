@@ -1,9 +1,13 @@
 <div id='login'>
-  <h2>Login</h2>
-  <form name="loginForm" ng-submit='login()'>
-    <input type='text' ng-model='user.email' placeholder='email' type='email'>
-    <input type="password" ng-model='user.password' placeholder='password'>
-    <button>Login</button>
+  <h2>Login or Signup</h2>
+  <form name='loginForm' >
+    <input  name='email' ng-model='user.email' placeholder='email' type='email' ng-pattern='/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/' required />
+    <span class="error" ng-show="loginForm.email.$error.email">
+      Not valid email!</span>
+    <input type='password' name='password' ng-model='user.password' placeholder='password' ng-minlength='8' required />
+    <span class="error" ng-show="loginForm.password.$error.required">
+      Required!</span>
+    <button ng-click='login()' ng-disabled='loginForm.$invalid'>Login</button>
+    <button ng-click='signup()' ng-disabled='loginForm.$invalid'>Signup</button>
   </form>
-  <a href="#/signup" class="sign-text">Don't have an account? <strong>Signup</strong> ...</a>
 </div>

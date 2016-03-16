@@ -1,6 +1,7 @@
 angular.module('jam', [
   'jam.services',
   'jam.songs',
+  'jam.profile',
   'jam.auth',
   'ngRoute',
   'ngAnimate'

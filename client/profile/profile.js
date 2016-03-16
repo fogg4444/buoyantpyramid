@@ -1,5 +1,14 @@
 angular.module('jam.profile', [])
 
-.controller('ProfileController', function ($scope, Profile) {
-  // Update the user info on submit
+.controller('ProfileController', function ($scope, $location, Profile) {
+  // When user adds a new link, put it in the collection
+  $scope.profile = {};
+  Profile.updateUser()
+  .then(function (res) {
+    console.log('Profile updated', res.data);
+    $location.path('/songs');
+  })
+  .catch(function (error) {
+    console.error(error);
+  });
 });
