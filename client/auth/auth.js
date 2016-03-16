@@ -3,7 +3,7 @@
 // in our signup/login forms using the injected Auth service
 angular.module('jam.auth', [])
 
-.controller('AuthController', function ($scope, $window, $location, Auth) {
+.controller('AuthController', ['$scope', '$window', '$location', 'Auth', function ($scope, $window, $location, Auth) {
   $scope.user = {};
 
   $scope.login = function () {
@@ -37,4 +37,4 @@ angular.module('jam.auth', [])
         console.error(error);
       });
   };
-});
+}]);
