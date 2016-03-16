@@ -17,17 +17,12 @@ var createGroup = function(req, res, next) {
 
 var fetchSongs = function(req, res, next) {
   var groupId = req.params.id;
-  Group.findAll({
-    where: {
-      id: groupId
-    },
-    include: {model: Song},
-    raw: true})
+  Group.findOne({where: {id: groupId}})
   .then(function(group) {
-    var songs = group.map(function(song) {
-      return song['songs.title'];
+    group.getSongs()
+    .then(function (songs) {
+      res.json(songs);   
     });
-    res.json(songs);
   })
   .catch(function(err) {
     next(err);
@@ -57,14 +52,12 @@ var fetchUsers = function(req, res, next) {
   // roles:
   //  admin, member, pending
   var groupId = req.params.id;
-  Group.findAll({where: {id: groupId},
-    include: {model: User},
-    raw: true})
+  Group.findOne({where: {id: groupId}})
   .then(function(group) {
-    var users = group.map(function(group) {
-      return group['users.displayName'];
+    group.getUsers()
+    .then(function (users) {
+      res.json(users);
     });
-    res.json(users);
   })
   .catch(function(err) {
     next(err);
