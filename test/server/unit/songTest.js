@@ -4,7 +4,7 @@ var expect = chai.expect;
 var Sequelize = require('sequelize');
 var dbModels = require('../../../server/db/database.js');
 var Song = dbModels.Song; 
-var Group = dbModels.Song; 
+var Group = dbModels.Group; 
 var GroupController = require('../../../server/controllers/group.js');
 var SongController = require('../../../server/controllers/song.js');
 
