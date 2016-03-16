@@ -1,4 +1,10 @@
 /*jam styling*/
+
 body {
-  background-color: #454;
+  $red: random(256)-1;
+  $green: random(256)-1;
+  $blue: random(256)-1;
+  $alpha: random(100)/100;
+
+  background-color: rgba($red, $green, $blue, $alpha);
 }
