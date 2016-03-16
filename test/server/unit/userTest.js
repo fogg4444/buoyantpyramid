@@ -147,6 +147,16 @@ describe('User Controller', function() {
       // var spy = res.json = sinon.stub();
       UserController.login(dupeReq, res, console.error);
     });
+    it('should throw a 404 when logging in a non-existent user', function(done) {
+      var res = {};
+      res.json = function() {};
+      res.status = function(code) {
+        expect(code).to.equal(404);
+        done();
+      };
+      // var spy = res.json = sinon.stub();
+      UserController.login(req, res, console.error);
+    });
 
   });
 });
