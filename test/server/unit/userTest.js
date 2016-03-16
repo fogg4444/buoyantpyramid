@@ -207,5 +207,19 @@ describe('User Controller', function() {
       };
       UserController.getProfile(dupeReq, res, console.error);
     });
+    it('should be able to update own profile', function(done) {
+      var res = {};
+      res.json = function(jsonresponse) {
+        expect(jsonresponse.displayName).to.equal('Pen');
+        done();
+      };
+      res.status = function(status) {
+        return res;
+      };
+
+      dupeReq.headers = { 'x-access-token': jwtToken };
+      dupeReq.body = {displayName: 'Pen'};
+      UserController.updateProfile(dupeReq, res, console.error);
+    });
   });
 });
