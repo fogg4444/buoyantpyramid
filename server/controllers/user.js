@@ -103,24 +103,30 @@ var getUser = function(req, res, next) {
 
 var getProfile = function(req, res, next) {
   var token = req.headers['x-access-token'];
+  var jwtUser;
   if (!token) {
     res.status(401).json('Not logged in');
   } else {
-    var jwtUser = jwt.decode(token, JWT_SECRET);
-
+    try {
+      jwtUser = jwt.decode(token, JWT_SECRET);
+    } catch (e) {}
+    if (jwtUser) {
     // TODO: INCLUDE GROUP INFO
-     
-    User.findById(jwtUser.id)
-      .then(function(foundUser) {
-        if (foundUser) {
-          res.json(foundUser);
-        } else {
-          res.status(404).json('jwt token doesn\'t match any user');
-        } 
-      })
-      .catch(function(error) {
-        next(error);
-      });
+
+      User.findById(jwtUser.id)
+        .then(function(foundUser) {
+          if (foundUser) {
+            res.json(foundUser);
+          } else {
+            res.status(404).json('jwt token doesn\'t match any user');
+          } 
+        })
+        .catch(function(error) {
+          next(error);
+        });
+    } else {
+      res.status(401).json('Bad authentication token');
+    }
   }
 };
 

@@ -196,5 +196,30 @@ describe('User Controller', function() {
       };
       UserController.getProfile(dupeReq, res, console.error);
     });
+    it('should throw a 401 with a nonsense token', function(done) {
+      dupeReq.headers = { 'x-access-token': 'abcdefg' };
+      var res = {};
+      res.json = function() {};
+      res.status = function(code) {
+        expect(code).to.equal(401);
+        done();
+        return res;
+      };
+      UserController.getProfile(dupeReq, res, console.error);
+    });
+    it('should be able to update own profile', function(done) {
+      var res = {};
+      res.json = function(jsonresponse) {
+        expect(jsonresponse.displayName).to.equal('Pen');
+        done();
+      };
+      res.status = function(status) {
+        return res;
+      };
+
+      dupeReq.headers = { 'x-access-token': jwtToken };
+      dupeReq.body = {displayName: 'Pen'};
+      UserController.updateProfile(dupeReq, res, console.error);
+    });
   });
 });
