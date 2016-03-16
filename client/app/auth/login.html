@@ -1,6 +1,6 @@
 <div id='login'>
   <h2>Login or Signup</h2>
-  <form name='loginForm' >
+  <form name='loginForm'>
     <input  name='email' ng-model='user.email' placeholder='email' type='email' ng-pattern='/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/' required />
     <span class="error" ng-show="loginForm.email.$error.email">
       Not valid email!</span>
