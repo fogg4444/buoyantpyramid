@@ -1,18 +1,19 @@
 angular.module('jam.profile', [])
 
-.controller('ProfileController', function ($scope, $location, Profile, Auth, $rootScope) {
-  if (!$rootScope.user) {
+.controller('ProfileController', ['$scope', '$location', 'Profile', 'Auth',
+function ($scope, loc, Profile, Auth) {
+  $scope.profile = Auth.getUserData();
+  if (!$scope.profile) {
     Auth.logout();
   }
-  $scope.profile = $rootScope.user;
   $scope.updateProfile = function () {
     Profile.updateUser($scope.profile)
     .then(function (res) {
       console.log('Profile updated', res.data);
-      $location.path('/songs');
+      loc.path('/songs');
     })
     .catch(function (error) {
       console.error(error);
     });
   };
-});
+}]);
