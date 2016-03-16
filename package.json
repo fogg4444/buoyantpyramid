@@ -6,10 +6,10 @@
   "scripts": {
     "clean": "rimraf dist/*",
     "open:dev": "opener http://localhost:3000",
-    "test": "NODE_ENV=test mocha  --recursive test",
+    "test": "NODE_ENV=test mocha --reporter nyan  --recursive test",
     "setup": "node sessionSetup.js",
     "lint": "./node_modules/eslint/bin/eslint.js .",
-    "start": "npm run clean & nodemon server/server.js & npm run open:dev",
+    "start": "nodemon server/server.js",
     "killnode": "killall -9 node"
   },
   "repository": {

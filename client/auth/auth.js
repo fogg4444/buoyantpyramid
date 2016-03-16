@@ -1,15 +1,13 @@
-// do not tamper with this code in here, study it, but do not touch
-// this Auth controller is responsible for our client side authentication
-// in our signup/login forms using the injected Auth service
 angular.module('jam.auth', [])
 
 .controller('AuthController', ['$scope', '$window', '$location', 'Auth', function ($scope, $window, $location, Auth) {
   $scope.user = {};
 
   $scope.login = function () {
-    Auth.login($scope.email)
-      .then(function (token) {
-        $window.localStorage.setItem('com.jam', token);
+    Auth.login($scope.user)
+      .then(function (data) {
+        $window.localStorage.setItem('com.jam', data.token);
+        $rootScope.user = data.user;
         $location.path('/songs');
       })
       .catch(function (error) {
@@ -20,8 +18,9 @@ angular.module('jam.auth', [])
   $scope.signup = function () {
     $scope.user.displayName = 'anonymous';
     Auth.signup($scope.user)
-      .then(function (token) {
-        $window.localStorage.setItem('com.jam', token);
+      .then(function (data) {
+        $window.localStorage.setItem('com.jam', data.token);
+        $rootScope.user = data.user;
         $location.path('/profile');
       })
       .catch(function (error) {
@@ -29,12 +28,7 @@ angular.module('jam.auth', [])
       });
   };
 
-  $scope.signout = function () {
-    Auth.signout()
-      .then(function () {
-      })
-      .catch(function (error) {
-        console.error(error);
-      });
+  $scope.logout = function () {
+    Auth.logout();
   };
 }]);

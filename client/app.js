@@ -6,6 +6,9 @@ angular.module('jam', [
   'ngRoute',
   'ngAnimate'
 ])
+.run(function($rootScope) {
+  $rootScope.user = {};
+})
 .config(function ($routeProvider, $httpProvider) {
   $routeProvider
     .when('/login', {
@@ -30,9 +33,9 @@ angular.module('jam', [
       redirectTo: '/songs'
     });
 
-    // We add our $httpInterceptor into the array
-    // of interceptors. Think of it like middleware for your ajax calls
-    $httpProvider.interceptors.push('AttachTokens');
+  // We add our $httpInterceptor into the array
+  // of interceptors. Think of it like middleware for your ajax calls
+  $httpProvider.interceptors.push('AttachTokens');
 })
 .factory('AttachTokens', function ($window) {
   // this is an $httpInterceptor
