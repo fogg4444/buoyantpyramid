@@ -7,6 +7,7 @@ function ($rootScope, $scope, $window, $location, Auth) {
   $scope.login = function () {
     Auth.login($scope.user)
       .then(function (data) {
+        // do these things in the factory
         $window.localStorage.setItem('com.jam', data.token);
         $rootScope.user = data.user;
         $location.path('/songs');

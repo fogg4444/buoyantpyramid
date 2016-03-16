@@ -1,6 +1,6 @@
 angular.module('jam.services', [])
 
-.factory('Songs', function ($http) {
+.factory('Songs', ['$http', function ($http) {
 
   var addSong = function (url) {
     return $http({
@@ -28,9 +28,9 @@ angular.module('jam.services', [])
     addSong: addSong,
     getAllSongs: getAllSongs
   };
-})
+}])
 
-.factory('Profile', function($http) {
+.factory('Profile', ['$http', function($http) {
   var updateUser = function(profile) {
     return $http({
       method: 'PUT',
@@ -49,9 +49,9 @@ angular.module('jam.services', [])
     updateUser: updateUser,
     updateUser: updateUser
   };
-})
+}])
 
-.factory('Auth', function ($http, $location, $window) {
+.factory('Auth', ['$http', '$location', '$window', function ($http, $location, $window) {
   // This is responsible for authenticating our user
   // by exchanging the user's email and password
   // for a JWT from the server
@@ -108,4 +108,4 @@ angular.module('jam.services', [])
     isAuth: isAuth,
     logout: logout
   };
-});
+}]);
