@@ -48,14 +48,13 @@ describe('User Controller', function() {
         done();
       });
   });
-
-  describe('create user', function() {
-    // Clear database before each test and then seed it with example `users` so that you can run tests
-    beforeEach(function(done) {
-      clearDB(function() {
-        done();
-      });
+  // Clear database before each test and then seed it with example `users` so that you can run tests
+  beforeEach(function(done) {
+    clearDB(function() {
+      done();
     });
+  });
+  describe('create user', function() {  
     it('should call res.json to return a json object', function(done) {
 
       var res = {};
@@ -137,5 +136,17 @@ describe('User Controller', function() {
         });
       });
     });
+  });
+  describe('user login', function() {
+    it('should login an existing user', function(done) {
+      var res = {};
+      res.json = function(jsonresponse) {
+        expect(jsonresponse).to.have.property('token');
+        done();
+      };
+      // var spy = res.json = sinon.stub();
+      UserController.login(dupeReq, res, console.error);
+    });
+
   });
 });
