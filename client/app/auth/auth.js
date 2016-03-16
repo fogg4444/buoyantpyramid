@@ -2,8 +2,7 @@ angular.module('jam.auth', [])
 
 .controller('AuthController', ['$scope', '$window', '$location', 'Auth',
 function ($scope, $window, $location, Auth) {
-  $scope.user = null;
-
+  $scope.user = {};
   $scope.login = function () {
     Auth.login($scope.user)
       .then(function (data) {

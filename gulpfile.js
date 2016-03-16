@@ -9,6 +9,7 @@ var uglify = require('gulp-uglify');
 var sass = require('gulp-sass');
 var concat = require('gulp-concat');
 var rename = require('gulp-rename');
+var ngmin = require("gulp-ngmin");
 var prefix = require('gulp-autoprefixer');
 var KarmaServer = require('karma').Server;
 
@@ -46,6 +47,7 @@ gulp.task('karma', function (done) {
 // Minify the things
 gulp.task('build', function() {
   return gulp.src(paths.scripts)
+    .pipe(ngmin())
     .pipe(concat('main.js'))   // Combine into 1 file
     .pipe(gulp.dest('client/dist'))            // Write non-minified to disk
     .pipe(uglify())                     // Minify
@@ -63,7 +65,7 @@ gulp.task('nodemon', function (cb) {
   });
 });
 
-gulp.task('default', ['sass', 'browser-sync'], function () {
+gulp.task('default', ['sass', 'build', 'browser-sync'], function () {
   gulp.watch(paths.styles, ['sass']);
-  gulp.watch(['client/**/*.js', './*.html'], reload);
+  gulp.watch(['client/**/*.js', './*.html'], ['build', reload]);
 });
