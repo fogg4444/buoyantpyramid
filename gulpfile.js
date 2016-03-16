@@ -11,16 +11,15 @@ var KarmaServer = require('karma').Server;
 
 // the paths to our app files
 var paths = {
-  // all our client app js files, not including 3rd party js files
   scripts: ['client/**/*.js'],
   html: ['client/**/*.html', 'client/index.html'],
-  styles: ['client/styles/style.css'],
+  styles: ['client/styles/*.scss'],
   test: ['tests/**/*.js']
 };
 
 // Sass and css injecting
 gulp.task('sass', function () {
-  return gulp.src('client/styles/*.scss')
+  return gulp.src(paths.styles)
   .pipe(sass({outputStyle: 'compressed', sourceComments: 'map'}, {errLogToConsole: true}))
   .pipe(prefix('last 2 versions', '> 1%', 'ie 8', 'Android 2', 'Firefox ESR'))
   .pipe(gulp.dest('client/styles'))
@@ -59,6 +58,6 @@ gulp.task('nodemon', function (cb) {
 });
 
 gulp.task('default', ['sass', 'browser-sync'], function () {
-  gulp.watch('client/styles/*.scss', ['sass']);
+  gulp.watch(paths.styles, ['sass']);
   gulp.watch(['client/**/*.js', './*.html'], reload);
 });

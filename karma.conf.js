@@ -21,18 +21,21 @@ module.exports = function (config) {
       // server files
       'server/**/*.js',
 
-      // our spec files - in order of the README
-      'test/server/unit/schemaTest.js',
-      'test/server/unit/songTest.js',
-      'test/server/unit/userTest.js',
-      'test/client/unit/serviceTest.js'
+      // tests for the server
+      'test/server/**/*.js'
+
     ],
 
     // test results reporter to use
-    reporters: ['nyan','unicorn'],
+    reporters: ['nyan', 'unicorn'],
 
     // start these browsers. PhantomJS will load up in the background
     browsers: ['PhantomJS'],
+
+    phantomjsLauncher: {
+      // Have phantomjs exit if a ResourceError is encountered (useful if karma exits without killing phantom)
+      exitOnResourceError: true
+    },
 
     // enable / disable watching file and executing tests whenever any file changes
     autoWatch: false,
