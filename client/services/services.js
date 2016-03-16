@@ -34,12 +34,19 @@ angular.module('jam.services', [])
   var updateUser = function(profile) {
     return $http({
       method: 'PUT',
-      url: '/api/user',
+      url: '/api/users/profile',
       data: profile
+    });
+  };
+  var getProfile = function(profile) {
+    return $http({
+      method: 'GET',
+      url: '/api/users/profile'
     });
   };
 
   return {
+    updateUser: updateUser,
     updateUser: updateUser
   };
 })

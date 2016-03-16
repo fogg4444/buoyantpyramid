@@ -10,8 +10,9 @@ var routing = function (app, express) {
   // 
   app.post('/api/users/signup', User.signup);
   app.post('/api/users/login', User.login);
+  app.put('/api/users/profile', User.updateProfile);
+  app.get('/api/users/profile', User.getProfile);
   app.get('/api/users/:id', User.getUser);
-  app.get('/api/users/me', User.getSelf);
 
   // Add and retrieve groups
   app.post('/api/groups/', Group.createGroup);

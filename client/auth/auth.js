@@ -1,6 +1,7 @@
 angular.module('jam.auth', [])
 
-.controller('AuthController', ['$scope', '$window', '$location', 'Auth', function ($scope, $window, $location, Auth) {
+.controller('AuthController', ['$rootScope', '$scope', '$window', '$location', 'Auth',
+function ($rootScope, $scope, $window, $location, Auth) {
   $scope.user = {};
 
   $scope.login = function () {

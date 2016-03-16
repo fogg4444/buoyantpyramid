@@ -102,7 +102,7 @@ var getUser = function(req, res, next) {
   }
 };
 
-var getSelf = function(req, res, next) {
+var getProfile = function(req, res, next) {
   var token = req.headers['x-access-token'];
   if (!token) {
     res.status(401).json('Not logged in');
@@ -126,41 +126,36 @@ var getSelf = function(req, res, next) {
 };
 
 
-// var updateUser = function(req, res, next) {
-//   var userId = req.params.userId;
-//   var token = req.headers['x-access-token'];
-//   if (!token) {
-//     res.status(401).json('Not logged in');
-//   } else {
-//     var requestingUser = jwt.decode(token, JWT_SECRET);
-//     findUser({ id: requestingUser.userId })
-//       .then(function(foundUser) {
-//         // if requesting user is requested user, return all user's info
-//         if (foundUser) {
-//           if (foundUser.username === username) {
-//             res.json(foundUser);
-//           } else {
-//             // only send id and displayname if not logged in user
-//             res.json({
-//               id: foundUser.id,
-//               displayName: foundUser.displayName,
-//               avatarUrl: foundUser.avatarUrl
-//             });
-//           }
-//         } else {
-//           res.status(404).json('user doesn\'t exist');
-//         } 
-//       })
-//       .catch(function(error) {
-//         next(error);
-//       });
-//   }
-// };
+var updateProfile = function(req, res, next) {
+  var token = req.headers['x-access-token'];
+  if (!token) {
+    res.status(401).json('Not logged in');
+  } else {
+    var jwtUser = jwt.decode(token, JWT_SECRET);
+    console.log('jwt user is ' + JSON.stringify(jwtUser));
+    User.findById(parseInt(jwtUser.id))
+      .then(function(user) {
+        if (user) {
+          user.update(req.body)
+          .then(function(data) {
+            console.log('updated user: ' + JSON.stringify(data));
+            res.json(data);
+          });
+        } else {
+          res.status(404).json('user doesn\'t exist');
+        } 
+      })
+      .catch(function(error) {
+        next(error);
+      });
+  }
+};
 
 
 module.exports = {
   signup: signup,
   login: login,
   getUser: getUser,
-  getSelf: getSelf
+  updateProfile: updateProfile,
+  getProfile: getProfile
 };
