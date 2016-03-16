@@ -25,7 +25,7 @@ var User = db.define('user', {
     type: Sequelize.STRING,
     allowNull: false
   },
-  avatarURL: {
+  avatarUrl: {
     type: Sequelize.STRING,
     defaultValue: '' // Complete
   },

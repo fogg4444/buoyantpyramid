@@ -48,14 +48,13 @@ describe('User Controller', function() {
         done();
       });
   });
-
-  describe('create user', function() {
-    // Clear database before each test and then seed it with example `users` so that you can run tests
-    beforeEach(function(done) {
-      clearDB(function() {
-        done();
-      });
+  // Clear database before each test and then seed it with example `users` so that you can run tests
+  beforeEach(function(done) {
+    clearDB(function() {
+      done();
     });
+  });
+  describe('create user', function() {  
     it('should call res.json to return a json object', function(done) {
 
       var res = {};
@@ -136,6 +135,66 @@ describe('User Controller', function() {
           done();
         });
       });
+    });
+  });
+  describe('user login', function() {
+    it('should login an existing user', function(done) {
+      var res = {};
+      res.json = function(jsonresponse) {
+        expect(jsonresponse).to.have.property('token');
+        done();
+      };
+      UserController.login(dupeReq, res, console.error);
+    });
+    it('should throw a 404 when logging in a non-existent user', function(done) {
+      var res = {};
+      res.json = function() {};
+      res.status = function(code) {
+        expect(code).to.equal(404);
+        done();
+        return res;
+      };
+      UserController.login(req, res, console.error);
+    });
+
+  });
+
+  describe('profile', function() {
+    
+    var jwtToken = '';
+    beforeEach(function(done) {
+      var res = {};
+      res.json = function(jsonresponse) {
+        jwtToken = jsonresponse.token;
+        done();
+      };
+      UserController.login(dupeReq, res, console.error);
+    });
+
+    it('should be able to fetch own profile', function(done) {
+      var res = {};
+      res.json = function(jsonresponse) {
+        expect(JSON.parse(JSON.stringify(jsonresponse))).to.include.keys('email', 'displayName', 'avatarUrl');
+        done();
+      };
+      res.status = function(status) {
+        return res;
+      };
+
+      dupeReq.headers = { 'x-access-token': jwtToken };
+      UserController.getProfile(dupeReq, res, console.error);
+    });
+    
+    it('should throw a 401 with no jwt in header', function(done) {
+      dupeReq.headers = {};
+      var res = {};
+      res.json = function() {};
+      res.status = function(code) {
+        expect(code).to.equal(401);
+        done();
+        return res;
+      };
+      UserController.getProfile(dupeReq, res, console.error);
     });
   });
 });

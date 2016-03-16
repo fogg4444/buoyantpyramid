@@ -47,11 +47,10 @@ var signup = function (req, res, next) {
 var login = function (req, res, next) {
   var email = req.body.email;
   var password = req.body.password;
-  console.log(req.body.email);
   User.findOne({where: {email: email}})
     .then(function (user) {
       if (!user) {
-        next(new Error('User does not exist'));
+        res.status(404).json('User does not exist');
       } else {
         return user.comparePassword(password)
           .then(function (didMatch) {

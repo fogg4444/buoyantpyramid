@@ -34,7 +34,7 @@ describe('User Model', function () {
   
   it('should have a schema with fields: email, displayName, password', function (done) {
     User.describe().then(function(schema) {
-      expect(schema).to.include.keys('email', 'displayName', 'password');
+      expect(schema).to.include.keys('email', 'displayName', 'password', 'avatarUrl');
       done();
     });
   });
