@@ -196,5 +196,16 @@ describe('User Controller', function() {
       };
       UserController.getProfile(dupeReq, res, console.error);
     });
+    it('should throw a 401 with a nonsense token', function(done) {
+      dupeReq.headers = { 'x-access-token': 'abcdefg' };
+      var res = {};
+      res.json = function() {};
+      res.status = function(code) {
+        expect(code).to.equal(401);
+        done();
+        return res;
+      };
+      UserController.getProfile(dupeReq, res, console.error);
+    });
   });
 });
