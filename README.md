@@ -1,3 +1,9 @@
+[![Stories in Backlog](https://badge.waffle.io/BuoyantPyramid/buoyantpyramid.svg?label=backlogy&title=Backlog)](http://waffle.io/BuoyantPyramid/buoyantpyramid)
+[![Stories in Ready](https://badge.waffle.io/BuoyantPyramid/buoyantpyramid.svg?label=ready&title=Ready)](http://waffle.io/BuoyantPyramid/buoyantpyramid)
+[![Stories in In Progress](https://badge.waffle.io/BuoyantPyramid/buoyantpyramid.svg?label=In%20Progress&title=In%20Progress)](http://waffle.io/BuoyantPyramid/buoyantpyramid)
+[![Stories in Done](https://badge.waffle.io/BuoyantPyramid/buoyantpyramid.svg?label=done&title=Done)](http://waffle.io/BuoyantPyramid/buoyantpyramid)
+[![Build Status](https://travis-ci.org/BuoyantPyramid/buoyantpyramid.svg?branch=master)](https://travis-ci.org/BuoyantPyramid/buoyantpyramid)
+
 # SLACK FOR SOUNDCLOUD!!!
 
 Audio organization system for stoned musicians
