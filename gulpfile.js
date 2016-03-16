@@ -25,7 +25,7 @@ gulp.task('sass', function () {
   return gulp.src(paths.styles)
   .pipe(sass({outputStyle: 'compressed', sourceComments: 'map'}, {errLogToConsole: true}))
   .pipe(prefix('last 2 versions', '> 1%', 'ie 8', 'Android 2', 'Firefox ESR'))
-  .pipe(gulp.dest('dist'))
+  .pipe(gulp.dest('client/dist'))
   .pipe(reload({stream: true}));
 });
 
