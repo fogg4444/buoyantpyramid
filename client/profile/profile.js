@@ -3,7 +3,7 @@ angular.module('jam.profile', [])
 .controller('ProfileController', function ($scope, $location, Profile) {
   // When user adds a new link, put it in the collection
   $scope.profile = {};
-  User.update()
+  Profile.updateUser()
   .then(function (res) {
     console.log('Profile updated', res.data);
     $location.path('/songs');
