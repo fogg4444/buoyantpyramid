@@ -3,18 +3,24 @@ var Song = db.Song;
 var Group = db.Group;
 
 var addSong = function(req, res, next) {
+  var dateRecorded = req.body.dateRecorded || Date.now();
   var groupId = req.params.id;
+  var title = req.body.title;
+  var description = req.body.description;
+
   Song.create({
-    title: req.body.title,
-    description: req.body.description,
-    dateRecorded: Date.now(), // TODO: Receive from UI?
+    title: title,
+    description: description,
+    dateRecorded: dateRecorded, // TODO: Receive from UI?
     duration: 100, // TODO: Receive from UI?
     // TODO: Add address and imageURL
     groupId: groupId
-  },
-  {include: {
-    model: Group}
-  }).then(function(song) {
+  }, {
+    include: {
+      model: Group
+    }
+  })
+  .then(function(song) {
     res.json(song);
   })
   .catch(function(err) {
