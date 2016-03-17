@@ -1,4 +1,8 @@
 <div class="nav">
-  <span>{{ user.displayName }}</span>
-  <a href class="logout" ng-click="logout()">Logout</a>
+  <ul>
+    <li>{{ user.displayName }}</li>
+    <li><a href='/#/songs' class="nav-link">Songs</a></li>
+    <li><a href='/#/profile' class="nav-link">Profile</a></li>
+    <li><a href class="nav-link" ng-click="logout()">Logout</a></li>
+  </ul>  
 </div>

@@ -97,20 +97,7 @@ angular.module('jam.services', [])
   };
 
   var getUserData = function() {
-    if (userData) {
-      return userData;
-    } else {
-      Profile.getProfile()
-      .then(function (resp) {
-        userData = resp.data;
-        console.log("Sending user data: ", userData);
-        return userData;
-      })
-      .catch(function (error) {
-        console.error(error);
-        return null;
-      });
-    }
+    return userData;
   };
 
   var isAuth = function () {
