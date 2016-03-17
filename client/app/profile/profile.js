@@ -17,4 +17,15 @@ function ($scope, loc, Profile, Auth) {
       console.error(error);
     });
   };
+  $scope.logout = Auth.logout;
+}])
+.directive('navBar', [function() {
+  return {
+    restrict: 'E',
+    transclude: true,
+    scope: {
+      'logout': '&onLogout'
+    },
+    templateUrl: 'app/nav/nav.html'
+  };
 }]);
