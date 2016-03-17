@@ -10,12 +10,7 @@ var GroupController = require('../../../server/controllers/group.js');
 var PlaylistController = require('../../../server/controllers/playlist.js');
 dbModels.db.options.logging = false;
 
-var groupReq = {
-  body: {
-    name: 'Buoyant Pyramid'
-  }
-};
-
+// Define api request bodies
 var songReq = {
   body: {
     title: 'Margaritaville',
@@ -69,7 +64,7 @@ describe('Playlist Controller', function() {
 
     Playlist.sync({ force: true })
       .then(function() {
-        Group.create(groupReq.body);
+        Group.create({name: 'Buoyant Pyramid'});
       })
       .then(function() {
         SongController.addSong(songReq, {json: function() {}}, console.error);
@@ -103,7 +98,7 @@ describe('Playlist Controller', function() {
       PlaylistController.createPlaylist(playlistReq, res, console.error);
     });
 
-    it('should fetch songs from playlist', function (done) {
+    it('should add a song to a playlist', function (done) {
       var res = {};
 
       res.json = function(jsonresponse) {
@@ -118,7 +113,7 @@ describe('Playlist Controller', function() {
       PlaylistController.addSong(addSongReq, res, console.error);
     });
 
-    it('should fetch songs from playlist', function (done) {
+    it('should fetch songs from a playlist', function (done) {
       var res = {};
 
       res.json = function(jsonresponse) {
@@ -132,7 +127,6 @@ describe('Playlist Controller', function() {
       };
       // var spy = res.json = sinon.stub();
       PlaylistController.fetchSongs({params: {id: 1}}, res, console.error);
-
     });
   });
 });
