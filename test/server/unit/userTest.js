@@ -176,5 +176,19 @@ describe('User Controller', function() {
       dupeReq.user = dbUser;
       UserController.getProfile(dupeReq, res, console.error);
     });
+    it('should be able to update a user profile', function(done) {
+      var res = {};
+      dupeReq.body = {displayName: 'Pen'};
+      res.json = function(jsonresponse) {
+        expect(jsonresponse.displayName).to.equal(dupeReq.body.displayName);
+        done();
+      };
+      res.status = function(status) {
+        return res;
+      };
+      dupeReq.user = dbUser;
+      UserController.updateProfile(dupeReq, res, console.error);
+    });
   });
+
 });

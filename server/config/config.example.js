@@ -7,6 +7,7 @@ var testConnectionString = 'postgres://localhost:5432/jamstest';
 var JWT_SECRET = 'not_telling_you';
 module.exports = {
   port: port,
+  JWT_SECRET: JWT_SECRET,
   connectionString: connectionString,
   testConnectionString: testConnectionString
 };
