@@ -9,7 +9,7 @@
     "test": "NODE_ENV=test mocha  --recursive test",
     "setup": "node sessionSetup.js",
     "lint": "./node_modules/eslint/bin/eslint.js .",
-    "start": "nodemon server/server.js",
+    "start": "gulp",
     "killnode": "killall -9 node"
   },
   "repository": {
@@ -26,6 +26,7 @@
     "bcrypt-nodejs": "0.0.3",
     "bluebird": "^3.3.4",
     "body-parser": "^1.15.0",
+    "crypto": "0.0.3",
     "express": "^4.13.4",
     "jwt-simple": "^0.4.1",
     "method-override": "^2.3.5",

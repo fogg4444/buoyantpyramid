@@ -1,5 +1,10 @@
 /*jam styling*/
 
+* {
+  box-sizing: border-box;
+  font-family: sans-serif;
+}
+
 body {
   $red: random(256)-1;
   $green: random(256)-1;

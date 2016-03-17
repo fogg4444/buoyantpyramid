@@ -3,8 +3,10 @@ angular.module('jam', [
   'jam.songs',
   'jam.profile',
   'jam.auth',
+  'jam.upload',
   'ngRoute',
-  'ngAnimate'
+  'ngAnimate',
+  'angularFileUpload'
 ])
 .run(function($rootScope) {
   $rootScope.user = {};
@@ -24,6 +26,11 @@ angular.module('jam', [
       templateUrl: 'app/profile/profile.html',
       controller: 'ProfileController',
       authenticate: true
+    })
+    .when('/upload', {
+      templateUrl: 'app/upload/upload.html',
+      controller: 'UploadController',
+      authenticate:true
     })
     .otherwise({
       redirectTo: '/songs'
