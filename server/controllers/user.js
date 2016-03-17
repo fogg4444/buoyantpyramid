@@ -15,7 +15,7 @@ var signup = function (req, res, next) {
   User.findOne({where: {email: email}})
     .then(function (existingUser) {
       if (existingUser) {
-        throw new Error('User already exists!');
+        res.status(400).json('User already exists!');
       } else {
         return Group.create({
           name: req.body.displayName,
@@ -74,32 +74,22 @@ var login = function (req, res, next) {
 
 var getUser = function(req, res, next) {
   var userId = parseInt(req.params.id);
-  var token = req.headers['x-access-token'];
-  if (!token) {
-    res.status(401).json('Not logged in');
-  } else {
-    var jwtUser = jwt.decode(token, JWT_SECRET);
-
-    // VERIFY JWT USER HERE!!!!!!!!!!
-
-    User.findById(userId)
-      .then(function(foundUser) {
-        // if requesting user is requested user, return all user's info
-        if (foundUser) {
-          // INCLUDE GROUPS TOO???
-          res.json({
-            id: foundUser.id,
-            displayName: foundUser.displayName,
-            avatarUrl: foundUser.avatarUrl
-          });
-        } else {
-          res.status(404).json('user doesn\'t exist');
-        } 
-      })
-      .catch(function(error) {
-        next(error);
+  User.findById(userId)
+  .then(function(foundUser) {
+    if (foundUser) {
+    // INCLUDE GROUPS TOO???
+      res.json({
+        id: foundUser.id,
+        displayName: foundUser.displayName,
+        avatarUrl: foundUser.avatarUrl
       });
-  }
+    } else {
+      res.status(404).json('user doesn\'t exist');
+    } 
+  })
+  .catch(function(error) {
+    next(error);
+  });
 };
 
 var getProfile = function(req, res, next) {
@@ -110,7 +100,7 @@ var updateProfile = function(req, res, next) {
   var user = req.user;
   user.update(req.body)
   .then(function(data) {
-    console.log('updated user: ' + JSON.stringify(data));
+    // console.log('updated user: ' + JSON.stringify(data));
     res.json(data);
   })
   .catch(function(error) {
