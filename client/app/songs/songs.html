@@ -1,15 +1,9 @@
-<div id='container'>
+<div class="songs">
   <!-- Your html here -->
-  <div class="navigation">
-    <nav-bar ng-click="logout()"></nav-bar>  
-    <ul class="nav">
-      <li><a class="nav-link" href="/#/profile">Profile!</a></li>
-      <li><a class="nav-link" href="/#/upload">Upload!</a></li>
-    </ul>
-  </div>
-
+  <nav-bar></nav-bar>
   <label for="search">Search: </label>
   <input ng-model="query" type="text" name="search" />
+  <button class="refresh-button" ng-click="refreshSongs()">refresh</button>
   <div ng-repeat="song in data.songs | filter:query | orderBy:'-timestamp'" class="song">
     <div class="info">
       <div class="title"> {{ song.title }} </div>
