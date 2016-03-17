@@ -3,8 +3,10 @@ angular.module('jam', [
   'jam.songs',
   'jam.profile',
   'jam.auth',
+  'jam.upload',
   'ngRoute',
-  'ngAnimate'
+  'ngAnimate',
+  'angular.aws.s3'
 ])
 .run(function($rootScope) {
   $rootScope.user = {};
@@ -16,14 +18,25 @@ angular.module('jam', [
       controller: 'AuthController'
     })
     .when('/songs', {
+<<<<<<< Updated upstream:client/app/app.js
       templateUrl: 'app/songs/songs.html',
       controller: 'SongsController',
       authenticate: true
+=======
+      templateUrl: 'songs/songs.html',
+      controller: 'SongsController'
+      // authenticate: true
+>>>>>>> Stashed changes:client/app.js
     })
     .when('/profile', {
       templateUrl: 'app/profile/profile.html',
       controller: 'ProfileController',
       authenticate: true
+    })
+    .when('/upload', {
+      templateUrl: 'upload/upload.html',
+      controller: 'UploadController',
+      auth:true
     })
     .otherwise({
       redirectTo: '/songs'

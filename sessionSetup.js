@@ -1,9 +1,8 @@
 // Each of these commands will run in a new tab!
 var commandsList = [];
 
-commandsList[0] = 'mongod';
-commandsList[1] = 'nodemon server/server.js';
-commandsList[2] = 'chrome https://github.com/BuoyantPyramid/buoyantpyramid http://localhost:3000';
+commandsList[0] = 'nodemon server/server.js';
+commandsList[1] = 'chrome https://github.com/BuoyantPyramid/buoyantpyramid http://localhost:3000';
 
 
 var exec = require('child_process').exec;

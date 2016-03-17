@@ -4,7 +4,7 @@
 [![Stories in Done](https://badge.waffle.io/BuoyantPyramid/buoyantpyramid.svg?label=done&title=Done)](http://waffle.io/BuoyantPyramid/buoyantpyramid)
 [![Build Status](https://travis-ci.org/BuoyantPyramid/buoyantpyramid.svg?branch=master)](https://travis-ci.org/BuoyantPyramid/buoyantpyramid)
 
-# SLACK FOR SOUNDCLOUD!!!
+# JAM RECORD
 
 Audio organization system for stoned musicians
 
