@@ -1,4 +1,8 @@
 var jwt = require('jwt-simple');
+var config = require('../config/config.js');
+var db = require('../db/database');
+var User = db.User;
+var JWT_SECRET = config.JWT_SECRET || 's00p3R53kritt';
 
 var errorLogger = function (error, req, res, next) {
   // log the error then send it to the next middleware in
@@ -12,27 +16,38 @@ var errorHandler = function (error, req, res, next) {
   res.status(500).json({error: error.message});
 };
 
-var decode = function (req, res, next) {
-  var token = req.headers['x-access-token'];
-  var user;
+var verifyToken = function (req, res, next) {
+  
+  // check header or url parameters or post parameters for token
+  var token = req.body.token || req.query.token || req.headers['x-access-token'];
+  var tokenUser;
 
   if (!token) {
-    return res.send(403); // send forbidden if a token is not provided
-  }
-
-  try {
-    // decode token and attach user to the request
-    // for use inside our controllers
-    user = jwt.decode(token, 'secret');
-    req.user = user;
-    next();
-  } catch (error) {
-    return next(error);
+    res.status(401).json('No authentication token');
+  } else {
+    try {
+      // decode token and attach user to the request
+      // for use inside our controllers
+      tokenUser = jwt.decode(token, JWT_SECRET);
+      
+      // check against database
+      if (tokenUser.id && tokenUser.email && tokenUser.password) {
+        User.findOne({where: {id: tokenUser.id, email: tokenUser.email, password: tokenUser.password}}).
+        then(function(user) {
+          req.user = user;
+          next();
+        });
+      } else {
+        throw Error('no user associated with that token'); // promise catch will handle this
+      }
+    } catch (error) {
+      res.status(401).json('Bad authentication token');
+    }
   }
 };
 
 module.exports = {
   errorLogger: errorLogger,
   errorHandler: errorHandler,
-  decode: decode
+  verifyToken: verifyToken
 };

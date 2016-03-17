@@ -1,6 +1,7 @@
 var db = require('../db/database');
 var jwt = require('jwt-simple');
-var config = require('../config/config.js');
+var config = require('../config/config');
+
 var User = db.User;
 var Group = db.Group;
 
@@ -102,58 +103,19 @@ var getUser = function(req, res, next) {
 };
 
 var getProfile = function(req, res, next) {
-  var token = req.headers['x-access-token'];
-  var jwtUser;
-  if (!token) {
-    res.status(401).json('Not logged in');
-  } else {
-    try {
-      jwtUser = jwt.decode(token, JWT_SECRET);
-    } catch (e) {}
-    if (jwtUser) {
-    // TODO: INCLUDE GROUP INFO
-
-      User.findById(jwtUser.id)
-        .then(function(foundUser) {
-          if (foundUser) {
-            res.json(foundUser);
-          } else {
-            res.status(404).json('jwt token doesn\'t match any user');
-          } 
-        })
-        .catch(function(error) {
-          next(error);
-        });
-    } else {
-      res.status(401).json('Bad authentication token');
-    }
-  }
+  res.json(req.user);
 };
 
-
 var updateProfile = function(req, res, next) {
-  var token = req.headers['x-access-token'];
-  if (!token) {
-    res.status(401).json('Not logged in');
-  } else {
-    var jwtUser = jwt.decode(token, JWT_SECRET);
-    console.log('jwt user is ' + JSON.stringify(jwtUser));
-    User.findById(parseInt(jwtUser.id))
-      .then(function(user) {
-        if (user) {
-          user.update(req.body)
-          .then(function(data) {
-            console.log('updated user: ' + JSON.stringify(data));
-            res.json(data);
-          });
-        } else {
-          res.status(404).json('user doesn\'t exist');
-        } 
-      })
-      .catch(function(error) {
-        next(error);
-      });
-  }
+  var user = req.user;
+  user.update(req.body)
+  .then(function(data) {
+    console.log('updated user: ' + JSON.stringify(data));
+    res.json(data);
+  })
+  .catch(function(error) {
+    next(error);
+  });
 };
 
 

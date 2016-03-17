@@ -5,34 +5,40 @@ var Playlist = require('../controllers/playlist');
 var User = require('../controllers/user');
 
 var routing = function (app, express) {
+  var apiRoutes = express.Router(); 
 
-  // Create users
-  // 
-  app.post('/api/users/signup', User.signup);
-  app.post('/api/users/login', User.login);
-  app.put('/api/users/profile', User.updateProfile);
-  app.get('/api/users/profile', User.getProfile);
-  app.get('/api/users/:id', User.getUser);
+  apiRoutes.post('/users/signup', User.signup);
+  apiRoutes.post('/users/login', User.login);
+  
+  // EVERYTHING BELOW THIS WILL NEED A JWT TOKEN!!!
+  apiRoutes.use(helpers.verifyToken);
+
+  apiRoutes.put('/users/profile', User.updateProfile);
+  apiRoutes.get('/users/profile', User.getProfile);
+  apiRoutes.get('/users/:id', User.getUser);
 
   // Add and retrieve groups
-  app.post('/api/groups/', Group.createGroup);
-  app.post('/api/groups/:id/users/', Group.addUser);
-  app.get('/api/groups/:id/users/', Group.fetchUsers);
+  apiRoutes.post('/groups/', Group.createGroup);
+  apiRoutes.post('/groups/:id/users/', Group.addUser);
+  apiRoutes.get('/groups/:id/users/', Group.fetchUsers);
 
   // Add and retrieve songs
-  app.post('/api/groups/:id/songs/', Song.addSong);
-  app.get('/api/groups/:id/songs/', Group.fetchSongs);
+  apiRoutes.post('/groups/:id/songs/', Song.addSong);
+  apiRoutes.get('/groups/:id/songs/', Group.fetchSongs);
 
   // Add and retrieve playlists
-  app.post('/api/playlists/', Playlist.createPlaylist);
-  app.put('/api/playlists/:id/add/', Playlist.addSong);
-  // app.put('/api/playlists/:id/remove', Playlist.removeSong);
-  app.get('/api/playlists/:id/', Playlist.fetchSongs);
-  // app.delete('/api/playlists/:id', Playlist.delete);
+  apiRoutes.post('/playlists/', Playlist.createPlaylist);
+  apiRoutes.put('/playlists/:id/add/', Playlist.addSong);
+  // apiRoutes.put('/playlists/:id/remove', Playlist.removeSong);
+  apiRoutes.get('/playlists/:id/', Playlist.fetchSongs);
+  // apiRoutes.delete('/playlists/:id', Playlist.delete);
 
   // Handle error logging of requests that are destined for above routes
-  app.use(helpers.errorLogger);
-  app.use(helpers.errorHandler);
+  apiRoutes.use(helpers.errorLogger);
+  apiRoutes.use(helpers.errorHandler);
+
+
+  app.use('/api', apiRoutes);
 };
 
 module.exports = routing;

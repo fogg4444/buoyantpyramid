@@ -24,10 +24,13 @@ var dupeReq = {
   }
 };
 
+var dbUser;
+
 // The `clearDB` helper function, when invoked, will clear the database
 var clearDB = function(done) {
   var res = {
-    json: function() {
+    json: function(response) {
+      dbUser = response.user;
       done();
     }
   };
@@ -160,66 +163,18 @@ describe('User Controller', function() {
   });
 
   describe('profile', function() {
-    
-    var jwtToken = '';
-    beforeEach(function(done) {
+    it('should be able to fetch a user profile', function(done) {
       var res = {};
       res.json = function(jsonresponse) {
-        jwtToken = jsonresponse.token;
-        done();
-      };
-      UserController.login(dupeReq, res, console.error);
-    });
-
-    it('should be able to fetch own profile', function(done) {
-      var res = {};
-      res.json = function(jsonresponse) {
-        expect(JSON.parse(JSON.stringify(jsonresponse))).to.include.keys('email', 'displayName', 'avatarUrl');
+        expect(jsonresponse.displayName).to.equal(dupeReq.body.displayName);
+        expect(jsonresponse.email).to.equal(dupeReq.body.email);
         done();
       };
       res.status = function(status) {
         return res;
       };
-
-      dupeReq.headers = { 'x-access-token': jwtToken };
+      dupeReq.user = dbUser;
       UserController.getProfile(dupeReq, res, console.error);
-    });
-    
-    it('should throw a 401 with no jwt in header', function(done) {
-      dupeReq.headers = {};
-      var res = {};
-      res.json = function() {};
-      res.status = function(code) {
-        expect(code).to.equal(401);
-        done();
-        return res;
-      };
-      UserController.getProfile(dupeReq, res, console.error);
-    });
-    it('should throw a 401 with a nonsense token', function(done) {
-      dupeReq.headers = { 'x-access-token': 'abcdefg' };
-      var res = {};
-      res.json = function() {};
-      res.status = function(code) {
-        expect(code).to.equal(401);
-        done();
-        return res;
-      };
-      UserController.getProfile(dupeReq, res, console.error);
-    });
-    it('should be able to update own profile', function(done) {
-      var res = {};
-      res.json = function(jsonresponse) {
-        expect(jsonresponse.displayName).to.equal('Pen');
-        done();
-      };
-      res.status = function(status) {
-        return res;
-      };
-
-      dupeReq.headers = { 'x-access-token': jwtToken };
-      dupeReq.body = {displayName: 'Pen'};
-      UserController.updateProfile(dupeReq, res, console.error);
     });
   });
 });
