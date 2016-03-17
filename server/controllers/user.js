@@ -58,8 +58,8 @@ var login = function (req, res, next) {
           .then(function (didMatch) {
             if (didMatch) {
               var token = jwt.encode(user, JWT_SECRET);
-              user.getCurrentGroup().
-              then(function(currentGroup) {
+              Group.findById(user.currentGroupId)
+              .then(function(currentGroup) {
                 res.json({
                   token: token,
                   user: user,
