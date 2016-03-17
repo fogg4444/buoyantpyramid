@@ -5,6 +5,9 @@ var Song = db.Song;
 
 var createPlaylist = function(req, res, next) {
   var groupId = req.body.groupId;
+  var title = req.body.title;
+  var description = req.body.description;
+
   Playlist.create({
     title: req.body.title,
     description: req.body.description,
@@ -42,15 +45,12 @@ var addSong = function(req, res, next) {
 
 var fetchSongs = function(req, res, next) {
   var playlistId = req.params.id;
-  Playlist.findAll({
-    where: {id: playlistId},
-    include: {model: Song},
-    raw: true
-  }).then(function(playlist) {
-    var songs = playlist.map(function(playlist) {
-      return playlist['songs.title'];
+  Playlist.findOne({where: {id: playlistId}})
+  .then(function(playlist) {
+    playlist.getSongs()
+    .then(function(songs) {
+      res.json(songs);
     });
-    res.json(songs);
   })
   .catch(function(err) {
     next(err);
