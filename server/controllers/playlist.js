@@ -4,7 +4,7 @@ var Playlist = db.Playlist;
 var Song = db.Song;
 
 var createPlaylist = function(req, res, next) {
-  var groupId = req.params.groupId;
+  var groupId = req.body.groupId;
   var title = req.body.title;
   var description = req.body.description;
 
