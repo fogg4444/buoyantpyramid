@@ -24,7 +24,7 @@ var routing = function (app, express) {
   app.get('/api/groups/:id/songs/', Group.fetchSongs);
 
   // Add and retrieve playlists
-  app.post('/api/playlists/', Playlist.createPlaylist);
+  app.post('/api/playlists/:id/', Playlist.createPlaylist);
   app.put('/api/playlists/:id/add/', Playlist.addSong);
   // app.put('/api/playlists/:id/remove', Playlist.removeSong);
   app.get('/api/playlists/:id/', Playlist.fetchSongs);
