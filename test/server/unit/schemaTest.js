@@ -4,6 +4,8 @@ var dbModels = require('../../../server/db/database.js');
 var Song = dbModels.Song; 
 var User = dbModels.User; 
 var Group = dbModels.Group; 
+var Playlist = dbModels.Playlist; 
+var UserGroups = dbModels.UserGroups; 
 dbModels.db.options.logging = false;
 
 
@@ -13,15 +15,15 @@ before(function (done) {
   .then(function() {
     return Group.sync({force: true});
   })
-  // .then(function() {
-  //   return Playlist.sync({force: true});
-  // })
+  .then(function() {
+    return Playlist.sync({force: true});
+  })
   .then(function() {
     return Song.sync({force: true});
   })
-  // .then(function() {
-  //   return UserGroups.sync({force: true});
-  // });
+  .then(function() {
+    return UserGroups.sync({force: true});
+  })
   .then(function() {
     done();
   });

@@ -148,6 +148,7 @@ module.exports = {
   db: db,
   User: User,
   Group: Group,
+  UserGroups: UserGroups,
   Song: Song,
   Playlist: Playlist
 };
