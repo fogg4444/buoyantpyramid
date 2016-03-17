@@ -4,6 +4,7 @@ var expect = chai.expect;
 var Sequelize = require('sequelize');
 var dbModels = require('../../../server/db/database.js');
 var Playlist = dbModels.Playlist;
+var Group = dbModels.Group;
 var SongController = require('../../../server/controllers/song.js');
 var GroupController = require('../../../server/controllers/group.js');
 var PlaylistController = require('../../../server/controllers/playlist.js');
@@ -25,9 +26,16 @@ var songReq = {
   }
 };
 
+var addSongReq = {
+  body: {
+    songId: 1,
+    playlistId: 1
+  }
+};
+
 var playlistReq = {
   body: {
-    name: 'Chill Vibes',
+    title: 'Chill Vibes',
     description: 'Indie Electronic',
   },
   params: {
@@ -42,21 +50,32 @@ var clearDB = function(done) {
       done();
     }
   };
-  dbModels.db.query('DELETE from USERS where true')
-    .spread(function(results, metadata) {
-      UserController.signup(dupeReq, res, console.error);
-    });
+  // dbModels.db.query('DELETE from PLAYLISTS where true')
+  //   .spread(function(results, metadata) {
+  //     done();
+  //   });
+
+  // done();
 };
 
-
-
 describe('Playlist Controller', function() {
-
   // Connect to database before any tests
   before(function(done) {
-    User.sync({ force: true })
+    var res = {};
+
+    res.json = function(jsonresponse) {
+      done();
+    };
+
+    Playlist.sync({ force: true })
       .then(function() {
-        done();
+        Group.create(groupReq.body);
+      })
+      .then(function() {
+        SongController.addSong(songReq, {json: function() {}}, console.error);
+      })
+      .then(function() {
+        PlaylistController.createPlaylist(playlistReq, res, console.error);
       });
   });
 
@@ -66,6 +85,54 @@ describe('Playlist Controller', function() {
       clearDB(function() {
         done();
       });
+      done();
+    });
+
+    it('should call res.json to return a json object', function (done) {
+      var res = {};
+
+      res.json = function(jsonresponse) {
+        expect(jsonresponse).to.have.property('title');
+        done();
+      };
+
+      res.send = function(err) {
+        console.error(err);
+      };
+      // var spy = res.json = sinon.stub();
+      PlaylistController.createPlaylist(playlistReq, res, console.error);
+    });
+
+    it('should fetch songs from playlist', function (done) {
+      var res = {};
+
+      res.json = function(jsonresponse) {
+        expect(jsonresponse[0]).to.eql(1);
+        done();
+      };
+
+      res.send = function(err) {
+        console.error(err);
+      };
+      // var spy = res.json = sinon.stub();
+      PlaylistController.addSong(addSongReq, res, console.error);
+    });
+
+    it('should fetch songs from playlist', function (done) {
+      var res = {};
+
+      res.json = function(jsonresponse) {
+        // var songs = JSON.parse(jsonresponse);
+        expect(jsonresponse[0].title).to.eql('Margaritaville');
+        done();
+      };
+
+      res.send = function(err) {
+        console.error(err);
+      };
+      // var spy = res.json = sinon.stub();
+      PlaylistController.fetchSongs({params: {id: 1}}, res, console.error);
+
     });
   });
 });
