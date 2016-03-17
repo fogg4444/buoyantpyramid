@@ -51,7 +51,7 @@ angular.module('jam.services', [])
   };
 }])
 
-.factory('Auth', ['$http', '$location', '$window', function (http, loc, win) {
+.factory('Auth', ['$http', '$location', '$window', 'Profile', function (http, loc, win, Profile) {
   // This is responsible for authenticating our user
   // by exchanging the user's email and password
   // for a JWT from the server
@@ -97,7 +97,20 @@ angular.module('jam.services', [])
   };
 
   var getUserData = function() {
-    return userData;
+    if (userData) {
+      return userData;
+    } else {
+      Profile.getProfile()
+      .then(function (resp) {
+        userData = resp.data;
+        console.log("Sending user data: ", userData);
+        return userData;
+      })
+      .catch(function (error) {
+        console.error(error);
+        return null;
+      });
+    }
   };
 
   var isAuth = function () {

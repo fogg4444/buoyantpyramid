@@ -12,7 +12,15 @@ angular.module('jam.songs', [])
     .catch(function (error) {
       console.error(error);
     });
-  } else {
-    loc.path('/login');
-  }
+  } 
+}])
+.directive('navBar', [function() {
+  return {
+    restrict: 'E',
+    transclude: true,
+    scope: {
+      'logout': '&onLogout'
+    },
+    templateUrl: 'app/nav/nav.html'
+  };
 }]);
