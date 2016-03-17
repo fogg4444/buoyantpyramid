@@ -25,14 +25,14 @@ var User = db.define('user', {
     type: Sequelize.STRING,
     allowNull: false
   },
-  avatarUrl: {
+  avatarURL: {
     type: Sequelize.STRING,
     defaultValue: '' // Complete
   },
-  currentGroupId: {
-    type: Sequelize.INTEGER,
-    allowNull: false
-  }
+  // currentGroupId: {
+  //   type: Sequelize.INTEGER,
+  //   allowNull: false
+  // }
 }, {
   classMethods: {
     hashPassword: function(password) {
@@ -116,6 +116,7 @@ var UserGroups = db.define('userGroups', {
 // Define associations
 Group.belongsToMany(User, {through: 'userGroups'});
 User.belongsToMany(Group, {through: 'userGroups'});
+User.belongsTo(Group, {as: 'currentGroup'});
 
 Group.hasMany(Song);
 Song.belongsTo(Group);

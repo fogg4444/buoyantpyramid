@@ -32,9 +32,12 @@ describe('User Model', function () {
     expect(User).to.be.instanceOf(Sequelize.Model);
   });
   
-  it('should have a schema with fields: email, displayName, password', function (done) {
+  it('should have a schema with fields: id, email, displayName, password', function (done) {
     User.describe().then(function(schema) {
-      expect(schema).to.include.keys('email', 'displayName', 'password', 'avatarUrl');
+      expect(schema.id).to.exist;
+      expect(schema.email).to.exist;
+      expect(schema.displayName).to.exist;
+      expect(schema.password).to.exist;
       done();
     });
   });
