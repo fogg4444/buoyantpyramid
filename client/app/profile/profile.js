@@ -4,8 +4,15 @@ angular.module('jam.profile', [])
 function ($scope, loc, Profile, Auth) {
   $scope.user = Auth.getUserData();
   if (!$scope.user) {
-    loc.path('/login');
+    Profile.getProfile()
+    .then(function (resp) {
+      $scope.user = resp.data;
+    })
+    .catch(function (error) {
+      console.error('Error getting profile!');
+    });
   }
+
   $scope.updateProfile = function () {
     Profile.updateUser($scope.user)
     .then(function (res) {
@@ -17,4 +24,11 @@ function ($scope, loc, Profile, Auth) {
       console.error(error);
     });
   };
-}]);
+  $scope.logout = Auth.logout;
+}])
+.directive('navBar', function() {
+  return {
+    restrict: 'E',
+    templateUrl: 'app/nav/nav.html'
+  };
+});

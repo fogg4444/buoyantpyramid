@@ -1,10 +1,12 @@
 angular.module('jam.songs', [])
 
-.controller('SongsController', ['$scope', '$location', 'Songs', 'Auth', function ($scope, loc, Songs, Auth) {
+.controller('SongsController', ['$scope', '$location', 'Songs', 'Auth', 'Profile', function ($scope, loc, Songs, Auth, Profile) {
   // When user adds a new link, put it in the collection
   $scope.data = {};
-  $scope.user = Auth.getUserData();
-  if ($scope.user) {
+
+  Profile.getProfile()
+  .then(function (resp) {
+    $scope.user = resp.data;
     Songs.getAllSongs($scope.user.currentGroupId)
     .then(function (res) {
       $scope.data.songs = res;
@@ -12,7 +14,10 @@ angular.module('jam.songs', [])
     .catch(function (error) {
       console.error(error);
     });
-  } else {
-    loc.path('/login');
-  }
+  })
+  .catch(function (error) {
+    console.error('Error getting profile!');
+  });
+
+  $scope.logout = Auth.logout; 
 }]);
