@@ -25,7 +25,7 @@ var User = db.define('user', {
     type: Sequelize.STRING,
     allowNull: false
   },
-  avatarUrl: {
+  avatarURL: {
     type: Sequelize.STRING,
     defaultValue: '' // Complete
   },
@@ -147,6 +147,7 @@ module.exports = {
   db: db,
   User: User,
   Group: Group,
+  UserGroups: UserGroups,
   Song: Song,
   Playlist: Playlist
 };
