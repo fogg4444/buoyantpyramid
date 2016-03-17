@@ -15,7 +15,7 @@ var signup = function (req, res, next) {
   User.findOne({where: {email: email}})
     .then(function (existingUser) {
       if (existingUser) {
-        throw new Error('User already exists!');
+        res.status(400).json('User already exists!');
       } else {
         return Group.create({
           name: req.body.displayName,
