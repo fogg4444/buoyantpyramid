@@ -1,0 +1,10 @@
+<div ng-controller="UploadController">
+  <input type="file" nv-file-select uploader="uploader" options="options" multiple/><br/>
+  <ul>
+    <li ng-repeat="item in uploader.queue">
+      Name: <span ng-bind="item.file.name"></span><br/>
+      <button ng-click="item.upload()">upload</button>
+    </li>
+    <button ng-click="uploader.uploadAll()">Upload All</button>
+  </ul>
+</div>
