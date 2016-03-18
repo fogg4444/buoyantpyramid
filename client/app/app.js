@@ -54,6 +54,15 @@ angular.module('jam', [
     }]
   };
 })
+.directive('songView', function() {
+  return {
+    restrict: 'E',
+    templateUrl: 'app/song/songView.html',
+    scope: {},
+    controller: ['$scope', 'Auth', function($scope) {
+    }]
+  };
+})
 .factory('AttachTokens', function ($window) {
   // this is an $httpInterceptor
   // its job is to stop all out going request
