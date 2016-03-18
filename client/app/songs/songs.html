@@ -6,7 +6,7 @@
     <input ng-model="query" type="text" name="search" />
     <button class="refresh-button" ng-click="refreshSongs()">refresh</button>
     <div ng-repeat="song in data.songs | filter:query | orderBy:'-timestamp'" class="song">
-      <span >_________________________________________________</span>
+      <hr>
       <div class="info">
         <song-view song="song"></song-view>
     </div>
