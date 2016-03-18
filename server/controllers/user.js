@@ -1,6 +1,7 @@
 var db = require('../db/database');
 var jwt = require('jwt-simple');
 var config = require('../config/config');
+var path = require('path');
 
 var User = db.User;
 var Group = db.Group;
@@ -146,10 +147,29 @@ var getUser = function(req, res, next) {
   });
 };
 
+var getAvatar = function(req, res, next) {
+  console.log('in getAvatar');
+  var userId = parseInt(req.params.id);
+  User.findById(userId)
+  .then(function(foundUser) {
+    if (foundUser) {
+      var url = path.resolve(__dirname + '/../uploadInbox/' + foundUser.avatarURL);
+      console.log ('avatar url is ' + url);
+      res.sendFile(url);
+    } else {
+      res.status(404).send('user doesn\'t exist');
+    } 
+  })
+  .catch(function(error) {
+    next(error);
+  });
+};
+
 module.exports = {
   signup: signup,
   login: login,
   getUser: getUser,
   updateProfile: updateProfile,
-  getProfile: getProfile
+  getProfile: getProfile,
+  getAvatar: getAvatar
 };

@@ -26,3 +26,21 @@ ul.nav a {
   width: 5em;
   top: 0;
 }
+
+.nav-name {
+  display: inline;
+  top: 0;
+  text-align: center;
+}
+
+.avatar-img {
+  width: 100px;
+  height: 100px;
+  float: left;
+  display: inline-block;
+}
+
+.page-content { 
+  clear: both;
+  padding: 1em;
+}
