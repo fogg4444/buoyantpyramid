@@ -32,7 +32,7 @@ function ($scope, loc, win, to, Auth, Up) {
         file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
       });
     }
-  };   
+  };
 
   $scope.updateProfile = function () {
     Auth.updateProfile($scope.user)

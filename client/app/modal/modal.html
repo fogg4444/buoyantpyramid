@@ -1,0 +1,16 @@
+<div class='ng-modal' ng-show='show'>
+  <div class='ng-modal-overlay' ng-click='hideModal()'></div>
+  <div class='ng-modal-dialog' ng-style='dialogStyle'>
+    <div class='ng-modal-close' ng-click='hideModal()'>X</div>
+    <div class='ng-modal-dialog-content' ng-transclude></div>
+  </div>
+</div>
+
+<!-- To use the modal add the toggle function to the controller of the element with the modal inside -->
+<!-- $scope.modalShown = false;
+  $scope.toggleModal = function() {
+    console.log("Toggiling the modal");
+    $scope.modalShown = !$scope.modalShown;
+  }; -->
+
+<!-- And set the show of the <modal-dialog> to modalShown -->

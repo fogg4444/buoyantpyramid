@@ -75,6 +75,29 @@ angular.module('jam', [
     }
   };
 })
+.directive('modalDialog', function() {
+  return {
+    restrict: 'E',
+    templateUrl: 'app/modal/modal.html',
+    scope: {
+      show: '='
+    },
+    replace: true,
+    transclude: true,
+    link: function(scope, element, attrs) {
+      scope.dialogStyle = {};
+      if (attrs.width) {
+        scope.dialogStyle.width = attrs.width;
+      }
+      if (attrs.height) {
+        scope.dialogStyle.height = attrs.height;
+      }
+      scope.hideModal = function() {
+        scope.show = false;
+      };
+    }
+  };
+})
 .factory('AttachTokens', function ($window) {
   // this is an $httpInterceptor
   // its job is to stop all out going request
