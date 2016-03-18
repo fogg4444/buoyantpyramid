@@ -26,3 +26,21 @@ ul.nav a {
   width: 5em;
   top: 0;
 }
+
+.button {
+  border: solid 1px red;
+}
+
+.button:hover {
+  background: red;
+}
+.button:active {
+  background: white;
+}
+
+.drop-box {
+  border: dotted 2px black;
+}
+.drop-box:hover {
+  border: dotted 4px black;
+}
