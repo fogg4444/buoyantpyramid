@@ -21,9 +21,11 @@ var catchUpload = function(req, res, next) {
     //   console.log('File [' + fieldname + '] got ' + data.length + ' bytes');
     // });
     
-    // file.on('end', function() {
-    //   console.log('File [' + fieldname + '] Finished');
-    // });
+    file.on('end', function() {
+      console.log('File [' + fieldname + '] Finished');
+      req.filename = filename;
+      next();
+    });
   });
   
   // busboy.on('field', function(fieldname, val, fieldnameTruncated, valTruncated, encoding, mimetype) {
