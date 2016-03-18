@@ -7,11 +7,14 @@
     {{ file.name }}
     <button ng-click="upload(file)">Upload</button>
     <button ng-click="removeFile($index)">Remove</button>
+    <div>{{file.progressPercentage}}</div>
+    <!-- progress -->
 
   </li>
 </ul>
 <button ng-show="queue.length > 0" ng-click="uploadFiles()">Upload All!</button>
 <p>{{uploadingCount}}</p>
+
 <!-- Currently UPloading: {{uploadingCount}} -->
 
 <!--   Drop File:
