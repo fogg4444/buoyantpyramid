@@ -163,6 +163,20 @@ var getAvatar = function(req, res, next) {
   });
 };
 
+var getGroups = function(req, res, next) {
+  var userId = parseInt(req.params.id);
+  User.findById(userId)
+  .then(function(user) {
+    user.getGroups()
+    .then(function (groups)) {
+      res.json(groups);
+    };
+  })
+  .catch(function(error) {
+    next(error);
+  });
+};
+
 module.exports = {
   signup: signup,
   login: login,
