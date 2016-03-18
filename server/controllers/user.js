@@ -148,7 +148,6 @@ var getUser = function(req, res, next) {
 };
 
 var getAvatar = function(req, res, next) {
-  console.log('in getAvatar');
   var userId = parseInt(req.params.id);
   User.findById(userId)
   .then(function(foundUser) {
