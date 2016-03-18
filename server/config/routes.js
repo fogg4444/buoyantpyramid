@@ -6,6 +6,8 @@ var User = require('../controllers/user');
 var Upload = require('../controllers/upload');
 
 var routing = function (app, express) {
+
+
   var apiRoutes = express.Router(); 
 
   apiRoutes.post('/users/signup', User.signup);
@@ -15,6 +17,7 @@ var routing = function (app, express) {
   // EVERYTHING BELOW THIS WILL NEED A JWT TOKEN!!!
   apiRoutes.use(helpers.verifyToken);
 
+  apiRoutes.get('/songs/:filename', Song.getSongByFilename);
   apiRoutes.put('/users/profile', User.updateProfile);
   apiRoutes.get('/users/profile', User.getProfile);
   apiRoutes.get('/users/:id', User.getUser);
@@ -25,7 +28,7 @@ var routing = function (app, express) {
   apiRoutes.get('/groups/:id/users/', Group.fetchUsers);
 
   // Add and retrieve songs
-  apiRoutes.post('/groups/:id/songs/', Song.addSong);
+  apiRoutes.post('/groups/:id/songs/', Upload.catchUpload, Song.addSong);
   apiRoutes.get('/groups/:id/songs/', Group.fetchSongs);
 
   // Add and retrieve playlists

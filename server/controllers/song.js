@@ -9,11 +9,11 @@ var addSong = function(req, res, next) {
   var description = req.body.description;
 
   Song.create({
-    title: title,
-    description: description,
-    dateRecorded: dateRecorded, // TODO: Receive from UI?
+    title: title || req.filename,
+    description: description || '',
+    dateRecorded: dateRecorded || Date.now(), // TODO: Receive from UI?
     duration: 100, // TODO: Receive from UI?
-    // TODO: Add address and imageURL
+    address: req.filename,
     groupId: groupId
   }, {
     include: {
@@ -28,6 +28,13 @@ var addSong = function(req, res, next) {
   });
 };
 
+var getSongByFilename = function(req, res, next) {
+  var filename = req.params.filename;
+  var url = path.resolve(__dirname + '/../uploadInbox/' + filename);
+  res.sendFile(url);
+};
+
 module.exports = {
-  addSong: addSong
+  addSong: addSong,
+  getSongByFilename: getSongByFilename
 };
