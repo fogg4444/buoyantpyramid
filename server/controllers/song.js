@@ -13,7 +13,7 @@ var addSong = function(req, res, next) {
     description: description || '',
     dateRecorded: dateRecorded || Date.now(), // TODO: Receive from UI?
     duration: 100, // TODO: Receive from UI?
-    address: filename,
+    address: req.filename,
     groupId: groupId
   }, {
     include: {
@@ -35,5 +35,6 @@ var getSongByFilename = function(req, res, next) {
 };
 
 module.exports = {
-  addSong: addSong
+  addSong: addSong,
+  getSongByFilename: getSongByFilename
 };

@@ -35,7 +35,7 @@ angular
       console.log('Upload', file);
       
       var groupId;
-      Auth.getUserInfo()
+      Auth.getUserData()
       .then(function(user) {
         Upload.upload({
           url: '/api/groups/' + user.currentGroupId + '/songs',
