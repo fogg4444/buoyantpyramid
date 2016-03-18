@@ -78,22 +78,24 @@ angular.module('jam', [
 .directive('modalDialog', function() {
   return {
     restrict: 'E',
+    templateUrl: 'app/modal/modal.html',
     scope: {
       show: '='
     },
-    replace: true, // Replace with the template markup
-    transclude: true, // To insert custom content into the modal
+    replace: true,
+    transclude: true,
     link: function(scope, element, attrs) {
       scope.dialogStyle = {};
-      if (attrs.width)
+      if (attrs.width) {
         scope.dialogStyle.width = attrs.width;
-      if (attrs.height)
+      }
+      if (attrs.height) {
         scope.dialogStyle.height = attrs.height;
+      }
       scope.hideModal = function() {
         scope.show = false;
       };
-    },
-    template: '...' // See below
+    }
   };
 })
 .factory('AttachTokens', function ($window) {
