@@ -57,10 +57,10 @@ angular.module('jam', [
 .directive('songView', function() {
   return {
     restrict: 'E',
-    templateUrl: 'app/song/songView.html',
-    scope: {},
-    controller: ['$scope', 'Auth', function($scope) {
-    }]
+    templateUrl: 'app/songs/songView.html',
+    scope: {
+      song: '=',
+    }
   };
 })
 .factory('AttachTokens', function ($window) {
