@@ -1,6 +1,6 @@
 angular
     .module('jam.upload', [])
-    .controller('UploadController', ['$scope', 'Upload', function ($scope, Upload) {
+    .controller('UploadController', ['$scope', 'Upload', 'ngProgress', function ($scope, Upload, ngProgressFactory) {
 
       // upload later on form submit or something similar
           $scope.submit = function() {
@@ -46,6 +46,8 @@ angular
               }, function (evt) {
                   var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
                   console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
+                  file['progressPercentage'] = progressPercentage;
+                  console.log($scope.queue);
               });
           };
           // for multiple files:
@@ -58,4 +60,15 @@ angular
               }
             }
           }
+
+
+          // $scope.progressbar = ngProgressFactory.createInstance();
+          // $scope.progressbar.start();
+
+
+
+
+
+
+
     }]);
