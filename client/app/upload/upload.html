@@ -1,18 +1,26 @@
-<div class="upload page-content">
-  <nav-bar></nav-bar>
-  <div class="page-content">
-    <input type="file" nv-file-select uploader="uploader" options="options" multiple/><br/>
-    <ul>
-      <li ng-repeat="item in uploader.queue">
-        Name: <span ng-bind="item.file.name"></span><br/>
-        Size: <span ng-bind="item.file.size"></span><br/>
-        <button ng-click="item.upload()">Upload</button>
-        <button ng-click="item.cancel()">Cancel</button>
-        <button ng-click="item.remove()">Remove</button>
-      </li>
-      </br>
-      <button ng-click="uploader.uploadAll()">Upload All</button>
-      <span>{{uploader.progress}}%</span>
-    </ul>
-  </div>
+<div class="upload">
+
+<div class="button" ngf-select="addToQueue($files)" multiple="multiple">Choose Files</div>
+
+<ul>
+  <li ng-repeat="file in queue">
+    {{ file.name }}
+    <button ng-click="upload(file)">Upload</button>
+    <button ng-click="removeFile($index)">Remove</button>
+
+  </li>
+</ul>
+<button ng-show="queue.length > 0" ng-click="uploadFiles()">Upload All!</button>
+<p>{{uploadingCount}}</p>
+<!-- Currently UPloading: {{uploadingCount}} -->
+
+<!--   Drop File:
+<div ngf-drop="addToQueue($files)" class="drop-box"
+  ngf-drag-over-class="'dragover'" ngf-multiple="true" 
+  ngf-pattern="">Drop Images or PDFs files here</div>
+<div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div> -->
+
+<!-- Image thumbnail: <img ngf-thumbnail="file || '/thumb.jpg'"> -->
+<!-- Audio preview: <audio controls ngf-src="file"></audio> -->
+<!-- Video preview: <video controls ngf-src="file"></video> -->
 </div>
