@@ -4,6 +4,8 @@
   <form name="profileForm">
     <legend>Update your stuff</legend>
     <hr>
+    Avatar File: <input type="file" nv-file-select uploader="uploader"/><br/>
+    <span ng-bind="uploader.queue.file.name"></span><br/>
     <input type='text' ng-model='user.displayName' placeholder='Name' />
     <input type='text' ng-model='user.email' placeholder='Email' />
     <button type='submit' ng-click='updateProfile()'>Update</button>
