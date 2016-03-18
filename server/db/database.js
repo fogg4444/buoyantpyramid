@@ -63,7 +63,7 @@ var Group = db.define('group', {
   },
   bannerUrl: {
     type: Sequelize.STRING,
-    defaultValue: 'http://imgur.com/gallery/QI8f5gx' // Update
+    defaultValue: 'http://i.imgur.com/QI8f5gx.jpg' // Update
   }
 });
 
@@ -87,11 +87,11 @@ var Song = db.define('song', {
   address: {
     type: Sequelize.STRING,
     allowNull: false,
-    defaultValue: 'http://imgur.com/gallery/QI8f5gx' // Update
+    defaultValue: 'http://i.imgur.com/QI8f5gx.jpg' // Update
   },
   imageUrl: {
     type: Sequelize.STRING,
-    defaultValue: 'http://imgur.com/gallery/QI8f5gx' // Update
+    defaultValue: 'http://i.imgur.com/QI8f5gx.jpg' // Update
   }
 });
 

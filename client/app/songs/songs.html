@@ -1,5 +1,4 @@
 <div class="songs page-content">
-  <!-- Your html here -->
   <nav-bar></nav-bar>
   <div class="page-content">
     <h2 class="heading">Songs</h2>
@@ -7,9 +6,9 @@
     <input ng-model="query" type="text" name="search" />
     <button class="refresh-button" ng-click="refreshSongs()">refresh</button>
     <div ng-repeat="song in data.songs | filter:query | orderBy:'-timestamp'" class="song">
+      <hr>
       <div class="info">
-        <div class="title"> {{ song.title }} </div>
-      </div>
+        <song-view song="song"></song-view>
     </div>
   </div>
 </div>
