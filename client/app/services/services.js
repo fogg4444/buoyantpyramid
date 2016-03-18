@@ -30,7 +30,23 @@ angular.module('jam.services', [])
   };
 }])
 
-.factory('Profile', ['$http', function(http) {
+.factory('Groups', ['$http', function (http) {
+  var getGroupsByUserId = function (userId) {
+    return http({
+      method: 'GET',
+      url: '/api/users/' + userId + '/groups/'
+    })
+    .then(function (res) {
+      return res.data;
+    })
+  }
+
+  return {
+    getGroupsByUserId: getGroupsByUser
+  }
+}])
+
+.factory('Profile', ['$http', function (http) {
  
 }])
 
