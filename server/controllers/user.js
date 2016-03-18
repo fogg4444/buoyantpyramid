@@ -154,7 +154,6 @@ var getAvatar = function(req, res, next) {
   .then(function(foundUser) {
     if (foundUser) {
       var url = path.resolve(__dirname + '/../uploadInbox/' + foundUser.avatarURL);
-      console.log ('avatar url is ' + url);
       res.sendFile(url);
     } else {
       res.status(404).send('user doesn\'t exist');

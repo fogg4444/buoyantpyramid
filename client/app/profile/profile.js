@@ -21,7 +21,6 @@ function ($scope, loc, win, to, Auth, Up) {
         to(function () {
           file.result = response.data;
           $scope.user.avatarURL = file.name;
-          console.log(JSON.stringify($scope.user));
 
           $scope.updateProfile();
         });
