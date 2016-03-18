@@ -43,4 +43,21 @@ ul.nav a {
 .page-content { 
   clear: both;
   padding: 1em;
+
+.button {
+  border: solid 1px red;
+}
+
+.button:hover {
+  background: red;
+}
+.button:active {
+  background: white;
+}
+
+.drop-box {
+  border: dotted 2px black;
+}
+.drop-box:hover {
+  border: dotted 4px black;
 }
