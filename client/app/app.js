@@ -4,6 +4,8 @@ angular.module('jam', [
   'jam.profile',
   'jam.auth',
   'jam.upload',
+  'jam.groups',
+  'jam.groupSettings',
   'ngRoute',
   'ngAnimate',
   'ngFileUpload',
@@ -28,6 +30,16 @@ angular.module('jam', [
     .when('/upload', {
       templateUrl: 'app/upload/upload.html',
       controller: 'UploadController',
+      authenticate: true
+    })
+    .when('/groups', {
+      templateUrl: 'app/groups/groups.html',
+      controller: 'GroupsController',
+      authenticate: true
+    })
+    .when('/groupSettings', {
+      templateUrl: 'app/groups/settings.html',
+      controller: 'SettingsController',
       authenticate: true
     })
     .otherwise({
