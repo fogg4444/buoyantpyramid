@@ -6,6 +6,7 @@ function ($scope, $window, $location, Auth) {
   $scope.passMismatch = false;
   $scope.user = {};
   $scope.login = function () {
+    console.log($scope.user.password);
     Auth.login($scope.user)
       .then(function (data) {
         $location.path('/songs');
