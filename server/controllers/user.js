@@ -168,9 +168,9 @@ var getGroups = function(req, res, next) {
   User.findById(userId)
   .then(function(user) {
     user.getGroups()
-    .then(function (groups)) {
+    .then(function (groups) {
       res.json(groups);
-    };
+    });
   })
   .catch(function(error) {
     next(error);
@@ -183,5 +183,6 @@ module.exports = {
   getUser: getUser,
   updateProfile: updateProfile,
   getProfile: getProfile,
-  getAvatar: getAvatar
+  getAvatar: getAvatar,
+  getGroups: getGroups
 };
