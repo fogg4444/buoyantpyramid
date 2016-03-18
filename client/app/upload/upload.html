@@ -1,29 +1,30 @@
 <div class="upload">
+  <nav-bar></nav-bar>
+  <div class="page-content">
+    <div class="button" ngf-select="addToQueue($files)" multiple="multiple">Choose Files</div>
+    <ul>
+      <li ng-repeat="file in queue">
+        {{ file.name }}
+        <button ng-click="upload(file)">Upload</button>
+        <button ng-click="removeFile($index)">Remove</button>
+        <div>{{file.progressPercentage}}</div>
+        <!-- progress -->
 
-<div class="button" ngf-select="addToQueue($files)" multiple="multiple">Choose Files</div>
+      </li>
+    </ul>
+    <button ng-show="queue.length > 0" ng-click="uploadFiles()">Upload All!</button>
+    <p>{{uploadingCount}}</p>
 
-<ul>
-  <li ng-repeat="file in queue">
-    {{ file.name }}
-    <button ng-click="upload(file)">Upload</button>
-    <button ng-click="removeFile($index)">Remove</button>
-    <div>{{file.progressPercentage}}</div>
-    <!-- progress -->
+    <!-- Currently UPloading: {{uploadingCount}} -->
 
-  </li>
-</ul>
-<button ng-show="queue.length > 0" ng-click="uploadFiles()">Upload All!</button>
-<p>{{uploadingCount}}</p>
+    <!--   Drop File:
+    <div ngf-drop="addToQueue($files)" class="drop-box"
+    ngf-drag-over-class="'dragover'" ngf-multiple="true" 
+    ngf-pattern="">Drop Images or PDFs files here</div>
+    <div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div> -->
 
-<!-- Currently UPloading: {{uploadingCount}} -->
-
-<!--   Drop File:
-<div ngf-drop="addToQueue($files)" class="drop-box"
-  ngf-drag-over-class="'dragover'" ngf-multiple="true" 
-  ngf-pattern="">Drop Images or PDFs files here</div>
-<div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div> -->
-
-<!-- Image thumbnail: <img ngf-thumbnail="file || '/thumb.jpg'"> -->
-<!-- Audio preview: <audio controls ngf-src="file"></audio> -->
-<!-- Video preview: <video controls ngf-src="file"></video> -->
+    <!-- Image thumbnail: <img ngf-thumbnail="file || '/thumb.jpg'"> -->
+    <!-- Audio preview: <audio controls ngf-src="file"></audio> -->
+    <!-- Video preview: <video controls ngf-src="file"></video> -->
+  </div>
 </div>
