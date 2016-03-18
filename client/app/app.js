@@ -6,7 +6,8 @@ angular.module('jam', [
   'jam.upload',
   'ngRoute',
   'ngAnimate',
-  'angularFileUpload'
+  'angularFileUpload',
+  'ngFileUpload'
 ])
 .config(function ($routeProvider, $httpProvider) {
   $routeProvider
