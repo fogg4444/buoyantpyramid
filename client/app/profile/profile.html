@@ -4,10 +4,13 @@
   <form name="profileForm">
     <legend>Update your stuff</legend>
     <hr>
-    Avatar File: <input type="file" nv-file-select uploader="uploader"/><br/>
-    <span ng-bind="uploader.queue.file.name"></span><br/>
+    Avatar File: <input type="file" nv-file-select uploader="uploader" /><br/>
+    <li ng-repeat="item in uploader.queue">
+      <span ng-bind="item.file.name"></span><br/>
+    </li>
     <input type='text' ng-model='user.displayName' placeholder='Name' />
     <input type='text' ng-model='user.email' placeholder='Email' />
-    <button type='submit' ng-click='updateProfile()'>Update</button>
+    <button type='submit' ng-click='uploader.uploadAll()'>Update</button>
+    <span ng-show="uploading">{{uploader.progress}}%</span>
   </form>
 </div>

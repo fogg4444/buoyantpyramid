@@ -9,8 +9,10 @@ function ($scope, loc, Auth, Up) {
   .catch(console.error);
   
   $scope.uploader = new Up();
+  $scope.uploading = false;
 
   $scope.updateProfile = function () {
+    $scope.uploading = true;
     Auth.updateProfile($scope.user)
     .then(function (res) {
       console.log('Profile updated', res.data.user);
