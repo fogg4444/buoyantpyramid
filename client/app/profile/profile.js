@@ -20,6 +20,9 @@ function ($scope, loc, win, to, Auth, Up) {
       file.upload.then(function (response) {
         to(function () {
           file.result = response.data;
+          $scope.user.avatarURL = file.name;
+
+          $scope.updateProfile();
         });
       }, function (response) {
         if (response.status > 0) {

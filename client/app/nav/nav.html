@@ -2,11 +2,12 @@
   <nav>
     <ul class="nav">
       <li><span class="main-title">Jam Record</span></li>
-      <li>Name: {{ user.displayName }}</li>
-      <li><a class="nav-link" href="/#/songs">Songs!</a></li>
-      <li><a class="nav-link" href="/#/profile">Profile!</a></li>
+      <li><img class="avatar-img" ng-src="/api/users/{{user.id}}/avatar" alt="avatar"></li>
       <li><a class="nav-link" href="/#/upload">Upload!</a></li>
       <li><a href class="nav-link" ng-click="logout()">Logout</a></li>
+      <li><a class="nav-link" href="/#/songs">Songs!</a></li>
+      <li><a class="nav-link" href="/#/profile">Profile!</a></li>
+      <li><span class="nav-name">Name: {{ user.displayName }}</span></li>
     </ul>
   </nav>  
 </div>

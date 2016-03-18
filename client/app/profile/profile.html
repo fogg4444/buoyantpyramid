@@ -1,26 +1,28 @@
-<div class='profile'>
+<div class="profile">
   <nav-bar></nav-bar>
+  <div class="page-content">
   <h2 class="heading">Profile</h2>
-  <form name="profileForm">
-    <legend>Update your stuff</legend>
-    <hr>
-    
-    <!-- Code for ng-file-uploader -->
-    <h4>Upload on file select</h4>
-    <button type="file" ngf-select="uploadFiles($file, $invalidFiles)"
-      accept="image/*" ngf-max-height="1000" ngf-max-size="1MB">
-      Select File</button>
-    <br><br>
-    File:
-    <div style="font:smaller">{{f.name}} {{errFile.name}} {{errFile.$error}} {{errFile.$errorParam}}
-      <span class="progress" ng-show="f.progress >= 0">
-        <div style="width:{{f.progress}}%" ng-bind="f.progress + '%'"></div>
-      </span>
-    </div>     
-    {{errorMsg}}
-    <!-- Code for ng-file-uploader -->
-    <input type='text' ng-model='user.displayName' placeholder='Name' />
-    <input type='text' ng-model='user.email' placeholder='Email' />
-    <button type='submit' ng-click='updateProfile();'>Update</button>
-  </form>
+    <form name="profileForm">
+      <legend>Update your stuff</legend>
+      <hr>
+      
+      <!-- Code for ng-file-uploader -->
+      <h4>Upload on file select</h4>
+      <button type="file" ngf-select="uploadFiles($file, $invalidFiles)"
+        accept="image/*" ngf-max-height="1000" ngf-max-size="1MB">
+        Select File</button>
+      <br><br>
+      File:
+      <div style="font:smaller">{{f.name}} {{errFile.name}} {{errFile.$error}} {{errFile.$errorParam}}
+        <span class="progress" ng-show="f.progress >= 0">
+          <div style="width:{{f.progress}}%" ng-bind="f.progress + '%'"></div>
+        </span>
+      </div>     
+      {{errorMsg}}
+      <!-- Code for ng-file-uploader -->
+      <input type='text' ng-model='user.displayName' placeholder='Name' />
+      <input type='text' ng-model='user.email' placeholder='Email' />
+      <button type='submit' ng-click='updateProfile();'>Update</button>
+    </form>
+  </div>
 </div>
