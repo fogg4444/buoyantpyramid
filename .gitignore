@@ -47,4 +47,4 @@ client/dist/
 config.js
 
 # ignore uploadInbox
-server/uploadInbox
+server/uploadInbox/*

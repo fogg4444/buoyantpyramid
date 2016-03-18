@@ -53,6 +53,9 @@ var signup = function (req, res, next) {
             });
           });
         });
+      })
+      .catch(function(err) {
+        res.status(400).json(err);
       });
     }) 
     .catch(function (error) {
@@ -82,7 +85,7 @@ var login = function (req, res, next) {
                 });
               });
             } else {
-              return next(new Error('Incorrect password'));
+              res.status(401).json('Incorrect password');
             }
           });
       }
