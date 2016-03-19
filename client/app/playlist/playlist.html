@@ -1,0 +1,12 @@
+<div class="playlist">
+  <nav-bar></nav-bar>
+  <div class="page-content">
+    <h2>Playlist</h2>
+    <div ng-repeat="song in currentPlaylist.songs" class="song">
+      <hr>
+      <div class="info">
+        <song-view song="song"></song-view>
+      </div>
+    </div>
+  </div>
+</div>
