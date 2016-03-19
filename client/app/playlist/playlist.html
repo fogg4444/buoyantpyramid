@@ -2,6 +2,16 @@
   <nav-bar></nav-bar>
   <div class="page-content">
     <h2>Playlist</h2>
+    <div class="create-playlist">
+      <button ng-click="toggleModal()">Create New Playlist</button>
+      <modal-dialog show="modalShown">
+        <form name="createPlayForm"> 
+          <label>title </label><input ng-model="newPlaylist.name" required/>
+          <label>description </label><input ng-model="newPlaylist.description"/>
+          <button ng-click="createPlaylist()" ng-disabled="createPlayForm.$invalid">Create Playlist</button>
+        </form>
+      </modal-dialog>
+    </div>
     <div ng-repeat="song in currentPlaylist.songs" class="song">
       <hr>
       <div class="info">
