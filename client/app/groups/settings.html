@@ -16,24 +16,22 @@
     <form name="bannerForm">
       <div>Change your banner:</div>
       <button ngf-select ng-model="picFile" accept="image/*">Select Banner Image</button>
+      <button ng-click="upload(croppedDataUrl, picFile.name)">Upload image</button> 
+      <span class="progress" ng-show="progress >= 0">
+        <div style="width:{{progress}}%" ng-bind="progress + '%'"></div>
+      </span>
+      <span ng-show="result">Upload Successful</span>
+      <span class="err" ng-show="errorMsg">{{errorMsg}}</span>
       <div ngf-drop ng-model="picFile" ngf-pattern="image/*" class="cropArea">
       <img-crop image="picFile  | ngfDataUrl" result-image="croppedDataUrl" area-type="rectangle" result-image-size="{w:1000, h:200}" aspect-ratio="5" ng-init="croppedDataUrl=''"></img-crop>
       </div>
       <div>
         <img ng-src="{{croppedDataUrl}}" />
       </div>
-      <button ng-click="upload(croppedDataUrl, picFile.name)">Submit</button> 
           
-      <span class="progress" ng-show="progress >= 0">
-        <div style="width:{{progress}}%" ng-bind="progress + '%'"></div>
-      </span>
-      <span ng-show="result">Upload Successful</span>
-      <span class="err" ng-show="errorMsg">{{errorMsg}}</span>
     </form>
     <!-- Code for crop file uploader -->
     
-    <button ng-click="logUserGroup()">Click me</button>
-
   </div>
   <!-- groups nav here -->
 </div>

@@ -35,8 +35,5 @@ angular.module('jam.groupSettings', [])
       $scope.progress = parseInt(100.0 * evt.loaded / evt.total);
     });
   };
-
-  $scope.logUserGroup = function() {
-    console.log($scope.user.currentGroup);
-  };
+  
 }]);
