@@ -17,11 +17,6 @@ angular.module('jam.groupSettings', [])
     // Update the group in the database
   };
 
-  $scope.logThem = function (dataUrl, name) {
-    console.log("Url: ", dataUrl);
-    console.log("name: ", name);
-  }
-
   $scope.upload = function (dataUrl, name) {
     Up.upload({
       url: '/api/upload',
