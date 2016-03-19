@@ -45,14 +45,18 @@ angular
 
     // upload on file select or drop
     $scope.upload = function(file) {
+      // console.log('filename: ', file.name);
+
 
       // hash filename here
       // var uniqueFileName = ;
       console.log('Upload called on client side');
 
       var postData = {
-        uniqueFilename: 'uniqueFileName'
+        uniqueFilename: file.name
       }
+      console.log(postData);
+      
       $http.post("http://localhost:5000/api/s3", postData)
       .then(function(res){
         console.log('Success', res);

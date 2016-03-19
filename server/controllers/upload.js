@@ -5,12 +5,15 @@ var os = require('os');
 var fs = require('fs');
 var AWS = require('aws-sdk');
 
-
+AWS.config.update({
+  accessKeyId: 'AKIAI3P2KJWODZJLPQUQ',
+  secretAccessKey: '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'
+});
 
 var s3 = new AWS.S3();
 
 // console.log(AWS);
-// console.log(s3)
+// console.log(s3);
 
 var getUrlVars = function(input) {
   var vars = {};
@@ -24,17 +27,17 @@ var getUrlVars = function(input) {
 var getS3Data = function(req, res) {
   console.log('Get s3 data');
   var uniqueFilename = req.body.uniqueFilename;
-  console.log(uniqueFilename, req.body);
+  console.log(uniqueFilename);
 
   // SIGNED URL GENERATION:
 
-
   var s3_params = {
     Bucket: 'jamrecord',
-    Key: uniqueFilename,
-    ContentType: 'multipart/form-data',
-    Expires: 10000
+    Key: uniqueFilename
+    // ContentType: 'multipart/form-data',
+    // Expires: 10000
   };
+  console.log('s3_Paramaters: ', s3_params)
 
   s3.getSignedUrl('putObject', s3_params, function(err, customUrl){
     if (err) {
