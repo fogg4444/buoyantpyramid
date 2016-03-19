@@ -1,3 +1,4 @@
+var path = require('path');
 var db = require('../db/database');
 var Song = db.Song;
 var Group = db.Group;

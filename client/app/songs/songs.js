@@ -5,9 +5,17 @@ angular.module('jam.songs', [])
   $scope.data = {};
   $scope.user = {};
 
+
+  var augmentUrls = function (songs) {
+    songs.forEach(function(song) {
+      song.apiUrl = '/api/songs/' + song.address;
+    });
+  };
+
   $scope.refreshSongs = function() {
     Songs.getAllSongs($scope.user.currentGroupId)
     .then(function(songs) {
+      augmentUrls(songs);
       $scope.data.songs = songs;
     })
     .catch(console.error);
@@ -16,6 +24,7 @@ angular.module('jam.songs', [])
   Auth.getUserData()
   .then(function (user) {
     $scope.user = user;
+    augmentUrls(user.currentGroup.songs);
     $scope.data.songs = user.currentGroup.songs;
   })
   .catch(console.error);
