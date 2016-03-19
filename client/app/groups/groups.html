@@ -2,18 +2,24 @@
   <nav-bar></nav-bar>
   <div class="page-content">
     <div class="create-group">
-      <button>Create New Group</button>
+      <button ng-click="toggleModal()">Create New Group</button>
+      <modal-dialog show="modalShown">
+      <form name="createGroupForm"> 
+        <label>name </label><input ng-model="newGroup.name"/>
+        <label>description </label><input ng-model="newGroup.description"/>
+        <button ng-click="createGroup()" ng-disabled="createGroupForm.$invalid">Create Group</button>
+      </modal-dialog>
     </div>
     <div class="current-group">
       <h2> {{ user.currentGroup.name }} </h2>
       <div ng-repeat="user in data.users | orderBy:'-timestamp'" class="user">
-      <!-- Place user view directive -->
+      <!-- Add styling -->
         <div> {{ user.displayName }} </div>
       </div>
     </div>
     <div class="group-list">
       <div ng-repeat="group in data.groups | filter: filterGroups(group) | orderBy:'-timestamp'" class="group">
-      <!-- Place group view directive -->
+      <!-- Add styling -->
         <div> {{ group.name }} </div>
       </div>
     </div>
