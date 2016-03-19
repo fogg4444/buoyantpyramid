@@ -18,6 +18,10 @@ var routing = function (app, express) {
   // EVERYTHING BELOW THIS WILL NEED A JWT TOKEN!!!
   apiRoutes.use(helpers.verifyToken);
 
+
+
+  apiRoutes.delete('/songs/:id', Song.deleteSong);
+
   apiRoutes.post('/users/avatar', Upload.catchUpload, User.setAvatar);
   apiRoutes.put('/users/profile', User.updateProfile);
   apiRoutes.get('/users/profile', User.getProfile);

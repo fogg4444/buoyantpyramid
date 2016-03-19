@@ -35,7 +35,21 @@ var getSongByFilename = function(req, res, next) {
   res.sendFile(url);
 };
 
+var deleteSong = function(req, res, next) {
+  var songId = req.params.id;
+  Song.destroy({where: {id: songId}})
+  .then(function(song) {
+    var url = path.resolve(__dirname + '/../uploadInbox/' + song.address);
+    // delete song from fs here!
+    res.json(song);
+  })
+  .catch(function(err) {
+    next(err);
+  });
+};
+
 module.exports = {
   addSong: addSong,
-  getSongByFilename: getSongByFilename
+  getSongByFilename: getSongByFilename,
+  deleteSong: deleteSong
 };

@@ -1,6 +1,7 @@
 <div class="songs page-content">
   <nav-bar></nav-bar>
   <div class="page-content">
+    <div class='message'>{{message}}</div>
     <h2 class="heading">Songs</h2>
     <label for="search">Search: </label>
     <input ng-model="query" type="text" name="search" />
@@ -8,7 +9,7 @@
     <div ng-repeat="song in data.songs | filter:query | orderBy:'-timestamp'" class="song">
       <hr>
       <div class="info">
-        <song-view song="song"></song-view>
+        <song-view song="song" songList="data.songs" index="$index" ></song-view>
     </div>
   </div>
   <groups-nav></groups-nav>
