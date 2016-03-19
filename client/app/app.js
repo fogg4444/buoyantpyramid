@@ -48,7 +48,7 @@ angular.module('jam', [
       controller: 'SettingsController',
       authenticate: true
     })
-    .when('/playlist', {
+    .when('/playlists', {
       templateUrl: 'app/playlist/playlist.html',
       controller: 'PlaylistController',
       authenticate: true
