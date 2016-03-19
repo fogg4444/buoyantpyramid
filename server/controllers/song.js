@@ -1,3 +1,4 @@
+var path = require('path');
 var db = require('../db/database');
 var Song = db.Song;
 var Group = db.Group;
@@ -30,7 +31,9 @@ var addSong = function(req, res, next) {
 
 var getSongByFilename = function(req, res, next) {
   var filename = req.params.filename;
+  console.log('params are ' + JSON.stringify(req.params));
   var url = path.resolve(__dirname + '/../uploadInbox/' + filename);
+  console.log('url is ' + JSON.stringify(url));
   res.sendFile(url);
 };
 

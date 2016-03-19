@@ -5,6 +5,10 @@
       <li> Description: {{ song.description }}</li>
       <li> Duration: {{ (song.duration / 60).toString().substring(0,1) + ' min(s)' }}</li>
       <li> <img ng-src="{{ song.imageUrl + '.jpg'}}" ng-show="song.imageUrl" height="40" width="40"/> </li>
+      <audio controls>  
+        <source src="{{song.apiUrl}}" >
+        Your browser does not support the audio tag.
+      </audio>
     </ul>
   </nav>  
 </div>
