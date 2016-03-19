@@ -30,7 +30,34 @@ angular.module('jam.services', [])
   };
 }])
 
-.factory('Profile', ['$http', function(http) {
+.factory('Groups', ['$http', function (http) {
+  var getGroupsByUserId = function (userId) {
+    return http({
+      method: 'GET',
+      url: '/api/users/' + userId + '/groups/'
+    })
+    .then(function (res) {
+      return res.data;
+    })
+  };
+
+  var getUsersByGroupId = function (groupId) {
+    return http({
+      method: 'GET',
+      url: '/api/groups/' + groupId + '/users/'
+    })
+    .then(function (res) {
+      return res.data;
+    })
+  };
+
+  return {
+    getGroupsByUserId: getGroupsByUserId,
+    getUsersByGroupId: getUsersByGroupId
+  }
+}])
+
+.factory('Profile', ['$http', function (http) {
  
 }])
 
