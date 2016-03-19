@@ -2,7 +2,13 @@
   <nav-bar></nav-bar>
   <div class="page-content">
     <div class="create-group">
-      <button>Create New Group</button>
+      <button ng-click="toggleModal()">Create New Group</button>
+      <modal-dialog show="modalShown">
+      <form name="createGroupForm"> 
+        <label>name </label><input ng-model="newGroup.name"/>
+        <label>description </label><input ng-model="newGroup.description"/>
+        <button ng-click="createGroup()" ng-disabled="createGroupForm.$invalid">Create Group</button>
+      </modal-dialog>
     </div>
     <div class="current-group">
       <h2> {{ user.currentGroup.name }} </h2>
