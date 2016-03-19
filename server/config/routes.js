@@ -25,7 +25,8 @@ var routing = function (app, express) {
   apiRoutes.get('/users/:id', User.getUser);
   apiRoutes.get('/users/:id/groups/', User.getGroups);
  
-  // Add and retrieve groups
+  // Add, update and retrieve groups
+  apiRoutes.put('/groups/info', Group.updateGroupInfo);
   apiRoutes.post('/groups/', Group.createGroup);
   apiRoutes.post('/groups/:id/users/', Group.addUser);
   apiRoutes.get('/groups/:id/users/', Group.fetchUsers);

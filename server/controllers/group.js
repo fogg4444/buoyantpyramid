@@ -64,9 +64,25 @@ var fetchUsers = function(req, res, next) {
   });
 };
 
+var updateGroupInfo = function(req, res, next) {
+
+  Group.update(req.body, {
+    where: {
+      id: req.body.id
+    }
+  })
+  .then(function(group) {
+    res.json(group);
+  })
+  .catch(function(error) {
+    next(error);
+  });
+};
+
 module.exports = {
   createGroup: createGroup,
   fetchSongs: fetchSongs,
   addUser: addUser,
-  fetchUsers: fetchUsers
+  fetchUsers: fetchUsers,
+  updateGroupInfo: updateGroupInfo
 };
