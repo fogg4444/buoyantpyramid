@@ -1,6 +1,14 @@
 angular.module('jam.playlist', [])
-.controller('PlaylistController', ['$scope', 'Playlists', function ($scope, PL) {
+.controller('PlaylistController', ['$scope', 'Auth', 'Playlists', function ($scope, Auth, PL) {
+  $scope.newPlaylist = {};
   $scope.currentPlaylist = {};
+  $scope.user = {};
+
+  Auth.getUserData()
+  .then(function (user) {
+    $scope.user = user;
+  })
+  .catch(console.error);
   
   $scope.toggleModal = function () {
     $scope.modalShown = !$scope.modalShown;
@@ -9,7 +17,7 @@ angular.module('jam.playlist', [])
   $scope.createPlaylist = function () {
     PL.createPlaylist($scope.newPlaylist)
     .then(function (playlist) {
-      console.log("New! ", playlist);
+      $scope.modalShown = false;
     });
   };
 

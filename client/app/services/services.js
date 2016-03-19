@@ -59,9 +59,22 @@ angular.module('jam.services', [])
     });
   };
 
+  var getPlaylistSongs = function (id) {
+    return http({
+      method: 'GET',
+      url: '/api/playlists/' + id
+    });
+  };
+
+  var getAllPlaylists = function (groupId) {
+    // Add route to get the playlists belonging to current group
+  };
+
   return {
     createPlaylist: createPlaylist,
-    addSongToPlaylist: addSongToPlaylist
+    addSongToPlaylist: addSongToPlaylist,
+    getPlaylistSongs: getPlaylistSongs,
+    getAllPlaylists: getAllPlaylists
   };
 }])
 

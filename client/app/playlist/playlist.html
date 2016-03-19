@@ -6,7 +6,7 @@
       <button ng-click="toggleModal()">Create New Playlist</button>
       <modal-dialog show="modalShown">
         <form name="createPlayForm"> 
-          <label>title </label><input ng-model="newPlaylist.name" required/>
+          <label>title </label><input ng-model="newPlaylist.title" required/>
           <label>description </label><input ng-model="newPlaylist.description"/>
           <button ng-click="createPlaylist()" ng-disabled="createPlayForm.$invalid">Create Playlist</button>
         </form>
