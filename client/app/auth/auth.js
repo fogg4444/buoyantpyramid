@@ -1,10 +1,11 @@
 angular.module('jam.auth', [])
 
-.controller('AuthController', ['$scope', '$window', '$location', 'Auth',
-function ($scope, $window, $location, Auth) {
+.controller('AuthController', ['$scope', '$window', '$location', '$routeParams', 'Auth',
+function ($scope, $window, $location, $routeParams, Auth) {
   $scope.confirm = false;
   $scope.passMismatch = false;
   $scope.user = {};
+  $scope.user.email = $routeParams.email || '';
   $scope.login = function () {
     Auth.login($scope.user)
       .then(function (data) {

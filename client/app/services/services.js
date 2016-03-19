@@ -96,12 +96,26 @@ angular.module('jam.services', [])
     .catch(console.error);
   };
 
+  var sendInvite = function (band, email) {
+    var data = {email: email, band: band};
+    
+    return http({
+      method: 'post',
+      url: '/api/users/invite',
+      data: data
+    })
+    .then(function (res) {
+      return res.data;
+    })
+  };
+
   return {
     createGroup: createGroup,
     addUser: addUser,
     getGroupsByUserId: getGroupsByUserId,
     getUsersByGroupId: getUsersByGroupId,
-    updateInfo: updateInfo
+    updateInfo: updateInfo,
+    sendInvite: sendInvite
   };
 }])
 
