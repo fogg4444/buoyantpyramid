@@ -51,16 +51,6 @@ angular.module('jam.services', [])
     })
   };
 
-  var getUsersByGroupId = function (userId) {
-    return http({
-      method: 'GET',
-      url: '/api/groups/' + groupId + '/users/'
-    })
-    .then(function (res) {
-      return res.data;
-    })
-  }
-
   return {
     getGroupsByUserId: getGroupsByUserId,
     getUsersByGroupId: getUsersByGroupId
