@@ -1,7 +1,9 @@
 var path = require('path');
 var db = require('../db/database');
+var fs = require('fs');
 var Song = db.Song;
 var Group = db.Group;
+
 
 var addSong = function(req, res, next) {
   var dateRecorded = req.body.dateRecorded || Date.now();
@@ -37,11 +39,20 @@ var getSongByFilename = function(req, res, next) {
 
 var deleteSong = function(req, res, next) {
   var songId = req.params.id;
-  Song.destroy({where: {id: songId}})
+  Song.findById(songId)
   .then(function(song) {
     var url = path.resolve(__dirname + '/../uploadInbox/' + song.address);
-    // delete song from fs here!
-    res.json(song);
+    fs.unlink(url, function(err, status) {
+      if (err) {
+        console.error(err);
+        res.status(500).send(err);
+      } else {
+        song.destroy()
+        .then(function() {
+          res.json(song);
+        });
+      }
+    });
   })
   .catch(function(err) {
     next(err);
