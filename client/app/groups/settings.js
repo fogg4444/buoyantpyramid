@@ -1,11 +1,13 @@
 angular.module('jam.groupSettings', [])
 
-.controller('SettingsController', ['$scope', '$timeout', 'Upload', 'Auth', function($scope, to, Up, Auth) {
+.controller('SettingsController', ['$scope', '$timeout', 'Upload', 'Auth', 'Groups', function($scope, to, Up, Auth, Groups) {
   $scope.user = {};
+  $scope.group = {};
 
   Auth.getUserData()
   .then(function (user) {
     $scope.user = user;
+    $scope.group = user.currentGroup;
   })
   .catch(console.error);
 
@@ -14,7 +16,11 @@ angular.module('jam.groupSettings', [])
   };
 
   $scope.updateGroupProfile = function() {
-    // Update the group in the database
+    Groups.updateInfo($scope.group)
+    .then(function(resp) {
+      console.log(resp);
+    })
+    .catch(console.error);
   };
 
   $scope.upload = function (dataUrl, name) {
@@ -26,6 +32,8 @@ angular.module('jam.groupSettings', [])
     }).then(function (response) {
       to(function () {
         $scope.result = response.data;
+        $scope.group.bannerUrl = name;
+        $scope.updateGroupProfile($scope.group);
       });
     }, function (response) {
       if (response.status > 0) {
