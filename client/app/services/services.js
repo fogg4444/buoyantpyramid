@@ -40,6 +40,31 @@ angular.module('jam.services', [])
   };
 }])
 
+.factory('Playlists', ['$http', function(http) {
+  var createPlaylist = function (playlist) {
+    // takes an object with a title and optional description
+    return http({
+      method: 'POST',
+      url: '/api/playlists/',
+      data: playlist
+    });
+  };
+
+  var addSongToPlaylist = function (id, song) {
+    // takes a playlist id and a song obj
+    return http({
+      method: 'PUT',
+      url: '/api/playlists/' + id + '/add/',
+      data: song
+    });
+  };
+
+  return {
+    createPlaylist: createPlaylist,
+    addSongToPlaylist: addSongToPlaylist
+  };
+}])
+
 .factory('Groups', ['$http', function (http) {
   var createGroup = function (newGroup) {
     return http({
