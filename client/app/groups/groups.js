@@ -1,6 +1,6 @@
 angular.module('jam.groups', [])
 
-.controller('GroupsController', ['$scope', '$route', 'Auth', 'Groups', function($scope, $route, Auth, Groups) {
+.controller('GroupsController', ['$scope', 'Auth', 'Groups', function($scope, Auth, Groups) {
   $scope.user = {};
   $scope.newGroup = {};
   $scope.data = {};
