@@ -14,17 +14,13 @@
 
     <!-- Code for crop file uploader -->
     <form name="bannerForm">
-      <div>Crop Image and Upload</div>
-      <button ngf-select ng-model="picFile" accept="image/*">
-          Select Picture</button>
-      <div ngf-drop ng-model="picFile" ngf-pattern="image/*"
-           class="cropArea">
-          <img-crop image="picFile  | ngfDataUrl"                
-          result-image="croppedDataUrl" area-type="square" ng-init="croppedDataUrl=''">
-          </img-crop>
+      <div>Change your banner:</div>
+      <button ngf-select ng-model="picFile" accept="image/*">Select Banner Image</button>
+      <div ngf-drop ng-model="picFile" ngf-pattern="image/*" class="cropArea">
+      <img-crop image="picFile  | ngfDataUrl" result-image="croppedDataUrl" area-type="rectangle" result-image-size="{w:1000, h:200}" aspect-ratio="5" ng-init="croppedDataUrl=''"></img-crop>
       </div>
       <div>
-          <img ng-src="{{croppedDataUrl}}" />
+        <img ng-src="{{croppedDataUrl}}" />
       </div>
       <button ng-click="upload(croppedDataUrl, picFile.name)">Submit</button> 
           
