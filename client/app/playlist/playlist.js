@@ -7,6 +7,7 @@ angular.module('jam.playlist', [])
   Auth.getUserData()
   .then(function (user) {
     $scope.user = user;
+    $scope.newPlaylist.groupId = $scope.user.currentGroup.id;
   })
   .catch(console.error);
   
@@ -18,6 +19,8 @@ angular.module('jam.playlist', [])
     PL.createPlaylist($scope.newPlaylist)
     .then(function (playlist) {
       $scope.modalShown = false;
+      $scope.currentPlaylist = playlist.data;
+      console.log($scope.currentPlaylist);
     });
   };
 
