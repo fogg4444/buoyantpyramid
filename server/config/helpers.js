@@ -48,23 +48,19 @@ var verifyToken = function (req, res, next) {
 };
 
 var sendEmailInvite = function(req, res, next) {
-  // var band = res.data.band;
-  // var email = res.data.email;
-
-  var band = 'bon iver';
-  var email = 'epaepke@gmail.com';
+  var band = req.body.band;
+  var email = req.body.email;
 
   var data = {
     from: 'Excited User <jamsesh@samples.mailgun.org>',
     to: email,
     subject: 'Hello',
-    text: 'You\'ve been invited to join ' + band + ' at Jamsesh!',
-    text: 'Follow the link below to sign up',
-    text: 'Link: http://localhost:3000/' + email
+    text: 'You\'ve been invited to join ' + band + ' at Jamsesh!\n' +
+          'Follow the link below to sign up\n' +
+          'Link: http://localhost:3000/#/login/' + email
   };
    
   mailgun.messages().send(data, function (error, body) {
-    console.log('body: ', body);
     if (error) {
       next(error);
     } else {

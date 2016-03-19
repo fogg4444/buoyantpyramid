@@ -96,7 +96,7 @@ angular.module('jam.services', [])
     .catch(console.error);
   };
 
-  var sendInvite = function (email, band) {
+  var sendInvite = function (band, email) {
     var data = {email: email, band: band};
     
     return http({
@@ -114,7 +114,8 @@ angular.module('jam.services', [])
     addUser: addUser,
     getGroupsByUserId: getGroupsByUserId,
     getUsersByGroupId: getUsersByGroupId,
-    updateInfo: updateInfo
+    updateInfo: updateInfo,
+    sendInvite: sendInvite
   };
 }])
 
