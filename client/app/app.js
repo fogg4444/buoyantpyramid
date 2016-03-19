@@ -38,7 +38,7 @@ angular.module('jam', [
       controller: 'GroupsController',
       authenticate: true
     })
-    .when('/groupSettings', {
+    .when('/group/settings', {
       templateUrl: 'app/groups/settings.html',
       controller: 'SettingsController',
       authenticate: true
