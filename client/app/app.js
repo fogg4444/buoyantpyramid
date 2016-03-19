@@ -67,6 +67,15 @@ angular.module('jam', [
     }]
   };
 })
+.directive('groupsNav', function() {
+  return {
+    restrict: 'E',
+    templateUrl: 'app/nav/groupsNav.html',
+    scope: {},
+    controller: ['$scope', 'Auth', function($scope, Auth) {
+    }]
+  };
+})
 .directive('songView', function() {
   return {
     restrict: 'E',
