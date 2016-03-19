@@ -5,31 +5,47 @@ var os = require('os');
 var fs = require('fs');
 var AWS = require('aws-sdk');
 
+
+
 var s3 = new AWS.S3();
-AWS.config.update({accessKeyId: 'AKIAIIIRPCLLGTLJGNZQ', secretAccessKey: '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'});
 
 // console.log(AWS);
 // console.log(s3)
 
+var getUrlVars = function(input) {
+  var vars = {};
+  var parts = input.replace(/[?&]+([^=&]+)=([^&]*)/gi,    
+  function(m,key,value) {
+    vars[key] = value;
+  });
+  return vars;
+};
 
 var getS3Data = function(req, res) {
-  console.log('Get s3 data', req);
+  console.log('Get s3 data');
+  var uniqueFilename = req.body.uniqueFilename;
+  console.log(uniqueFilename, req.body);
 
   // SIGNED URL GENERATION:
-  // var s3_params = {
-  //   Bucket: 'jamrecord',
-  //   Key: 'file_name',
-  //   ContentType: 'multipart/form-data',
-  //   Expires: 10000
-  // };
 
-  // s3.getSignedUrl('putObject', s3_params, function(err, data){
-  //   if (err) {
-  //     console.log('S3 signing error: ', err);
-  //     return;
-  //   }
-  //   console.log('Response from amazon', data);
-  // });
+
+  var s3_params = {
+    Bucket: 'jamrecord',
+    Key: uniqueFilename,
+    ContentType: 'multipart/form-data',
+    Expires: 10000
+  };
+
+  s3.getSignedUrl('putObject', s3_params, function(err, customUrl){
+    if (err) {
+      console.log('S3 signing error: ', err);
+      res.status(500).send(err);
+
+      return;
+    }
+    console.log('Response from aws', customUrl);
+    res.send(customUrl);
+  });
 };
 
 
