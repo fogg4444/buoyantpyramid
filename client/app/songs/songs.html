@@ -10,7 +10,9 @@
       <hr>
       <div class="info">
         <song-view song="song" songList="data.songs" index="$index" ></song-view>
+        <button ng-click="addToPlaylist(song)">Add to Playlist</button>
+      </div>
     </div>
+    <groups-nav></groups-nav>
   </div>
-  <groups-nav></groups-nav>
 </div>

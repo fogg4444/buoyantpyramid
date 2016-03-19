@@ -5,11 +5,14 @@ angular.module('jam.songs', [])
   $scope.data = {};
   $scope.user = {};
 
-
   var augmentUrls = function (songs) {
     songs.forEach(function(song) {
       song.apiUrl = '/api/songs/' + song.address;
     });
+  };
+
+  $scope.addToPlaylist = function(song) {
+    console.log(song);
   };
 
   $scope.refreshSongs = function() {
