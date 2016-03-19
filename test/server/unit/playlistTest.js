@@ -18,8 +18,10 @@ var songReq = {
   },
   params: {
     id: 1
-  }
+  },
+  filename: 'buffet.mp3'
 };
+
 
 var addSongReq = {
   body: {

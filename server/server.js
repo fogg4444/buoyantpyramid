@@ -18,6 +18,7 @@ var normalizePort = function(val) {
 
 // Get port from environment and store in Express.
 config.port = normalizePort(process.env.PORT || config.port);
+config.port = process.env.NODE_ENV === 'test' ? 9000 : config.port;
 
 // configure our server with all the middleware and routing
 require('./config/middleware.js')(app, express);

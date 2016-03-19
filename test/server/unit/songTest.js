@@ -26,7 +26,8 @@ var songReq = {
   },
   params: {
     id: 1
-  }
+  },
+  filename: 'buffet.mp3'
 };
 
 var groupReq = {
@@ -76,7 +77,7 @@ describe('Song Controller', function () {
         console.error(err);
       };
       // var spy = res.json = sinon.stub();
-      SongController.addSong(songReq, res);
+      SongController.addSong(songReq, res, console.error);
     });
 
 
