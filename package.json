@@ -30,6 +30,7 @@
     "crypto": "0.0.3",
     "express": "^4.13.4",
     "jwt-simple": "^0.4.1",
+    "mailgun-js": "^0.7.7",
     "method-override": "^2.3.5",
     "morgan": "^1.7.0",
     "opener": "^1.4.1",

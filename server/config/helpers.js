@@ -3,6 +3,7 @@ var config = require('../config/config.js');
 var db = require('../db/database');
 var User = db.User;
 var JWT_SECRET = config.JWT_SECRET || 's00p3R53kritt';
+var mailgun = require('mailgun-js')({apiKey: config.mailgun.api_key, domain: config.mailgun.domain});
 
 var errorLogger = function (error, req, res, next) {
   // log the error then send it to the next middleware in
@@ -46,8 +47,35 @@ var verifyToken = function (req, res, next) {
   }
 };
 
+var sendEmailInvite = function(req, res, next) {
+  // var band = res.data.band;
+  // var email = res.data.email;
+
+  var band = 'bon iver';
+  var email = 'epaepke@gmail.com';
+
+  var data = {
+    from: 'Excited User <jamsesh@samples.mailgun.org>',
+    to: email,
+    subject: 'Hello',
+    text: 'You\'ve been invited to join ' + band + ' at Jamsesh!',
+    text: 'Follow the link below to sign up',
+    text: 'Link: http://localhost:3000/' + email
+  };
+   
+  mailgun.messages().send(data, function (error, body) {
+    console.log('body: ', body);
+    if (error) {
+      next(error);
+    } else {
+      res.json('Email sent successfully');
+    }  
+  });
+};
+
 module.exports = {
   errorLogger: errorLogger,
   errorHandler: errorHandler,
-  verifyToken: verifyToken
+  verifyToken: verifyToken,
+  sendEmailInvite: sendEmailInvite
 };

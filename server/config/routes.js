@@ -4,6 +4,7 @@ var Group = require('../controllers/group');
 var Playlist = require('../controllers/playlist');
 var User = require('../controllers/user');
 var Upload = require('../controllers/upload');
+var utils = require('../controllers/upload');
 
 var routing = function (app, express) {
 
@@ -47,6 +48,9 @@ var routing = function (app, express) {
 
   // Upload handling
   apiRoutes.post('/upload/', Upload.catchUpload);
+
+  // Send email invites
+  apiRoutes.post('/users/invite', helpers.sendEmailInvite);
 
   // Handle error logging of requests that are destined for above routes
   apiRoutes.use(helpers.errorLogger);
