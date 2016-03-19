@@ -13,7 +13,7 @@ function ($scope, loc, win, to, Auth, Up) {
     $scope.errFile = errFiles && errFiles[0];
     if (file) {
       file.upload = Up.upload({
-        url: '/api/upload',
+        url: '/api/users/avatar',
         data: {file: file}
       });
 

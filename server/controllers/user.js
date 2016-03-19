@@ -147,6 +147,24 @@ var getUser = function(req, res, next) {
   });
 };
 
+var setAvatar = function(req, res, next) {
+  var user = req.user;
+  user.update({avatarUrl: req.filename})
+  .then(function(user) {
+    var token = jwt.encode(user, JWT_SECRET);
+    _compileUserData(user)
+    .then(function(compiledUser) {
+      res.json({
+        user: compiledUser,
+        token: token
+      });
+    });
+  })
+  .catch(function(error) {
+    next(error);
+  });
+};
+
 var getAvatar = function(req, res, next) {
   var userId = parseInt(req.params.id);
   User.findById(userId)
@@ -184,5 +202,6 @@ module.exports = {
   updateProfile: updateProfile,
   getProfile: getProfile,
   getAvatar: getAvatar,
+  setAvatar: setAvatar,
   getGroups: getGroups
 };
