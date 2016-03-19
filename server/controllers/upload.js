@@ -35,7 +35,7 @@ var catchUpload = function(req, res, next) {
   busboy.on('finish', function() {
     console.log('Done Uploading Files!');
     // res.writeHead(303, { Connection: 'close', Location: '/' });
-    // res.end();
+    res.end();
   });
   req.pipe(busboy);
 

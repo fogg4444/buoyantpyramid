@@ -27,7 +27,7 @@ var User = db.define('user', {
   },
   avatarURL: {
     type: Sequelize.STRING,
-    defaultValue: '' // Complete
+    defaultValue: '' // Change to random default on signup
   },
   currentGroupId: {
     type: Sequelize.INTEGER,
