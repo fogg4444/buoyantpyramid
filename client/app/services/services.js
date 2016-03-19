@@ -31,6 +31,29 @@ angular.module('jam.services', [])
 }])
 
 .factory('Groups', ['$http', function (http) {
+  var createGroup = function (newGroup) {
+    return http({
+      method: 'POST',
+      url: '/api/groups/',
+      data: newGroup
+    })
+    .then(function (res) {
+      return res.data;
+    })
+  };
+
+  var addUser = function (groupId, userId) {
+    data = {userId: userId, role: 'admin'};
+    return http({
+      method: 'POST',
+      url: '/api/groups/' + groupId + '/users/',
+      data: data
+    })
+    .then(function (res) {
+      return res.data;
+    })
+  };
+
   var getGroupsByUserId = function (userId) {
     return http({
       method: 'GET',
@@ -52,6 +75,8 @@ angular.module('jam.services', [])
   };
 
   return {
+    createGroup: createGroup,
+    addUser: addUser,
     getGroupsByUserId: getGroupsByUserId,
     getUsersByGroupId: getUsersByGroupId
   }
