@@ -33,9 +33,9 @@ var catchUpload = function(req, res, next) {
   // });
 
   busboy.on('finish', function() {
-    console.log('Done parsing form!');
-    res.writeHead(303, { Connection: 'close', Location: '/' });
-    res.end();
+    console.log('Done Uploading Files!');
+    // res.writeHead(303, { Connection: 'close', Location: '/' });
+    // res.end();
   });
   req.pipe(busboy);
 
