@@ -19,7 +19,7 @@ angular.module('jam.groups', [])
   $scope.createGroup = function() {
     Groups.createGroup($scope.newGroup)
     .then(function (group) {
-      console.log('group.... ', group);
+      Groups.addUser(group.id, $scope.user.id);
     });
   };
 
