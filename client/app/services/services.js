@@ -23,8 +23,19 @@ angular.module('jam.services', [])
     });
   };
 
+  var deleteSong = function (song) {
+    return http({
+      method: 'DELETE',
+      url: '/api/songs/' + song.id,
+    })
+    .then(function (res) {
+      return res.data;
+    });
+  };
+
   return {
     addSong: addSong,
+    deleteSong: deleteSong,
     getAllSongs: getAllSongs
   };
 }])
@@ -93,6 +104,7 @@ angular.module('jam.services', [])
     updateInfo: updateInfo
   };
 }])
+
 
 .factory('Auth', ['$http', '$location', '$window', '$q', function (http, loc, win, q) {
   // This is responsible for authenticating our user

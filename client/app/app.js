@@ -82,7 +82,21 @@ angular.module('jam', [
     templateUrl: 'app/songs/songView.html',
     scope: {
       song: '=',
-    }
+      index: '='
+
+    },
+    controller: ['$scope', 'Songs', function($scope, Songs) {
+      $scope.deleteSong = function(index) {
+        console.log('index is' + index);
+        Songs.deleteSong($scope.$parent.data.songs[index])
+        .then(function() {
+          $scope.$parent.data.songs.splice(index, 1);
+        })
+        .catch(function (err) {
+          $scope.$parent.message = 'error: ' + err;
+        });
+      };
+    }]
   };
 })
 .directive('modalDialog', function() {
