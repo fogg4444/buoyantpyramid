@@ -14,7 +14,11 @@ angular.module('jam', [
 ])
 .config(function ($routeProvider, $httpProvider) {
   $routeProvider
-    .when('/login', {
+    .when('/login/', {
+      templateUrl: 'app/auth/login.html',
+      controller: 'AuthController'
+    })
+    .when('/login/:email', {
       templateUrl: 'app/auth/login.html',
       controller: 'AuthController'
     })
