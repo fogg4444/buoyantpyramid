@@ -65,8 +65,8 @@ var fetchUsers = function(req, res, next) {
 };
 
 var updateGroupInfo = function(req, res, next) {
-  var group = req.group;
-
+  console.log("The request group: ", req.body);
+  var group = req.body;
   group.update(req.body)
   .then(function(group) {
     res.json(group);

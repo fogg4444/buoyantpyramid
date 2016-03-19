@@ -13,7 +13,6 @@ angular.module('jam.services', [])
     });
   };
 
-
   var getAllSongs = function (groupId) {
     return http({
       method: 'GET',
@@ -39,7 +38,7 @@ angular.module('jam.services', [])
     })
     .then(function (res) {
       return res.data;
-    })
+    });
   };
 
   var addUser = function (groupId, userId) {
@@ -51,7 +50,7 @@ angular.module('jam.services', [])
     })
     .then(function (res) {
       return res.data;
-    })
+    });
   };
 
   var getGroupsByUserId = function (userId) {
@@ -61,7 +60,7 @@ angular.module('jam.services', [])
     })
     .then(function (res) {
       return res.data;
-    })
+    });
   };
 
   var getUsersByGroupId = function (groupId) {
@@ -71,19 +70,28 @@ angular.module('jam.services', [])
     })
     .then(function (res) {
       return res.data;
+    });
+  };
+
+  var updateInfo = function(group) {
+    return http({
+      method: 'PUT',
+      url: '/api/groups/info',
+      data: group
     })
+    .then(function(res) {
+      return res;
+    })
+    .catch(console.error);
   };
 
   return {
     createGroup: createGroup,
     addUser: addUser,
     getGroupsByUserId: getGroupsByUserId,
-    getUsersByGroupId: getUsersByGroupId
-  }
-}])
-
-.factory('Profile', ['$http', function (http) {
- 
+    getUsersByGroupId: getUsersByGroupId,
+    updateInfo: updateInfo
+  };
 }])
 
 .factory('Auth', ['$http', '$location', '$window', '$q', function (http, loc, win, q) {
@@ -121,7 +129,6 @@ angular.module('jam.services', [])
   };
 
   var getUser = function(userId) {
-    console.log('services headers:', win.localStorage.getItem('com.jam'));
     return http({
       method: 'GET',
       url: '/api/users/' + userId
