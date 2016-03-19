@@ -1,6 +1,36 @@
 <div class="groups-settings">
   <nav-bar></nav-bar>
   <div class="page-content">
+    <h2 class="heading">Group Settings for {{ user.currentGroup.name }}</h2>
+    <hr>
+    <form name="inviteForm">
+      <input name="invite" ng-model="invite" placeholder="email" type="email" ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/" required/>
+      <button ng-click="sendInvite()" ng-disabled="inviteForm.$invalid">Invite Member</button>
+    </form>
+    <form name="updateForm">
+      Group name: <input type="text" ng-model="user.currentGroup.name" placeholer="group name" />
+      <button ng-click="updateGroupProfile()">Update Group</button>
+    </form>
+
+    <!-- Code for crop file uploader -->
+    <form name="bannerForm">
+      <div>Change your banner:</div>
+      <button ngf-select ng-model="picFile" accept="image/*">Select Banner Image</button>
+      <button ng-click="upload(croppedDataUrl, picFile.name)">Upload image</button> 
+      <span class="progress" ng-show="progress >= 0">
+        <div style="width:{{progress}}%" ng-bind="progress + '%'"></div>
+      </span>
+      <span ng-show="result">Upload Successful</span>
+      <span class="err" ng-show="errorMsg">{{errorMsg}}</span>
+      <div ngf-drop ng-model="picFile" ngf-pattern="image/*" class="cropArea">
+      <img-crop image="picFile  | ngfDataUrl" result-image="croppedDataUrl" area-type="rectangle" result-image-size="{w:1000, h:200}" aspect-ratio="5" ng-init="croppedDataUrl=''"></img-crop>
+      </div>
+      <div>
+        <img ng-src="{{croppedDataUrl}}" />
+      </div>
+          
+    </form>
+    <!-- Code for crop file uploader -->
     
   </div>
   <!-- groups nav here -->

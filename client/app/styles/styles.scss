@@ -104,3 +104,23 @@ ul.nav a {
   font-weight: bold;
   font-family: 'arial', 'sans-serif';
 }
+
+/* For the banner crop uploader */
+.cropArea {
+  overflow: hidden;
+  width: 500px;
+  height: 500px;
+}
+form .progress {
+  line-height: 15px;
+}
+.progress {
+  display: inline-block;
+  width: 100px;
+  border: 3px groove #CCC;
+}
+.progress div {
+  font-size: smaller;
+  background: orange;
+  width: 0;
+}

@@ -9,6 +9,7 @@ angular.module('jam', [
   'ngRoute',
   'ngAnimate',
   'ngFileUpload',
+  'ngImgCrop',
   'ngProgress'
 ])
 .config(function ($routeProvider, $httpProvider) {
