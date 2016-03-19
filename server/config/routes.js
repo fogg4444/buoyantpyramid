@@ -47,6 +47,8 @@ var routing = function (app, express) {
   apiRoutes.get('/playlists/:id/', Playlist.fetchSongs);
   // apiRoutes.delete('/playlists/:id', Playlist.delete);
 
+  apiRoutes.post('/s3/', Upload.getS3Data);
+
   // Upload handling
   apiRoutes.post('/upload/', Upload.catchUpload);
 

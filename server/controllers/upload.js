@@ -3,6 +3,37 @@ var Busboy = require('busboy');
 var path = require('path');
 var os = require('os');
 var fs = require('fs');
+var AWS = require('aws-sdk');
+
+var s3 = new AWS.S3();
+AWS.config.update({accessKeyId: 'AKIAIIIRPCLLGTLJGNZQ', secretAccessKey: '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'});
+
+// console.log(AWS);
+// console.log(s3)
+
+
+var getS3Data = function(req, res) {
+  console.log('Get s3 data', req);
+
+  // SIGNED URL GENERATION:
+  // var s3_params = {
+  //   Bucket: 'jamrecord',
+  //   Key: 'file_name',
+  //   ContentType: 'multipart/form-data',
+  //   Expires: 10000
+  // };
+
+  // s3.getSignedUrl('putObject', s3_params, function(err, data){
+  //   if (err) {
+  //     console.log('S3 signing error: ', err);
+  //     return;
+  //   }
+  //   console.log('Response from amazon', data);
+  // });
+};
+
+
+
 
 
 var catchUpload = function(req, res, next) {
@@ -44,4 +75,5 @@ var catchUpload = function(req, res, next) {
 
 module.exports = {
   catchUpload: catchUpload,
+  getS3Data: getS3Data
 };
