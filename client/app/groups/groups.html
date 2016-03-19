@@ -7,13 +7,13 @@
     <div class="current-group">
       <h2> {{ user.currentGroup.name }} </h2>
       <div ng-repeat="user in data.users | orderBy:'-timestamp'" class="user">
-      <!-- Place user view directive -->
+      <!-- Add styling -->
         <div> {{ user.displayName }} </div>
       </div>
     </div>
     <div class="group-list">
       <div ng-repeat="group in data.groups | filter: filterGroups(group) | orderBy:'-timestamp'" class="group">
-      <!-- Place group view directive -->
+      <!-- Add styling -->
         <div> {{ group.name }} </div>
       </div>
     </div>
