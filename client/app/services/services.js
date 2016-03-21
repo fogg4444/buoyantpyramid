@@ -100,10 +100,10 @@ angular.module('jam.services', [])
     });
   };
 
-  var deletePlaylist = function (plId) {
+  var deletePlaylist = function (id) {
     return http({
       method: 'DELETE',
-      url: '/api/playlists/' + plId 
+      url: '/api/playlists/' + id + '/' 
     })
     .then(function (res) {
       return res.data;

@@ -51,12 +51,22 @@ angular.module('jam.playlist', [])
     });
   };
 
-  $scope.deleteSong = function (song) {
-    console.log(song);
+  $scope.deleteSong = function (index) {
+    console.log("Delete this song: ", index, $scope.data.currentPlaylist[index]);
+    $scope.data.currentPlaylist.splice(index, 1);
+    PL.updatePlaylist(playlist)
+    .then(function(resp) {
+      console.log(resp);
+    })
+    .catch(console.error);
   };
 
   $scope.deletePlaylist = function (playlist) {
-    console.log(playlist);
+    PL.deletePlaylist(playlist.id)
+    .then(function(resp) {
+      console.log(resp);
+    })
+    .catch(console.error);
   };
 
 }]);

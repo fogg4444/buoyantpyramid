@@ -77,7 +77,8 @@ var removeSong = function(req, res, next) {
 };
 
 var deletePlaylist = function(req, res, next) {
-  var playlistId = req.params.pid;
+  var playlistId = req.params.id;
+  console.log("In delete playlist!", playlistId);
   Playlist.findOne({where: {id: playlistId}})
   .then(function(playlist) {
     playlist.destroy();
