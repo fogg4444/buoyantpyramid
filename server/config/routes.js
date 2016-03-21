@@ -43,9 +43,9 @@ var routing = function (app, express) {
   // Add and retrieve playlists
   apiRoutes.post('/playlists/', Playlist.createPlaylist);
   apiRoutes.put('/playlists/:id/add/', Playlist.addSong);
-  // apiRoutes.put('/playlists/:id/remove', Playlist.removeSong);
+  apiRoutes.put('/playlists/:id/remove', Playlist.removeSong);
   apiRoutes.get('/playlists/:id/', Playlist.fetchSongs);
-  // apiRoutes.delete('/playlists/:id', Playlist.delete);
+  apiRoutes.delete('/playlists/:id', Playlist.deletePlaylist);
 
   apiRoutes.post('/s3/', Upload.getS3Data);
 

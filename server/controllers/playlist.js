@@ -57,8 +57,41 @@ var fetchSongs = function(req, res, next) {
   });
 };
 
+var removeSong = function(req, res, next) {
+  var songId = req.params.sid;
+  var playlistId = req.params.pid;
+  Playlist.findOne({where: {id: playlistId}})
+  .then(function(playlist) {
+    playlist.findSong({where: {id: songId}})
+    .then(function(song) {
+      song.destroy();
+      res.send(song);
+    })
+    .catch(function(err) {
+      next(err);
+    });
+  })
+  .catch(function(err) {
+    next(err);
+  });
+};
+
+var deletePlaylist = function(req, res, next) {
+  var playlistId = req.params.pid;
+  Playlist.findOne({where: {id: playlistId}})
+  .then(function(playlist) {
+    playlist.destroy();
+    res.json(playlist);
+  })
+  .catch(function(err) {
+    next(err);
+  });
+};
+
 module.exports = {
   createPlaylist: createPlaylist,
   addSong: addSong,
-  fetchSongs: fetchSongs
+  fetchSongs: fetchSongs,
+  removeSong: removeSong,
+  deletePlaylist: deletePlaylist
 };

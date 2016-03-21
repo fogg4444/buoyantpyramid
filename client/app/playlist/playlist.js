@@ -48,8 +48,15 @@ angular.module('jam.playlist', [])
         console.log(resp);
       })
       .catch(console.error);
-
     });
+  };
+
+  $scope.deleteSong = function (song) {
+    console.log(song);
+  };
+
+  $scope.deletePlaylist = function (playlist) {
+    console.log(playlist);
   };
 
 }]);

@@ -88,10 +88,34 @@ angular.module('jam.services', [])
     });
   };
 
+  var deleteFromPlaylist = function (playlist) {
+    // Takes a playlist object with the song removed
+    return http({
+      method: 'PUT',
+      url: '/api/playlists/' + plId + '/remove/',
+      data: playlist
+    })
+    .then(function (res) {
+      return res.data;
+    });
+  };
+
+  var deletePlaylist = function (plId) {
+    return http({
+      method: 'DELETE',
+      url: '/api/playlists/' + plId 
+    })
+    .then(function (res) {
+      return res.data;
+    });
+  };
+
   return {
     createPlaylist: createPlaylist,
     addSongToPlaylist: addSongToPlaylist,
-    getPlaylistSongs: getPlaylistSongs
+    getPlaylistSongs: getPlaylistSongs,
+    deleteFromPlaylist: deleteFromPlaylist,
+    deletePlaylist: deletePlaylist
   };
 }])
 
