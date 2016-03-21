@@ -11,26 +11,26 @@
         </ul>
       </modal-dialog>
     </div>
-    <a href="#" class="refresh-button" ng-click="refreshSongs()">
+    <button href="#" class="refresh-button icon-button" ng-click="refreshSongs()">
       <span class="fa-stack fa-lg">
         <i class="fa fa-circle fa-stack-2x"></i>
         <i class="fa fa-refresh fa-stack-1x fa-inverse"></i>
       </span>
-    </a>
+    </button>
     <div class="message">{{message}}</div>
     <h2 class="heading">Songs</h2>
     <label for="search">Search: </label>
     <input ng-model="query" type="text" name="search" />
     <div ng-repeat="song in data.songs | filter:query | orderBy:'-timestamp'" class="song">
         <div class="song-buttons">
-          <a href="#" title="add to playlist" ng-click="$parent.newSong = song; toggleModal()"><i class="fa fa-plus-circle fa-lg"></i></a>
-          <a class="delete-button" title="delete song" ng-click="deleteSong($index)"><i class="fa fa-trash fa-lg"></i></a>
+          <button class="icon-button" title="add to playlist" ng-click="$parent.newSong = song; toggleModal()"><i class="fa fa-plus-circle fa-lg"></i></button>
+          <button class="delete-button icon-button" title="delete song" ng-click="deleteSong($index)"><i class="fa fa-trash fa-lg"></i></button>
         </div>
       <!-- <hr> -->
       <div class="info">
         <song-view song="song" songList="data.songs" index="$index" ></song-view>
       </div>
     </div>
-    <groups-nav></groups-nav>
+    <!-- <groups-nav></groups-nav> -->
   </div>
 </div>

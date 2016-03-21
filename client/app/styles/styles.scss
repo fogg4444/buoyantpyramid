@@ -39,12 +39,12 @@ body {
 
 a, a:visited, a:active {
   text-decoration: none;
-  transition: opacity 0.2s ease;
+  transition: color 0.2s ease;
   color: $linkcolor;
 }
 
 a:hover {
-  opacity: 0.5;
+  color: $lightgrey;
 }
 
 ul {
@@ -54,11 +54,11 @@ ul {
 }
 
 nav {
-  height: $nav-height;
   width:100%;
   position:fixed;
-  background-color: $bgcolor-2;
+  height: $nav-height;
   color: $textcolor-2;
+  background-color: $bgcolor-2;
   z-index: 99;
 }
 nav ul {
@@ -67,6 +67,13 @@ nav ul {
   padding: $nav-height * 0.1;
 
 }
+
+.elipsis-end {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .main-title {
   float: left;
 }
@@ -85,21 +92,27 @@ nav ul {
   border-radius: 50%;
   vertical-align: middle;
 }
-li:hover > .submenu {
+li:hover > .submenu-container {
   display: block;
   position:absolute;
   top: 0;
   right: 0;
   padding-top: $nav-height;
 }
-.submenu {
+.submenu-container {
   display: none;
+}
+.submenu {
+  background-color:rgba(64,64,64, 0.75);
 }
 .submenu li {
   margin: 0.2em;
   padding: 0.25em 0.5em;
   display: block;
-  background-color:rgba(64,64,64, 0.75);
+}
+.menu-category {
+  text-transform: uppercase;
+  font-size: 1.15em;
 }
 .page-content { 
   clear: both;
@@ -299,7 +312,8 @@ input[type="button"] {
   border-radius: 4px;
   border: 1px solid $lightgrey;
   cursor: pointer;
-  box-sizing: border-box; }
+  transition: color 0.2s ease;
+ }
 .button:hover,
 button:hover,
 input[type="submit"]:hover,
@@ -355,5 +369,11 @@ form {
   margin-bottom: 2.5rem; }
 
 
-
-
+.icon-button, .icon-button:active {
+  padding: 0;
+  margin: 0 0.25em;
+  font-size: 1.25em;
+  color: $linkcolor;
+  border:none;
+  background:none;
+}
