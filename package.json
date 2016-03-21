@@ -23,11 +23,13 @@
   },
   "homepage": "https://github.com/BuoyantPyramid/buoyantpyramid#readme",
   "dependencies": {
+    "aws-sdk": "^2.2.45",
     "bcrypt-nodejs": "0.0.3",
     "bluebird": "^3.3.4",
     "body-parser": "^1.15.0",
     "busboy": "^0.2.12",
     "crypto": "0.0.3",
+    "crypto-js": "^3.1.6",
     "express": "^4.13.4",
     "jwt-simple": "^0.4.1",
     "mailgun-js": "^0.7.7",
