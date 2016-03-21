@@ -1,6 +1,6 @@
 angular.module('jam.songs', [])
 
-.controller('SongsController', ['$scope', '$location', 'Songs', 'Auth', function ($scope, loc, Songs, Auth) {
+.controller('SongsController', ['$scope', '$location', 'Songs', 'Auth', 'Groups', function ($scope, loc, Songs, Auth, GR) {
   // When user adds a new link, put it in the collection
   $scope.data = {};
   $scope.user = {};
@@ -11,9 +11,20 @@ angular.module('jam.songs', [])
     });
   };
 
-  $scope.addToPlaylist = function() {
-    // $scope.modalShown = false;
-    console.log($scope.newSong);
+  Auth.getUserData()
+  .then(function (user) {
+    $scope.user = user;
+    augmentUrls(user.currentGroup.songs);
+    $scope.data.songs = user.currentGroup.songs;
+    GR.getPlaylistsByGroupId($scope.user.currentGroup.id)
+    .then(function (playlists) {
+      $scope.data.playlists = playlists;
+    });
+  })
+  .catch(console.error);
+
+  $scope.addToPlaylist = function(id) {
+    console.log(id, $scope.newSong);
   };
 
   $scope.toggleModal = function () {
@@ -29,11 +40,4 @@ angular.module('jam.songs', [])
     .catch(console.error);
   };
 
-  Auth.getUserData()
-  .then(function (user) {
-    $scope.user = user;
-    augmentUrls(user.currentGroup.songs);
-    $scope.data.songs = user.currentGroup.songs;
-  })
-  .catch(console.error);
 }]);

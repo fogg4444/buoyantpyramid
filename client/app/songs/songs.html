@@ -5,11 +5,10 @@
       <button ng-click="toggleModal()">Add to Playlist</button>
       <modal-dialog show="modalShown">
         <h4>Click a playlist to add the song</h4>
-        <ul>
+        <ul ng-repeat="playlist in data.playlists" >
           <!-- ng-repeat of playlists in current group -->
-          <!-- ng-click="addToPlaylist()" -->
+          <a href><li ng-click="addToPlaylist(playlist.id); $parent.toggleModal()">{{playlist.title}}</li></a>
         </ul>
-        <button ng-click="addToPlaylist()">Add to Playlist</button>
       </modal-dialog>
     </div>
     <div class='message'>{{message}}</div>

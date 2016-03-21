@@ -66,15 +66,10 @@ angular.module('jam.services', [])
     });
   };
 
-  var getAllPlaylists = function (groupId) {
-    // Add route to get the playlists belonging to current group
-  };
-
   return {
     createPlaylist: createPlaylist,
     addSongToPlaylist: addSongToPlaylist,
-    getPlaylistSongs: getPlaylistSongs,
-    getAllPlaylists: getAllPlaylists
+    getPlaylistSongs: getPlaylistSongs
   };
 }])
 
