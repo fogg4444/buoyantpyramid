@@ -12,7 +12,7 @@
       </modal-dialog>
     </div>
     <div ng-repeat="playlist in data.playlists" ng-click="makeCurrent(playlist)">{{playlist.title}}</div>
-    <div ng-repeat="song in data.currentPlaylist.songs" class="song">
+    <div ng-repeat="song in data.currentPlaylist" class="song">
       <hr>
       <div class="info">
         <song-view song="song"></song-view>

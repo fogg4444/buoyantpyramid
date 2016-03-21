@@ -2,7 +2,7 @@ angular.module('jam.playlist', [])
 .controller('PlaylistController', ['$scope', 'Auth', 'Playlists', 'Groups', function ($scope, Auth, PL, GR) {
   $scope.newPlaylist = {};
   $scope.data = {};
-  $scope.data.currentPlaylist = {};
+  $scope.data.currentPlaylist = [];
   $scope.data.playlists = [];
   $scope.user = {};
 
@@ -26,7 +26,8 @@ angular.module('jam.playlist', [])
     console.log($scope.data.currentPlaylist);
     PL.getPlaylistSongs(playlist.id)
     .then(function (resp) {
-      console.log(resp);
+      $scope.data.currentPlaylist = resp;
+      console.log($scope.data.currentPlaylist);
     })
     .then(console.error);
   };
