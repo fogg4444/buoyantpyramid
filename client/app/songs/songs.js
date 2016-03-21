@@ -25,9 +25,10 @@ angular.module('jam.songs', [])
 
   $scope.addToPlaylist = function(id) {
     console.log(id, $scope.newSong);
-    PL.addSongToPlaylist(id, $scope.newSong)
+    $scope.newSong.playlistId = id;
+    PL.addSongToPlaylist($scope.newSong)
     .then(function (resp) {
-      console.log("Response form add song: ", resp);
+      console.log("Response from add song: ", resp);
     })
     .catch(console.error);
   };
