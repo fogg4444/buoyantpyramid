@@ -45,4 +45,13 @@ angular.module('jam.songs', [])
     .catch(console.error);
   };
 
+  $scope.deleteSong = function(index) {
+    Songs.deleteSong($scope.data.songs[index])
+    .then(function() {
+      $scope.data.songs.splice(index, 1);
+    })
+    .catch(function (err) {
+      $scope.message = 'error: ' + err;
+    });
+  };
 }]);

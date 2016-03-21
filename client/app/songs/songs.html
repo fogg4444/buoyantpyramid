@@ -2,7 +2,7 @@
 <div class="songs page-content">
   <div class="page-content">
     <div class="add-song-to-playlist">
-      <button ng-click="toggleModal()">Add to Playlist</button>
+      <!-- <button ng-click="toggleModal()">Add to Playlist</button> -->
       <modal-dialog show="modalShown">
         <h4>Click a playlist to add the song</h4>
         <ul ng-repeat="playlist in data.playlists" >
@@ -17,15 +17,18 @@
         <i class="fa fa-refresh fa-stack-1x fa-inverse"></i>
       </span>
     </a>
-    <div class='message'>{{message}}</div>
+    <div class="message">{{message}}</div>
     <h2 class="heading">Songs</h2>
     <label for="search">Search: </label>
     <input ng-model="query" type="text" name="search" />
     <div ng-repeat="song in data.songs | filter:query | orderBy:'-timestamp'" class="song">
-      <hr>
+        <div class="song-buttons">
+          <a href="#" title="add to playlist" ng-click="$parent.newSong = song; toggleModal()"><i class="fa fa-plus-circle fa-lg"></i></a>
+          <a class="delete-button" title="delete song" ng-click="deleteSong($index)"><i class="fa fa-trash fa-lg"></i></a>
+        </div>
+      <!-- <hr> -->
       <div class="info">
         <song-view song="song" songList="data.songs" index="$index" ></song-view>
-        <button ng-click="$parent.newSong = song; toggleModal()">Add to Playlist</button>
       </div>
     </div>
     <groups-nav></groups-nav>
