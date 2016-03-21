@@ -1,0 +1,6 @@
+{
+  "accessKeyId": "ACCESS KEY ID HERE",
+  "secretAccessKey": "SECRET ACCESS KEY HERE",
+  "region": "BUCKET LOCATION",
+  "bucket": "BUCKET NAME"
+}

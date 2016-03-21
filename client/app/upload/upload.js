@@ -1,6 +1,6 @@
 angular
   .module('jam.upload', [])
-  .controller('UploadController', ['$scope', 'Upload', 'ngProgressFactory', 'Auth', function($scope, Upload, ngProgressFactory, Auth) {
+  .controller('UploadController', ['$scope', 'Upload', 'ngProgressFactory', 'Auth', '$http', function($scope, Upload, ngProgressFactory, Auth, $http) {
     
     $scope.progressbar = ngProgressFactory.createInstance();
 
@@ -41,24 +41,70 @@ angular
 
     // upload on file select or drop
     $scope.upload = function(file) {
-      var groupId;
-      Auth.getUserData()
-      .then(function(user) {
-        Upload.upload({
-          url: '/api/groups/' + user.currentGroupId + '/songs',
-          data: { file: file }
-        }).then(function(resp) {
-          totalUploaded++;
-        }, function(resp) {
-          console.error('Error status: ' + resp.status);
-          totalUploaded++;
-        }, function(evt) {
-          var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-          file['progressPercentage'] = progressPercentage;
-          throttledTotal();
-        });
+      var postData = {
+        uniqueFilename: file.name,
+        fileType: file.type
+      }
+
+      $http.post("/api/s3", postData)
+      .then(function(res){
+        var s3Credentials = res.data;
+        beginDirectS3Upload(s3Credentials, file);
+      }, function(res){
+        // AWS Signature API Error
+        console.log('Error', res);
       });
+
+      var beginDirectS3Upload = function(s3Credentials, file) {
+        console.log('Begin s3 upload', s3Credentials);
+        var groupId;
+
+        Auth.getUserData()
+        .then(function(user) {
+          var dataObj = {
+            'key' : 's3UploadExample/'+ Math.round(Math.random()*10000) + '$$' + file.name,
+            'acl' : 'public-read',
+            'Content-Type' : file.type,
+            'AWSAccessKeyId': s3Credentials.AWSAccessKeyId,
+            'success_action_status' : '201',
+            'Policy' : s3Credentials.s3Policy,
+            'Signature' : s3Credentials.s3Signature
+          };
+
+          Upload.upload({
+            url: 'https://' + s3Credentials.bucketName + '.s3.amazonaws.com/',
+            method: 'POST',
+            transformRequest: function (data, headersGetter) {
+              var headers = headersGetter();
+              delete headers['Authorization'];
+              return data;
+            },
+            data: dataObj,
+            file: file,
+          })
+          .then(function(response) {
+            // On upload confirmation
+            file.progress = parseInt(100);
+            console.log('Whatever this is');
+            if (response.status === 201) {
+              // TODO: upload success
+              // do something client side
+                // commit entry to songs list
+
+            } else {
+              // upload failed
+              // do something client side
+            }
+          }, null, function(evt) {
+            // on upload progress
+            file.progress =  parseInt(100.0 * evt.loaded / evt.total);
+            console.log('Progress: ', file.progress);
+            // TODO: pass data to progress bar
+          });
+        });
+      }
     };
+
     // for multiple files:
     $scope.uploadFiles = function() {
       $scope.progressbar.set(0);

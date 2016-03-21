@@ -48,3 +48,6 @@ config.js
 
 # ignore uploadInbox
 server/uploadInbox/*
+
+# ignore real aws config credentials
+server/config/aws.json
