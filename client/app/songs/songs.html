@@ -11,11 +11,16 @@
         </ul>
       </modal-dialog>
     </div>
+    <a href="#" class="refresh-button" ng-click="refreshSongs()">
+      <span class="fa-stack fa-lg">
+        <i class="fa fa-circle fa-stack-2x"></i>
+        <i class="fa fa-refresh fa-stack-1x fa-inverse"></i>
+      </span>
+    </a>
     <div class='message'>{{message}}</div>
     <h2 class="heading">Songs</h2>
     <label for="search">Search: </label>
     <input ng-model="query" type="text" name="search" />
-    <button class="refresh-button" ng-click="refreshSongs()">refresh</button>
     <div ng-repeat="song in data.songs | filter:query | orderBy:'-timestamp'" class="song">
       <hr>
       <div class="info">
