@@ -174,11 +174,7 @@ angular.module('jam.services', [])
 
 
 .factory('Auth', ['$http', '$location', '$window', '$q', function (http, loc, win, q) {
-  // This is responsible for authenticating our user
-  // by exchanging the user's email and password
-  // for a JWT from the server
-  // that JWT is then stored in localStorage as 'com.jam'
-
+  // stores users token as com.jam
   var userData = null;
 
   var login = function (user) {
