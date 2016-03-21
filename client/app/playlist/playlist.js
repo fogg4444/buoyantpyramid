@@ -29,12 +29,10 @@ angular.module('jam.playlist', [])
 
   $scope.makeCurrent = function (playlist) {
     $scope.data.currentPlaylist = playlist;
-    console.log($scope.data.currentPlaylist);
     PL.getPlaylistSongs(playlist.id)
     .then(function (songs) {
       augmentUrls(songs);
       $scope.data.currentPlaylist = songs;
-      console.log($scope.data.currentPlaylist);
     })
     .then(console.error);
   };
@@ -44,7 +42,6 @@ angular.module('jam.playlist', [])
     .then(function (playlist) {
       $scope.modalShown = false;
       $scope.currentPlaylist = playlist.data;
-      console.log($scope.currentPlaylist);
 
       GR.getPlaylistsByGroupId($scope.user.currentGroup.id)
       .then(function (resp) {
