@@ -1,10 +1,11 @@
 <div class="song-item">
-  <a class="delete-button" ng-click="deleteSong(index)"><i class="fa fa-trash fa-lg"></i></a>
   <div class="song-thumbnail"><img ng-src="{{ song.imageUrl + '.jpg'}}" ng-show="song.imageUrl"/></div>
-  <div>Title: {{ song.title }}</div>
-  <audio controls>  
-    <source src="{{song.apiUrl}}" >
-    Your browser does not support the audio tag.
-  </audio>
+  <div class="song-player">
+    <div class="song-title">Title: {{ song.title }}</div>
+    <audio controls>  
+      <source src="{{song.apiUrl}}" >
+      Your browser does not support the audio tag.
+    </audio>
+  </div>
   <div> Description: {{ song.description }}</div>
 </div>
