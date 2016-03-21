@@ -19,7 +19,7 @@ angular.module('jam.groupSettings', [])
   $scope.updateGroupProfile = function() {
     Groups.updateInfo($scope.group)
     .then(function(resp) {
-      console.log(resp);
+      console.log(resp.data);
     })
     .catch(console.error);
   };

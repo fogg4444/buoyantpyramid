@@ -24,7 +24,7 @@ var createPlaylist = function(req, res, next) {
 };
 
 var addSong = function(req, res, next) {
-  var songId = req.body.songId;
+  var songId = req.params.id;
   var playlistId = req.body.playlistId;
   Song.update(
     {

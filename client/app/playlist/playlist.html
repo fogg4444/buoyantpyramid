@@ -1,6 +1,5 @@
-<div class="playlist">
   <nav-bar></nav-bar>
-  <div class="page-content">
+  <div class="playlist page-content">
     <h2>Playlist</h2>
     <div class="create-playlist">
       <button ng-click="toggleModal()">Create New Playlist</button>
@@ -12,11 +11,11 @@
         </form>
       </modal-dialog>
     </div>
-    <div ng-repeat="song in currentPlaylist.songs" class="song">
+    <div ng-repeat="playlist in data.playlists" ng-click="makeCurrent(playlist)">{{playlist.title}}</div>
+    <div ng-repeat="song in data.currentPlaylist" class="song">
       <hr>
       <div class="info">
         <song-view song="song"></song-view>
       </div>
     </div>
   </div>
-</div>

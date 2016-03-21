@@ -47,34 +47,38 @@ angular.module('jam.services', [])
       method: 'POST',
       url: '/api/playlists/',
       data: playlist
+    })
+    .then(function (res) {
+      return res.data;
     });
   };
 
-  var addSongToPlaylist = function (id, song) {
+  var addSongToPlaylist = function (song) {
     // takes a playlist id and a song obj
     return http({
       method: 'PUT',
-      url: '/api/playlists/' + id + '/add/',
+      url: '/api/playlists/' + song.id + '/add/',
       data: song
+    })
+    .then(function (res) {
+      return res.data;
     });
   };
 
   var getPlaylistSongs = function (id) {
     return http({
       method: 'GET',
-      url: '/api/playlists/' + id
+      url: '/api/playlists/' + id + '/'
+    })
+    .then(function (res) {
+      return res.data;
     });
-  };
-
-  var getAllPlaylists = function (groupId) {
-    // Add route to get the playlists belonging to current group
   };
 
   return {
     createPlaylist: createPlaylist,
     addSongToPlaylist: addSongToPlaylist,
-    getPlaylistSongs: getPlaylistSongs,
-    getAllPlaylists: getAllPlaylists
+    getPlaylistSongs: getPlaylistSongs
   };
 }])
 
@@ -122,6 +126,16 @@ angular.module('jam.services', [])
     });
   };
 
+  var getPlaylistsByGroupId = function (groupId) {
+    return http({
+      method: 'GET',
+      url: '/api/groups/' + groupId + '/playlists/'
+    })
+    .then(function (res) {
+      return res.data;
+    });
+  };
+
   var updateInfo = function(group) {
     return http({
       method: 'PUT',
@@ -144,7 +158,7 @@ angular.module('jam.services', [])
     })
     .then(function (res) {
       return res.data;
-    })
+    });
   };
 
   return {
@@ -152,6 +166,7 @@ angular.module('jam.services', [])
     addUser: addUser,
     getGroupsByUserId: getGroupsByUserId,
     getUsersByGroupId: getUsersByGroupId,
+    getPlaylistsByGroupId: getPlaylistsByGroupId,
     updateInfo: updateInfo,
     sendInvite: sendInvite
   };
