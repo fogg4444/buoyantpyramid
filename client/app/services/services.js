@@ -122,6 +122,16 @@ angular.module('jam.services', [])
     });
   };
 
+  var getPlaylistsByGroupId = function (groupId) {
+    return http({
+      method: 'GET',
+      url: '/api/groups/' + groupId + '/playlists/'
+    })
+    .then(function (res) {
+      return res.data;
+    });
+  };
+
   var updateInfo = function(group) {
     return http({
       method: 'PUT',
@@ -144,7 +154,7 @@ angular.module('jam.services', [])
     })
     .then(function (res) {
       return res.data;
-    })
+    });
   };
 
   return {
@@ -152,6 +162,7 @@ angular.module('jam.services', [])
     addUser: addUser,
     getGroupsByUserId: getGroupsByUserId,
     getUsersByGroupId: getUsersByGroupId,
+    getPlaylistsByGroupId: getPlaylistsByGroupId,
     updateInfo: updateInfo,
     sendInvite: sendInvite
   };

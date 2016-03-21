@@ -29,6 +29,7 @@ var fetchSongs = function(req, res, next) {
   });
 };
 
+
 var addUser = function(req, res, next) {
   // roles:
   //  admin, member, pending
@@ -64,6 +65,20 @@ var fetchUsers = function(req, res, next) {
   });
 };
 
+var fetchPlaylists = function(req, res, next) {
+  var groupId = req.params.id;
+  Group.findOne({where: {id: groupId}})
+  .then(function(group) {
+    group.getPlaylists()
+    .then(function (playlists) {
+      res.json(playlists);
+    });
+  })
+  .catch(function(err) {
+    next(err);
+  });
+};
+
 var updateGroupInfo = function(req, res, next) {
 
   Group.update(req.body, {
@@ -82,6 +97,7 @@ var updateGroupInfo = function(req, res, next) {
 module.exports = {
   createGroup: createGroup,
   fetchSongs: fetchSongs,
+  fetchPlaylists: fetchPlaylists,
   addUser: addUser,
   fetchUsers: fetchUsers,
   updateGroupInfo: updateGroupInfo

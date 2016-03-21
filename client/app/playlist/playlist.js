@@ -1,5 +1,5 @@
 angular.module('jam.playlist', [])
-.controller('PlaylistController', ['$scope', 'Auth', 'Playlists', function ($scope, Auth, PL) {
+.controller('PlaylistController', ['$scope', 'Auth', 'Playlists', 'Groups', function ($scope, Auth, PL, GRR) {
   $scope.newPlaylist = {};
   $scope.currentPlaylist = {};
   $scope.user = {};
@@ -21,6 +21,13 @@ angular.module('jam.playlist', [])
       $scope.modalShown = false;
       $scope.currentPlaylist = playlist.data;
       console.log($scope.currentPlaylist);
+
+      GRR.getPlaylistsByGroupId($scope.user.currentGroup.id)
+      .then(function (resp) {
+        console.log(resp);
+      })
+      .catch(console.error);
+
     });
   };
 
