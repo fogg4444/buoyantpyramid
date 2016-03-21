@@ -1,9 +1,16 @@
 /*jam styling*/
-
-* {
+html {
   box-sizing: border-box;
   font-family: sans-serif;
 }
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+$bgcolor: #FAFCFC;
+$bgcolor-2: #385E8A;
+$textcolor-2: #FBFBFB;
+$linkcolor: #99D1B2;
+$nav-height: 3em;
 
 body {
   $red: random(256)-1;
@@ -11,33 +18,72 @@ body {
   $blue: random(256)-1;
   $alpha: random(100)/100;
 
-  background-color: rgba($red, $green, $blue, $alpha);
+  // background-color: rgba($red, $green, $blue, $alpha);
+  background-color: $bgcolor;
+
+  margin:0;
+  padding:0;
 }
 
-ul.nav {
+a, a:visited, a:active {
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+  color: $linkcolor;
+}
+
+a:hover {
+  opacity: 0.5;
+}
+
+ul {
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-ul.nav a {
-  float: right;
-  display: inline;
-  width: 5em;
-  top: 0;
+nav {
+  height: $nav-height;
+  width:100%;
+  position:fixed;
+  background-color: $bgcolor-2;
+  color: $textcolor-2;
+}
+nav ul {
+  display: block;
+  text-align: right;
+
+}
+.main-title {
+  float: left;
+}
+.nav-item {
+  display: inline-block;
+  margin: 0 1em;
 }
 
 .nav-name {
-  display: inline;
-  top: 0;
-  text-align: center;
 }
 
 .avatar-img {
-  float: left;
-  display: inline-block;
+  max-height: $nav-height * 0.8;
+  margin-top: $nav-height * 0.1;
+  border-radius: 50%;
 }
-
+li:hover > .submenu {
+  display: block;
+  background-color:rgba(125,125,125, 0.7);
+  position:absolute;
+  top: $nav-height;
+  right: 0;
+  // padding: 1em;
+}
+.submenu {
+  display: none;
+}
+.submenu li {
+  margin: 0.5em;
+  display: block;
+}
 .page-content { 
   clear: both;
   padding: 1em;
