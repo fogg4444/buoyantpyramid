@@ -47,6 +47,9 @@ angular.module('jam.services', [])
       method: 'POST',
       url: '/api/playlists/',
       data: playlist
+    })
+    .then(function (res) {
+      return res.data;
     });
   };
 
@@ -56,6 +59,9 @@ angular.module('jam.services', [])
       method: 'PUT',
       url: '/api/playlists/' + id + '/add/',
       data: song
+    })
+    .then(function (res) {
+      return res.data;
     });
   };
 
@@ -63,6 +69,9 @@ angular.module('jam.services', [])
     return http({
       method: 'GET',
       url: '/api/playlists/' + id
+    })
+    .then(function (res) {
+      return res.data;
     });
   };
 

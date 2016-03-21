@@ -1,6 +1,6 @@
 angular.module('jam.songs', [])
 
-.controller('SongsController', ['$scope', '$location', 'Songs', 'Auth', 'Groups', function ($scope, loc, Songs, Auth, GR) {
+.controller('SongsController', ['$scope', '$location', 'Songs', 'Auth', 'Groups', 'Playlists', function ($scope, loc, Songs, Auth, GR, PL) {
   // When user adds a new link, put it in the collection
   $scope.data = {};
   $scope.user = {};
@@ -25,6 +25,11 @@ angular.module('jam.songs', [])
 
   $scope.addToPlaylist = function(id) {
     console.log(id, $scope.newSong);
+    PL.addSongToPlaylist(id, $scope.newSong)
+    .then(function (resp) {
+      console.log("Response form add song: ", resp);
+    })
+    .catch(console.error);
   };
 
   $scope.toggleModal = function () {
