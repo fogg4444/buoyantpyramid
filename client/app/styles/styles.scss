@@ -1,4 +1,22 @@
 /*jam styling*/
+
+/**************************************************
+ * COLOR VARIABLES
+ **************************************************/
+$white: #fff;
+$lightgrey: #d1d1d1;
+$midgrey: #999;
+$darkgrey: #555;
+$bgcolor: #FAFCFC;
+$bgcolor-2: #385E8A;
+$textcolor: $darkgrey;
+$textcolor-2: #FBFBFB;
+$linkcolor: #99D1B2;
+
+/**************************************************/
+
+$nav-height: 3em;
+
 html {
   box-sizing: border-box;
   font-family: sans-serif;
@@ -6,12 +24,6 @@ html {
 *, *:before, *:after {
   box-sizing: inherit;
 }
-$bgcolor: #FAFCFC;
-$bgcolor-2: #385E8A;
-$textcolor-2: #FBFBFB;
-$linkcolor: #99D1B2;
-$nav-height: 3em;
-
 body {
   $red: random(256)-1;
   $green: random(256)-1;
@@ -20,7 +32,7 @@ body {
 
   // background-color: rgba($red, $green, $blue, $alpha);
   background-color: $bgcolor;
-
+  color: $textcolor;
   margin:0;
   padding:0;
 }
@@ -105,18 +117,30 @@ li:hover > .submenu {
   background: white;
 }
 
-.refresh-button, .delete-button {
+.song {
+  margin-top: 1em;
+}
+
+.song-buttons, .refresh-button {
   float:right;
 }
 
 .song-thumbnail {
-  float:left;
+  display: inline-block;
   height: 3em;
   width: 3em;
   overflow: hidden;
 }
 .song-thumbnail img {
   max-width: 100%;
+}
+.song-player {
+  display: inline-block;
+  margin: 0 0.5em;
+  color: $bgcolor-2;
+}
+.song-title {
+  font-size: 1.25em;
 }
 
 .drop-box {
@@ -142,7 +166,7 @@ li:hover > .submenu {
   /* A centered div above the overlay with a box shadow. */
   z-index:10000;
   position: absolute;
-  width: 50%; /* Default */
+    width: 50%; /* Default */
 
   /* Center the dialog */
   top: 50%;
@@ -189,3 +213,147 @@ form .progress {
   background: orange;
   width: 0;
 }
+
+
+/* Forms and buttons - taken and modified from http://getskeleton.com/
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+input[type="email"],
+input[type="number"],
+input[type="search"],
+input[type="text"],
+input[type="tel"],
+input[type="url"],
+input[type="password"],
+textarea,
+select {
+  height: 2rem;
+  padding: 1rem; /* The 6px vertically centers text on FF, ignored by Webkit */
+  background-color: $white;
+  border: 1px solid $lightgrey;
+  color: $textcolor;
+  font-size: 1rem;
+  border-radius: 4px;
+  box-shadow: none;
+  box-sizing: border-box; }
+/* Removes awkward default styles on some inputs for iOS */
+input[type="email"],
+input[type="number"],
+input[type="search"],
+input[type="text"],
+input[type="tel"],
+input[type="url"],
+input[type="password"],
+textarea {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none; }
+textarea {
+  min-height: 65px;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em; }
+input[type="email"]:focus,
+input[type="number"]:focus,
+input[type="search"]:focus,
+input[type="text"]:focus,
+input[type="tel"]:focus,
+input[type="url"]:focus,
+input[type="password"]:focus,
+textarea:focus,
+select:focus {
+  border: 1px solid $linkcolor;
+  outline: 0; }
+label,
+legend {
+  display: block;
+  margin-bottom: .5rem;
+  font-weight: 600; }
+fieldset {
+  padding: 0;
+  border-width: 0; }
+input[type="checkbox"],
+input[type="radio"] {
+  display: inline; }
+label > .label-body {
+  display: inline-block;
+  margin-left: .5rem;
+  font-weight: normal; }
+
+.button,
+button,
+input[type="submit"],
+input[type="reset"],
+input[type="button"] {
+  display: inline-block;
+  height: 2rem;
+  padding: 0 1rem;
+  color: $white;
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 600;
+  // line-height: 2em;
+  letter-spacing: .1rem;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  background-color: $linkcolor;
+  border-radius: 4px;
+  border: 1px solid $lightgrey;
+  cursor: pointer;
+  box-sizing: border-box; }
+.button:hover,
+button:hover,
+input[type="submit"]:hover,
+input[type="reset"]:hover,
+input[type="button"]:hover,
+.button:focus,
+button:focus,
+input[type="submit"]:focus,
+input[type="reset"]:focus,
+input[type="button"]:focus {
+  color: $darkgrey;
+  border-color: $linkcolor;
+  outline: 0; }
+.button.button-primary,
+button.button-primary,
+input[type="submit"].button-primary,
+input[type="reset"].button-primary,
+input[type="button"].button-primary {
+  color: $white;
+  background-color: $textcolor-2;
+  border-color: $textcolor-2; }
+.button.button-primary:hover,
+button.button-primary:hover,
+input[type="submit"].button-primary:hover,
+input[type="reset"].button-primary:hover,
+input[type="button"].button-primary:hover,
+.button.button-primary:focus,
+button.button-primary:focus,
+input[type="submit"].button-primary:focus,
+input[type="reset"].button-primary:focus,
+input[type="button"].button-primary:focus {
+  color: #FFF;
+  background-color: #1EAEDB;
+  border-color: #1EAEDB; }
+
+button,
+.button {
+  margin-bottom: 1rem; }
+input,
+textarea,
+select,
+fieldset {
+  margin-bottom: 1.5rem; }
+pre,
+blockquote,
+dl,
+figure,
+table,
+p,
+ul,
+ol,
+form {
+  margin-bottom: 2.5rem; }
+
+
+
+
