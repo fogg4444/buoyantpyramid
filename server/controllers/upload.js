@@ -1,68 +1,70 @@
+'use strict';
 var Busboy = require('busboy');
-
 var path = require('path');
 var os = require('os');
 var fs = require('fs');
 var AWS = require('aws-sdk');
+var crypto = require('crypto');
+var config = require('../config/aws.json');
 
-AWS.config.update({
-  accessKeyId: 'AKIAI3P2KJWODZJLPQUQ',
-  secretAccessKey: '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'
-});
-
-var s3 = new AWS.S3();
-
-// console.log(AWS);
-// console.log(s3);
-
-var getUrlVars = function(input) {
-  var vars = {};
-  var parts = input.replace(/[?&]+([^=&]+)=([^&]*)/gi,    
-  function(m,key,value) {
-    vars[key] = value;
-  });
-  return vars;
+var getExpiryTime = function () {
+    var _date = new Date();
+    return '' + (_date.getFullYear()) + '-' + (_date.getMonth() + 1) + '-' +
+        (_date.getDate() + 1) + 'T' + (_date.getHours() + 3) + ':' + '00:00.000Z';
 };
 
-var getS3Data = function(req, res) {
-  console.log('Get s3 data');
-  var uniqueFilename = req.body.uniqueFilename;
-  console.log(uniqueFilename);
-
-  // SIGNED URL GENERATION:
-
-  var s3_params = {
-    Bucket: 'jamrecord',
-    Key: uniqueFilename
-    // ContentType: 'multipart/form-data',
-    // Expires: 10000
+var createS3Policy = function (contentType, callback) {
+  var date = new Date();
+  var s3Policy = {
+    'expiration': getExpiryTime(),
+    'conditions': [
+      ['starts-with', '$key', 's3UploadExample/'],
+      {'bucket': config.bucket},
+      {'acl': 'public-read'},
+      ['starts-with', '$Content-Type', contentType],
+      {'success_action_status' : '201'}
+    ]
   };
-  console.log('s3_Paramaters: ', s3_params)
 
-  s3.getSignedUrl('putObject', s3_params, function(err, customUrl){
-    if (err) {
-      console.log('S3 signing error: ', err);
-      res.status(500).send(err);
+  // stringify and encode the policy
+  var stringPolicy = JSON.stringify(s3Policy);
+  var base64Policy = new Buffer(stringPolicy, 'utf-8').toString('base64');
 
-      return;
+  // sign the base64 encoded policy
+  var signature = crypto
+    .createHmac('sha1', config.secretAccessKey)
+    .update(new Buffer(base64Policy, 'utf-8'))
+    .digest('base64');
+
+  // build the results object
+  var s3Credentials = {
+    s3Policy: base64Policy,
+    s3Signature: signature,
+    AWSAccessKeyId: config.accessKeyId,
+    bucketName: config.bucket,
+    region: config.region
+  };
+
+  callback(s3Credentials);
+};
+
+var getS3Policy = function (req, res) {
+  createS3Policy(req.body.fileType, function (creds, err) {
+    if (!err) {
+      console.log('No error creating s3 policy: ', creds)
+      return res.status(200).send(creds);
+    } else {
+      console.log('Error creating s3 policy');
+      return res.status(500).send(err);
     }
-    console.log('Response from aws', customUrl);
-    res.send(customUrl);
   });
 };
 
-
-
-
-
-var catchUpload = function(req, res, next) {
+var catchUpload = function (req, res, next) {
   var busboy = new Busboy({ headers: req.headers });
 
-  busboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
-    
+  busboy.on('file', function (fieldname, file, filename, encoding, mimetype) {
     var saveTo = path.join(__dirname + '/../uploadInbox/' + filename);
-    // console.log(saveTo);
-
     file.pipe(fs.createWriteStream(saveTo));
 
     // console.log('File [' + fieldname + ']: filename: ' + filename + ', encoding: ' + encoding + ', mimetype: ' + mimetype);
@@ -71,7 +73,7 @@ var catchUpload = function(req, res, next) {
     //   console.log('File [' + fieldname + '] got ' + data.length + ' bytes');
     // });
     
-    file.on('end', function() {
+    file.on('end', function () {
       console.log('File [' + fieldname + '] Finished');
       req.filename = filename;
       next();
@@ -82,17 +84,15 @@ var catchUpload = function(req, res, next) {
   //   console.log('Field [' + fieldname + ']: value: ' + inspect(val));
   // });
 
-  busboy.on('finish', function() {
-    console.log('Done Uploading Files!');
-    // res.writeHead(303, { Connection: 'close', Location: '/' });
+  busboy.on('finish', function () {
+    console.log('Done parsing form!');
+    res.writeHead(303, { Connection: 'close', Location: '/' });
     res.end();
   });
   req.pipe(busboy);
-
-  // console.log('Catch upload: ================================', busboy);
 };
 
 module.exports = {
   catchUpload: catchUpload,
-  getS3Data: getS3Data
+  getS3Data: getS3Policy
 };
