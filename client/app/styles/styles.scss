@@ -105,8 +105,18 @@ li:hover > .submenu {
   background: white;
 }
 
-.refresh-button {
+.refresh-button, .delete-button {
   float:right;
+}
+
+.song-thumbnail {
+  float:left;
+  height: 3em;
+  width: 3em;
+  overflow: hidden;
+}
+.song-thumbnail img {
+  max-width: 100%;
 }
 
 .drop-box {
