@@ -51,6 +51,7 @@ nav {
 nav ul {
   display: block;
   text-align: right;
+  padding: $nav-height * 0.1;
 
 }
 .main-title {
@@ -61,28 +62,31 @@ nav ul {
   margin: 0 1em;
 }
 
-.nav-name {
+.nav-spacer {
+  width: 100%;
+  height: $nav-height;
 }
 
 .avatar-img {
   max-height: $nav-height * 0.8;
-  margin-top: $nav-height * 0.1;
   border-radius: 50%;
+  vertical-align: middle;
 }
 li:hover > .submenu {
   display: block;
-  background-color:rgba(125,125,125, 0.7);
   position:absolute;
-  top: $nav-height;
+  top: 0;
   right: 0;
-  // padding: 1em;
+  padding-top: $nav-height;
 }
 .submenu {
   display: none;
 }
 .submenu li {
-  margin: 0.5em;
+  margin: 0.2em;
+  padding: 0.25em 0.5em;
   display: block;
+  background-color:rgba(125,125,125, 0.8);
 }
 .page-content { 
   clear: both;
