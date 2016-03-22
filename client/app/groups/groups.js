@@ -29,6 +29,15 @@ angular.module('jam.groups', [])
     });
   };
 
+  $scope.setCurrentGroup = function(group) {
+    $scope.user.groupId = group.id;
+    Groups.setCurrentGroup($scope.user.id, group.id)
+    .then(function (user) {
+      $scope.user.currentGroup = group;
+      $scope.user.groupId = group.id;
+    });
+  };
+
   $scope.updateProfile = function () {
     return Auth.updateProfile($scope.user)
     .then(function (res) {
