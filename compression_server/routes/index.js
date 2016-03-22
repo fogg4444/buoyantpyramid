@@ -3,13 +3,13 @@ var router = express.Router();
 var helpers = require('../helper_functions/audioProcessing.js');
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
+router.get('/', helpers.startQueue, function(req, res, next) {
   console.log('Recieves request to root route');
-  res.send('Server chillin');
+  res.send('Done downloading');
 });
 
 // Handle compression request
-router.post('/compress', helpers.downloadS3Source, function(req, res, next) {
+router.post('/compress', helpers.addToQueue, function(req, res, next) {
 
   // console.log('Request body data: ', req.body);
 

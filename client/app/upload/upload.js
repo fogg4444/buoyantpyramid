@@ -65,12 +65,18 @@ angular
       throttledTotal();
     };
 
+// <<<<<<< d1ac01fff9b90868c42a018aaad4514ad97268e6
     var successCallback = function (file, response) {
       Auth.getUserData()
       .then(function(user) {
         getAudioLength(file, function(duration) {
           file.duration = duration;
           return Songs.addSong(file, user.currentGroupId);
+// =======
+//             // TODO: pass data to progress bar
+//             throttledTotal();
+//           });
+// >>>>>>> (feat) implement download queue on compression server
         });
       })
       .then(function(data) {
