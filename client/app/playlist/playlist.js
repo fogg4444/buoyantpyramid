@@ -53,10 +53,11 @@ angular.module('jam.playlist', [])
   };
 
   $scope.deleteSong = function (index) {
+    var songId = $scope.data.currentPlaylist[index].id;
     // console.log("Delete this song: ", index, $scope.data.currentPlaylist[index]);
     $scope.data.currentPlaylist.splice(index, 1);
     console.log($scope.data.currentPlaylist);
-    PL.deleteFromPlaylist($scope.data.currentPlaylist)
+    PL.deleteFromPlaylist($scope.data.currentPlaylist.id, songId)
     .then(function(resp) {
       console.log(resp);
     })

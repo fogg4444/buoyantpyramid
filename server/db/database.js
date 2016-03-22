@@ -113,11 +113,11 @@ var UserGroups = db.define('userGroups', {
   {timestamps: false}
 );
 
-// var PlaylistSongs = db.define('playlistSongs', {
-//   listPosition: {
-//     type: Sequelize.INTEGER,
-//   }}
-// );
+var PlaylistSongs = db.define('playlistSongs', {
+  listPosition: {
+    type: Sequelize.INTEGER,
+  }}
+);
 
 // Define associations
 Group.belongsToMany(User, {through: 'userGroups'});
@@ -129,10 +129,10 @@ Song.belongsTo(Group);
 Group.hasMany(Playlist);
 Playlist.belongsTo(Group);
 
-Playlist.hasMany(Song);
-Song.belongsTo(Playlist);
-// Playlist.belongsToMany(User, {through: 'playlistSongs'});
-// Song.belongsToMany(Group, {through: 'playlistSongs'});
+// Playlist.hasMany(Song);
+// Song.belongsTo(Playlist);
+Playlist.belongsToMany(User, {through: 'playlistSongs'});
+Song.belongsToMany(Group, {through: 'playlistSongs'});
 
 
 var logSync = false; //(process.env.NODE_ENV === 'test') ? false : console.log;
@@ -150,6 +150,9 @@ User.sync()
   })
   .then(function() {
     return UserGroups.sync();
+  })
+  .then(function() {
+    return PlaylistSongs.sync();
   });
 
 module.exports = {
@@ -158,8 +161,9 @@ module.exports = {
   Group: Group,
   UserGroups: UserGroups,
   Song: Song,
-  Playlist: Playlist
+  Playlist: Playlist,
+  PlaylistSongs: PlaylistSongs
 };
 
 // Command to drop all tables in postgres
-// drop table users cascade; drop table groups cascade; drop table users; drop table groups; drop table "userGroups"; drop table playlists; drop table songs;
+// drop table users cascade; drop table groups cascade; drop table users; drop table groups; drop table "userGroups"; drop table playlists; drop table songs; drop table "playlistSongs";

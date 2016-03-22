@@ -2,6 +2,7 @@ var db = require('../db/database');
 var Group = db.Group;
 var Playlist = db.Playlist;
 var Song = db.Song;
+var PlaylistsSongs = db.PlaylistsSongs;
 
 var createPlaylist = function(req, res, next) {
   var groupId = req.body.groupId;
@@ -58,18 +59,31 @@ var fetchSongs = function(req, res, next) {
 };
 
 var removeSong = function(req, res, next) {
-  var playlistId = req.params.id;
-  Playlist.findOne({where: {id: playlistId}})
-  .then(function(playlist) {
-    playlist.update(req.body)
-    .then(function(playlist) {
-      res.json(playlist);
-    });
+  var playlistId = req.params.pid;
+  var songId = rq.params.sid;
+
+  PlaylistsSongs.destroy({ where: {songId: songId, playlistId: playlistId}})
+  .then(function(resp) {
+    res.json(resp);
   })
   .catch(function(err) {
     next(err);
   });
+
+  // Playlist.findOne({where: {id: playlistId}})
+  // .then(function(playlist) {
+  //   playlist.update(req.body)
+  //   .then(function(playlist) {
+  //     res.json(playlist);
+  //   });
+  // })
+  // .catch(function(err) {
+  //   next(err);
+  // });
 };
+
+// playlist.removeSong(song obj)
+// exercise_muscle_tie.destroy({ where: { exerciseId: 1856, muscleId: 57344 } })
 
 var deletePlaylist = function(req, res, next) {
   var playlistId = req.params.id;
