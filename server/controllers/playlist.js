@@ -2,7 +2,7 @@ var db = require('../db/database');
 var Group = db.Group;
 var Playlist = db.Playlist;
 var Song = db.Song;
-var PlaylistsSongs = db.PlaylistsSongs;
+var PlaylistSongs = db.PlaylistSongs;
 
 var createPlaylist = function(req, res, next) {
   var groupId = req.body.groupId;
@@ -39,22 +39,6 @@ var addSong = function(req, res, next) {
   .catch(function(err) {
     next(err);
   });
-
-  // Song.update(
-  //   {
-  //     playlistId: playlistId
-  //   },
-  //   {
-  //     where: {id: songId}
-  //   },
-  // {include: {
-  //   model: Playlist}
-  // }).then(function(song) {
-  //   res.json(song);
-  // })
-  // .catch(function(err) {
-  //   next(err);
-  // });
 };
 
 var fetchSongs = function(req, res, next) {
@@ -71,25 +55,13 @@ var fetchSongs = function(req, res, next) {
     next(err);
   });
 
-  // console.log("Fetching songs in controller");
-  // Playlist.findOne({where: {id: playlistId}})
-  // .then(function(playlist) {
-  //   console.log(playlist);
-  //   PlaylistsSongs.find
-  //   .then(function(songs) {
-  //     res.json(songs);
-  //   });
-  // })
-  // .catch(function(err) {
-  //   next(err);
-  // });
 };
 
 var removeSong = function(req, res, next) {
   var playlistId = req.params.pid;
-  var songId = rq.params.sid;
+  var songId = req.params.sid;
 
-  PlaylistsSongs.destroy({ where: {songId: songId, playlistId: playlistId}})
+  PlaylistSongs.destroy({ where: {songId: songId, playlistId: playlistId}})
   .then(function(resp) {
     res.json(resp);
   })
@@ -97,20 +69,8 @@ var removeSong = function(req, res, next) {
     next(err);
   });
 
-  // Playlist.findOne({where: {id: playlistId}})
-  // .then(function(playlist) {
-  //   playlist.update(req.body)
-  //   .then(function(playlist) {
-  //     res.json(playlist);
-  //   });
-  // })
-  // .catch(function(err) {
-  //   next(err);
-  // });
 };
 
-// playlist.removeSong(song obj)
-// exercise_muscle_tie.destroy({ where: { exerciseId: 1856, muscleId: 57344 } })
 
 var deletePlaylist = function(req, res, next) {
   var playlistId = req.params.id;

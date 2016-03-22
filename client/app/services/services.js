@@ -9,7 +9,7 @@ angular.module('jam.services', [])
       lastModified: song.lastModified,
       name: song.name,
       uniqueHash: uniqueHash
-    }
+    };
 
     return q(function(resolve, reject) {
       http({
@@ -87,13 +87,12 @@ angular.module('jam.services', [])
     });
   };
 
-  var deleteFromPlaylist = function (playlist) {
+  var deleteFromPlaylist = function (sId, plId) {
     // Takes a playlist object with the song removed
-    console.log('ID to delete: ', playlist.id);
+    console.log('ID to delete: ', plId, sId);
     return http({
-      method: 'PUT',
-      url: '/api/playlists/' + playlist.id + '/remove/',
-      data: playlist.list
+      method: 'DELETE',
+      url: '/api/playlists/' + sId + '/' + plId + '/',
     })
     .then(function (res) {
       return res.data;

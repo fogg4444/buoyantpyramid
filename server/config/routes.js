@@ -42,7 +42,7 @@ var routing = function (app, express) {
 
   // Add and retrieve playlists
   apiRoutes.post('/playlists/', Playlist.createPlaylist);
-  apiRoutes.post('/playlists/:pid/:sid/', Playlist.addSong);
+  apiRoutes.post('/playlists/:sid/:pid/', Playlist.addSong);
   apiRoutes.delete('/playlists/:sid/:pid', Playlist.removeSong);
   apiRoutes.get('/playlists/:id/', Playlist.fetchSongs);
   apiRoutes.delete('/playlists/:id/', Playlist.deletePlaylist);
