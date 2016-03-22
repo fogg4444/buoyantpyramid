@@ -138,8 +138,8 @@ Song.belongsTo(Group);
 Group.hasMany(Playlist);
 Playlist.belongsTo(Group);
 
-Playlist.belongsToMany(User, {through: 'playlistSongs'});
-Song.belongsToMany(Group, {through: 'playlistSongs'});
+Playlist.belongsToMany(Song, {through: 'playlistSongs'});
+Song.belongsToMany(Playlist, {through: 'playlistSongs'});
 
 User.hasMany(Comment);
 Comment.belongsTo(User);
@@ -183,4 +183,4 @@ module.exports = {
 };
 
 // Command to drop all tables in postgres
-// drop table users cascade; drop table groups cascade; drop table users; drop table groups; drop table "userGroups"; drop table playlists; drop table songs; drop table "playlistSongs";
+// drop table users cascade; drop table groups cascade; drop table users; drop table groups; drop table "userGroups"; drop table playlists; drop table songs cascade; drop table "playlistSongs";
