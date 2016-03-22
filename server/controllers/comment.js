@@ -1,15 +1,15 @@
 var db = require('../db/database');
 var Song = db.Song;
 var User = db.User;
-var Tag = db.Tag;
+var Comment = db.Comment;
 
-var addSong = function (req, res, next) {
+var addComment = function (req, res, next) {
 	var time = req.body.time;
   var note = req.body.note;
   var userId = req.body.userId;
   var songId = req.params.id;
 
-  Tag.create({
+  Comment.create({
     time: time,
     note: note,
     userId: userId,
@@ -20,20 +20,20 @@ var addSong = function (req, res, next) {
       model: User
     }
   })
-  .then(function(song) {
-    res.json(song);
+  .then(function(comment) {
+    res.json(comment);
   })
   .catch(function(err) {
     next(err);
   });
 };
 
-var deleteTag = function (req, res, next) {
-  var tagId = req.params.id;
-  Tag.findOne({where: {id: tagId}})
-  .then(function(tag) {
-    tag.destroy();
-    res.json(tag);
+var deleteComment = function (req, res, next) {
+  var commentId = req.params.id;
+  comment.findOne({where: {id: commentId}})
+  .then(function(comment) {
+    comment.destroy();
+    res.json(comment);
   })
   .catch(function(err) {
     next(err);
@@ -41,6 +41,6 @@ var deleteTag = function (req, res, next) {
 };
 
 module.exports = {
-  addTag: addTag,
-  deleteTag: deleteTag
+  addComment: addComment,
+  deleteComment: deleteComment
 };
