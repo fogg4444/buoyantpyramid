@@ -93,8 +93,13 @@ angular.module('jam', [
     scope: {
       song: '=',
       index: '='
-
-    }
+    },
+    controller: ['$scope', 'Songs', function($scope) {
+      $scope.comment = {};
+      $scope.addComment = function(songId) {
+        Songs.addComment(comment, songId);
+      }
+    }]
   };
 })
 .directive('modalDialog', function() {
