@@ -72,6 +72,10 @@ angular.module('jam', [
       Auth.getUserData()
       .then(function (userData) {
         $scope.user = userData;
+        $scope.bannerStyle = {
+          'background-image': 'url(/api/groups/' + $scope.user.currentGroup.id + '/banner)',
+          'background-size': 'cover'
+        };
       })
       .catch(console.error);
     }]
@@ -99,7 +103,7 @@ angular.module('jam', [
       $scope.song.sourceUrl = $sce.trustAsResourceUrl( 'https://s3-us-west-1.amazonaws.com/jamrecordtest/audio/' + $scope.song.uniqueHash );
       $scope.addComment = function(songId) {
         Songs.addComment($scope.comment, songId);
-      }
+      };
     }]
   };
 })
