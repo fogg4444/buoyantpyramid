@@ -12,6 +12,7 @@ $bgcolor-2: #385E8A;
 $textcolor: $darkgrey;
 $textcolor-2: #FBFBFB;
 $linkcolor: #99D1B2;
+$red: #ed5e5e;
 
 /**************************************************/
 
@@ -66,6 +67,21 @@ nav ul {
   text-align: right;
   padding: $nav-height * 0.1;
 
+}
+
+.form-container {
+  margin: 4em auto;
+  width: 100%;
+  text-align:center;
+}
+.field-error {
+  font-size: 0.8em;
+  color: $red;
+  height: 1em;
+  margin-bottom: 0.25em;
+}
+.login-form fieldset {
+  text-align: left;
 }
 
 .elipsis-end {
