@@ -154,7 +154,7 @@ angular.module('jam.services', [])
   };
 
   var addUser = function (groupId, userId) {
-    data = {userId: userId, role: 'admin'};
+    var data = {userId: userId, role: 'admin'};
     return http({
       method: 'POST',
       url: '/api/groups/' + groupId + '/users/',
