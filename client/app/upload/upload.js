@@ -45,6 +45,12 @@ angular
       }
     };
 
+    var progressCallback = function(file, evt) {
+      var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+      file['progressPercentage'] = progressPercentage;
+      throttledTotal();
+    };
+
 
     // for multiple files:
     $scope.uploadFiles = function() {
@@ -53,7 +59,7 @@ angular
         totalToUpload = $scope.queue.length;
         totalUploaded = 0;
         for (var i = 0; i < $scope.queue.length; i++) {
-          UploadFactory.upload($scope.queue[i], 'audio/', console.log, console.error, function() {});
+          UploadFactory.upload($scope.queue[i], 'audio/', console.log, console.error, progressCallback);
         }
       }
     };
