@@ -35,6 +35,8 @@ angular.module('jam.groups', [])
     .then(function (user) {
       $scope.user.currentGroup = group;
       $scope.user.groupId = group.id;
+      // Simple fix for now, find better way to reload views
+      window.location.reload();
     });
   };
 

@@ -301,6 +301,30 @@ form .progress {
   height: 10px;
 }
 
+.group {
+  background-color: $bgcolor-2;
+  color: $white;
+  width: 60%;
+  margin: auto;
+  margin-top: 12px;
+  margin-bottom: 12px;
+  font-size: 18pt;
+  text-align: center;
+  padding: 12px;
+}
+
+.group:hover {
+  background-color: #004080;
+}
+
+.user {
+  background-color: $lightgrey;
+  color: $darkgrey;
+  width: 30%;
+  margin-left: 25%;
+  text-indent: 20px;
+  padding: 5px;
+}
 
 /* Forms and buttons - taken and modified from http://getskeleton.com/
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
