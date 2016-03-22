@@ -38,15 +38,6 @@ angular.module('jam.groups', [])
     .catch(function (error) {
       console.error(error);
     });
-
-    // $scope.user.groupId = group.id;
-    // Groups.setCurrentGroup($scope.user.id, group.id)
-    // .then(function (user) {
-    //   $scope.user.currentGroup = group;
-    //   $scope.user.groupId = group.id;
-    //   // Simple fix for now, find better way to reload views
-    //   window.location.reload();
-    // });
   };
 
   $scope.updateProfile = function () {
