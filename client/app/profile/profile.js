@@ -2,9 +2,12 @@ angular.module('jam.profile', [])
 
 .controller('ProfileController', ['$scope', '$location', '$window', '$timeout', 'Auth', 'Upload',
 function ($scope, loc, win, to, Auth, Up) {
+  $scope.avatarURL = '';
+  var avatarRev = 0;
   Auth.getUserData()
   .then(function (userData) {
     $scope.user = userData;
+    $scope.avatarURL = '/api/users/' + $scope.user.id + '/avatar?rev=' + (++avatarRev);
   })
   .catch(console.error);
 
@@ -21,8 +24,8 @@ function ($scope, loc, win, to, Auth, Up) {
         to(function () {
           file.result = response.data;
           $scope.user.avatarURL = file.name;
-
           $scope.updateProfile();
+          $scope.avatarURL = '/api/users/' + $scope.user.id + '/avatar?rev=' + (++avatarRev);
         });
       }, function (response) {
         if (response.status > 0) {
