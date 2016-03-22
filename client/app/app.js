@@ -7,6 +7,7 @@ angular.module('jam', [
   'jam.groups',
   'jam.groupSettings',
   'jam.playlist',
+  'jam.uploadFactory',
   'ngRoute',
   'ngAnimate',
   'ngFileUpload',
