@@ -46,10 +46,11 @@ angular.module('jam.services', [])
     });
   };
 
-  var addComment = function (tag, song) {
+  var addComment = function (comment, songId) {
     return http({
       method: 'POST',
-      url: '/api/songs/' + song.id + '/comments/',
+      url: '/api/songs/' + songId + '/comments/',
+      data: comment
     })
     .then(function (res) {
       return res.data;

@@ -94,10 +94,10 @@ angular.module('jam', [
       song: '=',
       index: '='
     },
-    controller: ['$scope', 'Songs', function($scope) {
+    controller: ['$scope', 'Songs', function($scope, Songs) {
       $scope.comment = {};
       $scope.addComment = function(songId) {
-        Songs.addComment(comment, songId);
+        Songs.addComment($scope.comment, songId);
       }
     }]
   };

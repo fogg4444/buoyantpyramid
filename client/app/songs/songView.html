@@ -6,11 +6,11 @@
       <source src="{{song.apiUrl}}" >
       Your browser does not support the audio tag.
     </audio>
-			<form name="addCommentForm"> 
-        <label>Time</label><input ng-model="comment.time"/>
-        <label>Note</label><input ng-model="comment.note"/>
-        <button ng-click="addComment()">Add Comment</button>
-      </form>
+		<form name="addCommentForm"> 
+      <input ng-model="comment.time" placeholder="time"/>
+     	<input ng-model="comment.note" placeholder="comment"/>
+      <button ng-click="addComment(song.id)">Add Comment</button>
+    </form>
   </div>
   <div> Description: {{ song.description }}</div>
 </div>
