@@ -7,8 +7,8 @@
         {{ file.name }}
         <button ng-click="upload(file)">Upload</button>
         <button ng-click="removeFile($index)">Remove</button>
-        <div>{{file.progressPercentage}}</div>
         <!-- progress -->
+        <div class='eachProgressBar' id="progressBar{{file.queueId}}">{{file.progressPercentage}}</div>
 
       </li>
     </ul>

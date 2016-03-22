@@ -172,6 +172,19 @@ li:hover > .submenu-container {
   background: white;
 }
 
+
+
+
+/* Song View  Brian's mods*/
+.song-item {
+  border: 1px red solid;
+}
+
+.songViewTextArea {
+  float: right;
+  border: 1px solid blue;
+}
+/**/
 .song {
   margin-top: 2em;
 }
@@ -185,6 +198,7 @@ li:hover > .submenu-container {
   height: 3em;
   width: 3em;
   overflow: hidden;
+  float: left;
 }
 .song-thumbnail img {
   max-width: 100%;
@@ -278,6 +292,12 @@ form .progress {
   font-size: smaller;
   background: orange;
   width: 0;
+}
+
+.eachProgressBar {
+  width: 100%;
+  border: 1px orange solid;
+  height: 10px;
 }
 
 
