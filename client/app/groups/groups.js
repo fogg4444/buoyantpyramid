@@ -30,7 +30,7 @@ angular.module('jam.groups', [])
   };
 
   $scope.setCurrentGroup = function(group) {
-    Auth.updateProfile({currentGroup: group, currentGroupId: group.id})
+    Auth.updateProfile({currentGroupId: group.id})
     .then(function (res) {
       $scope.user = res.data.user;
       window.location.reload();
