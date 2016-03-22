@@ -30,7 +30,6 @@ var routing = function (app, express) {
   apiRoutes.put('/users/profile', User.updateProfile);
   apiRoutes.get('/users/profile', User.getProfile);
   apiRoutes.get('/users/:id', User.getUser);
-  apiRoutes.put('/users/:id/groups', User.setCurrentGroup);
   apiRoutes.get('/users/:id/groups', User.getGroups);
 
  

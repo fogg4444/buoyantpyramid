@@ -195,23 +195,6 @@ var getGroups = function(req, res, next) {
   });
 };
 
-var setCurrentGroup = function(req, res, next) {
-  var userId = parseInt(req.params.id);
-  var groupId = parseInt(req.body.groupId);
-  User.update({
-    currentGroupId: groupId
-  },{
-    where:
-      {id: userId}
-   })
-  .then(function(user) {
-    res.json(user);
-  })
-  .catch(function(error) {
-    next(error);
-  });
-};
-
 module.exports = {
   signup: signup,
   login: login,
@@ -220,6 +203,5 @@ module.exports = {
   getProfile: getProfile,
   getAvatar: getAvatar,
   setAvatar: setAvatar,
-  getGroups: getGroups,
-  setCurrentGroup: setCurrentGroup
+  getGroups: getGroups
 };
