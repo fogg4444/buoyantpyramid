@@ -19,8 +19,9 @@
     </button>
     <div class="message">{{message}}</div>
     <h2 class="heading">Songs</h2>
-    <label for="search">Search: </label>
-    <input ng-model="query" type="text" name="search" />
+    <label>Search:
+      <input ng-model="query" type="text" name="search" />
+    </label>
     <div ng-repeat="song in data.songs | filter:query | orderBy:'-timestamp'" class="song">
         <div class="song-buttons">
           <button class="icon-button" title="add to playlist" ng-click="$parent.newSong = song; toggleModal()"><i class="fa fa-plus-circle fa-lg"></i></button>

@@ -74,6 +74,14 @@ nav ul {
   width: 100%;
   text-align:center;
 }
+.group-form-container form {
+  width: 100%;
+  margin:0.5em;
+  fieldset {
+    width: 100%;
+    padding: 1em;
+  }
+}
 .form-buttons {
   margin-bottom: 1em;
 }
