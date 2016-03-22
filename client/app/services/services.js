@@ -1,15 +1,28 @@
 angular.module('jam.services', [])
 
-.factory('Songs', ['$http', function (http) {
+.factory('Songs', ['$http', '$q', function (http, q) {
 
-  var addSong = function (song, groupId) {
-    return http({
-      method: 'POST',
-      url: '/api/groups/' + groupId + '/songs/',
-      data: song
-    })
-    .then(function (res) {
-      return res;
+  var addSong = function (song, groupId, uniqueHash) {
+    console.log('Song', song);
+    var songData = {
+      size: song.size,
+      lastModified: song.lastModified,
+      name: song.name,
+      uniqueHash: uniqueHash
+    }
+
+    return q(function(resolve, reject) {
+      http({
+        method: 'POST',
+        url: '/api/groups/' + groupId + '/songs/',
+        data: songData
+      })
+      .then(function(response) {
+        resolve(response);
+      })
+      .catch(function (error) {
+        reject(error);
+      });
     });
   };
 

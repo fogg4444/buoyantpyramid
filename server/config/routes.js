@@ -37,7 +37,7 @@ var routing = function (app, express) {
   apiRoutes.get('/groups/:id/playlists/', Group.fetchPlaylists);
 
   // Add and retrieve songs
-  apiRoutes.post('/groups/:id/songs/', Upload.catchUpload, Song.addSong);
+  apiRoutes.post('/groups/:id/songs/', Song.addSong);
   apiRoutes.get('/groups/:id/songs/', Group.fetchSongs);
 
   // Add and retrieve playlists
