@@ -107,12 +107,10 @@ var Playlist = db.define('playlist', {
 
 var Tag = db.define('tag', {
   time: {
-    type: Sequelize.INTEGER,
-    allowNull: false
+    type: Sequelize.INTEGER
   },
   note: {
-    type: Sequelize.STRING,
-    allowNull: false
+    type: Sequelize.STRING
   }
 });
 
@@ -145,6 +143,12 @@ Playlist.belongsTo(Group);
 Playlist.belongsToMany(Song, {through: 'playlistSongs'});
 Song.belongsToMany(Playlist, {through: 'playlistSongs'});
 
+User.hasMany(Tag);
+Tag.belongsTo(User);
+
+Song.hasMany(Tag);
+Tag.hasOne(Song);
+
 
 var logSync = false; //(process.env.NODE_ENV === 'test') ? false : console.log;
 
@@ -164,6 +168,9 @@ User.sync()
   })
   .then(function() {
     return PlaylistSongs.sync();
+  })
+  .then(function() {
+    return Tag.sync();
   });
 
 module.exports = {
@@ -173,7 +180,8 @@ module.exports = {
   UserGroups: UserGroups,
   Song: Song,
   Playlist: Playlist,
-  PlaylistSongs: PlaylistSongs
+  PlaylistSongs: PlaylistSongs,
+  Tag: Tag
 };
 
 // Command to drop all tables in postgres
