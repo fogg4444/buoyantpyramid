@@ -90,10 +90,11 @@ angular.module('jam.services', [])
 
   var deleteFromPlaylist = function (playlist) {
     // Takes a playlist object with the song removed
+    console.log('ID to delete: ', playlist.id);
     return http({
       method: 'PUT',
-      url: '/api/playlists/' + plId + '/remove/',
-      data: playlist
+      url: '/api/playlists/' + playlist.id + '/remove/',
+      data: playlist.list
     })
     .then(function (res) {
       return res.data;

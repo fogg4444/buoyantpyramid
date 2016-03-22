@@ -113,6 +113,12 @@ var UserGroups = db.define('userGroups', {
   {timestamps: false}
 );
 
+// var PlaylistSongs = db.define('playlistSongs', {
+//   listPosition: {
+//     type: Sequelize.INTEGER,
+//   }}
+// );
+
 // Define associations
 Group.belongsToMany(User, {through: 'userGroups'});
 User.belongsToMany(Group, {through: 'userGroups'});
@@ -125,6 +131,9 @@ Playlist.belongsTo(Group);
 
 Playlist.hasMany(Song);
 Song.belongsTo(Playlist);
+// Playlist.belongsToMany(User, {through: 'playlistSongs'});
+// Song.belongsToMany(Group, {through: 'playlistSongs'});
+
 
 var logSync = false; //(process.env.NODE_ENV === 'test') ? false : console.log;
 

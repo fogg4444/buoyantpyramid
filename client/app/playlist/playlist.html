@@ -15,7 +15,7 @@
       <button class="delete-button icon-button" title="delete playlist" ng-click="deletePlaylist(playlist)"><i class="fa fa-trash fa-lg"></i></button>
       <div>{{playlist.title}}</div>
     </div>
-    <div ng-repeat="song in data.currentPlaylist" class="song">
+    <div ng-repeat="song in data.currentPlaylist.songs" class="song">
       <hr>
       <button class="delete-button icon-button" title="delete song" ng-click="deleteSong($index)"><i class="fa fa-trash fa-lg"></i></button>
       <div class="info">

@@ -58,17 +58,12 @@ var fetchSongs = function(req, res, next) {
 };
 
 var removeSong = function(req, res, next) {
-  var songId = req.params.sid;
-  var playlistId = req.params.pid;
+  var playlistId = req.params.id;
   Playlist.findOne({where: {id: playlistId}})
   .then(function(playlist) {
-    playlist.findSong({where: {id: songId}})
-    .then(function(song) {
-      song.destroy();
-      res.send(song);
-    })
-    .catch(function(err) {
-      next(err);
+    playlist.update(req.body)
+    .then(function(playlist) {
+      res.json(playlist);
     });
   })
   .catch(function(err) {
@@ -78,7 +73,6 @@ var removeSong = function(req, res, next) {
 
 var deletePlaylist = function(req, res, next) {
   var playlistId = req.params.id;
-  console.log("In delete playlist!", playlistId);
   Playlist.findOne({where: {id: playlistId}})
   .then(function(playlist) {
     playlist.destroy();
