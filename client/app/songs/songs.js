@@ -22,7 +22,6 @@ angular.module('jam.songs', [])
     });
   })
   .catch(console.error);
-
   $scope.addToPlaylist = function(playlist) {
     $scope.newSong.playlistId = playlist.id;
     PL.addSongToPlaylist($scope.newSong.id, playlist.id)

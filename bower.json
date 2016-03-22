@@ -21,6 +21,6 @@
     "ng-img-crop-full-extended": "ngImgCropFullExtended#~0.5.4"
   },
   "resolutions": {
-    "angular": "1.5.1"
+    "angular": "1.5.2"
   }
 }

@@ -17,6 +17,8 @@ angular
       }
 
       totalPercent = Math.ceil(total / (totalToUpload));
+      console.log('Total percent progress bar: ========== ', totalPercent);
+
       $scope.progressbar.set(totalPercent);
       if (totalPercent === 100) {
         $scope.progressbar.complete();
@@ -27,7 +29,9 @@ angular
 
     $scope.addToQueue = function(files) {
       for (file in files) {
-        $scope.queue.push(files[file]);
+        var thisFile = files[file];
+        thisFile['queueId'] = Math.floor( Math.random() * 10000000 );
+        $scope.queue.push(thisFile);
       }
     };
 
@@ -41,6 +45,7 @@ angular
 
     // upload on file select or drop
     $scope.upload = function(file) {
+
       var postData = {
         uniqueFilename: file.name,
         fileType: file.type
@@ -67,6 +72,7 @@ angular
       };
 
       var beginDirectS3Upload = function(s3Credentials, file) {
+
         console.log('Begin s3 upload', s3Credentials);
         var groupId;
 
@@ -84,6 +90,14 @@ angular
             'Signature' : s3Credentials.s3Signature
           };
 
+          // init upload bar on this element
+          // var divId = 'progressBar' + file.queueId;
+          // $scope[divId] = ngProgressFactory.createInstance();
+          // console.log('Progress bar test!', $scope[divId]);
+          // $scope[divId].setParent(document.getElementById(divId));
+          // $scope[divId].start();
+          // $scope[divId].setAbsolute();
+
           Upload.upload({
             url: 'https://' + s3Credentials.bucketName + '.s3.amazonaws.com/',
             method: 'POST',
@@ -98,16 +112,16 @@ angular
           .then(function(response) {
             // On upload confirmation
             file.progress = parseInt(100);
-            console.log('Upload confirmed', response.body);
+            console.log('Upload confirmed');
             if (response.status === 201) {
               // TODO: upload success
               // do something client side
                 // commit entry to songs list
-                console.log('Data for songs db: ', file, user);
+                // console.log('Data for songs db: ', file, user);
 
                 Songs.addSong(file, user.currentGroupId, uniqueHash)
                   .then(function(data) {
-                    console.log('Songs added: ', data);
+                    // console.log('Songs added: ', data);
                   });
 
             } else {
@@ -116,14 +130,22 @@ angular
             }
           }, null, function(evt) {
             // on upload progress
-            file.progress =  parseInt(100.0 * evt.loaded / evt.total);
-            console.log('Progress: ', file.progress);
+            console.log('Progress: ', file.progressPercentage);
+
+            var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+
+            // $scope[divId].set(progressPercentage)
+
+            // file.progress =  parseInt(100.0 * evt.loaded / evt.total);
+            file['progressPercentage'] = progressPercentage;
+
             // TODO: pass data to progress bar
+            throttledTotal();
+            
           });
         });
       }
     };
-
     // for multiple files:
     $scope.uploadFiles = function() {
       $scope.progressbar.set(0);

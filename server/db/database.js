@@ -78,10 +78,22 @@ var Song = db.define('song', {
   },
   dateRecorded: {
     type: Sequelize.DATE,
+    allowNull: true
+  },
+  dateUploaded: {
+    type: Sequelize.DATE,
+    allowNull: true
+  },
+  size: {
+    type: Sequelize.INTEGER,
     allowNull: false
   },
   duration: {
     type: Sequelize.INTEGER,
+    allowNull: false
+  },
+  uniqueHash : {
+    type: Sequelize.STRING,
     allowNull: false
   },
   address: {
