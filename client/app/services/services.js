@@ -46,11 +46,34 @@ angular.module('jam.services', [])
     });
   };
 
+  var addComment = function (comment, songId) {
+    return http({
+      method: 'POST',
+      url: '/api/songs/' + songId + '/comments/',
+      data: comment
+    })
+    .then(function (res) {
+      return res.data;
+    });
+  };
+
+  var deleteComment = function (tag) {
+    return http({
+      method: 'DELETE',
+      url: '/api/tags/' + tag.id,
+    })
+    .then(function (res) {
+      return res.data;
+    });
+  };
+
   return {
+    addComment: addComment,
     addSong: addSong,
+    deleteComment: deleteComment,
     deleteSong: deleteSong,
     getAllSongs: getAllSongs
-  };
+  };  
 }])
 
 .factory('Playlists', ['$http', function(http) {

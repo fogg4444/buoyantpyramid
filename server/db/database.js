@@ -105,6 +105,15 @@ var Playlist = db.define('playlist', {
   }
 });
 
+var Comment = db.define('comment', {
+  time: {
+    type: Sequelize.INTEGER
+  },
+  note: {
+    type: Sequelize.STRING
+  }
+});
+
 // Define join tables
 var UserGroups = db.define('userGroups', {
   role: {
@@ -129,10 +138,14 @@ Song.belongsTo(Group);
 Group.hasMany(Playlist);
 Playlist.belongsTo(Group);
 
-// Playlist.hasMany(Song);
-// Song.belongsTo(Playlist);
-Playlist.belongsToMany(Song, {through: 'playlistSongs'});
-Song.belongsToMany(Playlist, {through: 'playlistSongs'});
+Playlist.belongsToMany(User, {through: 'playlistSongs'});
+Song.belongsToMany(Group, {through: 'playlistSongs'});
+
+User.hasMany(Comment);
+Comment.belongsTo(User);
+
+Song.hasMany(Comment);
+Comment.belongsTo(Song);
 
 
 var logSync = false; //(process.env.NODE_ENV === 'test') ? false : console.log;
@@ -153,6 +166,9 @@ User.sync()
   })
   .then(function() {
     return PlaylistSongs.sync();
+  })
+  .then(function() {
+    return Comment.sync();
   });
 
 module.exports = {
@@ -162,7 +178,8 @@ module.exports = {
   UserGroups: UserGroups,
   Song: Song,
   Playlist: Playlist,
-  PlaylistSongs: PlaylistSongs
+  PlaylistSongs: PlaylistSongs,
+  Comment: Comment
 };
 
 // Command to drop all tables in postgres
