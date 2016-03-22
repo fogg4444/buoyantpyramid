@@ -21,7 +21,7 @@
     <div class="group-list">
       <div ng-repeat="group in data.groups | filter: filterGroups(group) | orderBy:'-timestamp'" class="group">
       <!-- Add styling -->
-        <div> {{ group.name }} </div>
+        <div ng-click="setCurrentGroup(group)"> {{ group.name }} </div>
       </div>
     </div>
   </div>
