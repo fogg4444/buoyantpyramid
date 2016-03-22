@@ -28,11 +28,10 @@ angular.module('jam.playlist', [])
   };
 
   $scope.makeCurrent = function (playlist) {
-    console.log("playlist", playlist);
     $scope.data.currentPlaylist = playlist;
     PL.getPlaylistSongs(playlist.id)
     .then(function (songs) {
-      augmentUrls(songs);
+      // augmentUrls(songs);
       $scope.data.currentPlaylist.songs = songs;
     })
     .then(console.error);
@@ -42,22 +41,20 @@ angular.module('jam.playlist', [])
     PL.createPlaylist($scope.newPlaylist)
     .then(function (playlist) {
       $scope.modalShown = false;
-      $scope.currentPlaylist = playlist.data;
+      $scope.currentPlaylist = playlist;
 
       GR.getPlaylistsByGroupId($scope.user.currentGroup.id)
-      .then(function (resp) {
-        console.log(resp);
+      .then(function (playlists) {
+        $scope.data.playlists = playlists;
       })
       .catch(console.error);
     });
   };
 
   $scope.deleteSong = function (index) {
-    var songId = $scope.data.currentPlaylist[index].id;
-    // console.log("Delete this song: ", index, $scope.data.currentPlaylist[index]);
-    $scope.data.currentPlaylist.splice(index, 1);
-    console.log($scope.data.currentPlaylist);
-    PL.deleteFromPlaylist($scope.data.currentPlaylist.id, songId)
+    var songId = $scope.data.currentPlaylist.songs[index].id;
+    $scope.data.currentPlaylist.songs.splice(index, 1);
+    PL.deleteFromPlaylist(songId, $scope.data.currentPlaylist.id)
     .then(function(resp) {
       console.log(resp);
     })

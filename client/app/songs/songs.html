@@ -7,7 +7,7 @@
         <h4>Click a playlist to add the song</h4>
         <ul ng-repeat="playlist in data.playlists" >
           <!-- ng-repeat of playlists in current group -->
-          <a href><li ng-click="addToPlaylist(playlist.id); $parent.toggleModal()">{{playlist.title}}</li></a>
+          <a href><li ng-click="addToPlaylist(playlist); $parent.toggleModal()">{{playlist.title}}</li></a>
         </ul>
       </modal-dialog>
     </div>
