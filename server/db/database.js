@@ -145,7 +145,7 @@ User.hasMany(Comment);
 Comment.belongsTo(User);
 
 Song.hasMany(Comment);
-Comment.hasOne(Song);
+Comment.belongsTo(Song);
 
 
 var logSync = false; //(process.env.NODE_ENV === 'test') ? false : console.log;
