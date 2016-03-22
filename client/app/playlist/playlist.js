@@ -32,6 +32,7 @@ angular.module('jam.playlist', [])
     $scope.data.currentPlaylist = playlist;
     PL.getPlaylistSongs(playlist.id)
     .then(function (songs) {
+      console.log(songs);
       augmentUrls(songs);
       $scope.data.currentPlaylist.songs = songs;
     })

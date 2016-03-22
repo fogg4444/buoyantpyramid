@@ -131,8 +131,8 @@ Playlist.belongsTo(Group);
 
 // Playlist.hasMany(Song);
 // Song.belongsTo(Playlist);
-Playlist.belongsToMany(User, {through: 'playlistSongs'});
-Song.belongsToMany(Group, {through: 'playlistSongs'});
+Playlist.belongsToMany(Song, {through: 'playlistSongs'});
+Song.belongsToMany(Playlist, {through: 'playlistSongs'});
 
 
 var logSync = false; //(process.env.NODE_ENV === 'test') ? false : console.log;

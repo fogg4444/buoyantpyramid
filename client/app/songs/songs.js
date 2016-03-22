@@ -25,7 +25,7 @@ angular.module('jam.songs', [])
 
   $scope.addToPlaylist = function(id) {
     $scope.newSong.playlistId = id;
-    PL.addSongToPlaylist($scope.newSong)
+    PL.addSongToPlaylist($scope.newSong.id, id)
     .then(function (resp) {
       // tell user song was added
     })

@@ -25,28 +25,42 @@ var createPlaylist = function(req, res, next) {
 };
 
 var addSong = function(req, res, next) {
-  var songId = req.params.id;
-  var playlistId = req.body.playlistId;
-  Song.update(
-    {
-      playlistId: playlistId
-    },
-    {
-      where: {id: songId}
-    },
-  {include: {
-    model: Playlist}
-  }).then(function(song) {
-    res.json(song);
+  var songId = req.params.sid;
+  var playlistId = req.params.pid;
+
+  Song.findOne({where: {id: songId}})
+  .then(function(song) {
+    Playlist.findOne({where: {id: playlistId}})
+    .then(function(playlist) {
+      playlist.addSong(song);
+      res.json(song);
+    });
   })
   .catch(function(err) {
     next(err);
   });
+
+  // Song.update(
+  //   {
+  //     playlistId: playlistId
+  //   },
+  //   {
+  //     where: {id: songId}
+  //   },
+  // {include: {
+  //   model: Playlist}
+  // }).then(function(song) {
+  //   res.json(song);
+  // })
+  // .catch(function(err) {
+  //   next(err);
+  // });
 };
 
 var fetchSongs = function(req, res, next) {
   var playlistId = req.params.id;
-  Playlist.findOne({where: {id: playlistId}})
+
+  Playlist.findById(playlistId)
   .then(function(playlist) {
     playlist.getSongs()
     .then(function(songs) {
@@ -56,6 +70,19 @@ var fetchSongs = function(req, res, next) {
   .catch(function(err) {
     next(err);
   });
+
+  // console.log("Fetching songs in controller");
+  // Playlist.findOne({where: {id: playlistId}})
+  // .then(function(playlist) {
+  //   console.log(playlist);
+  //   PlaylistsSongs.find
+  //   .then(function(songs) {
+  //     res.json(songs);
+  //   });
+  // })
+  // .catch(function(err) {
+  //   next(err);
+  // });
 };
 
 var removeSong = function(req, res, next) {

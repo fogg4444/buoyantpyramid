@@ -66,12 +66,11 @@ angular.module('jam.services', [])
     });
   };
 
-  var addSongToPlaylist = function (song) {
+  var addSongToPlaylist = function (songId, plId) {
     // takes a playlist id and a song obj
     return http({
-      method: 'PUT',
-      url: '/api/playlists/' + song.id + '/add/',
-      data: song
+      method: 'POST',
+      url: '/api/playlists/' + songId + '/' + plId + '/'
     })
     .then(function (res) {
       return res.data;
