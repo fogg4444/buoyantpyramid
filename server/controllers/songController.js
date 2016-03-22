@@ -16,7 +16,10 @@ var addSong = function(req, res, next) {
 
   SongModel.addSong(song)
   .then(function(song) {
-    res.json(song);
+    SongModel.requestFileCompression(song)
+    .then(function(bool) {
+      res.json(song);
+    })
   })
   .catch(function(err) {
     next(err);

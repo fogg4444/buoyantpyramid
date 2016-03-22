@@ -1,4 +1,95 @@
+// <<<<<<< d280e6ffd73c292993168ac29bf3125323a0a9b1:client/app/services/usersFactory.js
 angular.module('jam.usersFactory', [])
+// =======
+// angular.module('jam.services', [])
+
+.factory('Songs', ['$http', '$q', 'ngAudio', function (http, q, audio) {
+
+// <<<<<<< d3c9b2c4ce674050cba794f7b6e8339e6d235084
+  var addSong = function (song, groupId) {
+    console.log('Song', song);
+// =======
+//   var addSong = function (song, groupId, uniqueHash) {
+// >>>>>>> (feat) implement external audio compression server with basic req/res messages
+    var songData = {
+      size: song.size,
+      lastModified: song.lastModified,
+      name: song.name,
+      uniqueHash: song.uniqueFilename,
+      address: song.s3url,
+      duration: song.duration
+    };
+
+    return q(function(resolve, reject) {
+      http({
+        method: 'POST',
+        url: '/api/groups/' + groupId + '/songs/',
+        data: songData
+      })
+      .then(function(response) {
+        resolve(response);
+      })
+      .catch(function (error) {
+        reject(error);
+      });
+    });
+  };
+
+  var getAllSongs = function (groupId) {
+    return http({
+      method: 'GET',
+      url: '/api/groups/' + groupId + '/songs/'
+    })
+    .then(function (res) {
+      // this will return the ngAudio objects
+      return res.data.reduce(function(songs, song) {
+        song.sound = audio.load(song.address);
+        songs = songs.concat([song]);
+        return songs;
+      }, []);
+    });
+  };
+
+  var deleteSong = function (song) {
+    return http({
+      method: 'DELETE',
+      url: '/api/songs/' + song.id,
+    })
+    .then(function (res) {
+      return res.data;
+    });
+  };
+
+  var addComment = function (comment, songId) {
+    return http({
+      method: 'POST',
+      url: '/api/songs/' + songId + '/comments/',
+      data: comment
+    })
+    .then(function (res) {
+      return res.data;
+    });
+  };
+
+  var deleteComment = function (tag) {
+    return http({
+      method: 'DELETE',
+      url: '/api/tags/' + tag.id,
+    })
+    .then(function (res) {
+      return res.data;
+    });
+  };
+
+  return {
+    addComment: addComment,
+    addSong: addSong,
+    deleteComment: deleteComment,
+    deleteSong: deleteSong,
+    getAllSongs: getAllSongs
+  };  
+}])
+// >>>>>>> (feat) implement external audio compression server with basic req/res messages:client/app/services/services.js
 
 .factory('Groups', ['$http', function (http) {
   var createGroup = function (newGroup) {
