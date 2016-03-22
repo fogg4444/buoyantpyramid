@@ -28,7 +28,16 @@ var addSong = function (req, res, next) {
   });
 };
 
-var deleteSong = function (req, res, next) {
+var deleteTag = function (req, res, next) {
+  var tagId = req.params.id;
+  Tag.findOne({where: {id: tagId}})
+  .then(function(tag) {
+    tag.destroy();
+    res.json(tag);
+  })
+  .catch(function(err) {
+    next(err);
+  });
 };
 
 module.exports = {
