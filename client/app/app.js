@@ -108,6 +108,21 @@ angular.module('jam', [
     }]
   };
 })
+.directive('player', function() {
+  return {
+    restrict: 'E',
+    templateUrl: 'app/player/player.html',
+    scope: {
+      songUrl: '='
+    },
+    controller: ['$scope', '$element', 'ngAudio', 'Player', function($scope, $elem, audio, Play) {
+      $scope.sound = Play.sound;
+      $elem.on('end', function() {
+        console.log("the song ended");
+      });
+    }]
+  };
+})
 .directive('modalDialog', function() {
   return {
     restrict: 'E',

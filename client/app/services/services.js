@@ -232,6 +232,17 @@ angular.module('jam.services', [])
   };
 }])
 
+.factory('Player', ['ngAudio', function (audio) {
+  var songQueue = null;
+  var sound = audio.load("http://mattyluv.com/mp3/hickey_firstlp/Hickey%20-%2001%20-%20Believe.mp3");
+  // Store current song here
+
+
+  return {
+    sound: sound
+  };
+}])
+
 
 .factory('Auth', ['$http', '$location', '$window', '$q', function (http, loc, win, q) {
   // stores users token as com.jam
