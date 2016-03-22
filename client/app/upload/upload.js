@@ -1,6 +1,6 @@
 angular
   .module('jam.upload', [])
-  .controller('UploadController', ['$scope', 'Upload', 'ngProgressFactory', 'Auth', '$http', function($scope, Upload, ngProgressFactory, Auth, $http) {
+  .controller('UploadController', ['$scope', 'Upload', 'ngProgressFactory', 'Auth', 'Songs', '$http', function($scope, Upload, ngProgressFactory, Auth, Songs, $http) {
     
     $scope.progressbar = ngProgressFactory.createInstance();
 
@@ -55,14 +55,27 @@ angular
         console.log('Error', res);
       });
 
+      String.prototype.hashCode = function() {
+        var hash = 0, i, chr, len;
+        if (this.length === 0) return hash;
+        for (i = 0, len = this.length; i < len; i++) {
+          chr   = this.charCodeAt(i);
+          hash  = ((hash << 5) - hash) + chr;
+          hash |= 0; // Convert to 32bit integer
+        }
+        return hash;
+      };
+
       var beginDirectS3Upload = function(s3Credentials, file) {
         console.log('Begin s3 upload', s3Credentials);
         var groupId;
 
         Auth.getUserData()
         .then(function(user) {
+          var uniqueHash = ( Date.now() + file.name ).hashCode();
+
           var dataObj = {
-            'key' : 's3UploadExample/'+ Math.round(Math.random()*10000) + '$$' + file.name,
+            'key' : 'audio/'+ uniqueHash,
             'acl' : 'public-read',
             'Content-Type' : file.type,
             'AWSAccessKeyId': s3Credentials.AWSAccessKeyId,
@@ -85,11 +98,17 @@ angular
           .then(function(response) {
             // On upload confirmation
             file.progress = parseInt(100);
-            console.log('Whatever this is');
+            console.log('Upload confirmed', response.body);
             if (response.status === 201) {
               // TODO: upload success
               // do something client side
                 // commit entry to songs list
+                console.log('Data for songs db: ', file, user);
+
+                Songs.addSong(file, user.currentGroupId, uniqueHash)
+                  .then(function(data) {
+                    console.log('Songs added: ', data);
+                  });
 
             } else {
               // upload failed

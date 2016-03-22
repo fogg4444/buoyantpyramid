@@ -6,17 +6,28 @@ var Group = db.Group;
 
 
 var addSong = function(req, res, next) {
-  var dateRecorded = req.body.dateRecorded || Date.now();
+  console.log('Receive song data: ', req.body);
+
+  var dateRecorded = req.body.lastModified || null;
+  var dateUploaded = Date.now(); //TODO: make a db entry for this data
   var groupId = req.params.id;
-  var title = req.body.title;
-  var description = req.body.description;
+  var name = req.body.name || '';
+  var description = req.body.description || '';
+  var size = req.body.size;
+  var awsBucketAddress = '';
+  var uniqueHash = req.body.uniqueHash;
+
+  console.log('Hash name: ', uniqueHash);
 
   Song.create({
-    title: title || req.filename,
-    description: description || '',
-    dateRecorded: dateRecorded || Date.now(), // TODO: Receive from UI?
+    title: name,
+    description: description,
+    dateRecorded: dateRecorded, // TODO: Receive from UI?
+    dateUploaded: dateUploaded, //TODO: ask erick is this in the db schema?
+    size: size, // TODO: ask erick if this size is in db?
     duration: 100, // TODO: Receive from UI?
-    address: req.filename,
+    uniqueHash: uniqueHash, //TODO: ask erick about this one too..
+    address: awsBucketAddress,
     groupId: groupId
   }, {
     include: {
