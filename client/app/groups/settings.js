@@ -20,6 +20,19 @@ angular.module('jam.groupSettings', [])
     Groups.updateInfo($scope.group)
     .then(function(resp) {
       console.log(resp.data);
+      $scope.user.currentGroup = resp.data;
+    })
+    .catch(console.error);
+  };
+
+  $scope.removeBanner = function() {
+    Groups.updateInfo({
+      id: $scope.group.id,
+      bannerUrl: ''
+    })
+    .then(function(resp) {
+      console.log(resp.data);
+      $scope.user.currentGroup = resp.data;
     })
     .catch(console.error);
   };

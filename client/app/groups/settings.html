@@ -1,8 +1,7 @@
 <div class="groups-settings">
-  <nav-bar></nav-bar>
+  <nav-bar banner="{{newBanner}}"></nav-bar>
   <div class="page-content">
     <h2 class="heading">Group Settings for {{ user.currentGroup.name }}</h2>
-    <hr>
     <div class="form-container group-form-container">
       <form name="updateForm">
         <fieldset>
@@ -18,16 +17,24 @@
       <form name="inviteForm">
         <fieldset>
           <legend>invite someone</legend>
-          <input name="invite" ng-model="invite" placeholder="email" type="email" ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/" required/>
-          <button ng-click="sendInvite()" ng-disabled="inviteForm.$invalid">Invite Member</button>
+          <label>
+            <input name="invite" ng-model="invite" placeholder="email" type="email" ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/" required/>
+          </label>
+          <div class="form-buttons">
+            <button ng-click="sendInvite()" ng-disabled="inviteForm.$invalid">Invite Member</button>
+          </div>
         </fieldset>
       </form>
       <!-- Code for crop file uploader -->
       <form name="bannerForm">
         <fieldset>
           <legend>Change your banner</legend>
-          <button ngf-select ng-model="picFile" accept="image/*">Select Banner Image</button>
-          <button ng-click="upload(croppedDataUrl, picFile.name)">Upload image</button>
+          <div class="form-buttons">
+            <button ngf-select ng-model="picFile" accept="image/*">Select Banner Image</button>
+            <button ng-click="upload(croppedDataUrl, picFile.name)">Upload image</button>
+            <button ng-click="removeBanner()">Remove Banner</button>
+
+          </div>
           <span class="progress" ng-show="progress >= 0">
           <div style="width:{{progress}}%" ng-bind="progress + '%'"></div>
         </span>

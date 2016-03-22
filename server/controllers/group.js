@@ -1,3 +1,4 @@
+var path = require('path');
 var db = require('../db/database');
 var Group = db.Group;
 var Song = db.Song;
@@ -84,10 +85,27 @@ var updateGroupInfo = function(req, res, next) {
   Group.update(req.body, {
     where: {
       id: req.body.id
-    }
+    },
+    returning: true
   })
+  .then(function(result) {
+    res.json(result[1][0]);
+  })
+  .catch(function(error) {
+    next(error);
+  });
+};
+
+var getBanner = function(req, res, next) {
+  var groupId = parseInt(req.params.id);
+  Group.findById(groupId)
   .then(function(group) {
-    res.json(group);
+    if (group) {
+      var url = path.resolve(__dirname + '/../uploadInbox/' + group.bannerUrl);
+      res.sendFile(url);
+    } else {
+      res.status(404).send('group doesn\'t exist');
+    }
   })
   .catch(function(error) {
     next(error);
@@ -100,5 +118,6 @@ module.exports = {
   fetchPlaylists: fetchPlaylists,
   addUser: addUser,
   fetchUsers: fetchUsers,
-  updateGroupInfo: updateGroupInfo
+  updateGroupInfo: updateGroupInfo,
+  getBanner: getBanner
 };
