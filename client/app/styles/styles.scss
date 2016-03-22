@@ -87,10 +87,22 @@ nav ul {
   height: $nav-height;
 }
 
-.avatar-img {
-  max-height: $nav-height * 0.8;
+.nav-avatar-img {
+  height: $nav-height * 0.8;
+  width: $nav-height * 0.8;
   border-radius: 50%;
   vertical-align: middle;
+}
+.current-avatar {
+  max-width: 100px;
+  max-height: 100px;
+  text-align:center;
+  overflow: hidden;
+  margin: 1em;
+  img {
+    max-width: 100%;
+    max-height: 100%;
+  }
 }
 li:hover > .submenu-container {
   display: block;
@@ -114,9 +126,12 @@ li:hover > .submenu-container {
   text-transform: uppercase;
   font-size: 1.15em;
 }
-.page-content { 
+.page-content {
+  max-width: 1024px;
+  margin: 0 auto; 
   clear: both;
   padding: 1em;
+  // text-align: center;
 }
 
 .button {
@@ -131,7 +146,7 @@ li:hover > .submenu-container {
 }
 
 .song {
-  margin-top: 1em;
+  margin-top: 2em;
 }
 
 .song-buttons, .refresh-button {
@@ -155,6 +170,17 @@ li:hover > .submenu-container {
 .song-title {
   font-size: 1.25em;
 }
+
+.profile-section {
+  display: inline-block;
+  margin: 0 1em;
+  text-align: right;
+  vertical-align: top;
+  header {
+    font-size: 1.5em;
+  }
+}
+
 
 .drop-box {
   border: dotted 2px black;
@@ -275,14 +301,19 @@ textarea:focus,
 select:focus {
   border: 1px solid $linkcolor;
   outline: 0; }
-label,
-legend {
+label {
   display: block;
-  margin-bottom: .5rem;
-  font-weight: 600; }
+  margin-bottom: 0.5em;
+}
+// legend {
+  // display: block;
+  // margin-bottom: .5rem;
+  // font-weight: 600; }
 fieldset {
-  padding: 0;
-  border-width: 0; }
+  display: inline-block;
+  margin: 0 auto;
+  border: 1px solid $linkcolor;
+}
 input[type="checkbox"],
 input[type="radio"] {
   display: inline; }
@@ -302,7 +333,7 @@ input[type="button"] {
   color: $white;
   text-align: center;
   font-size: 1rem;
-  font-weight: 600;
+  // font-weight: 600;
   // line-height: 2em;
   letter-spacing: .1rem;
   text-transform: uppercase;
@@ -348,25 +379,6 @@ input[type="button"].button-primary:focus {
   color: #FFF;
   background-color: #1EAEDB;
   border-color: #1EAEDB; }
-
-button,
-.button {
-  margin-bottom: 1rem; }
-input,
-textarea,
-select,
-fieldset {
-  margin-bottom: 1.5rem; }
-pre,
-blockquote,
-dl,
-figure,
-table,
-p,
-ul,
-ol,
-form {
-  margin-bottom: 2.5rem; }
 
 
 .icon-button, .icon-button:active {

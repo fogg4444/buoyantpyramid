@@ -1,27 +1,36 @@
 <nav-bar></nav-bar>
 <div class="profile">
   <div class="page-content">
-  <h2 class="heading">Profile</h2>
+    <h2 class="heading">Profile<span class="small"> - update your stuff</span></h2>
     <form name="profileForm">
-      <legend>Update your stuff</legend>
-      <hr>
-      
       <!-- Code for ng-file-uploader -->
-      <input type='text' ng-model='user.displayName' placeholder='Name' />
-      <input type='text' ng-model='user.email' placeholder='Email' />
-      <button type="file" ngf-select="uploadFiles($file, $invalidFiles)" 
-        accept="image/*" ngf-resize="{width: 100, height: 100}">
-        Upload Avatar <i class="fa fa-file-image-o"></i></button>
-      <br><br>
-      File:
-      <div style="font:smaller">{{f.name}} {{errFile.name}} {{errFile.$error}} {{errFile.$errorParam}}
-        <span class="progress" ng-show="f.progress >= 0">
-          <div style="width:{{f.progress}}%" ng-bind="f.progress + '%'"></div>
-        </span>
-      </div>     
-      {{errorMsg}}
-      <!-- Code for ng-file-uploader -->
-      <button type='submit' ng-click='updateProfile();'>Update</button>
+      <section class="profile-section">
+        <fieldset>
+          <legend>avatar</legend>
+          <div class="current-avatar"><img avatar-fallback ng-src="/api/users/{{user.id}}/avatar" alt="current avatar"></div>
+          <button type="file" ngf-select="uploadFiles($file, $invalidFiles)" accept="image/*" ngf-resize="{width: 100, height: 100}">
+            Change <i class="fa fa-upload"></i></button>
+          <div style="font:smaller">{{f.name}} {{errFile.name}} {{errFile.$error}} {{errFile.$errorParam}}
+            <span class="progress" ng-show="f.progress >= 0">
+              <div style="width:{{f.progress}}%" ng-bind="f.progress + '%'"></div>
+            </span>
+          </div>
+          {{errorMsg}}
+          <!-- Code for ng-file-uploader -->
+        </fieldset>
+      </section>
+      <section class="profile-section">
+        <fieldset>
+          <legend>info</legend>
+          <label>name
+            <input type='text' ng-model='user.displayName' placeholder='Name' />
+          </label>
+          <label>email
+            <input type='text' ng-model='user.email' placeholder='Email' />
+          </label>
+          <button type='submit' ng-click='updateProfile();'>Update</button>
+        </fieldset>
+      </section>
     </form>
   </div>
   <!-- <groups-nav></groups-nav> -->
