@@ -4,6 +4,7 @@ var Group = require('../controllers/group');
 var Playlist = require('../controllers/playlist');
 var User = require('../controllers/user');
 var Upload = require('../controllers/upload');
+var Comment = require('../controllers/comment');
 var utils = require('../controllers/upload');
 
 var routing = function (app, express) {
@@ -19,10 +20,11 @@ var routing = function (app, express) {
   // EVERYTHING BELOW THIS WILL NEED A JWT TOKEN!!!
   apiRoutes.use(helpers.verifyToken);
 
-
-
+  // Song related requests
   apiRoutes.delete('/songs/:id', Song.deleteSong);
+  apiRoutes.post('/songs/:id/comments', Comment.addComment);
 
+  // User related requests
   apiRoutes.post('/users/avatar', Upload.catchUpload, User.setAvatar);
   apiRoutes.put('/users/profile', User.updateProfile);
   apiRoutes.get('/users/profile', User.getProfile);
@@ -40,6 +42,9 @@ var routing = function (app, express) {
   apiRoutes.post('/groups/:id/songs/', Song.addSong);
   apiRoutes.get('/groups/:id/songs/', Group.fetchSongs);
 
+  // Remove song comments
+  apiRoutes.delete('/comments/:id', Comment.deleteComment);
+
   // Add and retrieve playlists
   apiRoutes.post('/playlists/', Playlist.createPlaylist);
   apiRoutes.post('/playlists/:sid/:pid/', Playlist.addSong);
@@ -47,9 +52,8 @@ var routing = function (app, express) {
   apiRoutes.get('/playlists/:id/', Playlist.fetchSongs);
   apiRoutes.delete('/playlists/:id/', Playlist.deletePlaylist);
 
-  apiRoutes.post('/s3/', Upload.getS3Data);
-
   // Upload handling
+  apiRoutes.post('/s3/', Upload.getS3Data);
   apiRoutes.post('/upload/', Upload.catchUpload);
 
   // Send email invites
