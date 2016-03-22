@@ -105,6 +105,17 @@ var Playlist = db.define('playlist', {
   }
 });
 
+var Tag = db.define('tag', {
+  time: {
+    type: Sequelize.INTEGER,
+    allowNull: false
+  },
+  note: {
+    type: Sequelize.STRING,
+    allowNull: false
+  }
+});
+
 // Define join tables
 var UserGroups = db.define('userGroups', {
   role: {
