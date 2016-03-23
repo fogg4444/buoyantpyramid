@@ -23,7 +23,6 @@ angular.module('jam.songFactory', ['jam.usersFactory'])
   // index of the current song playing
   var soundIndex = 0;
   var currentLocation = 'songs';
-  var playing = false;
   var sounds;
 
   // FUNCTIONS FOR SONGS
@@ -179,8 +178,7 @@ angular.module('jam.songFactory', ['jam.usersFactory'])
   var getSoundsAndIndex = function () {
     return {
       sounds: sounds,
-      index: soundIndex,
-      playing: playing
+      index: soundIndex
     };
   };
 
@@ -192,13 +190,14 @@ angular.module('jam.songFactory', ['jam.usersFactory'])
   };
 
   var choose = function(index, location) {
-    playing = true;
-    soundIndex = index;
-    if (location !== currentLocation) {
-      currentLocation = location;
-      sounds = soundsFromSongs(songQueue, location);
-    } 
-    notifyObservers();
+    if (!(soundIndex === +index && currentLocation === location)) {
+      soundIndex = index;
+      if (location !== currentLocation) {
+        currentLocation = location;
+        sounds = soundsFromSongs(songQueue, location);
+      } 
+      notifyObservers();
+    }
   };
 
   return {

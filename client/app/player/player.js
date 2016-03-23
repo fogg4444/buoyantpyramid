@@ -4,13 +4,19 @@ angular.module('jam.player', [])
   $scope.placeholderSound = audio.load('http://mattyluv.com/mp3/hickey_various/Hickey-ElFarolito.mp3');
   $scope.sound = $scope.playlist.sounds ? $scope.playlist.sounds[$scope.playlist.index] : $scope.placeholderSound;
   
+  $scope.togglePlay = function () {
+    if ($scope.sound.paused) {
+      $scope.sound.play();
+    } else {
+      $scope.sound.pause();
+    }
+  };
+
   var changeSong = function() {
     $scope.sound.stop();
     $scope.playlist = Songs.getSoundsAndIndex();
     $scope.sound = $scope.playlist.sounds[$scope.playlist.index];
-    if ($scope.playlist.playing && !$scope.sound.paused) {
-      $scope.sound.play();
-    }
+    $scope.play();
     $scope.sound.complete(function() {
       Songs.nextIndex();
     });

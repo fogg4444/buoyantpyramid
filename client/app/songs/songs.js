@@ -7,7 +7,6 @@ angular.module('jam.songs', [])
   $scope.where = 'songs';
 
   $scope.updateIndex = function(index) {
-    console.log(index, ': ', $scope.where);
     Songs.choose(index, $scope.where);
   };
 
