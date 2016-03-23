@@ -8,6 +8,7 @@ angular.module('jam', [
   'jam.groupSettings',
   'jam.playlist',
   'jam.uploadFactory',
+  'jam.playFactory',
   'ngRoute',
   'ngAnimate',
   'ngFileUpload',
@@ -118,11 +119,17 @@ angular.module('jam', [
     controller: ['$scope', 'ngAudio', 'Player', function($scope, audio, Play) {
       $scope.sound = Play.sounds[0];
       
-      var updateIndex = function() {
+      var changeSong = function() {
+        $scope.sound.stop();
         $scope.sound = Play.sounds[Play.soundIndex];
+        $scope.sound.play();
       };
 
-      Play.registerObserverCallback(updateIndex);
+      $scope.sound.complete(function() {
+        Play.updateIndex();
+      });
+
+      Play.registerObserverCallback(changeSong);
     }]
   };
 })
