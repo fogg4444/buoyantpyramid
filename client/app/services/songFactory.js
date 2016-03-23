@@ -4,6 +4,14 @@ angular.module('jam.songFactory', ['jam.usersFactory'])
 
   // FUNCTIONS FOR SONGS
 
+  var augmentSongs = function(songs) {
+    return songs.reduce(function(augSongs, song) {
+      song.sound = audio.load(song.address);
+      augSongs = augSongs.concat([song]);
+      return augSongs;
+    }, []);
+  };
+
   var addSong = function (song, groupId) {
     console.log('Song', song);
     var songData = {
@@ -37,11 +45,7 @@ angular.module('jam.songFactory', ['jam.usersFactory'])
     })
     .then(function (res) {
       // this will return the ngAudio objects
-      var enhancedSongs = res.data.reduce(function(songs, song) {
-        song.sound = audio.load(song.address);
-        songs = songs.concat([song]);
-        return songs;
-      }, []);
+      var enhancedSongs = augmentSongs(res.data);
       songQueue.songs = enhancedSongs;
       console.log("I got some songs! ", songQueue.songs);
       return enhancedSongs;
@@ -110,11 +114,7 @@ angular.module('jam.songFactory', ['jam.usersFactory'])
       url: '/api/playlists/' + id + '/'
     })
     .then(function (res) {
-      var enhancedSongs = res.data.reduce(function(songs, song) {
-        song.sound = audio.load(song.address);
-        songs = songs.concat([song]);
-        return songs;
-      }, []);
+      var enhancedSongs = augmentSongs(res.data);
       songQueue.playlist = enhancedSongs;
       return enhancedSongs;
     });
