@@ -1,8 +1,17 @@
 angular.module('jam.player', [])
 .controller('PlayerController', ['$scope', 'ngAudio', 'Songs', function($scope, audio, Songs) {
   $scope.playlist = Songs.getSoundsAndIndex();
-  $scope.sound = $scope.sound || $scope.playlist.sounds[$scope.playlist.index];
+  $scope.placeholderSound = audio.load('http://mattyluv.com/mp3/hickey_various/Hickey-ElFarolito.mp3');
+  $scope.sound = $scope.playlist.sounds ? $scope.playlist.sounds[$scope.playlist.index] : $scope.placeholderSound;
   
+  $scope.togglePlay = function () {
+    if ($scope.sound.paused) {
+      $scope.sound.play();
+    } else {
+      $scope.sound.pause();
+    }
+  };
+
   var changeSong = function() {
     $scope.sound.stop();
     $scope.playlist = Songs.getSoundsAndIndex();
@@ -14,7 +23,6 @@ angular.module('jam.player', [])
   };
 
   $scope.sound.complete(function() {
-    console.log('When the song ended the index was: ', $scope.playlist.index);
     Songs.nextIndex();
   });
 

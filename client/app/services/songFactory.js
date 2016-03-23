@@ -2,7 +2,7 @@ angular.module('jam.songFactory', ['jam.usersFactory'])
 
 .factory('Songs', ['$http', '$q', 'ngAudio', function (http, q, audio) {
 
-  // FUNCTIONS FOR SONGS
+  // HELPER FUNCTIONS
 
   var augmentSongs = function(songs) {
     return songs.reduce(function(augSongs, song) {
@@ -11,6 +11,21 @@ angular.module('jam.songFactory', ['jam.usersFactory'])
       return augSongs;
     }, []);
   };
+
+  var soundsFromSongs = function(queue, location) {
+    return queue[location].map(function(song) {
+      return song.sound;
+    });
+  };
+
+  // stores all songs and current playlist songs
+  var songQueue = {songs: [], playlist: []};
+  // index of the current song playing
+  var soundIndex = null;
+  var currentLocation = 'songs';
+  var sounds;
+
+  // FUNCTIONS FOR SONGS
 
   var addSong = function (song, groupId) {
     console.log('Song', song);
@@ -47,7 +62,7 @@ angular.module('jam.songFactory', ['jam.usersFactory'])
       // this will return the ngAudio objects
       var enhancedSongs = augmentSongs(res.data);
       songQueue.songs = enhancedSongs;
-      console.log("I got some songs! ", songQueue.songs);
+      sounds = soundsFromSongs(songQueue, 'songs');
       return enhancedSongs;
     });
   };
@@ -116,6 +131,7 @@ angular.module('jam.songFactory', ['jam.usersFactory'])
     .then(function (res) {
       var enhancedSongs = augmentSongs(res.data);
       songQueue.playlist = enhancedSongs;
+      sounds = soundsFromSongs(songQueue, 'playlist');
       return enhancedSongs;
     });
   };
@@ -159,21 +175,6 @@ angular.module('jam.songFactory', ['jam.usersFactory'])
     });
   };
 
-  // stores all songs and current playlist songs
-  var songQueue = {songs: [], playlist: []};
-  // index of the current song playing
-  var soundIndex = 0;
-  var currentLocation = 'songs';
-
-  var soundsFromSongs = function(queue, location) {
-    console.log(location, queue);
-    // return queue[location].map(function(song) {
-    //   return song.sound;
-    // });
-  };
-
-  var sounds = soundsFromSongs(songQueue, currentLocation);
-
   var getSoundsAndIndex = function () {
     return {
       sounds: sounds,
@@ -189,15 +190,13 @@ angular.module('jam.songFactory', ['jam.usersFactory'])
   };
 
   var choose = function(index, location) {
-    // update index
-    if (location === currentLocation) {
-      console.log("Chose the current location");
-      // notify observers
-    } else {
-      currentLocation = location;
-      console.log("Changed the location to ", currentLocation);
-      // update queue
-      // notify observers
+    if (!(soundIndex === +index && currentLocation === location)) {
+      soundIndex = index;
+      if (location !== currentLocation) {
+        currentLocation = location;
+        sounds = soundsFromSongs(songQueue, location);
+      } 
+      notifyObservers();
     }
   };
 
