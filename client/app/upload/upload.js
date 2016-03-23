@@ -3,8 +3,6 @@ angular
   .controller('UploadController', ['$scope', 'Upload', 'UploadFactory', 'ngProgressFactory', 'Auth', 'Songs', '$http', function($scope, Upload, UploadFactory, ngProgressFactory, Auth, Songs, $http) {
     
     $scope.progressbar = ngProgressFactory.createInstance();
-    $scope.upload = UploadFactory.upload;
-
 
     var totalToUpload = 0;
     var totalUploaded = 0;
@@ -19,7 +17,7 @@ angular
       }
 
       totalPercent = Math.ceil(total / (totalToUpload));
-      console.log('Total percent progress bar: ========== ', totalPercent);
+      // console.log('Total percent progress bar: ========== ', totalPercent);
 
       $scope.progressbar.set(totalPercent);
       if (totalPercent === 100) {
@@ -33,6 +31,7 @@ angular
       for (file in files) {
         var thisFile = files[file];
         thisFile['queueId'] = Math.floor( Math.random() * 10000000 );
+        thisFile.status = 'READY';
         $scope.queue.push(thisFile);
       }
     };
@@ -52,7 +51,6 @@ angular
         var seconds = e.currentTarget.duration;
         cb(seconds);
         URL.revokeObjectURL(objectUrl);
-        a.parentNode.removeChild(a);
       });
 
       objectUrl = URL.createObjectURL(file);
@@ -74,10 +72,15 @@ angular
         });
       })
       .then(function(data) {
-        console.log('Song added: ', data);
+        // console.log('Song added: ', data);
       })
       .catch(console.error);
     };
+
+    $scope.upload = function(file) {
+      UploadFactory.upload(file, 'audio', successCallback, console.error, progressCallback);
+    };
+
     // for multiple files:
     $scope.uploadFiles = function() {
       $scope.progressbar.set(0);
@@ -85,8 +88,32 @@ angular
         totalToUpload = $scope.queue.length;
         totalUploaded = 0;
         for (var i = 0; i < $scope.queue.length; i++) {
-          UploadFactory.upload($scope.queue[i], 'audio', successCallback, console.error, progressCallback);
+          if ($scope.queue[i].status === 'READY') {
+            UploadFactory.upload($scope.queue[i], 'audio', successCallback, console.error, progressCallback);
+          }
         }
       }
     };
-  }]);
+  }])
+  .directive('uploadItem', function() {
+    return {
+      restrict: 'E',
+      templateUrl: 'app/upload/uploadItem.html',
+      scope: {},
+      controller: ['$scope', '$element', 'ngProgressFactory', function($scope, $element, ngProgressFactory) {
+        $scope.file = $scope.$parent.file;
+        $scope.$index = $scope.$parent.$index;
+        $scope.upload = $scope.$parent.upload;
+        $scope.removeFile = $scope.$parent.removeFile;
+        $scope.progressbar = ngProgressFactory.createInstance();
+        $scope.progressbar.setParent($element[0]);
+        // $scope.contained_progressbar.setAbsolute();
+        $scope.$watch('file.progressPercentage',
+        function(newValue, oldValue) {
+          if (file.status === 'UPLOADING') {
+            $scope.progressbar.set(newValue);
+          }
+        });
+      }]
+    };
+  });

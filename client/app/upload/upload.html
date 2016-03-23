@@ -1,15 +1,10 @@
 <nav-bar></nav-bar>
 <div class="upload">
   <div class="page-content">
-    <div class="button" ngf-select="addToQueue($files)" multiple="multiple">Choose Files</div>
+    <button class="button" ngf-select="addToQueue($files)" multiple="multiple">Choose Files</button>
     <ul>
       <li ng-repeat="file in queue">
-        {{ file.name }}
-        <button ng-click="upload(file)">Upload</button>
-        <button ng-click="removeFile($index)">Remove</button>
-        <!-- progress -->
-        <div class='eachProgressBar' id="progressBar{{file.queueId}}">{{file.progressPercentage}}</div>
-
+        <upload-item></upload-item>
       </li>
     </ul>
     <button ng-show="queue.length > 0" ng-click="uploadFiles()">Upload All!</button>
