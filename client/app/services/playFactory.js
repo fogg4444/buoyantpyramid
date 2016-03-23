@@ -81,9 +81,10 @@ angular.module('jam.playFactory', [])
   };
 
   // songs in the queue
-  var songQueue = ["http://mattyluv.com/mp3/hickey_firstlp/Hickey%20-%2001%20-%20Believe.mp3", "http://mattyluv.com/mp3/hickey_firstlp/Hickey%20-%2011%20-%20In%20The%20Beginning.mp3"];
+  var songQueue = ["http://mattyluv.com/mp3/hickey_firstlp/Hickey%20-%2001%20-%20Believe.mp3", "http://mattyluv.com/mp3/hickey_firstlp/Hickey%20-%2007%20-%20Stupid%20Sun.mp3", 'http://mattyluv.com/mp3/hickey_firstlp/Hickey%20-%2008%20-%20War%20of%20the%20Super%20Egos.mp3'];
   // index of the current song playing
-  var soundIndex = 1;
+  var soundIndex = 0;
+
 
   // load next song on song end
   var sounds = songQueue.map(function(url) {
@@ -91,6 +92,13 @@ angular.module('jam.playFactory', [])
   });
   sounds.updated = Date.now();
 
+  var getSoundsAndIndex = function () {
+    return {
+      sounds: sounds,
+      index: soundIndex
+    };
+  };
+  
   var updateQueueByUser = function (userId) {
     // get the songs and set the song queue
   };
@@ -100,18 +108,15 @@ angular.module('jam.playFactory', [])
   };
 
   var updateIndex = function() {
-    if (soundIndex < sounds.length) {
+    if (soundIndex < sounds.length - 1) {
       soundIndex++;
-    } else {
-      soundIndex = 0;
-    }
-    console.log(soundIndex);
+    } 
+    console.log("After update the index was ", soundIndex);
     notifyObservers();
   };
 
   return {
-    sounds: sounds,
-    soundIndex: soundIndex,
+    getSoundsAndIndex: getSoundsAndIndex,
     updateQueueByUser: updateQueueByUser,
     updateQueueByPlaylist: updateQueueByPlaylist,
     updateIndex: updateIndex,

@@ -117,15 +117,21 @@ angular.module('jam', [
       songUrl: '='
     },
     controller: ['$scope', 'ngAudio', 'Player', function($scope, audio, Play) {
-      $scope.sound = Play.sounds[0];
+      $scope.play = Play.getSoundsAndIndex();
+      $scope.sound = $scope.play.sounds[$scope.play.index];
       
       var changeSong = function() {
         $scope.sound.stop();
-        $scope.sound = Play.sounds[Play.soundIndex];
+        $scope.play = Play.getSoundsAndIndex();
+        $scope.sound = $scope.play.sounds[$scope.play.index];
         $scope.sound.play();
+        $scope.sound.complete(function() {
+          Play.updateIndex();
+        });
       };
 
       $scope.sound.complete(function() {
+        console.log("When the song ended the index was: ", $scope.play.index);
         Play.updateIndex();
       });
 
