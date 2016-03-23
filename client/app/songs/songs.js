@@ -37,6 +37,7 @@ angular.module('jam.songs', [])
   };
 
   $scope.deleteSong = function(index) {
+    console.log($scope.data.songs[index].id);
     Songs.deleteSong($scope.data.songs[index])
     .then(function() {
       $scope.data.songs.splice(index, 1);
