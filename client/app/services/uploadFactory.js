@@ -1,4 +1,4 @@
-angular.module('jam.uploadFactory', ['jam.services'])
+angular.module('jam.uploadFactory', ['jam.usersFactory'])
 .factory('UploadFactory', ['$http', '$window', '$q', 'Upload', 'Auth', 'Songs',
 function ($http, win, q, Upload, Auth, Songs) {
   // upload on file select or drop

@@ -1,9 +1,15 @@
 angular.module('jam.songs', [])
 
-.controller('SongsController', ['$scope', '$location', 'Songs', 'Auth', 'Groups', 'Playlists', function ($scope, loc, Songs, Auth, GR, PL) {
+.controller('SongsController', ['$scope', '$location', 'Songs', 'Auth', 'Groups', function ($scope, loc, Songs, Auth, GR, PL) {
   // When user adds a new link, put it in the collection
   $scope.data = {};
   $scope.user = {};
+  $scope.where = 'songs';
+
+  $scope.updateIndex = function(index) {
+    console.log(index, ': ', $scope.where);
+    Songs.choose(index, $scope.where);
+  };
 
   Auth.getUserData()
   .then(function (user) {

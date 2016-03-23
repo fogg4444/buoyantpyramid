@@ -3,7 +3,9 @@
   <!-- <div class="song-player"> -->
     
     <div><input class="song-title" type="textarea" value="{{ song.title }}"></input></div>
-    <player sound="song.sound"></player>
+    <div>
+      <button class="change-song" ng-click="$parent.updateIndex(index)"><i class="fa fa-play-circle-o fa-lg"></i></button>
+    </div>
 
     <div class="songViewTextArea">
       <textarea
