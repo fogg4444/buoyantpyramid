@@ -23,6 +23,7 @@ angular.module('jam.songFactory', ['jam.usersFactory'])
   // index of the current song playing
   var soundIndex = null;
   var currentLocation = 'songs';
+  var playing = false;
   var sounds;
 
   // FUNCTIONS FOR SONGS
@@ -168,11 +169,15 @@ angular.module('jam.songFactory', ['jam.usersFactory'])
     observerCallbacks.push(callback);
   };
 
-  //call this when something chages
-  var notifyObservers = function() {
-    angular.forEach(observerCallbacks, function(callback) {
-      callback();
-    });
+  // call this with the index of the callback to trigger just one
+  var notifyObservers = function(i) {
+    if (i) {
+      observerCallbacks[i]();
+    } else {
+      angular.forEach(observerCallbacks, function (callback) {
+        callback();
+      });
+    }
   };
 
   var getSoundsAndIndex = function () {
@@ -186,17 +191,20 @@ angular.module('jam.songFactory', ['jam.usersFactory'])
     if (soundIndex < sounds.length - 1) {
       soundIndex++;
     } 
-    notifyObservers();
+    notifyObservers(0);
   };
 
   var choose = function(index, location) {
-    if (!(soundIndex === +index && currentLocation === location)) {
+    if (soundIndex === +index && currentLocation === location) {
+      notifyObservers(1);
+    } else {
+      playing = !playing;
       soundIndex = index;
       if (location !== currentLocation) {
         currentLocation = location;
         sounds = soundsFromSongs(songQueue, location);
       } 
-      notifyObservers();
+      notifyObservers(0);
     }
   };
 
