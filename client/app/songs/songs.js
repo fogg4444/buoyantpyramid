@@ -4,6 +4,11 @@ angular.module('jam.songs', [])
   // When user adds a new link, put it in the collection
   $scope.data = {};
   $scope.user = {};
+  $scope.where = 'songs';
+
+  $scope.updateIndex = function(index) {
+    console.log(index, ': ', $scope.where);
+  };
 
   Auth.getUserData()
   .then(function (user) {

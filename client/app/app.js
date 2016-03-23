@@ -7,6 +7,7 @@ angular.module('jam', [
   'jam.groups',
   'jam.groupSettings',
   'jam.playlist',
+  'jam.player',
   'jam.uploadFactory',
   'jam.playFactory',
   'ngRoute',
@@ -29,6 +30,7 @@ angular.module('jam', [
     .when('/songs', {
       templateUrl: 'app/songs/songs.html',
       controller: 'SongsController',
+      controllerAs: 'songCtrl',
       authenticate: true
     })
     .when('/profile', {
@@ -54,6 +56,7 @@ angular.module('jam', [
     .when('/playlists', {
       templateUrl: 'app/playlist/playlist.html',
       controller: 'PlaylistController',
+      controllerAs: 'playlistCtrl',
       authenticate: true
     })
     .otherwise({
@@ -113,31 +116,7 @@ angular.module('jam', [
 .directive('player', function() {
   return {
     restrict: 'E',
-    templateUrl: 'app/player/player.html',
-    scope: {
-      sound: '='
-    },
-    controller: ['$scope', 'ngAudio', 'Player', function($scope, audio, Play) {
-      $scope.play = Play.getSoundsAndIndex();
-      $scope.sound = $scope.sound || $scope.play.sounds[$scope.play.index];
-      
-      var changeSong = function() {
-        $scope.sound.stop();
-        $scope.play = Play.getSoundsAndIndex();
-        $scope.sound = $scope.play.sounds[$scope.play.index];
-        $scope.sound.play();
-        $scope.sound.complete(function() {
-          Play.updateIndex();
-        });
-      };
-
-      $scope.sound.complete(function() {
-        console.log('When the song ended the index was: ', $scope.play.index);
-        Play.updateIndex();
-      });
-
-      Play.registerObserverCallback(changeSong);
-    }]
+    templateUrl: 'app/player/player.html'
   };
 })
 .directive('modalDialog', function() {

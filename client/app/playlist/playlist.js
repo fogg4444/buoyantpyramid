@@ -5,11 +5,10 @@ angular.module('jam.playlist', [])
   $scope.data.currentPlaylist = {};
   $scope.data.playlists = [];
   $scope.user = {};
+  $scope.where = 'playlist';
 
-  var augmentUrls = function (songs) {
-    songs.forEach(function(song) {
-      song.apiUrl = '/api/songs/' + song.address;
-    });
+  $scope.updateIndex = function(index) {
+    console.log(index, ': ', $scope.where);
   };
 
   Auth.getUserData()
@@ -35,7 +34,6 @@ angular.module('jam.playlist', [])
     $scope.data.currentPlaylist = playlist;
     PL.getPlaylistSongs(playlist.id)
     .then(function (songs) {
-      // augmentUrls(songs);
       $scope.data.currentPlaylist.songs = songs;
     })
     .then(console.error);
