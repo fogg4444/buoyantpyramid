@@ -1,6 +1,18 @@
 var db = require('../db/database');
-var User = db.User;
 var Group = db.Group;
+var Song = db.Song;
+var User = db.User;
+
+var compileUserData = function(user) {
+  return Group.findById(user.currentGroupId, {include: [{model: Song}]})
+  .then(function(currentGroup) {
+    // Possibly revise
+    user = JSON.parse(JSON.stringify(user));
+    delete user.password;
+    user.currentGroup = currentGroup;
+    return user;
+  });
+};
 
 var createUser = function (email, displayName, password) {
   return new Promise(function (resolve, reject) {
@@ -27,11 +39,28 @@ var createUser = function (email, displayName, password) {
     });
 };
 
-var getUserByEmail = function (email) {
-  return User.findOne({where: {email: email}});
+var getGroups = function(userId) {
+  return new Promise(function (resolve, reject) {
+    User.findById(userId)
+    .then(function (user) {
+      user.getGroups()
+      .then(function (groups) {
+        resolve(groups);
+      });
+    })
+    .catch(function(error) {
+      reject(error);
+    });
+  });
+};
+
+var getUser = function (query) {
+  return User.findOne({where: query});
 };
 
 module.exports = {
+  compileUserData: compileUserData,
   createUser: createUser,
-  getUserByEmail: getUserByEmail
+  getGroups: getGroups,
+  getUser: getUser
 }
