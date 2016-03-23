@@ -8,54 +8,23 @@ var request = require('request');
 var ffmpeg = require('fluent-ffmpeg');
 
 var downloadQueue = queue();
-downloadQueue.timeout = 100000;
-downloadQueue.on('timeout', function(next, job) {
-  console.log('job timed out:', job.toString().replace(/\n/g, ''));
-  next();
-});
+// downloadQueue.timeout = 100000;
+downloadQueue.concurrency = 5;
+// TODO: what if something timesout?
+// downloadQueue.on('timeout', function(next, job) {
+//   console.log('job timed out:', job.toString().replace(/\n/g, ''));
+//   next();
+// });
 downloadQueue.on('success', function(result, job) {
-  console.log('job finished processing:', job.toString().replace(/\n/g, ''));
+  console.log('--- 3.5 --- Success finished processing:');
+});
+downloadQueue.on('end', function(data) {
+  console.log('--- 4 --- Queue completed! Queue status: ', downloadQueue.running);
 });
 
 
 
-var startQueue = function(req, res, next) {
-  downloadQueue.start(function(err) {
-    console.log('all done downloading');
-    // next()
-    if (err) {
-      console.log('Download queue fail!');
-    } else {
-      next();
-    }
-  });
-}
-
-var addToQueue = function(req, res, next) {
-  var s3UniqueHash = req.body.s3UniqueHash;
-  var awsStaticUrl = 'https://s3-us-west-1.amazonaws.com/jamrecordtest/audio/';
-  var directFileUrl = awsStaticUrl + s3UniqueHash;
-  var downloadDestination = path.join( __dirname + '/../temp_audio/hi_res_inbox/' + s3UniqueHash);
-  
-  downloadQueue.push(function(cb) {
-
-    download(directFileUrl, downloadDestination, function(err) {
-      console.log('Begin downloading S3 source', s3UniqueHash);
-      if (err) {
-        console.log('Error: file did not download!');
-        res.send(500); //TODO: pick the right error for this!
-      } else {
-        console.log('File download success ', s3UniqueHash);
-        // next();
-        // add file to transcoding
-        compress(downloadDestination, s3UniqueHash);
-      }
-    });
-    cb();
-  });
-
-  console.log('Adds ' + s3UniqueHash + ' to the queue');
-
+var primaryServerStatusUpdate = function() {
   // notify main server of add to queue
   // request.post('http://localhost:5000/api/trancodingStatus',
   //   {json: {'testData': 'test post data added to queue!'}},
@@ -67,13 +36,54 @@ var addToQueue = function(req, res, next) {
   //       console.log('Status update error:', body);
   //     }
   //   }
-  // );
+  // );  
+};
 
+var addToQueue = function(req, res, next) {
+  
+  var s3UniqueHash = req.body.s3UniqueHash;
+  var awsStaticUrl = 'https://s3-us-west-1.amazonaws.com/jamrecordtest/audio/';
+  var directFileUrl = awsStaticUrl + s3UniqueHash;
+  var downloadDestination = path.join( __dirname + '/../temp_audio/hi_res_inbox/' + s3UniqueHash);
+  
 
+  downloadQueue.push(function(cb) {
 
-  // res.sendStatus(200);
+    download(directFileUrl, downloadDestination, function(err) {
+      console.log('--- 5 --- Begin downloading S3 source', s3UniqueHash);
+      if (err) {
+        console.log('--- 6 --- Error: file did not download!');
+        res.send(500); //TODO: pick the right error for this!
+      } else {
+        console.log('--- 6 --- File download success ', s3UniqueHash);
+        // next();
+        // add file to transcoding
+        compress(downloadDestination, s3UniqueHash);
+      }
+    });
+    cb();
+  });
 
-  // 
+  console.log('--- 1 --- Adds ' + s3UniqueHash + ' to the queue');
+
+  console.log('--- 2 --- Check on length of queue at this time: ', downloadQueue.length);
+  console.log('--- 2.5 --- Check on running status: ', downloadQueue.running);
+  if (downloadQueue.running === false) {
+    console.log('--- 3 --- Auto start queue!');
+    startQueue();
+  } else {
+    console.log('--- 3 --- Dont start queue right now');
+  }
+};
+
+var startQueue = function() {
+  downloadQueue.start(function(err) {
+    if (err) {
+      console.log('--- 4 --- DownloadQueueError');
+    } else {
+      console.log('--- 4 --- DownloadQueue confirms starting');
+    }
+  });
 };
 
 var download = function(url, dest, cb) {
@@ -90,7 +100,7 @@ var download = function(url, dest, cb) {
 };
 
 var compress = function(fileLocation, s3UniqueHash) {
-  console.log('Get ready to read and compress the file!', fileLocation);
+  console.log('--- 7 --- Get ready to read and compress the file!', fileLocation);
 
   var fileName = s3UniqueHash.split('.')[0];
 
@@ -100,13 +110,13 @@ var compress = function(fileLocation, s3UniqueHash) {
     .audioQuality(0)
     .audioChannels(2)
     .on('progress', function(progress) {
-      console.log('Processing: ' + progress.percent + '% done');
+      console.log('--- 8 --- Processing: ' + progress.percent + '% done');
     })
     .on('end', function() {
-      console.log('Finished processing');
+      console.log('--- 8 --- Finished processing');
     })
     .on('error', function(err, stdout, stderr) {
-      console.log('Cannot process audio: ' + err.message);
+      console.log('--- 8 --- Cannot process audio: ' + err.message);
     })
     .save( path.join(__dirname + '/../temp_audio/low_res_outbox/' +  fileName + '.mp3'));
 };

@@ -3,7 +3,7 @@ var db = require('../db/database');
 var fs = require('fs');
 var Song = db.Song;
 var Group = db.Group;
-var request = require('request');
+var compressionServer = require('./compressionServer.js');
 
 
 
@@ -41,8 +41,11 @@ var addSong = function(req, res, next) {
   })
   .then(function(song) {
     // Make request to compression server
-    requestFileCompression(song);
-    console.log('Song db call after compresion....');
+    //  this call is asychronus
+
+    compressionServer.requestFileCompression(song);
+
+    console.log('requested compression and now tell user confirmed db entry');
     res.json(song);
   })
   .catch(function(err) {
@@ -51,26 +54,6 @@ var addSong = function(req, res, next) {
     // next(err);
   });
 };
-
-// TODO: this can probably go in a factory
-var requestFileCompression = function(song) {
-  console.log('Make request to compression server');
-  
-  request.post(
-    'http://localhost:4000/compress',
-    { json: {
-        s3UniqueHash: song.uniqueHash
-      }
-    },
-    function (error, response, body) {
-      if (error) {
-        console.log('Request compression error: ', error);
-      } else if (!error && response.statusCode == 200) {
-        console.log('Successful request to compression server: ', body);
-      }
-    }
-  );
-}
 
 var getSongByFilename = function(req, res, next) {
   var filename = req.params.filename;
