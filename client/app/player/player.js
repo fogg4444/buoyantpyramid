@@ -4,7 +4,8 @@ angular.module('jam.player', [])
   $scope.sound = $scope.playlist.sounds ? $scope.playlist.sounds[$scope.playlist.index] : null;
   $scope.Songs = Songs;
   $scope.playing = Songs.playing;
-  $scope.togglePlay = function () {
+
+  var togglePlay = function () {
     if ($scope.sound.paused) {
       $scope.sound.play();
     } else {
@@ -15,10 +16,6 @@ angular.module('jam.player', [])
   var changeSong = function() {
     if ($scope.sound) {
       $scope.sound.stop();
-      $scope.$watch('Songs.playing', function (newVal, oldVal, scope) {
-        console.log("Watching!", newVal, oldVal);
-        $scope.togglePlay();
-      });
     }
     $scope.playlist = Songs.getSoundsAndIndex();
     $scope.sound = $scope.playlist.sounds[$scope.playlist.index];
@@ -30,4 +27,5 @@ angular.module('jam.player', [])
 
 
   Songs.registerObserverCallback(changeSong);
+  Songs.registerObserverCallback(togglePlay);
 }]);
