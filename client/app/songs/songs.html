@@ -22,6 +22,10 @@
     <label>Search:
       <input ng-model="query" type="text" name="search" />
     </label>
+
+    <div ng-show="data.songs.length === 0" class="empty-placeholder">
+      your group doesn't have any songs yet. you should <a href="/#/upload">upload</a> some
+    </div>
     <div ng-repeat="song in data.songs | filter:query | orderBy:'-timestamp'" class="song">
         <div class="song-buttons">
           <button class="icon-button" title="add to playlist" ng-click="$parent.newSong = song; toggleModal()"><i class="fa fa-plus-circle fa-lg"></i></button>

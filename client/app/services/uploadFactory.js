@@ -64,7 +64,8 @@ function ($http, win, q, Upload, Auth, Songs) {
         // $scope[divId].setParent(document.getElementById(divId));
         // $scope[divId].start();
         // $scope[divId].setAbsolute();
-
+        file.status = 'UPLOADING';
+        file.progressPercentage = 0;
         Upload.upload({
           url: 'https://' + s3Credentials.bucketName + '.s3.amazonaws.com/',
           method: 'POST',
@@ -78,7 +79,8 @@ function ($http, win, q, Upload, Auth, Songs) {
         })
         .then(function(response) {
           // On upload confirmation
-          file.progress = parseInt(100);
+          file.status = 'COMPLETE';
+          file.progressPercentage = parseInt(100);
           console.log('Upload confirmed');
           if (response.status === 201) {
             var escapedUrl = new DOMParser().parseFromString(response.data, 'application/xml').getElementsByTagName('Location')[0].textContent;
@@ -88,25 +90,14 @@ function ($http, win, q, Upload, Auth, Songs) {
               successCallback(file, response);
             }
           } else {
+            file.status = 'ERROR';
             if (errorCallback) {
               errorCallback(response);
             }
-            // upload failed
-            // do something client side
           }
         },
         null, // WHAT IS THIS?
         function(evt) {
-          // on upload progress
-          // console.log('Progress: ', file.progressPercentage);
-
-          // var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-          // file['progressPercentage'] = progressPercentage;
-
-          // TODO: pass data to progress bar
-          //throttledTotal();
-          
-
           if (progressCallback) {
             progressCallback(file, evt);
           }
