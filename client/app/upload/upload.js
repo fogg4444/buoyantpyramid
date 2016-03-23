@@ -32,6 +32,8 @@ angular
         var thisFile = files[file];
         thisFile['queueId'] = Math.floor( Math.random() * 10000000 );
         thisFile.status = 'READY';
+        thisFile.editing = false;
+        thisFile.displayName = thisFile.name;
         $scope.queue.push(thisFile);
       }
     };
@@ -78,6 +80,7 @@ angular
     };
 
     $scope.upload = function(file) {
+      file.editing = false;
       UploadFactory.upload(file, 'audio', successCallback, console.error, progressCallback);
     };
 
@@ -89,7 +92,7 @@ angular
         totalUploaded = 0;
         for (var i = 0; i < $scope.queue.length; i++) {
           if ($scope.queue[i].status === 'READY') {
-            UploadFactory.upload($scope.queue[i], 'audio', successCallback, console.error, progressCallback);
+            $scope.upload($scope.queue[i]);
           }
         }
       }

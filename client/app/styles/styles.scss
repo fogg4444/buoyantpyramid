@@ -11,6 +11,7 @@ $bgcolor: #FAFCFC;
 $bgcolor-2: #385E8A;
 $textcolor: $darkgrey;
 $textcolor-2: #FBFBFB;
+$textcolor-3: #5C86B8;
 $linkcolor: #99D1B2;
 $red: #ed5e5e;
 
@@ -174,14 +175,10 @@ li:hover > .submenu-container {
 }
 
 
-.button {
-  border: solid 1px red;
-}
-
-.button:hover {
+.upload-button:hover {
   background: $red;
 }
-.button:active {
+.upload-button:active {
   background: white;
 }
 
@@ -227,9 +224,10 @@ li:hover > .submenu-container {
 
 .upload-item {
   width: 100%;
-  margin: 1em auto;
+  margin: 0.5em auto;
   padding: 0.5em;
   position: relative;
+  text-transform: lowercase;
   .eachProgressBar {
     position: absolute;
     top: 0;
@@ -241,8 +239,24 @@ li:hover > .submenu-container {
     box-shadow: 0 0 10px 0; /* Inherits the font color */
 
     /* Add CSS3 styles for transition smoothing */
-    transition: all 0.5s ease-in-out;
+    transition: all 0.3s ease-in-out;
   }
+}
+
+.upload-info {
+  margin: 1em;
+  font-style: italic;
+  color: $textcolor-3;
+}
+.file-info {
+  margin: 0.5em 0;
+}
+.error {
+  color: $red;
+}
+
+.success {
+  color: $linkcolor;
 }
 
 
@@ -517,6 +531,13 @@ input.ng-invalid.ng-dirty {
   color: $linkcolor;
   border:none;
   background:none;
+}
+.icon-button:disabled,
+.icon-button:disabled:hover,
+:hover .icon-button:disabled:hover, {
+  border:none;
+  background:none;
+  cursor:default;
 }
 
 .cancel, .cancel:active {

@@ -32,7 +32,7 @@ angular.module('jam.songFactory', ['jam.usersFactory'])
     var songData = {
       size: song.size,
       lastModified: song.lastModified,
-      name: song.name,
+      name: song.displayName || song.name,
       uniqueHash: song.uniqueFilename,
       address: song.s3url,
       duration: song.duration
