@@ -10,32 +10,6 @@ function ($scope, loc, win, to, Auth, Up, UploadFactory) {
   })
   .catch(console.error);
 
-  // $scope.uploadFiles = function(file, errFiles) {
-  //   $scope.f = file;
-  //   $scope.errFile = errFiles && errFiles[0];
-  //   if (file) {
-  //     file.upload = Up.upload({
-  //       url: '/api/users/avatar',
-  //       data: {file: file}
-  //     });
-
-  //     file.upload.then(function (response) {
-  //       to(function () {
-  //         file.result = response.data;
-  //         $scope.user.avatarURL = file.name;
-  //         $scope.updateProfile();
-  //         $scope.avatarURL = '/api/users/' + $scope.user.id + '/avatar?rev=' + (++avatarRev);
-  //       });
-  //     }, function (response) {
-  //       if (response.status > 0) {
-  //         $scope.errorMsg = response.status + ': ' + response.data;
-  //       }
-  //     }, function (evt) {
-  //       file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
-  //     });
-  //   }
-  // };
-
   var progressCallback = function(file, evt) {
     file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
   };
@@ -57,6 +31,7 @@ function ($scope, loc, win, to, Auth, Up, UploadFactory) {
       UploadFactory.upload(file, 'images', successCallback, errorCallback, progressCallback);
     }
   };
+  
   $scope.updateProfile = function () {
     Auth.updateProfile($scope.user)
     .then(function (res) {

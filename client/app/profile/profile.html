@@ -7,7 +7,7 @@
       <section class="profile-section">
         <fieldset>
           <legend>avatar</legend>
-          <div class="current-avatar"><img avatar-fallback ng-src="{{user.avatarURL}}" alt="current avatar"></div>
+          <div class="current-avatar"><img ng-src="{{user.avatarURL}}" alt="current avatar"></div>
           <button type="file" ngf-select="uploadFiles($file, $invalidFiles)" accept="image/*" ngf-resize="{width: 100, height: 100}">
             Change <i class="fa fa-upload"></i></button>
           <div style="font:smaller">{{f.name}} {{errFile.name}} {{errFile.$error}} {{errFile.$errorParam}}
