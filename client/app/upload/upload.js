@@ -51,7 +51,16 @@ angular
       throttledTotal();
     };
 
-
+    var successCallback = function (file, response) {
+      Auth.getUserData()
+      .then(function(user) {
+        return Songs.addSong(file, user.currentGroupId);
+      })
+      .then(function(data) {
+        console.log('Song added: ', data);
+      })
+      .catch(console.error);
+    };
     // for multiple files:
     $scope.uploadFiles = function() {
       $scope.progressbar.set(0);
@@ -59,7 +68,7 @@ angular
         totalToUpload = $scope.queue.length;
         totalUploaded = 0;
         for (var i = 0; i < $scope.queue.length; i++) {
-          UploadFactory.upload($scope.queue[i], 'audio/', console.log, console.error, progressCallback);
+          UploadFactory.upload($scope.queue[i], 'audio', successCallback, console.error, progressCallback);
         }
       }
     };

@@ -18,16 +18,24 @@ function ($http, win, q, Upload, Auth, Songs) {
       console.log('Error', res);
     });
 
-    String.prototype.hashCode = function() {
-      var hash = 0;
-      var i, chr, len;
-      if (this.length === 0) { return hash; }
-      for (i = 0, len = this.length; i < len; i++) {
-        chr = this.charCodeAt(i);
-        hash = ((hash << 5) - hash) + chr;
-        hash |= 0; // Convert to 32bit integer
-      }
-      return hash;
+    // String.prototype.hashCode = function() {
+    //   var hash = 0;
+    //   var i, chr, len;
+    //   if (this.length === 0) { return hash; }
+    //   for (i = 0, len = this.length; i < len; i++) {
+    //     chr = this.charCodeAt(i);
+    //     hash = ((hash << 5) - hash) + chr;
+    //     hash |= 0; // Convert to 32bit integer
+    //   }
+    //   return Math.abs(hash);
+    // };
+
+    String.prototype.uuid = function() {
+      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        var r = Math.random() * 16 | 0;
+        var v = (c === 'x') ? r : r & 0x3 | 0x8;
+        return v.toString(16);
+      });
     };
 
     var beginDirectS3Upload = function(s3Credentials, file) {
@@ -37,10 +45,10 @@ function ($http, win, q, Upload, Auth, Songs) {
 
       Auth.getUserData()
       .then(function(user) {
-        var uniqueHash = ( Date.now() + file.name ).hashCode();
-
+        var fileExtension = file.name.replace(/^.*\./, '');
+        var uniqueFilename = ( Date.now() + file.name ).uuid() + '.' + fileExtension;
         var dataObj = {
-          'key': 'audio/' + uniqueHash,
+          'key': directory + '/' + uniqueFilename,
           'acl': 'public-read',
           'Content-Type': file.type,
           'AWSAccessKeyId': s3Credentials.AWSAccessKeyId,
@@ -73,17 +81,11 @@ function ($http, win, q, Upload, Auth, Songs) {
           file.progress = parseInt(100);
           console.log('Upload confirmed');
           if (response.status === 201) {
-            // TODO: upload success
-            // do something client side
-              // commit entry to songs list
-              // console.log('Data for songs db: ', file, user);
-
-            Songs.addSong(file, user.currentGroupId, uniqueHash)
-            .then(function(data) {
-              // console.log('Songs added: ', data);
-            });
+            var escapedUrl = new DOMParser().parseFromString(response.data, 'application/xml').getElementsByTagName('Location')[0].textContent;
+            file.s3url = unescape(escapedUrl);
+            file.uniqueFilename = uniqueFilename;
             if (successCallback) {
-              successCallback(file);
+              successCallback(file, response);
             }
           } else {
             if (errorCallback) {

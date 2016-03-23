@@ -2,13 +2,14 @@ angular.module('jam.services', [])
 
 .factory('Songs', ['$http', '$q', function (http, q) {
 
-  var addSong = function (song, groupId, uniqueHash) {
+  var addSong = function (song, groupId) {
     console.log('Song', song);
     var songData = {
       size: song.size,
       lastModified: song.lastModified,
       name: song.name,
-      uniqueHash: uniqueHash
+      uniqueHash: song.uniqueFilename,
+      address: song.s3url
     };
 
     return q(function(resolve, reject) {
