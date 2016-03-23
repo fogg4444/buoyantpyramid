@@ -1,0 +1,23 @@
+
+<button ng-click="sound.paused ? sound.play() : sound.pause()">Play Hickey</button>
+<button ng-click="sound.restart()">Stop</button>
+<button ng-click="sound.muting = !sound.muting">Mute</button>
+<div class="input-group">
+  <span class="input-group-addon">Progress</span>
+  <input class="form-control ng-pristine ng-untouched ng-valid" type="range" ng-model="sound.progress" step="0.01" max="1" min="0">
+</div>
+<!-- Optional Extra stuff -->
+<div ng-show="true">
+  <div class="input-group">
+    <span class="input-group-addon">Current Time</span>
+    <input class="form-control ng-pristine ng-untouched ng-valid" type="text" ng-model="sound.currentTime">
+  </div>
+  <div class="input-group">
+    <span class="input-group-addon">Volume</span>
+    <input class="form-control ng-pristine ng-untouched ng-valid" type="range" ng-model="sound.volume" step="0.01" max="1" min="0">
+  </div>
+  <div class="input-group">
+    <span class="input-group-addon">Playback Rate</span>
+    <input class="form-control ng-pristine ng-untouched ng-valid" type="range" ng-model="sound.playbackRate" step="0.01" max="1.5" min="0.5">
+  </div>
+</div>

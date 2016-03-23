@@ -77,71 +77,6 @@ angular.module('jam.services', [])
   };  
 }])
 
-.factory('Playlists', ['$http', function(http) {
-  var createPlaylist = function (playlist) {
-    // takes an object with a title and optional description
-    return http({
-      method: 'POST',
-      url: '/api/playlists/',
-      data: playlist
-    })
-    .then(function (res) {
-      return res.data;
-    });
-  };
-
-  var addSongToPlaylist = function (songId, plId) {
-    // takes a playlist id and a song obj
-    return http({
-      method: 'POST',
-      url: '/api/playlists/' + songId + '/' + plId + '/'
-    })
-    .then(function (res) {
-      return res.data;
-    });
-  };
-
-  var getPlaylistSongs = function (id) {
-    return http({
-      method: 'GET',
-      url: '/api/playlists/' + id + '/'
-    })
-    .then(function (res) {
-      return res.data;
-    });
-  };
-
-  var deleteFromPlaylist = function (sId, plId) {
-    // Takes a playlist object with the song removed
-    console.log('ID to delete: ', plId, sId);
-    return http({
-      method: 'DELETE',
-      url: '/api/playlists/' + sId + '/' + plId + '/',
-    })
-    .then(function (res) {
-      return res.data;
-    });
-  };
-
-  var deletePlaylist = function (id) {
-    return http({
-      method: 'DELETE',
-      url: '/api/playlists/' + id + '/' 
-    })
-    .then(function (res) {
-      return res.data;
-    });
-  };
-
-  return {
-    createPlaylist: createPlaylist,
-    addSongToPlaylist: addSongToPlaylist,
-    getPlaylistSongs: getPlaylistSongs,
-    deleteFromPlaylist: deleteFromPlaylist,
-    deletePlaylist: deletePlaylist
-  };
-}])
-
 .factory('Groups', ['$http', function (http) {
   var createGroup = function (newGroup) {
     return http({
@@ -231,7 +166,6 @@ angular.module('jam.services', [])
     sendInvite: sendInvite
   };
 }])
-
 
 .factory('Auth', ['$http', '$location', '$window', '$q', function (http, loc, win, q) {
   // stores users token as com.jam
