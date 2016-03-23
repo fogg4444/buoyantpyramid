@@ -16,7 +16,7 @@ angular.module('jam.player', [])
     $scope.sound.stop();
     $scope.playlist = Songs.getSoundsAndIndex();
     $scope.sound = $scope.playlist.sounds[$scope.playlist.index];
-    $scope.play();
+    $scope.sound.play();
     $scope.sound.complete(function() {
       Songs.nextIndex();
     });
