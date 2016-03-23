@@ -14,7 +14,7 @@ var addSong = function(req, res, next) {
   var name = req.body.name || '';
   var description = req.body.description || '';
   var size = req.body.size;
-  var awsBucketAddress = '';
+  var awsBucketAddress = req.body.address;
   var uniqueHash = req.body.uniqueHash;
 
   console.log('Hash name: ', uniqueHash);
