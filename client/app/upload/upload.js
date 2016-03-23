@@ -45,6 +45,20 @@ angular
       }
     };
 
+    var getAudioLength = function(file, cb) {
+      var objectUrl;
+      var a = document.createElement('audio');
+      a.addEventListener('canplaythrough', function(e) {
+        var seconds = e.currentTarget.duration;
+        cb(seconds);
+        URL.revokeObjectURL(objectUrl);
+        a.parentNode.removeChild(a);
+      });
+
+      objectUrl = URL.createObjectURL(file);
+      a.setAttribute('src', objectUrl);
+    };
+
     var progressCallback = function(file, evt) {
       var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
       file['progressPercentage'] = progressPercentage;
@@ -54,7 +68,10 @@ angular
     var successCallback = function (file, response) {
       Auth.getUserData()
       .then(function(user) {
-        return Songs.addSong(file, user.currentGroupId);
+        getAudioLength(file, function(duration) {
+          file.duration = duration;
+          return Songs.addSong(file, user.currentGroupId);
+        });
       })
       .then(function(data) {
         console.log('Song added: ', data);

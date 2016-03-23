@@ -9,7 +9,8 @@ angular.module('jam.services', [])
       lastModified: song.lastModified,
       name: song.name,
       uniqueHash: song.uniqueFilename,
-      address: song.s3url
+      address: song.s3url,
+      duration: song.duration
     };
 
     return q(function(resolve, reject) {
