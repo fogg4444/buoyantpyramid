@@ -3,10 +3,7 @@
   <!-- <div class="song-player"> -->
     
     <div><input class="song-title" type="textarea" value="{{ song.title }}"></input></div>
-    <audio controls>  
-      <source ng-src="{{song.sourceUrl}}" >
-      Your browser does not support the audio tag.
-    </audio>
+    <player sound="song.sound"></player>
 
     <div class="songViewTextArea">
       <textarea

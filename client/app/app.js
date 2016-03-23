@@ -13,7 +13,8 @@ angular.module('jam', [
   'ngAnimate',
   'ngFileUpload',
   'ngImgCrop',
-  'ngAudio'
+  'ngAudio',
+  'ngProgress'
 ])
 .config(function ($routeProvider, $httpProvider) {
   $routeProvider
@@ -114,11 +115,11 @@ angular.module('jam', [
     restrict: 'E',
     templateUrl: 'app/player/player.html',
     scope: {
-      songUrl: '='
+      sound: '='
     },
     controller: ['$scope', 'ngAudio', 'Player', function($scope, audio, Play) {
       $scope.play = Play.getSoundsAndIndex();
-      $scope.sound = $scope.play.sounds[$scope.play.index];
+      $scope.sound = $scope.sound || $scope.play.sounds[$scope.play.index];
       
       var changeSong = function() {
         $scope.sound.stop();
