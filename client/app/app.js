@@ -1,5 +1,4 @@
 angular.module('jam', [
-  'jam.services',
   'jam.songs',
   'jam.profile',
   'jam.auth',
@@ -8,6 +7,7 @@ angular.module('jam', [
   'jam.groupSettings',
   'jam.playlist',
   'jam.player',
+  'jam.usersFactory',
   'jam.uploadFactory',
   'jam.playFactory',
   'ngRoute',
