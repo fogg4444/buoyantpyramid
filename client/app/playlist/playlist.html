@@ -11,6 +11,9 @@
         </form>
       </modal-dialog>
     </div>
+     <div ng-show="data.playlists.length === 0" class="empty-placeholder">
+        Your group doesn't have any playlists. Click the button above to create one.
+      </div>
     <div ng-repeat="playlist in data.playlists" ng-click="makeCurrent(playlist)">
       <button class="delete-button icon-button" title="delete playlist" ng-click="deletePlaylist(playlist)"><i class="fa fa-trash fa-lg"></i></button>
       <div>{{playlist.title}}</div>
