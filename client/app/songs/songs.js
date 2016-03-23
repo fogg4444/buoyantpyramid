@@ -14,7 +14,7 @@ angular.module('jam.songs', [])
   Auth.getUserData()
   .then(function (user) {
     $scope.user = user;
-    $scope.data.songs = user.currentGroup.songs;
+    $scope.refreshSongs();
     GR.getPlaylistsByGroupId($scope.user.currentGroup.id)
     .then(function (playlists) {
       $scope.data.playlists = playlists;
