@@ -23,6 +23,7 @@ angular.module('jam.songFactory', ['jam.usersFactory'])
   // index of the current song playing
   var soundIndex = null;
   var currentLocation = 'songs';
+  var playing = false;
   var sounds;
 
   // FUNCTIONS FOR SONGS
@@ -190,7 +191,10 @@ angular.module('jam.songFactory', ['jam.usersFactory'])
   };
 
   var choose = function(index, location) {
-    if (!(soundIndex === +index && currentLocation === location)) {
+    if (soundIndex === +index && currentLocation === location) {
+      playing = true;
+    } else {
+      playing = !playing;
       soundIndex = index;
       if (location !== currentLocation) {
         currentLocation = location;
