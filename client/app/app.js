@@ -55,8 +55,7 @@ angular.module('jam', [
     })
     .when('/playlists', {
       templateUrl: 'app/playlist/playlist.html',
-      controller: 'PlaylistController',
-      controllerAs: 'playlistCtrl',
+      controller: 'SongsController',
       authenticate: true
     })
     .otherwise({
