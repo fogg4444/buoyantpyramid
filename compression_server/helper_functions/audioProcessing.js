@@ -65,7 +65,6 @@ var addToQueue = function(req, res, next) {
   });
 
   console.log('--- 1 --- Adds ' + s3UniqueHash + ' to the queue');
-
   console.log('--- 2 --- Check on length of queue at this time: ', downloadQueue.length);
   console.log('--- 2.5 --- Check on running status: ', downloadQueue.running);
   if (downloadQueue.running === false) {
@@ -88,8 +87,15 @@ var startQueue = function() {
 
 var download = function(url, dest, cb) {
   var file = fs.createWriteStream(dest);
-  var request = https.get(url, function(response) {
-    response.pipe(file);
+  var totalDownloaded = 0;
+  var request = https.get(url, function(res) {
+    res.pipe(file);
+    res.on('data', function(chunk) {
+      file.write(chunk);
+      totalDownloaded += chunk.length;
+      var percentDownloaded = Math.floor((totalDownloaded / res.headers['content-length']) * 100);
+      // console.log('--- 4.5 --- Downlad progress: ', percentDownloaded);
+    });
     file.on('finish', function() {
       file.close(cb);  // close() is async, call cb after close completes.
     });
@@ -99,12 +105,21 @@ var download = function(url, dest, cb) {
   });
 };
 
-var compress = function(fileLocation, s3UniqueHash) {
-  console.log('--- 7 --- Get ready to read and compress the file!', fileLocation);
+var deleteHiRes = function(filePath) {
+  fs.unlink(filePath, function(err) {
+    if (err) {
+      console.log('--- 9 --- Delete errror!');
+    }
+    console.log('--- 9 --- Successfully deleted');
+  });
+};
+
+var compress = function(filePath, s3UniqueHash) {
+  console.log('--- 7 --- Get ready to read and compress the file!');
 
   var fileName = s3UniqueHash.split('.')[0];
 
-  var ffmpegCommand = ffmpeg(fileLocation)
+  var ffmpegCommand = ffmpeg(filePath)
     .audioCodec('libmp3lame')
     .audioBitrate(256)
     .audioQuality(0)
@@ -114,12 +129,19 @@ var compress = function(fileLocation, s3UniqueHash) {
     })
     .on('end', function() {
       console.log('--- 8 --- Finished processing');
+      deleteHiRes(filePath);
+      uploadLowRes(filePath);
     })
     .on('error', function(err, stdout, stderr) {
       console.log('--- 8 --- Cannot process audio: ' + err.message);
     })
     .save( path.join(__dirname + '/../temp_audio/low_res_outbox/' +  fileName + '.mp3'));
 };
+
+var uploadLowRes = function(filePath) {
+  console.log('--- 9 --- Upload LowRes to S3');
+
+}
 
 module.exports = {
   startQueue: startQueue,
