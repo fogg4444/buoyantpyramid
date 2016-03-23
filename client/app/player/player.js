@@ -8,7 +8,7 @@ angular.module('jam.player', [])
     $scope.sound.stop();
     $scope.playlist = Songs.getSoundsAndIndex();
     $scope.sound = $scope.playlist.sounds[$scope.playlist.index];
-    if ($scope.playlist.playing) {
+    if ($scope.playlist.playing && !$scope.sound.paused) {
       $scope.sound.play();
     }
     $scope.sound.complete(function() {

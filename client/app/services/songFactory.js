@@ -64,7 +64,6 @@ angular.module('jam.songFactory', ['jam.usersFactory'])
       var enhancedSongs = augmentSongs(res.data);
       songQueue.songs = enhancedSongs;
       sounds = soundsFromSongs(songQueue, 'songs');
-      notifyObservers();
       return enhancedSongs;
     });
   };
@@ -134,7 +133,6 @@ angular.module('jam.songFactory', ['jam.usersFactory'])
       var enhancedSongs = augmentSongs(res.data);
       songQueue.playlist = enhancedSongs;
       sounds = soundsFromSongs(songQueue, 'playlist');
-      notifyObservers();
       return enhancedSongs;
     });
   };
