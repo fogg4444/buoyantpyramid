@@ -16,6 +16,7 @@ var addSong = function(req, res, next) {
   var size = req.body.size;
   var awsBucketAddress = req.body.address;
   var uniqueHash = req.body.uniqueHash;
+  var duration = req.body.duration || 300;
 
   console.log('Hash name: ', uniqueHash);
 
@@ -25,7 +26,7 @@ var addSong = function(req, res, next) {
     dateRecorded: dateRecorded, // TODO: Receive from UI?
     dateUploaded: dateUploaded, //TODO: ask erick is this in the db schema?
     size: size, // TODO: ask erick if this size is in db?
-    duration: 100, // TODO: Receive from UI?
+    duration: duration, // TODO: Receive from UI?
     uniqueHash: uniqueHash, //TODO: ask erick about this one too..
     address: awsBucketAddress,
     groupId: groupId
