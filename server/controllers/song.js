@@ -50,20 +50,13 @@ var getSongByFilename = function(req, res, next) {
 };
 
 var deleteSong = function(req, res, next) {
+  // Only deletes from the database. FILES ARE STILL ON S3!
   var songId = req.params.id;
   Song.findById(songId)
   .then(function(song) {
-    var url = path.resolve(__dirname + '/../uploadInbox/' + song.address);
-    fs.unlink(url, function(err, status) {
-      if (err) {
-        console.error(err);
-        res.status(500).send(err);
-      } else {
-        song.destroy()
-        .then(function() {
-          res.json(song);
-        });
-      }
+    song.destroy()
+    .then(function() {
+      res.json(song);
     });
   })
   .catch(function(err) {

@@ -1,6 +1,6 @@
 angular.module('jam.services', [])
 
-.factory('Songs', ['$http', '$q', function (http, q) {
+.factory('Songs', ['$http', '$q', 'ngAudio', function (http, q, audio) {
 
   var addSong = function (song, groupId) {
     console.log('Song', song);
@@ -34,7 +34,12 @@ angular.module('jam.services', [])
       url: '/api/groups/' + groupId + '/songs/'
     })
     .then(function (res) {
-      return res.data;
+      // this will return the ngAudio objects
+      return res.data.reduce(function(songs, song) {
+        song.sound = audio.load(song.address);
+        songs = songs.concat([song]);
+        return songs;
+      }, []);
     });
   };
 

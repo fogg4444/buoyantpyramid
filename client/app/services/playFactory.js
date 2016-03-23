@@ -1,5 +1,5 @@
 angular.module('jam.playFactory', [])
-.factory('Playlists', ['$http', function(http) {
+.factory('Playlists', ['$http', 'ngAudio', function(http, audio) {
   var createPlaylist = function (playlist) {
     // takes an object with a title and optional description
     return http({
@@ -29,7 +29,11 @@ angular.module('jam.playFactory', [])
       url: '/api/playlists/' + id + '/'
     })
     .then(function (res) {
-      return res.data;
+      return res.data.reduce(function(songs, song) {
+        song.sound = audio.load(song.address);
+        songs = songs.concat([song])
+        return songs;
+      }, []);
     });
   };
 
