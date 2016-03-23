@@ -2,11 +2,15 @@ angular
   .module('jam.upload', [])
   .controller('UploadController', ['$scope', 'Upload', 'UploadFactory', 'ngProgressFactory', 'Auth', 'Songs', '$http', function($scope, Upload, UploadFactory, ngProgressFactory, Auth, Songs, $http) {
     
-    var socket = io.connect('http://localhost:8080');
-    socket.on('news', function (data) {
-      console.log(data);
-      socket.emit('my other event', { my: 'data' });
-    });
+    // var socket = io.connect('http://localhost:8080');
+    // socket.on('news', function (data) {
+    //   console.log(data);
+    //   socket.emit('my other event', { my: 'data' });
+    // });
+
+    // socket.on('trancodeStatus', function(data) {
+    //   console.log('Transcod data to client: ', data);
+    // });
 
     $scope.progressbar = ngProgressFactory.createInstance();
     $scope.queue = UploadFactory.audioQueue;
@@ -60,7 +64,6 @@ angular
         cb(seconds);
         URL.revokeObjectURL(objectUrl);
       });
-
       objectUrl = URL.createObjectURL(file);
       a.setAttribute('src', objectUrl);
     };

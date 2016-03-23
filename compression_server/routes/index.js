@@ -9,12 +9,7 @@ router.get('/', helpers.startQueue, function(req, res, next) {
 });
 
 // Handle compression request
-router.post('/compress', helpers.addToQueue, function(req, res, next) {
-
-  // console.log('Request body data: ', req.body);
-
-  res.send('Compress Success!');
-});
+router.post('/compress', helpers.addToQueue);
 
 
 

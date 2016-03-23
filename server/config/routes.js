@@ -6,6 +6,12 @@ var User = require('../controllers/userController');
 var Upload = require('../controllers/upload');
 var Comment = require('../controllers/commentController');
 
+var http = require('http');
+var express = require('express');
+var app = express();
+var server = http.createServer(app);
+var io = require('socket.io').listen(server);  //pass a http.Server instance
+
 var routing = function (app, express) {
 
   var apiRoutes = express.Router(); 
@@ -56,6 +62,8 @@ var routing = function (app, express) {
   // Upload handling
   apiRoutes.post('/s3/', Upload.getS3Data);
   apiRoutes.post('/upload/', Upload.catchUpload);
+
+
 
   // Send email invites
   apiRoutes.post('/groups/:id/invite', Group.sendInvite);

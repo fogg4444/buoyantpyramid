@@ -29,12 +29,12 @@ config.port = process.env.NODE_ENV === 'test' ? 9000 : config.port;
 require('./config/middleware.js')(app, express);
 require('./config/routes.js')(app, express);
 
-io.on('connection', function (socket) {
-  socket.emit('news', { hello: 'world' });
-  socket.on('my other event', function (data) {
-    console.log(data);
-  });
-});
+// io.on('connection', function (socket) {
+//   socket.emit('news', { hello: 'world' });
+//   // socket.on('my other event', function (data) {
+//   //   console.log(data);
+//   // });
+// });
 
 // start listening to requests on port 8000
 app.listen(config.port, function() { console.log('listening on port: ', config.port); });

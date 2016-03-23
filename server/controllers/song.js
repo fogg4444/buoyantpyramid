@@ -52,8 +52,9 @@ var addSong = function(req, res, next) {
   });
 };
 
+// TODO: this can probably go in a factory
 var requestFileCompression = function(song) {
-  console.log('Make request to compression server', song);
+  console.log('Make request to compression server');
   
   request.post(
     'http://localhost:4000/compress',
@@ -69,7 +70,6 @@ var requestFileCompression = function(song) {
       }
     }
   );
-
 }
 
 var getSongByFilename = function(req, res, next) {
