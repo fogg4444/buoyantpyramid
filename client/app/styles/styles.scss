@@ -225,6 +225,28 @@ li:hover > .submenu-container {
   font-size: 1.25em;
 }
 
+.upload-item {
+  width: 100%;
+  margin: 1em auto;
+  padding: 0.5em;
+  position: relative;
+  .eachProgressBar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: $red;
+    color: $red;
+    box-shadow: 0 0 10px 0; /* Inherits the font color */
+
+    /* Add CSS3 styles for transition smoothing */
+    transition: all 0.5s ease-in-out;
+  }
+}
+
+
+
 .profile-section {
   display: inline-block;
   margin: 0 1em;
@@ -307,11 +329,7 @@ form .progress {
   width: 0;
 }
 
-.eachProgressBar {
-  width: 100%;
-  border: 1px orange solid;
-  height: 10px;
-}
+
 
 .group {
   background-color: $bgcolor-2;

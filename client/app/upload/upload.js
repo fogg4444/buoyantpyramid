@@ -94,26 +94,5 @@ angular
         }
       }
     };
-  }])
-  .directive('uploadItem', function() {
-    return {
-      restrict: 'E',
-      templateUrl: 'app/upload/uploadItem.html',
-      scope: {},
-      controller: ['$scope', '$element', 'ngProgressFactory', function($scope, $element, ngProgressFactory) {
-        $scope.file = $scope.$parent.file;
-        $scope.$index = $scope.$parent.$index;
-        $scope.upload = $scope.$parent.upload;
-        $scope.removeFile = $scope.$parent.removeFile;
-        $scope.progressbar = ngProgressFactory.createInstance();
-        $scope.progressbar.setParent($element[0]);
-        // $scope.contained_progressbar.setAbsolute();
-        $scope.$watch('file.progressPercentage',
-        function(newValue, oldValue) {
-          if (file.status === 'UPLOADING') {
-            $scope.progressbar.set(newValue);
-          }
-        });
-      }]
-    };
-  });
+  }]);
+ 

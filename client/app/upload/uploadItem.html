@@ -1,5 +1,0 @@
-{{ file.name }}
-<button ng-disabled="file.status !== 'READY'" ng-click="upload(file)">Upload</button>
-<button ng-disabled="file.status !== 'READY'" ng-click="removeFile($index)">Remove</button>
-<!-- progress -->
-<div class='eachProgressBar' id="progressBar{{file.queueId}}">{{file.progressPercentage}}</div>
