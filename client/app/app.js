@@ -76,7 +76,7 @@ angular.module('jam', [
       .then(function (userData) {
         $scope.user = userData;
         $scope.bannerStyle = {
-          'background-image': 'url(/api/groups/' + $scope.user.currentGroup.id + '/banner)',
+          'background-image': 'url(' + $scope.user.currentGroup.bannerUrl + ')',
           'background-size': 'cover'
         };
       })
@@ -132,7 +132,7 @@ angular.module('jam', [
       };
 
       $scope.sound.complete(function() {
-        console.log("When the song ended the index was: ", $scope.play.index);
+        console.log('When the song ended the index was: ', $scope.play.index);
         Play.updateIndex();
       });
 
@@ -163,27 +163,27 @@ angular.module('jam', [
     }
   };
 })
-.directive('avatarFallback', function($http) {
-  return {
-    restrict: 'A',
-    link: function(scope, element, attrs) {
-      var avatars = [
-        'http://vignette3.wikia.nocookie.net/metalocalypse/images/4/41/Nathan_Explosion.jpg',
-        'http://vignette3.wikia.nocookie.net/metalocalypse/images/f/f6/Pickles.jpg',
-        'http://vignette2.wikia.nocookie.net/metalocalypse/images/9/91/Skwigelf1.jpg',
-        'http://vignette2.wikia.nocookie.net/metalocalypse/images/3/39/Metalocalypse-Toki_Wartooth.jpg',
-        'http://vignette2.wikia.nocookie.net/metalocalypse/images/c/c5/William_Murderf.jpg'
-      ];
-      attrs.$observe('ngSrc', function(ngSrc) {
-        $http.get(ngSrc).success(function() {
-        }).error(function() {
-          element.attr('src', avatars[Math.floor(Math.random() * avatars.length)]); // set default image
-        });
-      });
-    }
-  };
-
-})
+// .directive('avatarFallback', function($http) {
+  // return {
+  //   restrict: 'A',
+  //   link: function(scope, element, attrs) {
+  //     var avatars = [
+  //       'http://vignette3.wikia.nocookie.net/metalocalypse/images/4/41/Nathan_Explosion.jpg',
+  //       'http://vignette3.wikia.nocookie.net/metalocalypse/images/f/f6/Pickles.jpg',
+  //       'http://vignette2.wikia.nocookie.net/metalocalypse/images/9/91/Skwigelf1.jpg',
+  //       'http://vignette2.wikia.nocookie.net/metalocalypse/images/3/39/Metalocalypse-Toki_Wartooth.jpg',
+  //       'http://vignette2.wikia.nocookie.net/metalocalypse/images/c/c5/William_Murderf.jpg'
+  //     ];
+  //     attrs.$observe('ngSrc', function(ngSrc) {
+  //       $http.get(ngSrc).success(function() {
+  //       }).error(function() {
+  //         element.attr('src', avatars[Math.floor(Math.random() * avatars.length)]); // set default image
+  //       });
+  //     });
+  //   }
+  // };
+// 
+// })
 .factory('AttachTokens', function ($window) {
   // http request interceptor adds tokens
   var attach = {
