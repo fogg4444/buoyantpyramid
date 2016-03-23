@@ -9,7 +9,7 @@ angular.module('jam', [
   'jam.player',
   'jam.usersFactory',
   'jam.uploadFactory',
-  'jam.playFactory',
+  'jam.songFactory',
   'ngRoute',
   'ngAnimate',
   'ngFileUpload',

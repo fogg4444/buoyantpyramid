@@ -1,5 +1,5 @@
 angular.module('jam.playlist', [])
-.controller('PlaylistController', ['$scope', 'Auth', 'Playlists', 'Groups', 'Player', function ($scope, Auth, PL, GR, Play) {
+.controller('PlaylistController', ['$scope', 'Auth', 'Songs', 'Groups', function ($scope, Auth, Songs, GR) {
   $scope.newPlaylist = {};
   $scope.data = {};
   $scope.data.currentPlaylist = {};
@@ -9,6 +9,7 @@ angular.module('jam.playlist', [])
 
   $scope.updateIndex = function(index) {
     console.log(index, ': ', $scope.where);
+    Songs.choose(index, $scope.where);
   };
 
   Auth.getUserData()
@@ -23,7 +24,7 @@ angular.module('jam.playlist', [])
   .catch(console.error);
 
   $scope.toggleSongs = function () {
-    Play.toggleIndex();
+    Songs.toggleIndex();
   };
   
   $scope.toggleModal = function () {
@@ -32,7 +33,7 @@ angular.module('jam.playlist', [])
 
   $scope.makeCurrent = function (playlist) {
     $scope.data.currentPlaylist = playlist;
-    PL.getPlaylistSongs(playlist.id)
+    Songs.getPlaylistSongs(playlist.id)
     .then(function (songs) {
       $scope.data.currentPlaylist.songs = songs;
     })
@@ -40,7 +41,7 @@ angular.module('jam.playlist', [])
   };
 
   $scope.createPlaylist = function () {
-    PL.createPlaylist($scope.newPlaylist)
+    Songs.createPlaylist($scope.newPlaylist)
     .then(function (playlist) {
       $scope.modalShown = false;
       $scope.currentPlaylist = playlist;
@@ -56,7 +57,7 @@ angular.module('jam.playlist', [])
   $scope.deleteSong = function (index) {
     var songId = $scope.data.currentPlaylist.songs[index].id;
     $scope.data.currentPlaylist.songs.splice(index, 1);
-    PL.deleteFromPlaylist(songId, $scope.data.currentPlaylist.id)
+    Songs.deleteFromPlaylist(songId, $scope.data.currentPlaylist.id)
     .then(function(resp) {
       console.log(resp);
     })
@@ -64,7 +65,7 @@ angular.module('jam.playlist', [])
   };
 
   $scope.deletePlaylist = function (playlist) {
-    PL.deletePlaylist(playlist.id)
+    Songs.deletePlaylist(playlist.id)
     .then(function(resp) {
       // update view?
     })

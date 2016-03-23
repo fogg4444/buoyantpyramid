@@ -1,6 +1,8 @@
-angular.module('jam.playFactory', ['jam.usersFactory'])
+angular.module('jam.songFactory', ['jam.usersFactory'])
 
 .factory('Songs', ['$http', '$q', 'ngAudio', function (http, q, audio) {
+
+  // FUNCTIONS FOR SONGS
 
   var addSong = function (song, groupId) {
     console.log('Song', song);
@@ -35,11 +37,14 @@ angular.module('jam.playFactory', ['jam.usersFactory'])
     })
     .then(function (res) {
       // this will return the ngAudio objects
-      return res.data.reduce(function(songs, song) {
+      var enhancedSongs = res.data.reduce(function(songs, song) {
         song.sound = audio.load(song.address);
         songs = songs.concat([song]);
         return songs;
       }, []);
+      songQueue.songs = enhancedSongs;
+      console.log("I got some songs! ", songQueue.songs);
+      return enhancedSongs;
     });
   };
 
@@ -74,16 +79,8 @@ angular.module('jam.playFactory', ['jam.usersFactory'])
     });
   };
 
-  return {
-    addComment: addComment,
-    addSong: addSong,
-    deleteComment: deleteComment,
-    deleteSong: deleteSong,
-    getAllSongs: getAllSongs
-  };  
-}])
+  // FUNCTIONS FOR PLAYLISTS 
 
-.factory('Playlists', ['$http', 'ngAudio', function(http, audio) {
   var createPlaylist = function (playlist) {
     // takes an object with a title and optional description
     return http({
@@ -113,11 +110,13 @@ angular.module('jam.playFactory', ['jam.usersFactory'])
       url: '/api/playlists/' + id + '/'
     })
     .then(function (res) {
-      return res.data.reduce(function(songs, song) {
+      var enhancedSongs = res.data.reduce(function(songs, song) {
         song.sound = audio.load(song.address);
-        songs = songs.concat([song])
+        songs = songs.concat([song]);
         return songs;
       }, []);
+      songQueue.playlist = enhancedSongs;
+      return enhancedSongs;
     });
   };
 
@@ -143,16 +142,8 @@ angular.module('jam.playFactory', ['jam.usersFactory'])
     });
   };
 
-  return {
-    createPlaylist: createPlaylist,
-    addSongToPlaylist: addSongToPlaylist,
-    getPlaylistSongs: getPlaylistSongs,
-    deleteFromPlaylist: deleteFromPlaylist,
-    deletePlaylist: deletePlaylist
-  };
-}])
+  // FUNCTIONS FOR PLAYBACK
 
-.factory('Player', ['ngAudio', 'Auth', function (audio, Auth) {
   // use the observer pattern to watch for changes in the queue or song
   var observerCallbacks = [];
 
@@ -168,21 +159,20 @@ angular.module('jam.playFactory', ['jam.usersFactory'])
     });
   };
 
-  // songs in the queue
-  var songQueue = ["http://mattyluv.com/mp3/hickey_firstlp/Hickey%20-%2001%20-%20Believe.mp3", "http://mattyluv.com/mp3/hickey_firstlp/Hickey%20-%2007%20-%20Stupid%20Sun.mp3", 'http://mattyluv.com/mp3/hickey_firstlp/Hickey%20-%2008%20-%20War%20of%20the%20Super%20Egos.mp3'];
+  // stores all songs and current playlist songs
+  var songQueue = {songs: [], playlist: []};
   // index of the current song playing
   var soundIndex = 0;
-  var location = 'songs';
-  // array of all current user's songs
-  var allSongs;
-  // array of current playlist songs
-  var currentPlaylist;
+  var currentLocation = 'songs';
 
-  // load next song on song end
-  var sounds = songQueue.map(function(url) {
-    return audio.load(url);
-  });
-  sounds.updated = Date.now();
+  var soundsFromSongs = function(queue, location) {
+    console.log(location, queue);
+    // return queue[location].map(function(song) {
+    //   return song.sound;
+    // });
+  };
+
+  var sounds = soundsFromSongs(songQueue, currentLocation);
 
   var getSoundsAndIndex = function () {
     return {
@@ -190,28 +180,41 @@ angular.module('jam.playFactory', ['jam.usersFactory'])
       index: soundIndex
     };
   };
-  
-  var updateQueueByUser = function (userId) {
-    // get the songs and set the song queue
-  };
 
-  var updateQueueByPlaylist = function (playlistId) {
-    // get the songs and set the queue
-  };
-
-  var updateIndex = function() {
+  var nextIndex = function() {
     if (soundIndex < sounds.length - 1) {
       soundIndex++;
     } 
-    console.log("After update the index was ", soundIndex);
     notifyObservers();
   };
 
+  var choose = function(index, location) {
+    // update index
+    if (location === currentLocation) {
+      console.log("Chose the current location");
+      // notify observers
+    } else {
+      currentLocation = location;
+      console.log("Changed the location to ", currentLocation);
+      // update queue
+      // notify observers
+    }
+  };
+
   return {
+    addComment: addComment,
+    addSong: addSong,
+    deleteComment: deleteComment,
+    deleteSong: deleteSong,
+    getAllSongs: getAllSongs,
+    createPlaylist: createPlaylist,
+    addSongToPlaylist: addSongToPlaylist,
+    getPlaylistSongs: getPlaylistSongs,
+    deleteFromPlaylist: deleteFromPlaylist,
+    deletePlaylist: deletePlaylist,
     getSoundsAndIndex: getSoundsAndIndex,
-    updateQueueByUser: updateQueueByUser,
-    updateQueueByPlaylist: updateQueueByPlaylist,
-    updateIndex: updateIndex,
+    nextIndex: nextIndex,
+    choose: choose,
     registerObserverCallback: registerObserverCallback
   };
 }]);

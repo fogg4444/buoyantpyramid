@@ -1,22 +1,22 @@
 angular.module('jam.player', [])
-.controller('PlayerController', ['$scope', 'ngAudio', 'Player', function($scope, audio, Play) {
-  $scope.playlist = Play.getSoundsAndIndex();
+.controller('PlayerController', ['$scope', 'ngAudio', 'Songs', function($scope, audio, Songs) {
+  $scope.playlist = Songs.getSoundsAndIndex();
   $scope.sound = $scope.sound || $scope.playlist.sounds[$scope.playlist.index];
   
   var changeSong = function() {
     $scope.sound.stop();
-    $scope.playlist = Play.getSoundsAndIndex();
+    $scope.playlist = Songs.getSoundsAndIndex();
     $scope.sound = $scope.playlist.sounds[$scope.playlist.index];
     $scope.sound.play();
     $scope.sound.complete(function() {
-      Play.updateIndex();
+      Songs.nextIndex();
     });
   };
 
   $scope.sound.complete(function() {
     console.log('When the song ended the index was: ', $scope.playlist.index);
-    Play.updateIndex();
+    Songs.nextIndex();
   });
 
-  Play.registerObserverCallback(changeSong);
+  Songs.registerObserverCallback(changeSong);
 }]);
