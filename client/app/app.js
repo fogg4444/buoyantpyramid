@@ -115,11 +115,14 @@ angular.module('jam', [
     scope: {
       songUrl: '='
     },
-    controller: ['$scope', '$element', 'ngAudio', 'Player', function($scope, $elem, audio, Play) {
-      $scope.sound = Play.sound;
-      $elem.on('end', function() {
-        console.log("the song ended");
-      });
+    controller: ['$scope', 'ngAudio', 'Player', function($scope, audio, Play) {
+      $scope.sound = Play.sounds[0];
+      
+      var updateIndex = function() {
+        $scope.sound = Play.sounds[Play.soundIndex];
+      };
+
+      Play.registerObserverCallback(updateIndex);
     }]
   };
 })

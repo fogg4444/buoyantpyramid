@@ -1,5 +1,5 @@
 angular.module('jam.playlist', [])
-.controller('PlaylistController', ['$scope', 'Auth', 'Playlists', 'Groups', function ($scope, Auth, PL, GR) {
+.controller('PlaylistController', ['$scope', 'Auth', 'Playlists', 'Groups', 'Player', function ($scope, Auth, PL, GR, Play) {
   $scope.newPlaylist = {};
   $scope.data = {};
   $scope.data.currentPlaylist = {};
@@ -22,6 +22,10 @@ angular.module('jam.playlist', [])
     });
   })
   .catch(console.error);
+
+  $scope.toggleSongs = function () {
+    Play.toggleIndex();
+  };
   
   $scope.toggleModal = function () {
     $scope.modalShown = !$scope.modalShown;

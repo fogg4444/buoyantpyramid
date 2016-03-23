@@ -232,14 +232,58 @@ angular.module('jam.services', [])
   };
 }])
 
-.factory('Player', ['ngAudio', function (audio) {
-  var songQueue = null;
-  var sound = audio.load("http://mattyluv.com/mp3/hickey_firstlp/Hickey%20-%2001%20-%20Believe.mp3");
-  // Store current song here
+.factory('Player', ['ngAudio', '$timeout', function (audio, t) {
+  // use the observer pattern to watch for changes in the queue or song
+  var observerCallbacks = [];
 
+  //register an observer
+  var registerObserverCallback = function(callback) {
+    observerCallbacks.push(callback);
+  };
+
+  //call this when something chages
+  var notifyObservers = function() {
+    angular.forEach(observerCallbacks, function(callback) {
+      callback();
+    });
+  };
+
+  // songs in the queue
+  var songQueue = ["http://mattyluv.com/mp3/hickey_firstlp/Hickey%20-%2001%20-%20Believe.mp3", "http://mattyluv.com/mp3/hickey_firstlp/Hickey%20-%2011%20-%20In%20The%20Beginning.mp3"];
+  // index of the current song playing
+  var soundIndex = 1;
+
+  // load next song on song end
+  var sounds = songQueue.map(function(url) {
+    return audio.load(url);
+  });
+  sounds.updated = Date.now();
+
+  var updateQueueByUser = function (userId) {
+    // get the songs and set the song queue
+  };
+
+  var updateQueueByPlaylist = function (playlistId) {
+    // get the songs and set the queue
+  };
+
+  var toggleIndex = function() {
+    if (soundIndex === 1) {
+      soundIndex--;
+    } else {
+      soundIndex++;
+    }
+    console.log(soundIndex);
+    notifyObservers();
+  };
 
   return {
-    sound: sound
+    sounds: sounds,
+    soundIndex: soundIndex,
+    updateQueueByUser: updateQueueByUser,
+    updateQueueByPlaylist: updateQueueByPlaylist,
+    toggleIndex: toggleIndex,
+    registerObserverCallback: registerObserverCallback
   };
 }])
 
