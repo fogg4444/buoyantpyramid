@@ -82,7 +82,7 @@ var getPlaylists = function(req, res, next) {
 var getSongs = function(req, res, next) {
   var groupId = req.params.id;
 
-  Group.getGroup({id: groupId})
+  Group.getGroup(groupId)
   .then(function(group) {
     group.getSongs()
     .then(function (songs) {
