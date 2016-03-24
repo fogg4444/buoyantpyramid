@@ -2,7 +2,7 @@
   <div>
     <button ng-click="sound.paused ? sound.play() : sound.pause()"><i ng-class="{'fa fa-play fa-lg': sound.paused, 'fa fa-pause fa-lg': !sound.paused}"></i></button>
     <button ng-click="sound.restart()"><i class="fa fa-stop fa-lg"></i></button>
-    <button ng-click="sound.muting = !sound.muting"><i class="fa fa-volume-off fa-lg"></i></button>
+    <button ng-click="sound.muting = !sound.muting"><i ng-class="{'fa fa-volume-off fa-lg': sound.muting, 'fa fa-volume-up fa-lg': !sound.muting}"></i></button>
   </div>
   <div class="input-group">
     <span class="input-group-addon">Progress</span>
