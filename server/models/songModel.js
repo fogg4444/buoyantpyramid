@@ -7,6 +7,17 @@ var addSong = function (songData) {
   return Song.create(songData);
 };
 
+var addCompressedLink = function(songID, compressedID) {
+  Song.find({where: {id: songID}})
+    .then(function(song) {
+      if (song) {
+        song.updateAttributes({
+          'compressedAddress': compressedID
+        })
+      }
+    });  
+};
+
 var getSong = function(songId) {
   // Only deletes from the database. FILES ARE STILL ON S3!
   return Song.findById(songId);
@@ -34,6 +45,7 @@ var requestFileCompression = function(song) {
 };
 
 module.exports = {
+  addCompressedLink: addCompressedLink,
   addSong: addSong,
   getSong: getSong,
   requestFileCompression: requestFileCompression

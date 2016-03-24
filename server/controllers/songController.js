@@ -2,6 +2,15 @@ var path = require('path');
 var fs = require('fs');
 var SongModel = require('../models/songModel');
 
+
+var addCompressedLink = function(req, res, next) {
+  console.log('--- Add Compressed Link ---', req.body);
+  var songID = req.body.songID;
+  var compressedID = req.body.compressedID;
+
+  SongModel.addCompressedLink(songID, compressedID);
+}
+
 var addSong = function(req, res, next) {
   var song = {};
   song.title = req.body.name || '';
@@ -49,6 +58,7 @@ var deleteSong = function(req, res, next) {
 };
 
 module.exports = {
+  addCompressedLink:addCompressedLink,
   addSong: addSong,
   // getSongByFilename: getSongByFilename,
   deleteSong: deleteSong
