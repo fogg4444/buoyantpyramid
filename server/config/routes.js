@@ -1,5 +1,5 @@
 var helpers = require('./helpers.js');
-var Song = require('../controllers/song');
+var Song = require('../controllers/songController');
 var Group = require('../controllers/groupController');
 var Playlist = require('../controllers/playlist');
 var User = require('../controllers/userController');
