@@ -112,9 +112,9 @@ var sendInvite = function(req, res, next) {
         Group.sendEmailInvite(group, email)
         .then(function(value) {
           res.json(value);
-        })
+        });
       }
-    })
+    });
   })
   .catch(function (error) {
     next(error);

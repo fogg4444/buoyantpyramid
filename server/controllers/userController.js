@@ -31,7 +31,7 @@ var getGroups = function(req, res, next) {
   })
   .catch(function (error) {
     next(error);
-  })
+  });
 };
 
 var getProfile = function(req, res, next) {
@@ -44,7 +44,7 @@ var getProfile = function(req, res, next) {
   })
   .catch(function (error) {
     next(error);
-  })
+  });
 };
 
 var getUser = function(req, res, next) {
