@@ -38,7 +38,7 @@ var sendEmailInvite = function(group, email) {
   return new Promise(function (resolve, reject) {
     UserModel.createUser(email, 'anonymous', password)
     .then(function (user) {
-      group.addUser(user)
+      group.addUser(user, {role: 'pending'})
       .then(function() {
         var data = {
           from: 'Jam Record <jamrecord@samples.mailgun.org>',
