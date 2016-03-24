@@ -104,7 +104,7 @@ var sendInvite = function(req, res, next) {
     UserModel.getUser({email: email})
     .then(function (user) {
       if (user) {
-        Group.addUser(group, user.id, 'pending')
+        Group.addUser(group.id, user.id, 'pending')
         .then(function(user) {
           res.json(user);
         });
