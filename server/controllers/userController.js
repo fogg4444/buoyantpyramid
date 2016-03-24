@@ -1,4 +1,3 @@
-var db = require('../db/database');
 var jwt = require('jwt-simple');
 var config = require('../config/config');
 var path = require('path');
@@ -31,7 +30,7 @@ var getGroups = function(req, res, next) {
     res.json(groups);
   })
   .catch(function (error) {
-    res.status(404).send(error);
+    next(error);
   })
 };
 
@@ -143,7 +142,6 @@ var signup = function (req, res, next) {
     }
   })
   .catch(function (error) {
-    res.status(400).json(error);
     next(error);
   });
 };

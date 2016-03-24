@@ -1,6 +1,6 @@
 var helpers = require('./helpers.js');
 var Song = require('../controllers/song');
-var Group = require('../controllers/group');
+var Group = require('../controllers/groupController');
 var Playlist = require('../controllers/playlist');
 var User = require('../controllers/userController');
 var Upload = require('../controllers/upload');
@@ -36,13 +36,13 @@ var routing = function (app, express) {
   // Add, update and retrieve groups
   apiRoutes.put('/groups/info', Group.updateGroupInfo);
   apiRoutes.post('/groups/', Group.createGroup);
-  apiRoutes.post('/groups/:id/users/', Group.addUserToGroup);
-  apiRoutes.get('/groups/:id/users/', Group.fetchUsers);
-  apiRoutes.get('/groups/:id/playlists/', Group.fetchPlaylists);
+  apiRoutes.post('/groups/:id/users/', Group.addUser);
+  apiRoutes.get('/groups/:id/users/', Group.getUsers);
+  apiRoutes.get('/groups/:id/playlists/', Group.getPlaylists);
 
   // Add and retrieve songs
   apiRoutes.post('/groups/:id/songs/', Song.addSong);
-  apiRoutes.get('/groups/:id/songs/', Group.fetchSongs);
+  apiRoutes.get('/groups/:id/songs/', Group.getSongs);
 
   // Remove song comments
   apiRoutes.delete('/comments/:id', Comment.deleteComment);
