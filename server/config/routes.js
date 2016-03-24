@@ -4,7 +4,7 @@ var Group = require('../controllers/groupController');
 var Playlist = require('../controllers/playlist');
 var User = require('../controllers/userController');
 var Upload = require('../controllers/upload');
-var Comment = require('../controllers/comment');
+var Comment = require('../controllers/commentController');
 var utils = require('../controllers/upload');
 
 var routing = function (app, express) {
