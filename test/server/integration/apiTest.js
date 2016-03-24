@@ -10,7 +10,7 @@ var User = dbModels.User;
 var Group = dbModels.Group; 
 var Playlist = dbModels.Playlist; 
 var UserGroups = dbModels.UserGroups; 
-var UserController = require('../../../server/controllers/user.js');
+var UserController = require('../../../server/controllers/userController.js');
 
 dbModels.db.options.logging = false;
 
