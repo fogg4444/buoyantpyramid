@@ -27,7 +27,7 @@ var User = db.define('user', {
   },
   avatarURL: {
     type: Sequelize.STRING,
-    defaultValue: '' // Change to random default on signup
+    defaultValue: 'http://www.murketing.com/journal/wp-content/uploads/2009/04/vimeo.jpg' // Change to random default on signup
   },
   currentGroupId: {
     type: Sequelize.INTEGER,
@@ -99,7 +99,7 @@ var Song = db.define('song', {
   address: {
     type: Sequelize.STRING,
     allowNull: false,
-    defaultValue: 'http://i.imgur.com/QI8f5gx.jpg' // Update
+    defaultValue: 'http://www.stephaniequinn.com/Music/Canon.mp3'
   },
   compressedAddress: {
     type: Sequelize.STRING,
@@ -147,6 +147,47 @@ var PlaylistSongs = db.define('playlistSongs', {
 // Define associations
 Group.belongsToMany(User, {through: 'userGroups'});
 User.belongsToMany(Group, {through: 'userGroups'});
+
+
+User.belongsToMany(Group, {
+  through: {
+    model: UserGroups,
+    scope: {
+      role: 'pending'
+    }
+  },
+  as: 'pendingGroups'
+});
+
+Group.belongsToMany(User, {
+  through: {
+    model: UserGroups,
+    scope: {
+      role: 'admin'
+    }
+  },
+  as: 'adminUsers'
+});
+
+Group.belongsToMany(User, {
+  through: {
+    model: UserGroups,
+    scope: {
+      role: 'member'
+    }
+  },
+  as: 'memberUsers'
+});
+
+Group.belongsToMany(User, {
+  through: {
+    model: UserGroups,
+    scope: {
+      role: 'pending'
+    }
+  },
+  as: 'pendingUsers'
+});
 
 Group.hasMany(Song);
 Song.belongsTo(Group);
@@ -199,4 +240,4 @@ module.exports = {
 };
 
 // Command to drop all tables in postgres
-// drop table users cascade; drop table groups cascade; drop table users; drop table groups; drop table "userGroups"; drop table playlists; drop table songs cascade; drop table "playlistSongs";
+// drop table users cascade; drop table groups cascade; drop table users; drop table groups; drop table "userGroups"; drop table playlists; drop table songs cascade; drop table "playlistSongs"; drop table comments; drop table playlists;
