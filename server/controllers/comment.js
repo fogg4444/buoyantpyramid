@@ -1,12 +1,25 @@
-var CommentModel = require('../models/commentModel');
+var db = require('../db/database');
+var Song = db.Song;
+var User = db.User;
+var Comment = db.Comment;
 
 var addComment = function (req, res, next) {
-  var time = req.body.time;
+	var time = req.body.time;
   var note = req.body.note;
   var userId = req.body.userId;
   var songId = req.params.id;
 
-  CommentModel.addComment(userId, songId, time, note)
+  Comment.create({
+    time: time,
+    note: note,
+    userId: userId,
+    songId: songId
+  }, {
+    include: {
+      model: Song,
+      model: User
+    }
+  })
   .then(function(comment) {
     res.json(comment);
   })
@@ -17,8 +30,7 @@ var addComment = function (req, res, next) {
 
 var deleteComment = function (req, res, next) {
   var commentId = req.params.id;
-
-  CommentModel.deleteComment(commentId)
+  comment.findOne({where: {id: commentId}})
   .then(function(comment) {
     comment.destroy();
     res.json(comment);
