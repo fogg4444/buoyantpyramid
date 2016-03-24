@@ -1,7 +1,9 @@
 <nav-bar></nav-bar>
 <div class="upload">
   <div class="page-content">
-    <button class="button" ngf-select="addToQueue($files)" multiple="multiple">Choose Files <i class="fa fa-files-o"></i></button>
+    <button class="button" ngf-select="addToQueue($files)" multiple="multiple" accept="audio/*">Choose Files <i class="fa fa-files-o"></i></button>
+    <button class="upload-button" ng-show="queue.length > 0" ng-click="uploadFiles()">Upload All!</button>
+    <button class="upload-button" ng-show="queue.length > 0" ng-click="cancelAll()">Cancel All</button>
       <div ng-show="queue.length === 0" class="empty-placeholder">
         click the button above to add files for uploading 
       </div>
@@ -17,17 +19,17 @@
             <span class="upload-info" ng-show="file.status === 'UPLOADING'">Uploading... {{file.progressPercentage}}%</span>
             <span class="upload-info success" ng-show="file.status === 'COMPLETE'">Upload Complete</span>
             <span class="upload-info error" ng-show="file.status === 'ERROR'">Error Uploading :(</span>
+            <span class="upload-info error" ng-show="file.status === 'CANCELLED'">Upload Cancelled</span>
           </div>
           <div class="form-buttons">
             <button ng-disabled="file.status !== 'READY'" ng-click="upload(file)">Upload <i class="fa fa-upload"></i></button>
-            <button ng-disabled=  "file.status !== 'READY'" ng-click="removeFile($index)">Remove <i class="fa fa-trash"></i></button>
+            <button ng-disabled="file.status !== 'READY'" ng-click="removeFile($index)">Remove <i class="fa fa-trash"></i></button>
+            <button ng-show="file.status === 'UPLOADING'" ng-click="cancelUpload(file)">Cancel <i class="fa fa-ban"></i></button>
           </div>
           <!-- progress -->
         </section>
       </li>
     </ul>
-    <button class="upload-button" ng-show="queue.length > 0" ng-click="uploadFiles()">Upload All!</button>
-    <p>{{uploadingCount}}</p>
     <!-- Currently UPloading: {{uploadingCount}} -->
     <!--   Drop File:
     <div ngf-drop="addToQueue($files)" class="drop-box"

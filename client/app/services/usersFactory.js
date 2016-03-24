@@ -190,6 +190,7 @@ angular.module('jam.usersFactory', [])
     return !!win.localStorage.getItem('com.jam');
   };
 
+
   return {
     updateProfile: updateProfile,
     getProfile: getProfile,

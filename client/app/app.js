@@ -78,10 +78,6 @@ angular.module('jam', [
       Auth.getUserData()
       .then(function (userData) {
         $scope.user = userData;
-        $scope.bannerStyle = {
-          'background-image': 'url(' + $scope.user.currentGroup.bannerUrl + ')',
-          'background-size': 'cover'
-        };
       })
       .catch(console.error);
     }]

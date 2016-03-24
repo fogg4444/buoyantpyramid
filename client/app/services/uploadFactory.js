@@ -66,7 +66,7 @@ function ($http, win, q, Upload, Auth, Songs) {
         // $scope[divId].setAbsolute();
         file.status = 'UPLOADING';
         file.progressPercentage = 0;
-        Upload.upload({
+        file.uploader = Upload.upload({
           url: 'https://' + s3Credentials.bucketName + '.s3.amazonaws.com/',
           method: 'POST',
           transformRequest: function (data, headersGetter) {
@@ -76,8 +76,8 @@ function ($http, win, q, Upload, Auth, Songs) {
           },
           data: dataObj,
           file: file,
-        })
-        .then(function(response) {
+        });
+        file.uploader.then(function(response) {
           // On upload confirmation
           file.status = 'COMPLETE';
           file.progressPercentage = parseInt(100);
@@ -103,6 +103,7 @@ function ($http, win, q, Upload, Auth, Songs) {
           }
           
         });
+        file.uploader.catch(errorCallback);
       });
     };
   };
