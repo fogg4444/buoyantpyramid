@@ -134,7 +134,8 @@ angular.module('jam.songFactory', ['jam.usersFactory'])
       songQueue.playlist = enhancedSongs;
       sounds = soundsFromSongs(songQueue, 'playlist');
       return enhancedSongs;
-    });
+    })
+    .catch(console.error);
   };
 
   var deleteFromPlaylist = function (sId, plId) {
@@ -190,7 +191,7 @@ angular.module('jam.songFactory', ['jam.usersFactory'])
   var nextIndex = function() {
     if (soundIndex < sounds.length - 1) {
       soundIndex++;
-    } 
+    }
     notifyObservers(0);
   };
 
