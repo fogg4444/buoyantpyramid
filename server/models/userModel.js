@@ -28,15 +28,18 @@ var createUser = function (email, displayName, password) {
       })
       .then(function (user) {
         group.addUser(user, {role: 'admin'})
-          .then(function () {
-            resolve(user);
-          });
+        .then(function () {
+          resolve(user);
         });
       })
       .catch(function (error) {
         reject(error);
       });
+    })
+    .catch(function (error) {
+      reject(error);
     });
+  });
 };
 
 var getGroups = function(userId) {
@@ -63,4 +66,4 @@ module.exports = {
   createUser: createUser,
   getGroups: getGroups,
   getUser: getUser
-}
+};

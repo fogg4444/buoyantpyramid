@@ -10,8 +10,13 @@ var addSong = function (songId, playlistId) {
     .then(function (song) {
       Playlist.findById(playlistId)
       .then(function (playlist) {
-        playlist.addSong(song);
-        resolve(song);
+        playlist.addSong(song)
+        .then(function (response) {
+          resolve(response[0][0]); // return the playlistSongs row
+        });
+      })
+      .catch(function(error) {
+        reject(error);
       });
     })
     .catch(function (error) {

@@ -5,22 +5,22 @@ var User = require('../models/userModel');
 
 var JWT_SECRET = config.JWT_SECRET || 's00p3R53kritt';
 
-var getAvatar = function(req, res, next) {
-  var userId = parseInt(req.params.id);
+// var getAvatar = function(req, res, next) {
+//   var userId = parseInt(req.params.id);
 
-  User.getUser({id: userId})
-  .then(function(foundUser) {
-    if (foundUser) {
-      var url = path.resolve(__dirname + '/../uploadInbox/' + foundUser.avatarURL);
-      res.sendFile(url);
-    } else {
-      res.status(404).send('user doesn\'t exist');
-    } 
-  })
-  .catch(function(error) {
-    next(error);
-  });
-};
+//   User.getUser({id: userId})
+//   .then(function(foundUser) {
+//     if (foundUser) {
+//       var url = path.resolve(__dirname + '/../uploadInbox/' + foundUser.avatarURL);
+//       res.sendFile(url);
+//     } else {
+//       res.status(404).send('user doesn\'t exist');
+//     } 
+//   })
+//   .catch(function(error) {
+//     next(error);
+//   });
+// };
 
 var getGroups = function(req, res, next) {
   var userId = parseInt(req.params.id);
@@ -138,6 +138,9 @@ var signup = function (req, res, next) {
             user: compiledUser
           });
         });  
+      })
+      .catch(function(error) {
+        res.status(400).json('could not create user');
       });
     }
   })
@@ -168,7 +171,7 @@ var updateProfile = function(req, res, next) {
 
 module.exports = {
   getUser: getUser,
-  getAvatar: getAvatar,
+  // getAvatar: getAvatar,
   getGroups: getGroups,
   getProfile: getProfile,
   login: login,
