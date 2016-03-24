@@ -39,7 +39,11 @@ var getSongs = function (playlistId) {
   return new Promise(function (resolve, reject) {
     Playlist.findById(playlistId)
     .then(function(playlist) {
-      resolve(playlist.getSongs());
+      if (playlist) {
+        resolve(playlist.getSongs());
+      } else {
+        resolve([]);
+      }
     });
   });
 };
