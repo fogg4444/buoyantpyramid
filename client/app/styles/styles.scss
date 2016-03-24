@@ -69,7 +69,6 @@ nav ul {
   text-align: right;
   padding: $nav-height * 0.1;
   background-color: rgba(64,64,64,0.7);
-
 }
 
 .form-container {
@@ -77,11 +76,11 @@ nav ul {
   width: 100%;
   text-align:center;
 }
+
 .group-form-container form {
   display: inline-block;
   margin:0.5em;
   fieldset {
-
     padding: 1em;
   }
 }
@@ -281,7 +280,7 @@ li:hover > .submenu-container {
 }
 
 /* for the modal */
-.ng-modal-overlay {
+.modal-overlay {
   /* A dark translucent div that covers the whole screen */
   position:absolute;
   z-index:9999;
@@ -292,11 +291,11 @@ li:hover > .submenu-container {
   background-color:#000000;
   opacity: 0.8;
 }
-.ng-modal-dialog {
+.modal-dialog {
   /* A centered div above the overlay with a box shadow. */
   z-index:10000;
   position: absolute;
-    width: 50%; /* Default */
+  // width: 50%; /* Default */
 
   /* Center the dialog */
   top: 50%;
@@ -308,11 +307,11 @@ li:hover > .submenu-container {
   background-color: #fff;
   box-shadow: 4px 4px 80px #000;
 }
-.ng-modal-dialog-content {
-  padding:10px;
+.modal-dialog-content {
+  padding:2em 1em 1em 1em;
   text-align: left;
 }
-.ng-modal-close {
+.modal-close {
   position: absolute;
   top: 3px;
   right: 5px;
@@ -321,7 +320,11 @@ li:hover > .submenu-container {
   font-size: 120%;
   display: inline-block;
   font-weight: bold;
-  font-family: 'arial', 'sans-serif';
+  // font-family: 'arial', 'sans-serif';
+}
+
+.new-playlist-fieldset {
+  text-align: right;
 }
 
 /* For the banner crop uploader */
