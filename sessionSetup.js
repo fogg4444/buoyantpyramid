@@ -1,8 +1,11 @@
 // Each of these commands will run in a new tab!
 var commandsList = [];
 
-commandsList[0] = 'nodemon server/server.js';
-commandsList[1] = 'chrome https://github.com/BuoyantPyramid/buoyantpyramid http://localhost:3000';
+commandsList[0] = 'npm install; bower install; cd ./compression_server; npm install; cd ..';
+commandsList[1] = 'pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log start; psql;  drop table users cascade; drop table groups cascade; drop table users; drop table groups; drop table "userGroups"; drop table playlists; drop table songs cascade; drop table "playlistSongs";';
+commandsList[2] = 'gulp';
+commandsList[3] = 'cd ./compression_server; npm start';
+commandsList[4] = 'chrome https://github.com/BuoyantPyramid/buoyantpyramid http://localhost:5000';
 
 
 var exec = require('child_process').exec;

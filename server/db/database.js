@@ -101,6 +101,10 @@ var Song = db.define('song', {
     allowNull: false,
     defaultValue: 'http://i.imgur.com/QI8f5gx.jpg' // Update
   },
+  compressedAddress: {
+    type: Sequelize.STRING,
+    allowNull: true
+  },
   imageUrl: {
     type: Sequelize.STRING,
     defaultValue: 'http://i.imgur.com/QI8f5gx.jpg' // Update

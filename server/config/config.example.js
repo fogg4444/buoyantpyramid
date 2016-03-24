@@ -9,11 +9,13 @@ var mailgun = {
   api_key: 'KEY',
   domain: 'DOMAIN'
 };
+var compressionServer = 'http://localhost:4000';
 
 module.exports = {
   port: port,
   JWT_SECRET: JWT_SECRET,
   connectionString: connectionString,
   testConnectionString: testConnectionString,
-  mailgun: mailgun
+  mailgun: mailgun,
+  compressionServer: compressionServer
 };
