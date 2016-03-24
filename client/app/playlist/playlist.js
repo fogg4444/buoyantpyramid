@@ -22,9 +22,6 @@ angular.module('jam.playlist', [])
   })
   .catch(console.error);
 
-  $scope.toggleSongs = function () {
-    Songs.toggleIndex();
-  };
   
   $scope.toggleModal = function () {
     $scope.modalShown = !$scope.modalShown;
@@ -36,7 +33,9 @@ angular.module('jam.playlist', [])
     .then(function (songs) {
       $scope.data.currentPlaylist.songs = songs;
     })
-    .then(console.error);
+    .catch(function (error) {
+      console.error(error);
+    });
   };
 
   $scope.createPlaylist = function () {

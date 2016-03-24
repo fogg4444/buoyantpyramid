@@ -134,6 +134,9 @@ angular.module('jam.songFactory', ['jam.usersFactory'])
       songQueue.playlist = enhancedSongs;
       sounds = soundsFromSongs(songQueue, 'playlist');
       return enhancedSongs;
+    })
+    .catch(function (error) {
+      console.error(error);
     });
   };
 
@@ -190,7 +193,7 @@ angular.module('jam.songFactory', ['jam.usersFactory'])
   var nextIndex = function() {
     if (soundIndex < sounds.length - 1) {
       soundIndex++;
-    } 
+    }
     notifyObservers(0);
   };
 
