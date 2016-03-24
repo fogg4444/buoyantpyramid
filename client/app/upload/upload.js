@@ -3,6 +3,7 @@ angular
   .controller('UploadController', ['$scope', 'Upload', 'UploadFactory', 'ngProgressFactory', 'Auth', 'Songs', '$http', function($scope, Upload, UploadFactory, ngProgressFactory, Auth, Songs, $http) {
     
     $scope.progressbar = ngProgressFactory.createInstance();
+    $scope.queue = UploadFactory.audioQueue;
 
     var totalToUpload = 0;
     var totalUploaded = 0;
@@ -38,7 +39,6 @@ angular
       }
     };
 
-    $scope.queue = [];
     
     $scope.removeFile = function(index) {
       if (index > -1) {
@@ -79,9 +79,31 @@ angular
       .catch(console.error);
     };
 
+    $scope.cancelUpload = function(file) {
+      if (file.uploader) {
+        file.uploader.abort();
+        file.status = 'CANCELLED';
+      }
+    };
+
     $scope.upload = function(file) {
       file.editing = false;
       UploadFactory.upload(file, 'audio', successCallback, console.error, progressCallback);
+      file.progressPercentage = 0;
+    };
+
+    // for multiple files:
+    $scope.cancelAll = function() {
+      $scope.progressbar.set(0);
+      if ($scope.queue && $scope.queue.length) {
+        totalToUpload = 0;
+        totalUploaded = 0;
+        for (var i = 0; i < $scope.queue.length; i++) {
+          if ($scope.queue[i].status === 'UPLOADING') {
+            $scope.cancelUpload($scope.queue[i]);
+          }
+        }
+      }
     };
 
     // for multiple files:

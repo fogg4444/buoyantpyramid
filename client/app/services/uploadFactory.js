@@ -1,6 +1,9 @@
 angular.module('jam.uploadFactory', ['jam.usersFactory'])
 .factory('UploadFactory', ['$http', '$window', '$q', 'Upload', 'Auth', 'Songs',
 function ($http, win, q, Upload, Auth, Songs) {
+  var audioQueue = [];
+  var uploadedAudio = [];
+
   // upload on file select or drop
   var upload = function(file, directory, successCallback, errorCallback, progressCallback) {
 
@@ -17,18 +20,6 @@ function ($http, win, q, Upload, Auth, Songs) {
       // AWS Signature API Error
       console.log('Error', res);
     });
-
-    // String.prototype.hashCode = function() {
-    //   var hash = 0;
-    //   var i, chr, len;
-    //   if (this.length === 0) { return hash; }
-    //   for (i = 0, len = this.length; i < len; i++) {
-    //     chr = this.charCodeAt(i);
-    //     hash = ((hash << 5) - hash) + chr;
-    //     hash |= 0; // Convert to 32bit integer
-    //   }
-    //   return Math.abs(hash);
-    // };
 
     String.prototype.uuid = function() {
       return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
@@ -66,7 +57,7 @@ function ($http, win, q, Upload, Auth, Songs) {
         // $scope[divId].setAbsolute();
         file.status = 'UPLOADING';
         file.progressPercentage = 0;
-        Upload.upload({
+        file.uploader = Upload.upload({
           url: 'https://' + s3Credentials.bucketName + '.s3.amazonaws.com/',
           method: 'POST',
           transformRequest: function (data, headersGetter) {
@@ -76,8 +67,8 @@ function ($http, win, q, Upload, Auth, Songs) {
           },
           data: dataObj,
           file: file,
-        })
-        .then(function(response) {
+        });
+        file.uploader.then(function(response) {
           // On upload confirmation
           file.status = 'COMPLETE';
           file.progressPercentage = parseInt(100);
@@ -103,10 +94,13 @@ function ($http, win, q, Upload, Auth, Songs) {
           }
           
         });
+        file.uploader.catch(errorCallback);
       });
     };
   };
   return {
-    upload: upload
+    upload: upload,
+    audioQueue: audioQueue
+
   };
 }]);
