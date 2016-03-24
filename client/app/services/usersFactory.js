@@ -156,7 +156,7 @@ angular.module('jam.usersFactory', [])
       data: profile
     })
     .then(function(res) {
-      userData = res.data.user;
+      _.extend(userData, res.data.user);
       return res;
     })
     .catch(console.error);
@@ -176,8 +176,12 @@ angular.module('jam.usersFactory', [])
         resolve(userData);
       }
       getProfile()
-      .then(function(response) {
-        userData = response.data.user;
+      .then(function(res) {
+        if (userData) {
+          _.extend(userData, res.data.user);
+        } else {
+          userData = res.data.user;
+        }
         resolve(userData);
       })
       .catch(function (error) {

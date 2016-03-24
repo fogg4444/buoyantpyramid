@@ -17,9 +17,9 @@ angular.module('jam.groupSettings', [])
 
   $scope.updateGroupProfile = function() {
     Groups.updateInfo($scope.group)
-    .then(function(resp) {
-      console.log(resp.data);
-      $scope.user.currentGroup = resp.data;
+    .then(function(res) {
+      console.log(res.data);
+      _.extend($scope.user.currentGroup, res.data);
     })
     .catch(console.error);
   };
@@ -29,9 +29,9 @@ angular.module('jam.groupSettings', [])
       id: $scope.group.id,
       bannerUrl: ''
     })
-    .then(function(resp) {
-      console.log(resp.data);
-      $scope.user.currentGroup = resp.data;
+    .then(function(res) {
+      // console.log(res.data);
+      _.extend($scope.user.currentGroup, res.data);
     })
     .catch(console.error);
   };

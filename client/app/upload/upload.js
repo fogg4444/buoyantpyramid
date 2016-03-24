@@ -3,6 +3,7 @@ angular
   .controller('UploadController', ['$scope', 'Upload', 'UploadFactory', 'ngProgressFactory', 'Auth', 'Songs', '$http', function($scope, Upload, UploadFactory, ngProgressFactory, Auth, Songs, $http) {
     
     $scope.progressbar = ngProgressFactory.createInstance();
+    $scope.queue = UploadFactory.audioQueue;
 
     var totalToUpload = 0;
     var totalUploaded = 0;
@@ -38,7 +39,6 @@ angular
       }
     };
 
-    $scope.queue = [];
     
     $scope.removeFile = function(index) {
       if (index > -1) {
