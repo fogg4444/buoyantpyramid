@@ -1,6 +1,7 @@
 var expect = require('chai').expect;
 var Sequelize = require('sequelize');
 var dbModels = require('../../../server/db/database.js');
+var helpers = require('../testHelpers');
 var Song = dbModels.Song; 
 var User = dbModels.User; 
 var Group = dbModels.Group; 
@@ -11,22 +12,7 @@ dbModels.db.options.logging = false;
 
 // rebuild test database
 before(function (done) {
-  User.sync({force: true})
-  .then(function() {
-    return Group.sync({force: true});
-  })
-  .then(function() {
-    return Playlist.sync({force: true});
-  })
-  .then(function() {
-    return Song.sync({force: true});
-  })
-  .then(function() {
-    return UserGroups.sync({force: true});
-  })
-  .then(function() {
-    done();
-  });
+  helpers.rebuildDb(done);
 });
 
 describe('User Model', function () {

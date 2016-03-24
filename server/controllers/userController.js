@@ -138,6 +138,9 @@ var signup = function (req, res, next) {
             user: compiledUser
           });
         });  
+      })
+      .catch(function(error) {
+        res.status(400).json('could not create user');
       });
     }
   })

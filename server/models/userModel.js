@@ -31,6 +31,9 @@ var createUser = function (email, displayName, password) {
         .then(function () {
           resolve(user);
         });
+      })
+      .catch(function (error) {
+        reject(error);
       });
     })
     .catch(function (error) {
