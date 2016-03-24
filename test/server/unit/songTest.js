@@ -3,12 +3,11 @@ var chai = require('chai');
 var expect = chai.expect;
 var Sequelize = require('sequelize');
 var dbModels = require('../../../server/db/database.js');
+var helpers = require('../testHelpers');
 var Song = dbModels.Song; 
 var Group = dbModels.Group; 
 var GroupController = require('../../../server/controllers/groupController.js');
 var SongController = require('../../../server/controllers/songController.js');
-
-dbModels.db.options.logging = false;
 
 // The `clearDB` helper function, when invoked, will clear the database
 var clearDB = function (done) {
@@ -19,22 +18,8 @@ var clearDB = function (done) {
 };
 
 
-var songReq = {
-  body: {
-    title: 'Margaritaville',
-    description: 'Wasted again',
-  },
-  params: {
-    id: 1
-  },
-  filename: 'buffet.mp3'
-};
-
-var groupReq = {
-  body: {
-    name: 'Safety Talk'
-  }
-};
+var songReq = helpers.songReq;
+var groupReq = helpers.groupReq;
 
 describe('Song Controller', function () {
 
@@ -46,14 +31,9 @@ describe('Song Controller', function () {
       done();
     };
 
-    Song.sync({force: true})
-      .then(function() {
-        return Group.sync({force: true});
-      })
-      .then(function() {
-        GroupController.createGroup(groupReq, res);
-        // done();
-      });
+    helpers.rebuildDb(function() {
+      GroupController.createGroup(groupReq, res);
+    });
   });
 
   describe ('add song', function() {
@@ -87,9 +67,9 @@ describe('Song Controller', function () {
         console.error(err);
       };
       res.json = function(jsonresponse) {
-        dbModels.db.query('SELECT * FROM songs WHERE title = :title ', { replacements: {title: songReq.body.title}, type: Sequelize.QueryTypes.SELECT})
+        dbModels.db.query('SELECT * FROM songs WHERE title = :title ', { replacements: {title: songReq.body.name}, type: Sequelize.QueryTypes.SELECT})
         .then( function(songs) {
-          expect(songs[0].title).to.equal(songReq.body.title);
+          expect(songs[0].title).to.equal(songReq.body.name);
           done();
         });
       };
