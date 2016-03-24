@@ -2,12 +2,19 @@
   <div class="playlist page-content">
     <h2>Playlist</h2>
     <div class="create-playlist">
-      <button ng-click="toggleModal()">Create New Playlist</button>
+      <button ng-click="toggleModal()"><i class="fa fa-plus-circle"></i> Create New Playlist</button>
       <modal-dialog show="modalShown">
-        <form name="createPlayForm"> 
-          <label>title </label><input ng-model="newPlaylist.title" required/>
-          <label>description </label><input ng-model="newPlaylist.description"/>
-          <button ng-click="createPlaylist()" ng-disabled="createPlayForm.$invalid">Create Playlist</button>
+        <form name="createPlayForm">
+          <fieldset class="new-playlist-fieldset">
+          <legend>Create a new playlist</legend>
+            <label>title
+              <input type="text" ng-model="newPlaylist.title" required/>
+            </label>
+            <label>description
+              <input type="text" ng-model="newPlaylist.description"/>
+            </label>
+            <button ng-click="createPlaylist()" ng-disabled="createPlayForm.$invalid">Create Playlist</button>
+          </fieldset>
         </form>
       </modal-dialog>
     </div>
