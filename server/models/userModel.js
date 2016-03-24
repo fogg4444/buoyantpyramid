@@ -2,6 +2,7 @@ var db = require('../db/database');
 var Group = db.Group;
 var Song = db.Song;
 var User = db.User;
+var Promise = require('bluebird');
 
 var compileUserData = function(user) {
   return Group.findById(user.currentGroupId, {include: [{model: Song}]})

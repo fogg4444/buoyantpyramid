@@ -57,6 +57,7 @@ var addToQueue = function(req, res, next) {
   var directFileUrl = awsStaticUrl + s3UniqueHash;
   var downloadDestination = path.join( __dirname + '/../temp_audio/hi_res_inbox/' + s3UniqueHash);
   var songID = req.body.songID;
+  console.log('--- 1.2 --- Song ID present on input: ', songID);
 
   downloadQueue.push(function(cb) {
 
@@ -120,21 +121,6 @@ var download = function(url, dest, cb) {
       // console.log('S3 download progress:', percentDownloaded);
     })
     .pipe(fs.createWriteStream(dest));
-  // var request = https.get(url, function(res) {
-  //   res.pipe(file);
-  //   res.on('data', function(chunk) {
-  //     file.write(chunk);
-  //     // totalDownloaded += chunk.length;
-  //     // var percentDownloaded = Math.floor((totalDownloaded / res.headers['content-length']) * 100);
-  //     // console.log('--- 4.5 --- Downlad progress: ', percentDownloaded);
-  //   });
-  //   file.on('finish', function() {
-  //     file.close(cb);  // close() is async, call cb after close completes.
-  //   });
-  // }).on('error', function(err) { // Handle errors
-  //   fs.unlink(dest); // Delete the file async. (But we don't check the result)
-  //   if (cb) cb(err.message);
-  // });
 };
 
 var deleteFile = function(filePath) {
@@ -160,6 +146,35 @@ var compress = function(hiResFilePath, s3UniqueHash, songID) {
     .audioBitrate(256)
     .audioQuality(0)
     .audioChannels(2)
+
+    // .audioFilters(
+    //   {
+    //     filter: 'acompressor',
+    //     options: {
+    //       // level_in
+    //         // Set input gain. Default is 1. Range is between 0.015625 and 64.
+    //       // threshold
+    //         // If a signal of second stream rises above this level it will affect the gain reduction of the first stream. By default it is 0.125. Range is between 0.00097563 and 1.
+    //       ratio: 24,
+    //         // Set a ratio by which the signal is reduced. 1:2 means that if the level rose 4dB above the threshold, it will be only 2dB above after the reduction. Default is 2. Range is between 1 and 20.
+    //       // attack
+    //         // Amount of milliseconds the signal has to rise above the threshold before gain reduction starts. Default is 20. Range is between 0.01 and 2000.
+    //       // release
+    //         // Amount of milliseconds the signal has to fall below the threshold before reduction is decreased again. Default is 250. Range is between 0.01 and 9000.
+    //       // makeup
+    //         // Set the amount by how much signal will be amplified after processing. Default is 2. Range is from 1 and 64.
+    //       // knee
+    //         // Curve the sharp knee around the threshold to enter gain reduction more softly. Default is 2.82843. Range is between 1 and 8.
+    //       // link
+    //         // Choose if the average level between all channels of input stream or the louder(maximum) channel of input stream affects the reduction. Default is average.
+    //       // detection
+    //         // Should the exact signal be taken in case of peak or an RMS one in case of rms. Default is rms which is mostly smoother.
+    //       // mix
+    //         // How much to use compressed signal in output. Default is 1. Range is between 0 and 1.
+    //     }
+    //   }
+    // )
+
     .on('progress', function(progress) {
       console.log('--- 8 --- Processing: ' + progress.percent + '% done');
     })
@@ -181,7 +196,8 @@ var uploadLowRes = function(filePath, fileName, songID) {
   var putParams = {
     Key: 'audio/' + fileName,
     Bucket: awsConfig.bucket,
-    Body: fs.createReadStream(filePath)
+    Body: fs.createReadStream(filePath),
+    ACL: 'public-read'
   };
 
   s3.putObject(putParams, function(err, data) {
@@ -213,6 +229,8 @@ var saveCompressedFileReference = function(fileName, songID) {
 
   var primaryServerRoute = serverConfig.primaryServer + '/api/addCompressedLink/secret';
   console.log('--- 11.3 --- Attempt DB call to: ', primaryServerRoute);
+  console.log('--- 11.4 --- SongID: ', songID);
+  console.log('--- 11.5 --- compressedID: ', fileName);
 
   request.post(
     primaryServerRoute,
@@ -235,19 +253,4 @@ var saveCompressedFileReference = function(fileName, songID) {
 module.exports = {
   addToQueue: addToQueue
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
