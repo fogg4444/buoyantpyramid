@@ -6,4 +6,4 @@ services:
 before_script:
   - psql -c 'create database jamstest;' -U postgres
   - cp server/config/config.example.js server/config/config.js
-  - cp server/config/aws.example.js server/config/aws.js
+  - cp server/config/aws.example.js server/config/aws.json
