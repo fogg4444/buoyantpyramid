@@ -1,10 +1,10 @@
 var helpers = require('./helpers.js');
-var Song = require('../controllers/songController');
+var Song = require('../controllers/song');
 var Group = require('../controllers/groupController');
 var Playlist = require('../controllers/playlist');
 var User = require('../controllers/userController');
 var Upload = require('../controllers/upload');
-var Comment = require('../controllers/commentController');
+var Comment = require('../controllers/comment');
 var utils = require('../controllers/upload');
 
 var routing = function (app, express) {
