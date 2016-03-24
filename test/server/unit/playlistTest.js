@@ -11,34 +11,9 @@ var PlaylistController = require('../../../server/controllers/playlistController
 var helpers = require('../testHelpers');
 
 // Define api request bodies
-var songReq = {
-  body: {
-    name: 'Margaritaville',
-    description: 'Wasted again',
-    uniqueHash: 'asdfbbrkdjgf.wav',
-    address: ' https://jamrecordtest.s3.amazonaws.com/audio/88408bec-a2b3-464a-9108-a3284da79f65.mp3',
-    size: 9238148
-  },
-  params: {
-    id: 1
-  },
-};
-
-
-var addSongReq = {
-  params: {
-    sid: 1,
-    pid: 1
-  }
-};
-
-var playlistReq = {
-  body: {
-    title: 'Chill Vibes',
-    description: 'Indie Electronic',
-    groupId: 1
-  }
-};
+var songReq = helpers.songReq;
+var addSongReq = helpers.addSongReq;
+var playlistReq = helpers.playlistReq;
 
 // The `clearDB` helper function, when invoked, will clear the database
 var clearDB = function(done) {
