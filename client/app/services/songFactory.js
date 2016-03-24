@@ -135,9 +135,7 @@ angular.module('jam.songFactory', ['jam.usersFactory'])
       sounds = soundsFromSongs(songQueue, 'playlist');
       return enhancedSongs;
     })
-    .catch(function (error) {
-      console.error(error);
-    });
+    .catch(console.error);
   };
 
   var deleteFromPlaylist = function (sId, plId) {

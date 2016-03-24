@@ -548,6 +548,18 @@ input.ng-invalid.ng-dirty {
   text-size: 1rem;
 }
 
+footer {
+  position: fixed;
+  bottom: 0;
+  color: $textcolor-2;
+  background-color: $bgcolor-2;
+  width: 100%;
+}
+
+.player div {
+  float: left;
+  padding: 0.5rem 1rem;
+}
 
 .animate-show {
   // opacity:1;

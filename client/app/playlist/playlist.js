@@ -33,9 +33,7 @@ angular.module('jam.playlist', [])
     .then(function (songs) {
       $scope.data.currentPlaylist.songs = songs;
     })
-    .catch(function (error) {
-      console.error(error);
-    });
+    .catch(console.error);
   };
 
   $scope.createPlaylist = function () {
