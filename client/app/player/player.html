@@ -1,6 +1,6 @@
-<div class="player" ng-controller="PlayerController as playCtrl">
+<div class="player" ng-controller="PlayerController as playCtrl" ng-show="sound">
   <div>
-    <button ng-click="sound.paused ? sound.play() : sound.pause()"><i class="fa fa-play fa-lg"></i></button>
+    <button ng-click="sound.paused ? sound.play() : sound.pause()"><i ng-class="{'fa fa-play fa-lg': sound.paused, 'fa fa-pause fa-lg': !sound.paused}"></i></button>
     <button ng-click="sound.restart()"><i class="fa fa-stop fa-lg"></i></button>
     <button ng-click="sound.muting = !sound.muting"><i class="fa fa-volume-off fa-lg"></i></button>
   </div>
