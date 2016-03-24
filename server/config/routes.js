@@ -10,12 +10,12 @@ var routing = function (app, express) {
 
   var apiRoutes = express.Router(); 
 
-  apiRoutes.get('/songs/:filename', Song.getSongByFilename);
+  // apiRoutes.get('/songs/:filename', Song.getSongByFilename);
 
   apiRoutes.post('/users/signup', User.signup);
   apiRoutes.post('/users/login', User.login);
-  apiRoutes.get('/users/:id/avatar', User.getAvatar);
-  apiRoutes.get('/groups/:id/banner/', Group.getBanner);
+  // apiRoutes.get('/users/:id/avatar', User.getAvatar);
+  // apiRoutes.get('/groups/:id/banner/', Group.getBanner);
   
   // EVERYTHING BELOW THIS WILL NEED A JWT TOKEN!!!
   apiRoutes.use(helpers.verifyToken);

@@ -23,11 +23,11 @@ var addSong = function(req, res, next) {
   });
 };
 
-var getSongByFilename = function(req, res, next) {
-  var filename = req.params.filename;
-  var url = path.resolve(__dirname + '/../uploadInbox/' + filename);
-  res.sendFile(url);
-};
+// var getSongByFilename = function(req, res, next) {
+//   var filename = req.params.filename;
+//   var url = path.resolve(__dirname + '/../uploadInbox/' + filename);
+//   res.sendFile(url);
+// };
 
 var deleteSong = function(req, res, next) {
   // Only deletes from the database. FILES ARE STILL ON S3!
@@ -47,6 +47,6 @@ var deleteSong = function(req, res, next) {
 
 module.exports = {
   addSong: addSong,
-  getSongByFilename: getSongByFilename,
+  // getSongByFilename: getSongByFilename,
   deleteSong: deleteSong
 };

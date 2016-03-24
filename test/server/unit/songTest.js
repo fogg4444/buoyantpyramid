@@ -6,7 +6,7 @@ var dbModels = require('../../../server/db/database.js');
 var Song = dbModels.Song; 
 var Group = dbModels.Group; 
 var GroupController = require('../../../server/controllers/groupController.js');
-var SongController = require('../../../server/controllers/song.js');
+var SongController = require('../../../server/controllers/songController.js');
 
 dbModels.db.options.logging = false;
 

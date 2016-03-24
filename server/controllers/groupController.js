@@ -30,22 +30,22 @@ var createGroup = function(req, res, next) {
   });
 };
 
-var getBanner = function(req, res, next) {
-  var groupId = parseInt(req.params.id);
+// var getBanner = function(req, res, next) {
+//   var groupId = parseInt(req.params.id);
 
-  Group.getGroup(groupId)
-  .then(function(group) {
-    if (group) {
-      var url = path.resolve(__dirname + '/../uploadInbox/' + group.bannerUrl);
-      res.sendFile(url);
-    } else {
-      res.status(404).send('group doesn\'t exist');
-    }
-  })
-  .catch(function(error) {
-    next(error);
-  });
-};
+//   Group.getGroup(groupId)
+//   .then(function(group) {
+//     if (group) {
+//       var url = path.resolve(__dirname + '/../uploadInbox/' + group.bannerUrl);
+//       res.sendFile(url);
+//     } else {
+//       res.status(404).send('group doesn\'t exist');
+//     }
+//   })
+//   .catch(function(error) {
+//     next(error);
+//   });
+// };
 
 var getUsers = function(req, res, next) {
   // roles:
@@ -137,7 +137,7 @@ var updateGroupInfo = function(req, res, next) {
 module.exports = {
   addUser: addUser,
   createGroup: createGroup,
-  getBanner: getBanner,
+  // getBanner: getBanner,
   getUsers: getUsers,
   getPlaylists: getPlaylists,
   getSongs: getSongs,

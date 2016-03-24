@@ -5,9 +5,9 @@ var Sequelize = require('sequelize');
 var dbModels = require('../../../server/db/database.js');
 var Playlist = dbModels.Playlist;
 var Group = dbModels.Group;
-var SongController = require('../../../server/controllers/song.js');
+var SongController = require('../../../server/controllers/songController.js');
 var GroupController = require('../../../server/controllers/groupController.js');
-var PlaylistController = require('../../../server/controllers/playlist.js');
+var PlaylistController = require('../../../server/controllers/playlistController.js');
 dbModels.db.options.logging = false;
 
 // Define api request bodies
