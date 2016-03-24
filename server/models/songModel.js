@@ -9,7 +9,7 @@ var addSong = function (songData) {
 };
 
 var addCompressedLink = function(songID, compressedID) {
-  // console.log('--- --- Add compressed link Song.find() update DB', songID, compressedID);
+  console.log('--- --- Add compressed link Song.find() update DB', songID, compressedID);
   return new Promise(function(resolve, reject) {
     Song.find({where: {id: songID}})
     .then(function(song) {
