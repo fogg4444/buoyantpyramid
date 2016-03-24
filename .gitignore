@@ -55,3 +55,8 @@ server/config/aws.json
 # ignore compression_server audio folder
 compression_server/temp_audio/*
 
+# ignore testFiles
+test/compression_server/testFiles/*
+
+
+
