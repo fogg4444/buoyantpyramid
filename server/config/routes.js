@@ -23,6 +23,10 @@ var routing = function (app, express) {
   // apiRoutes.get('/users/:id/avatar', User.getAvatar);
   // apiRoutes.get('/groups/:id/banner/', Group.getBanner);
   
+  // secret unprotected routes from compression server
+  // TODO: make this secret an actual secret
+  apiRoutes.post('/addCompressedLink/secret', Song.addCompressedLink);
+
   // EVERYTHING BELOW THIS WILL NEED A JWT TOKEN!!!
   apiRoutes.use(helpers.verifyToken);
 

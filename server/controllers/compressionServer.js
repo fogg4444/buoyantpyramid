@@ -10,6 +10,7 @@ var requestFileCompression = function(song) {
   request.post(
     config.compressionServer + '/compress',
     { json: {
+        songID: song.id,
         s3UniqueHash: song.uniqueHash
       }
     },

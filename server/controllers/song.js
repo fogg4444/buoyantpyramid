@@ -4,10 +4,23 @@ var fs = require('fs');
 var Song = db.Song;
 var Group = db.Group;
 var compressionServer = require('./compressionServer.js');
+var config = require('../config/config.js');
 
 
+var addCompressedLink = function(req, res, next) {
+  console.log('--- Add Compressed Link ---', req.body);
+  var songID = req.body.songID;
+  var compressedID = req.body.compressedID;
 
-
+  Song.find({where: {id: songID}})
+    .then(function(song) {
+      if (song) {
+        song.updateAttributes({
+          'compressedAddress': compressedID
+        })
+      }
+    });
+}
 
 var addSong = function(req, res, next) {
   // console.log('Receive song data: ', req.body);
@@ -42,15 +55,16 @@ var addSong = function(req, res, next) {
   .then(function(song) {
     // Make request to compression server
     //  this call is asychronus
-
+    // If statement prevents calls from compressions server
+    // creating a fedback loop
     compressionServer.requestFileCompression(song);
 
     console.log('requested compression and now tell user confirmed db entry');
     res.json(song);
   })
   .catch(function(err) {
-    console.log('Song Db Error!');
-    // res.sendStatus(500);
+    console.log('Song Db Error!', err);
+    res.sendStatus(500);
     // next(err);
   });
 };
@@ -79,5 +93,6 @@ var deleteSong = function(req, res, next) {
 module.exports = {
   addSong: addSong,
   getSongByFilename: getSongByFilename,
-  deleteSong: deleteSong
+  deleteSong: deleteSong,
+  addCompressedLink: addCompressedLink
 };

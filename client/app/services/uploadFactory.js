@@ -7,6 +7,8 @@ function ($http, win, q, Upload, Auth, Songs) {
   // upload on file select or drop
   var upload = function(file, directory, successCallback, errorCallback, progressCallback) {
 
+    console.log('--- 1 --- Upload factory called');
+
     var postData = {
       uniqueFilename: file.name,
       fileType: file.type
@@ -18,7 +20,7 @@ function ($http, win, q, Upload, Auth, Songs) {
       beginDirectS3Upload(s3Credentials, file);
     }, function(res) {
       // AWS Signature API Error
-      console.log('Error', res);
+      console.log('--- 2 --- api/s3 server error', res);
     });
 
     String.prototype.uuid = function() {
@@ -31,7 +33,7 @@ function ($http, win, q, Upload, Auth, Songs) {
 
     var beginDirectS3Upload = function(s3Credentials, file) {
 
-      console.log('Begin s3 upload', s3Credentials);
+      console.log('--- 2 --- Begin direct s3 upload', s3Credentials);
       var groupId;
 
       Auth.getUserData()
@@ -70,9 +72,14 @@ function ($http, win, q, Upload, Auth, Songs) {
         });
         file.uploader.then(function(response) {
           // On upload confirmation
+// <<<<<<< b0087d142a0cdddcc7eaab6b46d00928a4adb09c
           file.status = 'COMPLETE';
           file.progressPercentage = parseInt(100);
-          console.log('Upload confirmed');
+          // console.log('Upload confirmed');
+// =======
+          // file.progress = parseInt(100);
+          console.log('--- 3 --- Upload to S3 confirmed');
+// >>>>>>> (feat) implement saving new compresseed url in promary server after compression is complete
           if (response.status === 201) {
             var escapedUrl = new DOMParser().parseFromString(response.data, 'application/xml').getElementsByTagName('Location')[0].textContent;
             file.s3url = unescape(escapedUrl);

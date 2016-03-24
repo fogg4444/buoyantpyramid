@@ -50,7 +50,6 @@ sh ./pomander.sh
 ```
 
 
-
 ### Server configuration
 
 Open distribution/server/config/config.example.js and use template to create config.js.
@@ -64,3 +63,10 @@ View the project roadmap [here](https://github.com/BuoyantPyramid/buoyantpyramid
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines.
+
+## Dropping all tables
+drop table songs cascade;
+drop table groups cascade;
+drop table playlists cascade;
+drop table userGroups cascade;
+drop table users cascade;

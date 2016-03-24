@@ -1,19 +1,14 @@
 angular
   .module('jam.upload', [])
   .controller('UploadController', ['$scope', 'Upload', 'UploadFactory', 'ngProgressFactory', 'Auth', 'Songs', '$http', function($scope, Upload, UploadFactory, ngProgressFactory, Auth, Songs, $http) {
-    
-    // var socket = io.connect('http://localhost:8080');
-    // socket.on('news', function (data) {
-    //   console.log(data);
-    //   socket.emit('my other event', { my: 'data' });
-    // });
-
-    // socket.on('trancodeStatus', function(data) {
-    //   console.log('Transcod data to client: ', data);
-    // });
 
     $scope.progressbar = ngProgressFactory.createInstance();
+// <<<<<<< b0087d142a0cdddcc7eaab6b46d00928a4adb09c
     $scope.queue = UploadFactory.audioQueue;
+// =======
+    // TODO: get single upload button to work the same. Needs many paramaters from upload all functionality
+    $scope.upload = UploadFactory.upload;
+// >>>>>>> (feat) implement saving new compresseed url in promary server after compression is complete
 
     var totalToUpload = 0;
     var totalUploaded = 0;
@@ -63,6 +58,11 @@ angular
         var seconds = e.currentTarget.duration;
         cb(seconds);
         URL.revokeObjectURL(objectUrl);
+// <<<<<<< b0087d142a0cdddcc7eaab6b46d00928a4adb09c
+// =======
+//         // TODO: error occurring here on upload. Investigate later
+//         a.parentNode.removeChild(a);
+// >>>>>>> (feat) implement saving new compresseed url in promary server after compression is complete
       });
       objectUrl = URL.createObjectURL(file);
       a.setAttribute('src', objectUrl);
@@ -74,18 +74,15 @@ angular
       throttledTotal();
     };
 
-// <<<<<<< d1ac01fff9b90868c42a018aaad4514ad97268e6
     var successCallback = function (file, response) {
+      console.log('--- 4.1 --- Call to addSong service');
+
       Auth.getUserData()
       .then(function(user) {
         getAudioLength(file, function(duration) {
           file.duration = duration;
+          console.log('--- 4.2 --- Call to addSong service');
           return Songs.addSong(file, user.currentGroupId);
-// =======
-//             // TODO: pass data to progress bar
-//             throttledTotal();
-//           });
-// >>>>>>> (feat) implement download queue on compression server
         });
       })
       .then(function(data) {
