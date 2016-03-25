@@ -29,8 +29,34 @@ var createGroup = function (name) {
   return Group.create({name: name});
 };
 
-var getGroup = function(groupId) {
+var getGroup = function (groupId) {
+      // TODO: Add banner
   return Group.findById(groupId);
+};
+
+var getUsers = function(groupId) {
+  return new Promise(function (resolve, reject) {
+    Group.findById(groupId)
+    .then(function (group) {
+      group.getPendingUsers()
+      .then(function (pending) {
+        group.getMemberUsers()
+        .then(function (member) {
+          group.getAdminUsers()
+          .then(function (admin) {
+            resolve({
+              pending: pending,
+              member: member,
+              admin: admin
+            });
+          });
+        });
+      });
+    })
+    .catch(function (error) {
+      reject(error);
+    });
+  });
 };
 
 var sendEmailInvite = function(group, email) {
@@ -78,6 +104,7 @@ module.exports = {
   addUser: addUser,
   createGroup: createGroup,
   getGroup: getGroup,
+  getUsers: getUsers,
   sendEmailInvite: sendEmailInvite,
   updateInfo: updateInfo
 };
