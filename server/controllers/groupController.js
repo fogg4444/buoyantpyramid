@@ -52,12 +52,9 @@ var getUsers = function(req, res, next) {
   //  admin, member, pending
   var groupId = req.params.id;
 
-  Group.getGroup(groupId)
-  .then(function(group) {
-    group.getUsers()
-    .then(function (users) {
-      res.json(users);
-    });
+  Group.getUsers(groupId)
+  .then(function (users) {
+    res.json(users);
   })
   .catch(function(err) {
     next(err);
@@ -91,6 +88,19 @@ var getSongs = function(req, res, next) {
   })
   .catch(function(err) {
     next(err);
+  });
+};
+
+var removeUser = function(req, res, next) {
+  var groupId = req.params.gid;
+  var userId = req.params.uid
+
+  Group.removeUser(groupId, userId)
+  .then(function(response) {
+    res.json(response);
+  })
+  .catch(function(error) {
+    next(error);
   });
 };
 
@@ -134,6 +144,20 @@ var updateGroupInfo = function(req, res, next) {
   });
 };
 
+var updateUserRole = function(req, res, next) {
+  var groupId = req.params.gid;
+  var userId = req.params.uid
+  var role = req.body.role;
+
+  Group.updateUserRole(groupId, userId, role)
+  .then(function(response) {
+    res.json(response);
+  })
+  .catch(function(error) {
+    next(error);
+  });
+};
+
 module.exports = {
   addUser: addUser,
   createGroup: createGroup,
@@ -141,6 +165,8 @@ module.exports = {
   getUsers: getUsers,
   getPlaylists: getPlaylists,
   getSongs: getSongs,
+  removeUser: removeUser,
   sendInvite: sendInvite,
-  updateGroupInfo: updateGroupInfo
+  updateGroupInfo: updateGroupInfo,
+  updateUserRole: updateUserRole
 };

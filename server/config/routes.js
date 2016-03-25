@@ -39,6 +39,7 @@ var routing = function (app, express) {
   apiRoutes.put('/users/profile', User.updateProfile);
   apiRoutes.get('/users/profile', User.getProfile);
   apiRoutes.get('/users/:id', User.getUser);
+  apiRoutes.get('/users/:id/invites', User.getGroupInvites);
   apiRoutes.get('/users/:id/groups', User.getGroups);
 
  
@@ -47,6 +48,8 @@ var routing = function (app, express) {
   apiRoutes.post('/groups/', Group.createGroup);
   apiRoutes.post('/groups/:id/users/', Group.addUser);
   apiRoutes.get('/groups/:id/users/', Group.getUsers);
+  apiRoutes.put('/groups/:gid/users/:uid', Group.updateUserRole);
+  apiRoutes.delete('/groups/:gid/users/:uid', Group.removeUser);
   apiRoutes.get('/groups/:id/playlists/', Group.getPlaylists);
 
   // Add and retrieve songs

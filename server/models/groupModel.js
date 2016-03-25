@@ -2,6 +2,7 @@ var db = require('../db/database');
 var Group = db.Group;
 var Song = db.Song;
 var User = db.User;
+var UserGroups = db.UserGroups;
 var UserModel = require('./userModel.js');
 var config = require('../config/config');
 var mailgun = require('mailgun-js')({apiKey: config.mailgun.api_key, domain: config.mailgun.domain});
@@ -12,7 +13,7 @@ var addUser = function (groupId, userId, role) {
     .then(function (group) {
       User.findOne({where: {id: userId}})
       .then(function (user) {
-        group.addUser (user, {role: role})
+        group.addUser(user, {role: role})
         .then(function () {
           resolve(user);
         });
@@ -29,8 +30,41 @@ var createGroup = function (name) {
   return Group.create({name: name});
 };
 
-var getGroup = function(groupId) {
+var getGroup = function (groupId) {
+      // TODO: Add banner
   return Group.findById(groupId);
+};
+
+var getUsers = function(groupId) {
+  return new Promise(function (resolve, reject) {
+    Group.findById(groupId)
+    .then(function (group) {
+      group.getPendingUsers()
+      .then(function (pending) {
+        group.getMemberUsers()
+        .then(function (member) {
+          group.getAdminUsers()
+          .then(function (admin) {
+            resolve({
+              pending: pending,
+              member: member,
+              admin: admin
+            });
+          });
+        });
+      });
+    })
+    .catch(function (error) {
+      reject(error);
+    });
+  });
+};
+
+var removeUser = function (groupId, userId) {
+  return UserGroups.findOne({where: {groupId: groupId, userId: userId}})
+  .then(function (userGroup) {
+    return userGroup.destroy();
+  })
 };
 
 var sendEmailInvite = function(group, email) {
@@ -65,6 +99,10 @@ var sendEmailInvite = function(group, email) {
   });
 };
 
+var updateUserRole = function (groupId, userId, role) {
+  return UserGroups.update({role: role}, {where: {groupId: groupId, userId: userId}});
+};
+
 var updateInfo = function(groupId, fields) {
   return Group.update(fields, {
     where: {
@@ -78,6 +116,9 @@ module.exports = {
   addUser: addUser,
   createGroup: createGroup,
   getGroup: getGroup,
+  getUsers: getUsers,
+  removeUser: removeUser,
   sendEmailInvite: sendEmailInvite,
+  updateUserRole: updateUserRole,
   updateInfo: updateInfo
 };

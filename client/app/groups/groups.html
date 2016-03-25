@@ -11,15 +11,40 @@
         </form>
       </modal-dialog>
     </div>
-    <div class="group"> {{ user.currentGroup.name }}</div>
-    <div ng-repeat="user in data.users | orderBy:'-timestamp'">
-    <!-- Add styling -->
-      <div class="user"> {{ user.displayName }} </div>
-    </div>
+    <!-- List of pending groups -->
     <div class="group-list">
-      <div ng-repeat="group in data.groups | filter: filterGroups(group) | orderBy:'-timestamp'" class="group">
-      <!-- Add styling -->
-        <div ng-click="setCurrentGroup(group)"> {{ group.name }} </div>
+      <div ng-repeat="group in data.invites | filter: filterInviteGroups(group) | orderBy:'-timestamp'" class="group" style="background-color:#005000">
+        <div> {{ group.name }} </div>
+        <i class="invite-icon fa fa-check-circle-o fa-2x" ng-click="acceptInvite(group)"></i>
+        <i class="invite-icon fa fa-times fa-2x" ng-click="rejectInvite(group)"></i>
+      </div>
+    </div>
+    <!-- Current group -->
+    <div class="group"> {{ user.currentGroup.name }}</div>
+    <div class ="users-container">
+      <div ng-repeat="user in data.users.admin | orderBy:'-timestamp'">
+        <div class="user-container" style="border:1px solid black">
+          <img src={{user.avatarURL}} class="nav-avatar-img">
+          <div> {{ user.displayName }} </div>
+        </div>
+      </div>
+      <div ng-repeat="user in data.users.member | orderBy:'-timestamp'">
+        <div class="user-container">
+          <img src={{user.avatarURL}} class="nav-avatar-img">
+          <div> {{ user.displayName }} </div>
+        </div>
+      </div>
+      <div ng-repeat="user in data.users.pending | orderBy:'-timestamp'">
+        <div class="user-container" style="opacity:0.5">
+          <img src={{user.avatarURL}} class="nav-avatar-img">
+          <div> {{ user.displayName }} </div>
+        </div>
+      </div>
+    </div>
+    <!-- Other groups -->
+    <div class="group-list">
+      <div ng-repeat="group in data.groups | filter: filterGroups(group) | orderBy:'-timestamp'" class="group" ng-click="setCurrentGroup(group)">
+        <div> {{ group.name }} </div>
       </div>
     </div>
   </div>

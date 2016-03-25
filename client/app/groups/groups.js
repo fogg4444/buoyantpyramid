@@ -8,7 +8,16 @@ angular.module('jam.groups', [])
 
   $scope.filterGroups = function (group) {
     return function(group) {
-      return group.id !== $scope.user.currentGroupId;
+      $scope.data.invites = $scope.data.invites || [];
+      return group.id !== $scope.user.currentGroupId
+        && $scope.data.invites.indexOf(group) === -1;
+    }
+  };
+
+  $scope.filterInviteGroups = function (group) {
+    return function(group) {
+      $scope.data.invites = $scope.data.invites || [];
+      return $scope.data.invites.indexOf(group) !== -1;
     }
   };
 
@@ -16,10 +25,18 @@ angular.module('jam.groups', [])
     $scope.modalShown = !$scope.modalShown;
   };
 
+  $scope.acceptInvite = function (group) {
+    Groups.updateUserRole(group.id, $scope.user.id, 'member');
+  };
+
+  $scope.rejectInvite = function (group) {
+    Groups.removeUser(group.id, $scope.user.id);
+  };
+
   $scope.createGroup = function () {
     Groups.createGroup($scope.newGroup)
     .then(function (group) {
-      Groups.addUser(group.id, $scope.user.id)
+      Groups.addUser(group.id, $scope.user.id, 'admin')
       .then(function () {
         $scope.modalShown = false;
         $scope.user.currentGroupId = group.id;
@@ -62,6 +79,10 @@ angular.module('jam.groups', [])
     .then(function (users) {
       $scope.data.users = users;
     });
+    Auth.getGroupInvites($scope.user.id)
+    .then(function (groups) {
+      $scope.data.invites = groups;
+    })
   })
   .catch(console.error);
 }]);

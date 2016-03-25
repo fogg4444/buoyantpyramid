@@ -12,8 +12,8 @@ angular.module('jam.usersFactory', [])
     });
   };
 
-  var addUser = function (groupId, userId) {
-    var data = {userId: userId, role: 'admin'};
+  var addUser = function (groupId, userId, role) {
+    var data = {userId: userId, role: role};
     return http({
       method: 'POST',
       url: '/api/groups/' + groupId + '/users/',
@@ -66,19 +66,6 @@ angular.module('jam.usersFactory', [])
     .catch(console.error);
   };
 
-  // var sendEmailInvite = function (group, email) {
-  //   var data = {email: email, groupname: group.name};
-    
-  //   return http({
-  //     method: 'post',
-  //     url: '/api/groups/' + group.id + '/einvite',
-  //     data: data
-  //   })
-  //   .then(function (res) {
-  //     return res.data;
-  //   });
-  // };
-
   var sendInvite = function (group, email) {
     var data = {email: email, group: group};
     
@@ -92,6 +79,28 @@ angular.module('jam.usersFactory', [])
     });
   };
 
+  var updateUserRole = function (groupId, userId, role) {
+    var data = {role: role};
+    return http({
+      method: 'PUT',
+      url: '/api/groups/' + groupId + '/users/' + userId,
+      data: data
+    })
+    .then(function (res) {
+      return res.data;
+    });
+  };
+
+  var removeUser = function (groupId, userId) {
+    return http({
+      method: 'DELETE',
+      url: '/api/groups/' + groupId + '/users/' + userId,
+    })
+    .then(function (res) {
+      return res.data;
+    });
+  };
+
   return {
     createGroup: createGroup,
     addUser: addUser,
@@ -99,7 +108,9 @@ angular.module('jam.usersFactory', [])
     getUsersByGroupId: getUsersByGroupId,
     getPlaylistsByGroupId: getPlaylistsByGroupId,
     updateInfo: updateInfo,
-    sendInvite: sendInvite
+    sendInvite: sendInvite,
+    updateUserRole: updateUserRole,
+    removeUser: removeUser
   };
 }])
 
@@ -130,6 +141,16 @@ angular.module('jam.usersFactory', [])
       userData = resp.data.user;
       win.localStorage.setItem('com.jam', resp.data.token);
       return resp.data;
+    });
+  };
+
+  var getGroupInvites = function (userId) {
+    return http({
+      method: 'GET',
+      url: '/api/users/' + userId + '/invites/'
+    })
+    .then(function (res) {
+      return res.data;
     });
   };
 
@@ -197,6 +218,7 @@ angular.module('jam.usersFactory', [])
 
   return {
     updateProfile: updateProfile,
+    getGroupInvites: getGroupInvites,
     getProfile: getProfile,
     login: login,
     signup: signup,
