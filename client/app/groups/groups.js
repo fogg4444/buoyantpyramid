@@ -1,6 +1,6 @@
 angular.module('jam.groups', [])
 
-.controller('GroupsController', ['$scope', 'Auth', 'Groups', function($scope, Auth, Groups) {
+.controller('GroupsController', ['$scope', '$route', 'Auth', 'Groups', function($scope, $route, Auth, Groups) {
   $scope.user = {};
   $scope.newGroup = {};
   $scope.data = {};
@@ -27,10 +27,16 @@ angular.module('jam.groups', [])
 
   $scope.acceptInvite = function (group) {
     Groups.updateUserRole(group.id, $scope.user.id, 'member');
+    var index = $scope.data.pendingGroups.indexOf(group);
+    var removed = $scope.data.pendingGroups.splice(index, 1);
+    $scope.data.memberGroups.push(removed);
+    $route.reload();
   };
 
   $scope.rejectInvite = function (group) {
     Groups.removeUser(group.id, $scope.user.id);
+    var index = $scope.data.pendingGroups.indexOf(group);
+    var removed = $scope.data.pendingGroups.splice(index, 1);
   };
 
   $scope.createGroup = function () {
@@ -42,6 +48,7 @@ angular.module('jam.groups', [])
         $scope.user.currentGroupId = group.id;
         $scope.user.currentGroup = group;
         $scope.updateProfile($scope.user)
+        $route.reload();
       });
     });
   };
@@ -50,7 +57,7 @@ angular.module('jam.groups', [])
     Auth.updateProfile({currentGroupId: group.id})
     .then(function (res) {
       $scope.user = res.data.user;
-      window.location.reload();
+      $route.reload();
     })
     .catch(function (error) {
       console.error(error);
@@ -67,22 +74,27 @@ angular.module('jam.groups', [])
     });
   };
 
+  $scope.isNotCurrentGroup = function (group) {
+    return group.id !== $scope.user.currentGroup.id;
+  };
+
   // Load groups and group users
   Auth.getUserData()
   .then(function (userData) {
     $scope.user = userData;
     Groups.getGroupsByUserId(userData.id)
     .then(function (groups) {
-      $scope.data.groups = groups;
+      $scope.data.pendingGroups = groups.pending;
+      $scope.data.adminGroups = groups.admin;
+      $scope.data.memberGroups = groups.member;
+      $scope.data.isAdmin = _.reduce(groups.admin, function(accumulator, band) {
+        return userData.currentGroupId === band.id || accumulator;
+      }, false);
     });
     Groups.getUsersByGroupId(userData.currentGroupId)
     .then(function (users) {
       $scope.data.users = users;
     });
-    Auth.getGroupInvites($scope.user.id)
-    .then(function (groups) {
-      $scope.data.invites = groups;
-    })
   })
   .catch(console.error);
 }]);
