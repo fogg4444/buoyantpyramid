@@ -144,10 +144,10 @@ angular.module('jam.usersFactory', [])
     });
   };
 
-  var getGroupInvites = function (userId) {
+  var getGroups = function (userId) {
     return http({
       method: 'GET',
-      url: '/api/users/' + userId + '/invites/'
+      url: '/api/users/' + userId + '/groups/'
     })
     .then(function (res) {
       return res.data;
@@ -218,7 +218,7 @@ angular.module('jam.usersFactory', [])
 
   return {
     updateProfile: updateProfile,
-    getGroupInvites: getGroupInvites,
+    getGroups: getGroups,
     getProfile: getProfile,
     login: login,
     signup: signup,
