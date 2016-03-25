@@ -3,7 +3,6 @@
   <div class="page-content">
     <div class="create-group">
       <button ng-click="toggleModal()">Create New Group</button>
-      <button ng-click="getGroupInvites(user.id)">getGroupInvite</button>
       <modal-dialog show="modalShown">
         <form name="createGroupForm"> 
           <label>name </label><input ng-model="newGroup.name"/>
@@ -12,6 +11,15 @@
         </form>
       </modal-dialog>
     </div>
+    <!-- List of pending groups -->
+    <div class="group-list">
+      <div ng-repeat="group in data.invites | filter: filterInviteGroups(group) | orderBy:'-timestamp'" class="group" style="background-color:#005000">
+        <div> {{ group.name }} </div>
+        <i class="invite-icon fa fa-check-circle-o fa-2x" ng-click="acceptInvite(group)"></i>
+        <i class="invite-icon fa fa-times fa-2x" ng-click="rejectInvite(group)"></i>
+      </div>
+    </div>
+    <!-- Current group -->
     <div class="group"> {{ user.currentGroup.name }}</div>
     <div class ="users-container">
       <div ng-repeat="user in data.users.admin | orderBy:'-timestamp'">
@@ -33,10 +41,10 @@
         </div>
       </div>
     </div>
+    <!-- Other groups -->
     <div class="group-list">
-      <div ng-repeat="group in data.groups | filter: filterGroups(group) | orderBy:'-timestamp'" class="group">
-      <!-- Add styling -->
-        <div ng-click="setCurrentGroup(group)"> {{ group.name }} </div>
+      <div ng-repeat="group in data.groups | filter: filterGroups(group) | orderBy:'-timestamp'" class="group" ng-click="setCurrentGroup(group)">
+        <div> {{ group.name }} </div>
       </div>
     </div>
   </div>
