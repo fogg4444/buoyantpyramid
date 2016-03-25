@@ -15,7 +15,7 @@ var addUser = function (groupId, userId, role) {
       .then(function (user) {
         group.addUser(user, {role: role})
         .then(function () {
-          resolve(user);d
+          resolve(user);
         });
       });
     })
