@@ -74,11 +74,16 @@ angular.module('jam', [
     controller: ['$scope', 'Auth', function($scope, Auth) {
       $scope.logout = Auth.logout;
       $scope.user = {};
-  
+      $scope.showMenu = false; // only matters for mobile
+      
+      $scope.toggleMenu = function () {
+        $scope.showMenu = !$scope.showMenu;
+      };
+
       Auth.getUserData()
       .then(function (userData) {
         $scope.user = userData;
-        return Auth.getGroupInvites(userData.id)
+        return Auth.getGroupInvites(userData.id);
       })
       .then(function (groups) {
         $scope.user.invites = groups;
