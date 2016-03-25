@@ -48,6 +48,8 @@ var routing = function (app, express) {
   apiRoutes.post('/groups/', Group.createGroup);
   apiRoutes.post('/groups/:id/users/', Group.addUser);
   apiRoutes.get('/groups/:id/users/', Group.getUsers);
+  apiRoutes.put('/groups/:gid/users/:uid', Group.updateUserRole);
+  apiRoutes.delete('/groups/:gid/users/:uid', Group.removeUser);
   apiRoutes.get('/groups/:id/playlists/', Group.getPlaylists);
 
   // Add and retrieve songs

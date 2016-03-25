@@ -2,6 +2,7 @@ var db = require('../db/database');
 var Group = db.Group;
 var Song = db.Song;
 var User = db.User;
+var UserGroups = db.UserGroups;
 var UserModel = require('./userModel.js');
 var config = require('../config/config');
 var mailgun = require('mailgun-js')({apiKey: config.mailgun.api_key, domain: config.mailgun.domain});
@@ -12,9 +13,9 @@ var addUser = function (groupId, userId, role) {
     .then(function (group) {
       User.findOne({where: {id: userId}})
       .then(function (user) {
-        group.addUser (user, {role: role})
+        group.addUser(user, {role: role})
         .then(function () {
-          resolve(user);
+          resolve(user);d
         });
       });
     })
@@ -59,6 +60,13 @@ var getUsers = function(groupId) {
   });
 };
 
+var removeUser = function (groupId, userId) {
+  return UserGroups.findOne({where: {groupId: groupId, userId: userId}})
+  .then(function (userGroup) {
+    return userGroup.destroy();
+  })
+};
+
 var sendEmailInvite = function(group, email) {
   var password = Math.random().toString(36).substring(5);
   return new Promise(function (resolve, reject) {
@@ -91,6 +99,10 @@ var sendEmailInvite = function(group, email) {
   });
 };
 
+var updateUserRole = function (groupId, userId, role) {
+  return UserGroups.update({role: role}, {where: {groupId: groupId, userId: userId}});
+};
+
 var updateInfo = function(groupId, fields) {
   return Group.update(fields, {
     where: {
@@ -105,6 +117,8 @@ module.exports = {
   createGroup: createGroup,
   getGroup: getGroup,
   getUsers: getUsers,
+  removeUser: removeUser,
   sendEmailInvite: sendEmailInvite,
+  updateUserRole: updateUserRole,
   updateInfo: updateInfo
 };
