@@ -1,5 +1,5 @@
 angular.module('jam.player', [])
-.controller('PlayerController', ['$scope', 'Songs', function($scope, Songs) {
+.controller('PlayerController', ['$scope', '$timeout', 'Songs', function($scope, timeout, Songs) {
   $scope.audio = Songs.player;
   $scope.currentTime = 0;
   $scope.song = null;
@@ -9,10 +9,17 @@ angular.module('jam.player', [])
   
   $scope.$watch(function(scope) {
     return scope.audio.volume;
-  }, function(newV) {
+  }, function(newV, oldV) {
     if (newV) {
-      Songs.setVolume(newV);  
-    } 
+      var vol = newV < 0.1 ? 0 : newV;
+      if (newV < 0.1 && !$scope.muted) {
+        $scope.mute();
+      } else if ($scope.muted) {
+        Songs.setMuted(false);
+        $scope.muted = false;
+      }
+      Songs.setVolume(vol);
+    }
   });
 
   $scope.stop = function () {
