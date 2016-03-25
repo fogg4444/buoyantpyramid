@@ -29,8 +29,8 @@ angular.module('jam.songs', [])
     .catch(console.error);
   };
 
-  $scope.toggleModal = function () {
-    $scope.modalShown = !$scope.modalShown;
+  $scope.toggleAddModal = function () {
+    $scope.addModalShown = !$scope.addModalShown;
   };
 
   $scope.refreshSongs = function() {
@@ -41,11 +41,17 @@ angular.module('jam.songs', [])
     .catch(console.error);
   };
 
+  $scope.makeSongPending = function (song, index) {
+    $scope.deleteModalShown = true;
+    $scope.pendingSong = song;
+    $scope.pendingSong.index = index;
+  };
+
   $scope.deleteSong = function(index) {
-    console.log($scope.data.songs[index].id);
     Songs.deleteSong($scope.data.songs[index])
     .then(function() {
       $scope.data.songs.splice(index, 1);
+      $scope.deleteModalShown = false;
     })
     .catch(function (err) {
       $scope.message = 'error: ' + err;
