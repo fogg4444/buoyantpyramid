@@ -34,6 +34,18 @@ var getGroups = function(req, res, next) {
   });
 };
 
+var getGroupInvites = function(req, res, next) {
+  var userId = parseInt(req.params.id);
+
+  User.getGroupInvites(userId)
+  .then(function (data) {
+    res.json(data);
+  })
+  .catch(function (error) {
+    next(error);
+  });
+};
+
 var getProfile = function(req, res, next) {
   var user = req.user;
   User.compileUserData(user)
@@ -171,7 +183,8 @@ var updateProfile = function(req, res, next) {
 
 module.exports = {
   getUser: getUser,
-  // getAvatar: getAvatar,
+  getAvatar: getAvatar,
+  getGroupInvites: getGroupInvites,
   getGroups: getGroups,
   getProfile: getProfile,
   login: login,
