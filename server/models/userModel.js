@@ -46,29 +46,21 @@ var createUser = function (email, displayName, password) {
 
 var getGroups = function(userId) {
   return new Promise(function (resolve, reject) {
+    var groups = {};
     User.findById(userId)
     .then(function (user) {
-      user.getGroups()
-      .then(function (groups) {
-        resolve(groups);
+      user.getAdminGroups()
+      .then(function (adminGroups) {
+        user.getPendingGroups()
+        .then(function (pendingGroups) {
+          user.getMemberGroups()
+          .then(function (memberGroups) {
+            resolve({admin: adminGroups, member: memberGroups, pending: pendingGroups});
+          });
+        });
       });
     })
     .catch(function(error) {
-      reject(error);
-    });
-  });
-};
-
-var getGroupInvites = function(userId) {
-  return new Promise(function (resolve, reject) {
-    User.findById(userId)
-    .then(function (user) {
-      user.getPendingGroups()
-      .then(function (groups) {
-        resolve(groups);
-      });
-    })
-    .catch(function (error) {
       reject(error);
     });
   });
@@ -81,7 +73,6 @@ var getUser = function (query) {
 module.exports = {
   compileUserData: compileUserData,
   createUser: createUser,
-  getGroupInvites: getGroupInvites,
   getGroups: getGroups,
   getUser: getUser
 };
