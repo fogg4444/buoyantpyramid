@@ -1,14 +1,17 @@
 <div class="player" ng-controller="PlayerController" ng-show="!!audio.src">
   <div>
+    <span>{{song.title}}</span>
+  </div>
+  <div>
     <button ng-click="togglePlay()"><i ng-class="{'fa fa-play fa-lg': audio.paused, 'fa fa-pause fa-lg': !audio.paused}"></i></button>
     <button ng-click="stop()"><i class="fa fa-stop fa-lg"></i></button>
-    <button ng-click="mute()"><i ng-class="{'fa fa-volume-off fa-lg': muted, 'fa fa-volume-up fa-lg': !muted}"></i></button>
+    <button ng-click="mute()"><i ng-class="{'fa fa-volume-off fa-lg': !muted, 'fa fa-volume-up fa-lg': muted}"></i></button>
   </div>
   
   <div class="form-group time">
     <span>Time</span>
     <input min="0" max="{{audio.duration}}" step="0.01" type="range" ng-model="audio.currentTime" />
-    <span>{{audio.currentTime}}</span>
+    <span>{{audio.currentTime | number: 2}} s</span>
   </div>
   <div class="input-group">
     <span class="input-group-addon">Volume</span>
