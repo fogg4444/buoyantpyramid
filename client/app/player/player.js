@@ -1,26 +1,33 @@
 angular.module('jam.player', [])
 .controller('PlayerController', ['$scope', 'Songs', function($scope, Songs) {
-  $scope.playlist = Songs.getSoundsAndIndex();
   $scope.audio = Songs.player;
   $scope.currentTime = 0;
+  $scope.song = null;
+  $scope.muted = Songs.getMuted();
 
-  $scope.muted = 0;
+  setInterval(function() { $scope.$apply(); }, 200);
+  
+  $scope.$watch(function(scope) {
+    return scope.audio.volume;
+  }, function(newV) {
+    if (newV) {
+      Songs.setVolume(newV);  
+    } 
+  });
 
   $scope.stop = function () {
     $scope.audio.pause();
     $scope.audio.currentTime = 0;
   };
 
-  setInterval(function() { $scope.$apply(); }, 200);
-
   $scope.mute = function () {
     if ($scope.muted) {
-      $scope.audio.volume = $scope.muted;
-      $scope.muted = 0;
+      $scope.audio.volume = Songs.getVolume();
     } else {
-      $scope.muted = $scope.audio.volume;
       $scope.audio.volume = 0;
     }
+    $scope.muted = !$scope.muted;
+    Songs.setMuted($scope.muted);
   };
 
   $scope.togglePlay = function () {
@@ -33,8 +40,9 @@ angular.module('jam.player', [])
 
   var changeSong = function() {
     $scope.playlist = Songs.getSoundsAndIndex();
-    $scope.audio.src = $scope.playlist.songs[$scope.playlist.index].compressedAddress ||
-      $scope.playlist.songs[$scope.playlist.index].address;
+    $scope.song = $scope.playlist.songs[$scope.playlist.index];
+    $scope.audio.src = $scope.song.compressedAddress ||
+      $scope.song.address;
     $scope.audio.onended = Songs.nextIndex;
     $scope.audio.play();
   };

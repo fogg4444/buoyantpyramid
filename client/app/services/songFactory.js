@@ -9,6 +9,8 @@ angular.module('jam.songFactory', ['jam.usersFactory'])
   // index of the current song playing
   var soundIndex = null;
   var currentLocation = 'songs';
+  var volume = 0;
+  var muted = false;
 
   // FUNCTIONS FOR SONGS
 
@@ -178,6 +180,22 @@ angular.module('jam.songFactory', ['jam.usersFactory'])
     }
   };
 
+  var setVolume = function (percent) {
+    volume = percent;
+  };
+
+  var getVolume = function () {
+    return volume;
+  };
+
+  var setMuted = function (newMuted) {
+    muted = newMuted;
+  };
+
+  var getMuted = function () {
+    return muted;
+  };
+
   return {
     addComment: addComment,
     addSong: addSong,
@@ -193,6 +211,10 @@ angular.module('jam.songFactory', ['jam.usersFactory'])
     nextIndex: nextIndex,
     choose: choose,
     registerObserverCallback: registerObserverCallback,
-    player: player
+    player: player,
+    setVolume: setVolume,
+    getVolume: getVolume,
+    setMuted: setMuted,
+    getMuted: getMuted
   };
 }]);
