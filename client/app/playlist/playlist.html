@@ -23,7 +23,7 @@
         <form name="destoyPlayForm">
           <fieldset class="new-playlist-fieldset">
           <legend>Delete this playlist?</legend>
-            <!-- Display name of playlist here -->
+            <p>{{pendingPlaylist.title}}</p>
             <button ng-click="deletePlaylist($parent.pendingPlaylist)">Yes, do it!</button>
           </fieldset>
         </form>
