@@ -66,19 +66,6 @@ angular.module('jam.usersFactory', [])
     .catch(console.error);
   };
 
-  // var sendEmailInvite = function (group, email) {
-  //   var data = {email: email, groupname: group.name};
-    
-  //   return http({
-  //     method: 'post',
-  //     url: '/api/groups/' + group.id + '/einvite',
-  //     data: data
-  //   })
-  //   .then(function (res) {
-  //     return res.data;
-  //   });
-  // };
-
   var sendInvite = function (group, email) {
     var data = {email: email, group: group};
     
@@ -130,6 +117,16 @@ angular.module('jam.usersFactory', [])
       userData = resp.data.user;
       win.localStorage.setItem('com.jam', resp.data.token);
       return resp.data;
+    });
+  };
+
+  var getGroupInvites = function (userId) {
+    return http({
+      method: 'GET',
+      url: '/api/users/' + userId + '/invites/'
+    })
+    .then(function (res) {
+      return res.data;
     });
   };
 
@@ -197,6 +194,7 @@ angular.module('jam.usersFactory', [])
 
   return {
     updateProfile: updateProfile,
+    getGroupInvites: getGroupInvites,
     getProfile: getProfile,
     login: login,
     signup: signup,
