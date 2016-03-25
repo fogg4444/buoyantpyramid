@@ -183,7 +183,7 @@ var updateProfile = function(req, res, next) {
 
 module.exports = {
   getUser: getUser,
-  getAvatar: getAvatar,
+  // getAvatar: getAvatar,
   getGroupInvites: getGroupInvites,
   getGroups: getGroups,
   getProfile: getProfile,

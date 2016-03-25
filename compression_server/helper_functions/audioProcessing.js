@@ -6,7 +6,7 @@ var queue = require('queue');
 var request = require('request');
 var ffmpeg = require('fluent-ffmpeg');
 var serverConfig = require('../config/server.config.js');
-var awsConfig = require('../config/aws.config.js');
+var awsConfig = require('../config/aws.config.json');
 
 var AWS = require('aws-sdk');
 AWS.config.update({
