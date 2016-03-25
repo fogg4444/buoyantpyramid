@@ -660,12 +660,18 @@ footer {
   }
   .nav-item {
     display: block;
-    margin: 1em;
+    margin: 1em 0.5em;
     font-size: 1.5em;
     text-align: left;
     .submenu-container {
       display: block;
+      position:relative;
+      padding:0;
+      margin:0;
     }
+  }
+  .dropdown-avatar {
+    display: none;
   }
   .empty-placeholder {
     font-size: 1.5em;
