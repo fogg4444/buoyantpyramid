@@ -14,7 +14,6 @@ angular.module('jam', [
   'ngAnimate',
   'ngFileUpload',
   'ngImgCrop',
-  'ngAudio',
   'ngProgress'
 ])
 .config(function ($routeProvider, $httpProvider) {

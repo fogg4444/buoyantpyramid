@@ -1,30 +1,14 @@
 angular.module('jam.songFactory', ['jam.usersFactory'])
 
-.factory('Songs', ['$http', '$q', 'ngAudio', function (http, q, audio) {
+.factory('Songs', ['$http', '$q', function (http, q) {
 
-  // HELPER FUNCTIONS
-
-  var augmentSongs = function(songs) {
-    return songs.reduce(function(augSongs, song) {
-      song.sound = audio.load(song.address);
-      augSongs = augSongs.concat([song]);
-      return augSongs;
-    }, []);
-  };
-
-  var soundsFromSongs = function(queue, location) {
-    return queue[location].map(function(song) {
-      return song.sound;
-    });
-  };
+  var player = new Audio(); 
 
   // stores all songs and current playlist songs
   var songQueue = {songs: [], playlist: []};
   // index of the current song playing
   var soundIndex = null;
   var currentLocation = 'songs';
-  var playing = false;
-  var sounds;
 
   // FUNCTIONS FOR SONGS
 
@@ -60,11 +44,8 @@ angular.module('jam.songFactory', ['jam.usersFactory'])
       url: '/api/groups/' + groupId + '/songs/'
     })
     .then(function (res) {
-      // this will return the ngAudio objects
-      var enhancedSongs = augmentSongs(res.data);
-      songQueue.songs = enhancedSongs;
-      sounds = soundsFromSongs(songQueue, 'songs');
-      return enhancedSongs;
+      songQueue.songs = res.data;
+      return res.data;
     });
   };
 
@@ -130,10 +111,8 @@ angular.module('jam.songFactory', ['jam.usersFactory'])
       url: '/api/playlists/' + id + '/'
     })
     .then(function (res) {
-      var enhancedSongs = augmentSongs(res.data);
-      songQueue.playlist = enhancedSongs;
-      sounds = soundsFromSongs(songQueue, 'playlist');
-      return enhancedSongs;
+      songQueue.playlist = res.data;
+      return res.data;
     })
     .catch(console.error);
   };
@@ -163,49 +142,39 @@ angular.module('jam.songFactory', ['jam.usersFactory'])
   // FUNCTIONS FOR PLAYBACK
 
   // use the observer pattern to watch for changes in the queue or song
-  var observerCallbacks = [];
+  var observerCallbacks = {};
 
   //register an observer
-  var registerObserverCallback = function(callback) {
-    observerCallbacks.push(callback);
+  var registerObserverCallback = function(action, callback) {
+    observerCallbacks[action] = callback;
   };
 
   // call this with the index of the callback to trigger just one
-  var notifyObservers = function(i) {
-    if (i) {
-      observerCallbacks[i]();
-    } else {
-      angular.forEach(observerCallbacks, function (callback) {
-        callback();
-      });
-    }
+  var notifyObservers = function(action) {
+    observerCallbacks[action]();
   };
 
   var getSoundsAndIndex = function () {
     return {
-      sounds: sounds,
+      songs: songQueue[currentLocation],
       index: soundIndex
     };
   };
 
   var nextIndex = function() {
-    if (soundIndex < sounds.length - 1) {
+    if (soundIndex < songQueue[currentLocation].length - 1) {
       soundIndex++;
     }
-    notifyObservers(0);
+    notifyObservers('CHANGE_SONG');
   };
 
   var choose = function(index, location) {
     if (soundIndex === +index && currentLocation === location) {
-      notifyObservers(1);
+      notifyObservers('TOGGLE_PLAY');
     } else {
-      playing = !playing;
       soundIndex = index;
-      if (location !== currentLocation) {
-        currentLocation = location;
-        sounds = soundsFromSongs(songQueue, location);
-      } 
-      notifyObservers(0);
+      currentLocation = location;
+      notifyObservers('CHANGE_SONG');
     }
   };
 
@@ -223,6 +192,7 @@ angular.module('jam.songFactory', ['jam.usersFactory'])
     getSoundsAndIndex: getSoundsAndIndex,
     nextIndex: nextIndex,
     choose: choose,
-    registerObserverCallback: registerObserverCallback
+    registerObserverCallback: registerObserverCallback,
+    player: player
   };
 }]);
