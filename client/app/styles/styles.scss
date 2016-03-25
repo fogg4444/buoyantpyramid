@@ -75,13 +75,22 @@ ul {
   position:fixed; 
   height: $nav-height;
   color: $textcolor-2;
-  // background-color: $bgcolor-2;
-  background-color: rgba(64,64,64,0.7);
   background-size: cover;
   z-index: 99;
 }
+.topbar-overlay {
+  position:absolute;
+  top: 0;
+  bottom: 0;
+  width:100%;
+  background-color: $bgcolor-2;
+  background-color: rgba(64,64,64,0.7);
+}
 .main-title {
   float: left;
+  position: relative;
+  font-size: $nav-height/2;
+  margin: $nav-height/4;
 }
 nav {
   display: block;
@@ -105,6 +114,29 @@ nav {
   width: $nav-height * 0.8;
   border-radius: 50%;
   vertical-align: middle;
+}
+li:hover > .submenu-container {
+  display: block;
+}
+.submenu-container {
+  display: none;
+  position:absolute;
+  top: 0;
+  right: 0;
+  padding-top: $nav-height * 0.9;
+}
+.submenu {
+  background-color:rgba(64,64,64, 0.75);
+  padding:1em;
+}
+.submenu li {
+  padding: 0.25em 0.5em;
+  display: block;
+  white-space: nowrap;
+}
+.menu-category {
+  text-transform: uppercase;
+  font-size: 1.15em;
 }
 
 .mobile-menu-icon {
@@ -152,28 +184,6 @@ nav {
     max-width: 100%;
     max-height: 100%;
   }
-}
-li:hover > .submenu-container {
-  display: block;
-}
-.submenu-container {
-  display: none;
-  position:absolute;
-  top: 0;
-  right: 0;
-  padding-top: $nav-height;
-}
-.submenu {
-  background-color:rgba(64,64,64, 0.75);
-}
-.submenu li {
-  margin: 0.2em;
-  padding: 0.25em 0.5em;
-  display: block;
-}
-.menu-category {
-  text-transform: uppercase;
-  font-size: 1.15em;
 }
 .page-content {
   max-width: 1024px;
@@ -643,20 +653,28 @@ footer {
 }
 
 @media (max-width: 600px) {
+  .topbar {
+    // position:absolute;
+  }
   .mobile-menu-icon {
     display: block;
+    position: relative;
     float: right;
-    height:$nav-height;
+    font-size: $nav-height/2;
+    margin: $nav-height/8;
+
   }
   nav {
-    display:none
-  }
-  nav.show {
-    display:block;
-    position:absolute;
+    display:none;
+    position:fixed;
     top: $nav-height;
     background-color:rgba(64,64,64, 0.75);
     right:0;
+    bottom:0;
+    overflow: scroll;
+  }
+  nav.show {
+    display:block;
   }
   .nav-item {
     display: block;
