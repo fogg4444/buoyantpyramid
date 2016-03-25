@@ -2,8 +2,9 @@
   <div class="playlist page-content">
     <h2>Playlist</h2>
     <div class="create-playlist">
-      <button ng-click="toggleModal()"><i class="fa fa-plus-circle"></i> Create New Playlist</button>
-      <modal-dialog show="modalShown">
+      <button ng-click="toggleCreateModal()"><i class="fa fa-plus-circle"></i> Create New Playlist</button>
+      <!-- Create modal -->
+      <modal-dialog show="createModalShown">
         <form name="createPlayForm">
           <fieldset class="new-playlist-fieldset">
           <legend>Create a new playlist</legend>
@@ -17,13 +18,24 @@
           </fieldset>
         </form>
       </modal-dialog>
+      <!-- Destroy modal -->
+      <modal-dialog show="destroyModalShown">
+        <form name="destoyPlayForm">
+          <fieldset class="new-playlist-fieldset">
+          <legend>Delete this playlist?</legend>
+            <p>{{pendingPlaylist.title}}</p>
+            <button ng-click="deletePlaylist($parent.pendingPlaylist)">Yes, do it!</button>
+          </fieldset>
+        </form>
+      </modal-dialog>
+
     </div>
      <div ng-show="data.playlists.length === 0" class="empty-placeholder">
         Your group doesn't have any playlists. Click the button above to create one.
       </div>
-    <div ng-repeat="playlist in data.playlists" ng-click="makeCurrent(playlist)">
-      <button class="delete-button icon-button" title="delete playlist" ng-click="deletePlaylist(playlist)"><i class="fa fa-trash fa-lg"></i></button>
-      <div>{{playlist.title}}</div>
+    <div ng-repeat="playlist in data.playlists">
+      <button class="delete-button icon-button" title="delete playlist" ng-click="pendingDeletePlaylist(playlist)"><i class="fa fa-trash fa-lg"></i></button>
+      <button class="clickable-playlist" ng-click="makeCurrent(playlist)">{{playlist.title}}</button>
     </div>
     <div ng-repeat="song in data.currentPlaylist.songs" class="song">
       <hr>
