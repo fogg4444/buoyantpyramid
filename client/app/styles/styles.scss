@@ -19,7 +19,7 @@ $red: #ed5e5e;
 // TODO: Adjust nav bar for mobile use
 // Starting example below:
 
-$mobileBreakpoint: 400px;
+$mobileBreakpoint: 600px;
 
 .pagewidth {
   @media screen and (min-width: $mobileBreakpoint) {
@@ -30,7 +30,8 @@ $mobileBreakpoint: 400px;
 /**************************************************/
 
 
-$nav-height: 3em;
+$nav-height: 3rem;
+$player-height: 4rem;
 
 html {
   box-sizing: border-box;
@@ -50,6 +51,7 @@ body {
   color: $textcolor;
   margin:0;
   padding:0;
+  padding-bottom: $player-height;
 }
 
 a, a:visited, a:active {
@@ -68,20 +70,45 @@ ul {
   list-style: none;
 }
 
-nav {
+.topbar {
   width:100%;
-  position:fixed;
+  position:fixed; 
   height: $nav-height;
   color: $textcolor-2;
-  background-color: $bgcolor-2;
+  // background-color: $bgcolor-2;
+  background-color: rgba(64,64,64,0.7);
   background-size: cover;
   z-index: 99;
 }
-nav ul {
+.main-title {
+  float: left;
+}
+nav {
   display: block;
   text-align: right;
   padding: $nav-height * 0.1;
-  background-color: rgba(64,64,64,0.7);
+}
+
+.nav-item {
+  position: relative;
+  display: inline-block;
+  margin: 0 1em;
+}
+
+.nav-spacer {
+  width: 100%;
+  height: $nav-height;
+}
+
+.nav-avatar-img {
+  height: $nav-height * 0.8;
+  width: $nav-height * 0.8;
+  border-radius: 50%;
+  vertical-align: middle;
+}
+
+.mobile-menu-icon {
+  display:none;
 }
 
 .form-container {
@@ -115,27 +142,6 @@ nav ul {
   overflow: hidden;
   text-overflow: ellipsis;
 }
-
-.main-title {
-  float: left;
-}
-.nav-item {
-  position: relative;
-  display: inline-block;
-  margin: 0 1em;
-}
-
-.nav-spacer {
-  width: 100%;
-  height: $nav-height;
-}
-
-.nav-avatar-img {
-  height: $nav-height * 0.8;
-  width: $nav-height * 0.8;
-  border-radius: 50%;
-  vertical-align: middle;
-}
 .current-avatar {
   max-width: 100px;
   max-height: 100px;
@@ -149,13 +155,13 @@ nav ul {
 }
 li:hover > .submenu-container {
   display: block;
+}
+.submenu-container {
+  display: none;
   position:absolute;
   top: 0;
   right: 0;
   padding-top: $nav-height;
-}
-.submenu-container {
-  display: none;
 }
 .submenu {
   background-color:rgba(64,64,64, 0.75);
@@ -630,4 +636,35 @@ footer {
 .animate-show.ng-hide {
   // opacity:0;
   max-height:0;
+}
+
+@media (max-width: 600px) {
+  .mobile-menu-icon {
+    display: block;
+    float: right;
+    height:$nav-height;
+  }
+  nav {
+    display:none
+  }
+  nav.show {
+    display:block;
+    position:absolute;
+    top: $nav-height;
+    background-color:rgba(64,64,64, 0.75);
+    right:0;
+  }
+  .nav-item {
+    display: block;
+    margin: 1em;
+    font-size: 1.5em;
+    text-align: left;
+    .submenu-container {
+      display: block;
+    }
+  }
+  .empty-placeholder {
+    font-size: 1.5em;
+    padding: 1em;    
+  }
 }
