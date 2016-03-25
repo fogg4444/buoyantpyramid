@@ -52,12 +52,9 @@ var getUsers = function(req, res, next) {
   //  admin, member, pending
   var groupId = req.params.id;
 
-  Group.getGroup(groupId)
-  .then(function(group) {
-    group.getUsers()
-    .then(function (users) {
-      res.json(users);
-    });
+  Group.getUsers(groupId)
+  .then(function (users) {
+    res.json(users);
   })
   .catch(function(err) {
     next(err);

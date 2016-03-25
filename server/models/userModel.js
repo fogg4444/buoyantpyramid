@@ -1,5 +1,6 @@
 var db = require('../db/database');
 var Group = db.Group;
+var UserGroups = db.UserGroups;
 var Song = db.Song;
 var User = db.User;
 var Promise = require('bluebird');
@@ -58,6 +59,21 @@ var getGroups = function(userId) {
   });
 };
 
+var getGroupInvites = function(userId) {
+  return new Promise(function (resolve, reject) {
+    User.findById(userId)
+    .then(function (user) {
+      user.getPendingGroups()
+      .then(function (groups) {
+        resolve(groups);
+      });
+    })
+    .catch(function (error) {
+      reject(error);
+    });
+  });
+};
+
 var getUser = function (query) {
   return User.findOne({where: query});
 };
@@ -65,6 +81,7 @@ var getUser = function (query) {
 module.exports = {
   compileUserData: compileUserData,
   createUser: createUser,
+  getGroupInvites: getGroupInvites,
   getGroups: getGroups,
   getUser: getUser
 };
