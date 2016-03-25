@@ -12,8 +12,8 @@ angular.module('jam.usersFactory', [])
     });
   };
 
-  var addUser = function (groupId, userId) {
-    var data = {userId: userId, role: 'admin'};
+  var addUser = function (groupId, userId, role) {
+    var data = {userId: userId, role: role};
     return http({
       method: 'POST',
       url: '/api/groups/' + groupId + '/users/',
@@ -79,6 +79,28 @@ angular.module('jam.usersFactory', [])
     });
   };
 
+  var updateUserRole = function (groupId, userId, role) {
+    var data = {role: role};
+    return http({
+      method: 'PUT',
+      url: '/api/groups/' + groupId + '/users/' + userId,
+      data: data
+    })
+    .then(function (res) {
+      return res.data;
+    });
+  };
+
+  var removeUser = function (groupId, userId) {
+    return http({
+      method: 'DELETE',
+      url: '/api/groups/' + groupId + '/users/' + userId,
+    })
+    .then(function (res) {
+      return res.data;
+    });
+  };
+
   return {
     createGroup: createGroup,
     addUser: addUser,
@@ -86,7 +108,9 @@ angular.module('jam.usersFactory', [])
     getUsersByGroupId: getUsersByGroupId,
     getPlaylistsByGroupId: getPlaylistsByGroupId,
     updateInfo: updateInfo,
-    sendInvite: sendInvite
+    sendInvite: sendInvite,
+    updateUserRole: updateUserRole,
+    removeUser: removeUser
   };
 }])
 
