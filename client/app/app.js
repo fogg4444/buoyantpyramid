@@ -74,9 +74,14 @@ angular.module('jam', [
     controller: ['$scope', 'Auth', function($scope, Auth) {
       $scope.logout = Auth.logout;
       $scope.user = {};
+  
       Auth.getUserData()
       .then(function (userData) {
         $scope.user = userData;
+        return Auth.getGroupInvites(userData.id)
+      })
+      .then(function (groups) {
+        $scope.user.invites = groups;
       })
       .catch(console.error);
     }]
