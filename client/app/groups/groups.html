@@ -22,6 +22,7 @@
             <!-- Role, can change if user is admin -->
             <div>{{clickedMember.role}}</div>
             <!-- Kick out -->
+            <button ng-show="data.isAdmin && !clickedMember.isAdmin" ng-click="removeMember(clickedMember.id)">Kick out</button>
           </fieldset>
         </form>
       </modal-dialog>

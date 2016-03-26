@@ -11,8 +11,21 @@ angular.module('jam.groups', [])
 
   $scope.memberInfo = function (member) {
     $scope.clickedMember = member;
+    $scope.clickedMember.isAdmin = member.role === 'admin' ? true : false;
     console.log(member);
     $scope.memberModalShown = true;
+  };
+
+  $scope.removeMember = function (userId) {
+    Groups.removeUser($scope.user.currentGroupId, userId)
+    .then(function (data) {
+      console.log(data);
+      // tell the user that the member is no more!
+      $scope.data.members = _.filter($scope.data.members, function (member) {
+        return member.id !== userId;
+      });
+    })
+    .catch(console.error);
   };
 
   $scope.acceptInvite = function (group) {
