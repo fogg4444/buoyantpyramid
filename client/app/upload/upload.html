@@ -10,7 +10,7 @@
     <ul>
       <li ng-repeat="file in queue">
         <section class="upload-item">
-          <div class='eachProgressBar' ng-style="{width: file.progressPercentage + '%'}"></div>
+          <div class='progress-bar' ng-style="{width: file.progressPercentage + '%'}"></div>
           <div class="file-info">
             <button class="edit-button icon-button" ng-disabled="file.status !== 'READY'" title="edit file info" ng-click="file.editing = !file.editing"><i class="fa fa-pencil"></i></button>
             <input class="song-title" ng-model="file.displayName" ng-show="file.editing" type="text" />

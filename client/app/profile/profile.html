@@ -1,6 +1,15 @@
 <nav-bar></nav-bar>
 <div class="profile">
   <div class="page-content">
+    <modal-dialog class="modal avatar-dialog" show="avatarModalShown">
+      <div class='progress-bar' ng-style="{width: file.progressPercentage + '%'}"></div>
+      <div ngf-drop ng-model="picFile" ngf-pattern="image/*" class="cropArea">
+        <img-crop image="picFile  | ngfDataUrl" result-image="croppedDataUrl" area-type="circle" result-image-size="{w:128, h:128}" aspect-ratio="1" ng-init="croppedDataUrl=''">
+      <div>{{file.name}} {{errFile.name}} {{errFile.$error}} {{errFile.$errorParam}}</div>
+        </img-crop>
+      </div>
+      <button ng-disabled="file.status === 'UPLOADING'" ng-click="upload(croppedDataUrl, picFile.name)">Upload image</button>
+    </modal-dialog>
     <h2 class="heading">Profile<span class="small"> - update your stuff</span></h2>
     <form name="profileForm">
       <!-- Code for ng-file-uploader -->
@@ -8,13 +17,13 @@
         <fieldset>
           <legend>avatar</legend>
           <div class="current-avatar"><img ng-src="{{user.avatarURL}}" alt="current avatar"></div>
-          <button type="file" ngf-select="uploadFiles($file, $invalidFiles)" accept="image/*" ngf-resize="{width: 100, height: 100}">
-            Change <i class="fa fa-upload"></i></button>
-          <div style="font:smaller">{{f.name}} {{errFile.name}} {{errFile.$error}} {{errFile.$errorParam}}
-            <span class="progress" ng-show="f.progress >= 0">
+          <!--  <button type="file" ngf-select="uploadFiles($file, $invalidFiles)" accept="image/*" ngf-resize="{width: 100, height: 100}">
+            Change <i class="fa fa-upload"></i></button> -->
+          <button type="file" ng-model="picFile" ngf-select="showAvatarModal($file, $invalidFiles)" accept="image/*" >Change <i class="fa fa-upload"></i></button>
+
+            <!--             <span class="progress" ng-show="f.progress >= 0">
               <div style="width:{{f.progress}}%" ng-bind="f.progress + '%'"></div>
-            </span>
-          </div>
+            </span> -->
           <span class="error">{{errorMsg}}</span>
           <!-- Code for ng-file-uploader -->
         </fieldset>
