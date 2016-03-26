@@ -187,6 +187,11 @@ angular.module('jam.songFactory', ['jam.usersFactory'])
         songQueue[currentLocation].splice(soundIndex, 1);
         soundIndex = null;
         notifyObservers('RESET_PLAYER');
+      } else {
+        songQueue[currentLocation] = _.filter(songQueue[currentLocation], function(currentSong) {
+          return currentSong.id !== songId;
+        });
+        notifyObservers('REFRESH_LIST');
       }
     }
   };

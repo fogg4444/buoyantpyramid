@@ -60,7 +60,12 @@ angular.module('jam.player', [])
     $scope.playlist = Songs.getSoundsAndIndex();
   };
 
+  var refreshList = function() {
+    $scope.playlist = Songs.getSoundsAndIndex();
+  };
+
   Songs.registerObserverCallback('CHANGE_SONG', changeSong);
   Songs.registerObserverCallback('TOGGLE_PLAY', $scope.togglePlay);
   Songs.registerObserverCallback('RESET_PLAYER', resetPlayer);
+  Songs.registerObserverCallback('REFRESH_LIST', refreshList);
 }]);
