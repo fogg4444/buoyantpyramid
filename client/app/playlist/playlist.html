@@ -4,7 +4,7 @@
     <div class="create-playlist">
       <button ng-click="toggleCreateModal()"><i class="fa fa-plus-circle"></i> Create New Playlist</button>
       <!-- Create modal -->
-      <modal-dialog show="createModalShown">
+      <modal-dialog class="modal" show="createModalShown">
         <form name="createPlayForm">
           <fieldset>
           <legend>Create a new playlist</legend>
@@ -19,7 +19,7 @@
         </form>
       </modal-dialog>
       <!-- Destroy modal -->
-      <modal-dialog show="destroyModalShown">
+      <modal-dialog class="modal" show="destroyModalShown">
         <form name="destroyPlayForm">
           <fieldset>
           <legend>Delete this playlist?</legend>
