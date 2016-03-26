@@ -9,8 +9,9 @@ angular.module('jam', [
   'jam.playlist',
   'jam.player',
   'jam.usersFactory',
-  'jam.uploadFactory',
-  'jam.songFactory',
+  'jam.groupsFactory',
+  'jam.uploadsFactory',
+  'jam.songsFactory',
   'ngRoute',
   'ngAnimate',
   'ngFileUpload',
@@ -78,8 +79,8 @@ angular.module('jam', [
     restrict: 'E',
     templateUrl: 'app/nav/nav.html',
     scope: {},
-    controller: ['$scope', 'Auth', function($scope, Auth) {
-      $scope.logout = Auth.logout;
+    controller: ['$scope', 'Users', function($scope, Users) {
+      $scope.logout = Users.logout;
       $scope.user = {};
       $scope.showMenu = false; // only matters for mobile
       
@@ -87,11 +88,11 @@ angular.module('jam', [
         $scope.showMenu = !$scope.showMenu;
       };
 
-      Auth.getUserData()
+      Users.getUserData()
       .then(function (userData) {
         $scope.user = userData;
 
-        return Auth.getGroups(userData.id)
+        return Users.getGroups(userData.id);
       })
       .then(function (groups) {
         $scope.user.invites = groups.pending;
@@ -105,7 +106,7 @@ angular.module('jam', [
     restrict: 'E',
     templateUrl: 'app/nav/groupsNav.html',
     scope: {},
-    controller: ['$scope', 'Auth', function ($scope, Auth) {
+    controller: ['$scope', 'Users', function ($scope, Users) {
     }]
   };
 })
@@ -124,6 +125,7 @@ angular.module('jam', [
         $scope.commentModalShown = false;
         $scope.comment.time = $scope.time;
         $scope.comment.userId = $scope.userId;
+        console.log($scope.comment);
         Songs.addComment($scope.comment, $scope.songId);
       };
       $scope.toggleCommentModal = function (songId, userId) {
@@ -191,10 +193,10 @@ angular.module('jam', [
   };
   return attach;
 })
-.run(function ($rootScope, $location, Auth) {
+.run(function ($rootScope, $location, Users) {
   // check for token on route change
   $rootScope.$on('$routeChangeStart', function (evt, next, current) {
-    if (next.$$route && next.$$route.authenticate && !Auth.isAuth()) {
+    if (next.$$route && next.$$route.authenticate && !Users.isAuth()) {
       $location.path('/login');
     }
   });

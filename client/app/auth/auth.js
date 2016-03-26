@@ -1,7 +1,7 @@
 angular.module('jam.auth', [])
 
-.controller('AuthController', ['$scope', '$window', '$location', '$routeParams', 'Auth',
-function ($scope, $window, $location, $routeParams, Auth) {
+.controller('AuthController', ['$scope', '$window', '$location', '$routeParams', 'Users',
+function ($scope, $window, $location, $routeParams, Users) {
   $scope.confirm = false;
   $scope.passMismatch = false;
   $scope.loginError = '';
@@ -11,7 +11,7 @@ function ($scope, $window, $location, $routeParams, Auth) {
 
   $scope.login = function () {
     $scope.loginError = '';
-    Auth.login($scope.user)
+    Users.login($scope.user)
       .then(function (data) {
         $location.path('/songs');
       })
@@ -26,7 +26,7 @@ function ($scope, $window, $location, $routeParams, Auth) {
     if (pass === $scope.user.password) {
       $scope.passMismatch = false;
       $scope.user.displayName = 'anonymous';
-      Auth.signup($scope.user)
+      Users.signup($scope.user)
         .then(function (data) {
           $location.path('/profile');
         })
@@ -42,7 +42,7 @@ function ($scope, $window, $location, $routeParams, Auth) {
   };
 
   $scope.logout = function () {
-    Auth.logout();
+    Users.logout();
     $scope.user = null;
   };
 }]);

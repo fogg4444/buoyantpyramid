@@ -1,9 +1,9 @@
 angular.module('jam.profile', [])
 
-.controller('ProfileController', ['$scope', '$location', '$window', '$timeout', 'Auth', 'Upload', 'UploadFactory',
-function ($scope, loc, win, to, Auth, Up, UploadFactory) {
+.controller('ProfileController', ['$scope', '$location', '$window', '$timeout', 'Users', 'Upload', 'UploadFactory',
+function ($scope, loc, win, to, Users, Up, UploadFactory) {
   $scope.avatarURL = '';
-  Auth.getUserData()
+  Users.getUserData()
   .then(function (userData) {
     $scope.user = userData;
     // $scope.avatarURL = '/api/users/' + $scope.user.id + '/avatar?rev=' + (++avatarRev);
@@ -33,7 +33,7 @@ function ($scope, loc, win, to, Auth, Up, UploadFactory) {
   };
   
   $scope.updateProfile = function () {
-    Auth.updateProfile($scope.user)
+    Users.updateProfile($scope.user)
     .then(function (res) {
       console.log('Profile updated', res.data.user);
       $scope.user = res.data.user;

@@ -64,7 +64,15 @@ var removeUser = function (groupId, userId) {
   return UserGroups.findOne({where: {groupId: groupId, userId: userId}})
   .then(function (userGroup) {
     return userGroup.destroy();
+  });
+};
+
+var deleteGroup = function (groupId) {
+  return Groups.findOne({where: {groupId: groupId}})
+  .then(function (group) {
+    return group.destroy();
   })
+  .catch(console.error);
 };
 
 var sendEmailInvite = function(group, email) {
@@ -118,6 +126,7 @@ module.exports = {
   getGroup: getGroup,
   getUsers: getUsers,
   removeUser: removeUser,
+  deleteGroup: deleteGroup,
   sendEmailInvite: sendEmailInvite,
   updateUserRole: updateUserRole,
   updateInfo: updateInfo

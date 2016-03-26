@@ -44,12 +44,13 @@ var routing = function (app, express) {
  
   // Add, update and retrieve groups
   apiRoutes.put('/groups/info', Group.updateGroupInfo);
+  apiRoutes.put('/groups/:gid/users/:uid', Group.updateUserRole);
   apiRoutes.post('/groups/', Group.createGroup);
   apiRoutes.post('/groups/:id/users/', Group.addUser);
   apiRoutes.get('/groups/:id/users/', Group.getUsers);
-  apiRoutes.put('/groups/:gid/users/:uid', Group.updateUserRole);
-  apiRoutes.delete('/groups/:gid/users/:uid', Group.removeUser);
   apiRoutes.get('/groups/:id/playlists/', Group.getPlaylists);
+  apiRoutes.delete('/groups/:gid/users/:uid', Group.removeUser);
+  apiRoutes.delete('/groups/:id', Group.deleteGroup);
 
   // Add and retrieve songs
   apiRoutes.post('/groups/:id/songs/', Song.addSong);

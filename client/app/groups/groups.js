@@ -1,6 +1,6 @@
 angular.module('jam.groups', [])
 
-.controller('GroupsController', ['$scope', '$route', 'Auth', 'Groups', function($scope, $route, Auth, Groups) {
+.controller('GroupsController', ['$scope', '$route', 'Users', 'Groups', function($scope, $route, Users, Groups) {
   $scope.user = {};
   $scope.newGroup = {};
   $scope.data = {};
@@ -54,7 +54,7 @@ angular.module('jam.groups', [])
   };
 
   $scope.setCurrentGroup = function(group) {
-    Auth.updateProfile({currentGroupId: group.id})
+    Users.updateProfile({currentGroupId: group.id})
     .then(function (res) {
       $scope.user = res.data.user;
       $route.reload();
@@ -65,7 +65,7 @@ angular.module('jam.groups', [])
   };
 
   $scope.updateProfile = function () {
-    return Auth.updateProfile($scope.user)
+    return Users.updateProfile($scope.user)
     .then(function (res) {
       $scope.user = res.data.user;
     })
@@ -79,7 +79,7 @@ angular.module('jam.groups', [])
   };
 
   // Load groups and group users
-  Auth.getUserData()
+  Users.getUserData()
   .then(function (userData) {
     $scope.user = userData;
     Groups.getGroupsByUserId(userData.id)
