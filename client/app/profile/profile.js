@@ -10,8 +10,19 @@ function ($scope, loc, win, to, Users, Up, UploadFactory) {
   })
   .catch(console.error);
 
+
+  $scope.showAvatarModal = function (file) {
+    $scope.file = file;
+    $scope.avatarModalShown = true;
+  };
+
+  $scope.hideAvatarModal = function () {
+    $scope.avatarModalShown = false;
+  };
+
+
   var progressCallback = function(file, evt) {
-    file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+    file.progressPercentage = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
   };
 
   var errorCallback = function (response) {
@@ -21,16 +32,17 @@ function ($scope, loc, win, to, Users, Up, UploadFactory) {
   var successCallback = function (file, response) {
     file.result = response.data;
     $scope.user.avatarURL = file.s3url;
+    $scope.hideAvatarModal();
     $scope.updateProfile();
   };
 
-  $scope.uploadFiles = function(file, errFiles) {
-    $scope.f = file;
-    $scope.errFile = errFiles && errFiles[0];
+  $scope.upload = function(dataUrl, name) {
+    var file = Up.dataUrltoBlob(dataUrl, name);
+    $scope.file = file;
     if (file) {
       UploadFactory.upload(file, 'images', successCallback, errorCallback, progressCallback);
     }
-  };
+  };  
   
   $scope.updateProfile = function () {
     Users.updateProfile($scope.user)
