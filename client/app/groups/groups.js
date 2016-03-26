@@ -9,8 +9,9 @@ angular.module('jam.groups', [])
     $scope.createModalShown = !$scope.createModalShown;
   };
 
-  $scope.testing = function () {
-    console.log('Member clicked!');
+  $scope.memberInfo = function (member) {
+    $scope.clickedMember = member;
+    $scope.memberModalShown = true;
   };
 
   $scope.acceptInvite = function (group) {
