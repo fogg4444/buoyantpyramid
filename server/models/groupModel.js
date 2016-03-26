@@ -41,6 +41,9 @@ var getUsers = function(groupId) {
       model: User,
       attributes: { exclude: ['password'] }
     }]
+  })
+  .then(function(group) {
+    return group.users;
   });
 };
 
