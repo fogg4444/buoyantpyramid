@@ -180,6 +180,17 @@ angular.module('jam.songFactory', ['jam.usersFactory'])
     }
   };
 
+  var checkReset = function(songId, location) {
+    if (location === currentLocation) {
+      if (songQueue[currentLocation][soundIndex] && songQueue[currentLocation][soundIndex].id === songId) {
+        player = new Audio();
+        songQueue[currentLocation].splice(soundIndex, 1);
+        soundIndex = null;
+        notifyObservers('RESET_PLAYER');
+      }
+    }
+  };
+
   var setVolume = function (percent) {
     volume = percent;
   };
@@ -194,6 +205,10 @@ angular.module('jam.songFactory', ['jam.usersFactory'])
 
   var getMuted = function () {
     return muted;
+  };
+
+  var getPlayer = function () {
+    return player;
   };
 
   return {
@@ -211,7 +226,8 @@ angular.module('jam.songFactory', ['jam.usersFactory'])
     nextIndex: nextIndex,
     choose: choose,
     registerObserverCallback: registerObserverCallback,
-    player: player,
+    getPlayer: getPlayer,
+    checkReset: checkReset,
     setVolume: setVolume,
     getVolume: getVolume,
     setMuted: setMuted,

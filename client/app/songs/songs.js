@@ -48,10 +48,14 @@ angular.module('jam.songs', [])
   };
 
   $scope.deleteSong = function(index) {
-    Songs.deleteSong($scope.data.songs[index])
+    var song = $scope.data.songs[index];
+    Songs.checkReset(song.id, 'songs');
+    Songs.deleteSong(song)
     .then(function() {
-      $scope.data.songs.splice(index, 1);
       $scope.deleteModalShown = false;
+      $scope.data.songs = _.filter($scope.data.songs, function(currentSong) {
+        return currentSong.id !== song.id;
+      });
     })
     .catch(function (err) {
       $scope.message = 'error: ' + err;
