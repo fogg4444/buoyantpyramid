@@ -346,6 +346,7 @@ li:hover > .submenu-container {
   text-align: left;
 }
 .modal-close {
+  z-index: 10001;
   position: absolute;
   top: 3px;
   right: 5px;
