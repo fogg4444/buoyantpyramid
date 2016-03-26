@@ -148,6 +148,25 @@ var PlaylistSongs = db.define('playlistSongs', {
 Group.belongsToMany(User, {through: 'userGroups'});
 User.belongsToMany(Group, {through: 'userGroups'});
 
+User.belongsToMany(Group, {
+  through: {
+    model: UserGroups,
+    scope: {
+      role: 'admin'
+    }
+  },
+  as: 'adminGroups'
+});
+
+User.belongsToMany(Group, {
+  through: {
+    model: UserGroups,
+    scope: {
+      role: 'member'
+    }
+  },
+  as: 'memberGroups'
+});
 
 User.belongsToMany(Group, {
   through: {

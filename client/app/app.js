@@ -83,10 +83,11 @@ angular.module('jam', [
       Auth.getUserData()
       .then(function (userData) {
         $scope.user = userData;
-        return Auth.getGroupInvites(userData.id);
+
+        return Auth.getGroups(userData.id)
       })
       .then(function (groups) {
-        $scope.user.invites = groups;
+        $scope.user.invites = groups.pending;
       })
       .catch(console.error);
     }]
