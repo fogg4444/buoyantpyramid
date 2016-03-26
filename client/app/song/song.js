@@ -9,8 +9,9 @@ angular.module('jam.song', [])
   $scope.pinningComment = false;
   $scope.user = {};
   $scope.comments = [];
+  $scope.selectedComment = [{}];
   $scope.width = '1000px';
-  
+
   var svgHeight = '200';
   var svgHeight2 = '20';
 
@@ -18,6 +19,7 @@ angular.module('jam.song', [])
   var barPadding = '1';
   var svg = createSvg('.visualizer', svgHeight, svgWidth);
   var commentMarkers = createSvg('.comment-pin', svgHeight2, svgWidth);
+  var selectedComment = createSvg('.selected-comment', svgHeight2, svgWidth);
 
   Users.getUserData()
   .then(function (user) {
@@ -27,7 +29,7 @@ angular.module('jam.song', [])
     Songs.getComments($scope.song.id)
     .then(function (comments) {
       $scope.comments = comments;
-      addCommentMarker(comments);
+      renderComments(comments);
     });
   });
 
@@ -45,14 +47,38 @@ angular.module('jam.song', [])
     Songs.addComment({note: comment, time: time, userId: $scope.user.id}, $scope.song.id)
     .then(function (comment) {
       $scope.comments.push(comment);
-      addCommentMarker($scope.comments);
-    })
-    $scope.pinningComment = false;
-    $scope.comment = '';
-    
+      renderComments($scope.comments);
+      $scope.pinningComment = false;
+      $scope.comment = '';
+    });
   };
 
-  var addCommentMarker = function(comments) {
+  function createSvg(parent, height, width) {
+    return d3.select(parent).append('svg').attr('height', height).attr('width', width);
+  };
+
+  $scope.pinComment = function () {
+    $scope.commentTime = $scope.audio.currentTime / $scope.audio.duration;
+    $scope.pinningComment = true;
+  };
+
+  svg.selectAll('rect')
+    .data(frequencyData)
+    .enter()
+    .append('rect')
+    .attr('x', function (d, i) {
+     return i * (svgWidth / frequencyData.length);
+    })
+    .attr('width', svgWidth / frequencyData.length - barPadding);
+
+  selectedComment.selectAll('text')
+    .data(selectedComment)
+    .enter()
+    .append('text')
+    // .attr('width', '200')
+    // .attr('height', '20')
+
+  var renderComments = function(comments) {
     commentMarkers.selectAll('rect')
       .data(comments)
       .enter()
@@ -60,7 +86,11 @@ angular.module('jam.song', [])
       .attr('x', function (d, i) {
         return d.time / $scope.duration * svgWidth;
       })
-      .attr('width', svgWidth / frequencyData.length - barPadding);
+      .attr('width', svgWidth / frequencyData.length - barPadding)
+      .on('click', function(d, i) {
+        $scope.selectedComment = [d];
+        renderSelectedComment();
+      });
 
     commentMarkers.selectAll('rect')
       .data($scope.comments)
@@ -77,32 +107,26 @@ angular.module('jam.song', [])
       .duration(600)
       .attr('fill', function(d, i) {
         return 'rgb(0, 0, ' + 220 + ')';
+      })
+  };
+
+  var renderSelectedComment = function(comment) {
+    selectedComment.selectAll('text')
+      .data($scope.selectedComment)
+      .attr('x', function (d, i) {
+        return svgWidth * d.time / $scope.duration;
+      })
+      .attr('text-align', 'center')
+      .attr('dy', '10')
+      // .attr('y', function (d, i) {
+      //   return '-20px';
+      // })
+      .transition()
+      .duration(600)
+      .text(function (d) {
+        return d.note;
       });
   };
-
-  function createSvg(parent, height, width) {
-    return d3.select(parent).append('svg').attr('height', height).attr('width', width);
-  };
-
-  $scope.pinComment = function () {
-    $scope.commentTime = $scope.audio.currentTime / $scope.audio.duration;
-    $scope.pinningComment = true;
-  };
-
-  $scope.setPlayTime = function (e) {
-    div = document.getElementsByClassName('visualizer')[0];
-    var x = e.clientX - div.offsetLeft;
-    $scope.audio.currentTime = $scope.audio.duration * x / svgWidth;
-  };
-
-  svg.selectAll('rect')
-    .data(frequencyData)
-    .enter()
-    .append('rect')
-    .attr('x', function (d, i) {
-     return i * (svgWidth / frequencyData.length);
-    })
-    .attr('width', svgWidth / frequencyData.length - barPadding);
 
   // Continuously loop and update chart with frequency data.
   function renderFlow() {
@@ -124,8 +148,13 @@ angular.module('jam.song', [])
           return 'rgb(0, 0, ' + 100 + ')';
         }
       });
-      renderComments();
     }
+
+  $scope.setPlayTime = function (e) {
+    div = document.getElementsByClassName('visualizer')[0];
+    var x = e.clientX - div.offsetLeft;
+    $scope.audio.currentTime = $scope.audio.duration * x / svgWidth;
+  };
 
   $scope.togglePlay = function () {
     if ($scope.audio.src) {
