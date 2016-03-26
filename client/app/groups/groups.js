@@ -4,22 +4,6 @@ angular.module('jam.groups', [])
   $scope.user = {};
   $scope.newGroup = {};
   $scope.data = {};
-  $scope.modalShown = false;
-
-  $scope.filterGroups = function (group) {
-    return function(group) {
-      $scope.data.invites = $scope.data.invites || [];
-      return group.id !== $scope.user.currentGroupId
-        && $scope.data.invites.indexOf(group) === -1;
-    }
-  };
-
-  $scope.filterInviteGroups = function (group) {
-    return function(group) {
-      $scope.data.invites = $scope.data.invites || [];
-      return $scope.data.invites.indexOf(group) !== -1;
-    }
-  };
 
   $scope.toggleModal = function () {
     $scope.modalShown = !$scope.modalShown;
@@ -47,7 +31,7 @@ angular.module('jam.groups', [])
         $scope.modalShown = false;
         $scope.user.currentGroupId = group.id;
         $scope.user.currentGroup = group;
-        $scope.updateProfile($scope.user)
+        $scope.updateProfile($scope.user);
         $route.reload();
       });
     });
@@ -93,7 +77,14 @@ angular.module('jam.groups', [])
     });
     Groups.getUsersByGroupId(userData.currentGroupId)
     .then(function (users) {
-      $scope.data.users = users;
+      // Add all the group members to one array, with a key role and a value of their role
+      $scope.data.members = _.reduce(users, function(allMembers, roleMembers, role) {
+        _.each(roleMembers, function(member) {
+          member.role = role;
+          allMembers.push(member);
+        });
+        return allMembers;
+      }, []);
     });
   })
   .catch(console.error);
