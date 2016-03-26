@@ -107,7 +107,7 @@ var Song = db.define('song', {
   },
   imageUrl: {
     type: Sequelize.STRING,
-    defaultValue: 'http://i.imgur.com/QI8f5gx.jpg' // Update
+    defaultValue: 'http://lorempixel.com/200/200/' // Update
   }
 });
 

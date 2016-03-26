@@ -1,6 +1,6 @@
 angular.module('jam.player', [])
 .controller('PlayerController', ['$scope', '$timeout', 'Songs', function($scope, timeout, Songs) {
-  $scope.audio = Songs.player;
+  $scope.audio = Songs.getPlayer();
   $scope.currentTime = 0;
   $scope.song = null;
   $scope.muted = Songs.getMuted();
@@ -54,6 +54,18 @@ angular.module('jam.player', [])
     $scope.audio.play();
   };
 
+  var resetPlayer = function() {
+    $scope.stop();
+    $scope.audio = Songs.getPlayer();
+    $scope.playlist = Songs.getSoundsAndIndex();
+  };
+
+  var refreshList = function() {
+    $scope.playlist = Songs.getSoundsAndIndex();
+  };
+
   Songs.registerObserverCallback('CHANGE_SONG', changeSong);
   Songs.registerObserverCallback('TOGGLE_PLAY', $scope.togglePlay);
+  Songs.registerObserverCallback('RESET_PLAYER', resetPlayer);
+  Songs.registerObserverCallback('REFRESH_LIST', refreshList);
 }]);

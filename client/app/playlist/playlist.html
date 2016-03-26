@@ -6,7 +6,7 @@
       <!-- Create modal -->
       <modal-dialog show="createModalShown">
         <form name="createPlayForm">
-          <fieldset class="new-playlist-fieldset">
+          <fieldset>
           <legend>Create a new playlist</legend>
             <label>title
               <input type="text" ng-model="newPlaylist.title" required/>
@@ -21,7 +21,7 @@
       <!-- Destroy modal -->
       <modal-dialog show="destroyModalShown">
         <form name="destroyPlayForm">
-          <fieldset class="new-playlist-fieldset">
+          <fieldset>
           <legend>Delete this playlist?</legend>
             <p>{{pendingPlaylist.title}}</p>
             <button ng-click="deletePlaylist($parent.pendingPlaylist)">Yes, do it!</button>
