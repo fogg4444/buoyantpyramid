@@ -93,11 +93,23 @@ var getSongs = function(req, res, next) {
 
 var removeUser = function(req, res, next) {
   var groupId = req.params.gid;
-  var userId = req.params.uid
+  var userId = req.params.uid;
 
   Group.removeUser(groupId, userId)
   .then(function(response) {
     res.json(response);
+  })
+  .catch(function(error) {
+    next(error);
+  });
+};
+
+var deleteGroup = function(req, res, next) {
+  var groupId = req.params.id;
+
+  Group.deleteGroup(groupId)
+  .then(function(response) {
+    res.json(respons);
   })
   .catch(function(error) {
     next(error);
@@ -146,7 +158,7 @@ var updateGroupInfo = function(req, res, next) {
 
 var updateUserRole = function(req, res, next) {
   var groupId = req.params.gid;
-  var userId = req.params.uid
+  var userId = req.params.uid;
   var role = req.body.role;
 
   Group.updateUserRole(groupId, userId, role)
@@ -166,6 +178,7 @@ module.exports = {
   getPlaylists: getPlaylists,
   getSongs: getSongs,
   removeUser: removeUser,
+  deleteGroup: deleteGroup,
   sendInvite: sendInvite,
   updateGroupInfo: updateGroupInfo,
   updateUserRole: updateUserRole

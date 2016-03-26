@@ -1,6 +1,6 @@
 angular.module('jam.uploadFactory', ['jam.usersFactory'])
-.factory('UploadFactory', ['$http', '$window', '$q', 'Upload', 'Auth', 'Songs',
-function ($http, win, q, Upload, Auth, Songs) {
+.factory('UploadFactory', ['$http', '$window', '$q', 'Upload', 'Users', 'Songs',
+function ($http, win, q, Upload, Users, Songs) {
   var audioQueue = [];
   var uploadedAudio = [];
 
@@ -34,7 +34,7 @@ function ($http, win, q, Upload, Auth, Songs) {
       console.log('Begin s3 upload', s3Credentials);
       var groupId;
 
-      Auth.getUserData()
+      Users.getUserData()
       .then(function(user) {
         var fileExtension = file.name.replace(/^.*\./, '');
         var uniqueFilename = ( Date.now() + file.name ).uuid() + '.' + fileExtension;

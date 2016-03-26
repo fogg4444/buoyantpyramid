@@ -9,8 +9,9 @@ angular.module('jam', [
   'jam.playlist',
   'jam.player',
   'jam.usersFactory',
-  'jam.uploadFactory',
-  'jam.songFactory',
+  'jam.groupsFactory',
+  'jam.uploadsFactory',
+  'jam.songsFactory',
   'ngRoute',
   'ngAnimate',
   'ngFileUpload',
@@ -124,6 +125,7 @@ angular.module('jam', [
         $scope.commentModalShown = false;
         $scope.comment.time = $scope.time;
         $scope.comment.userId = $scope.userId;
+        console.log($scope.comment);
         Songs.addComment($scope.comment, $scope.songId);
       };
       $scope.toggleCommentModal = function (songId, userId) {

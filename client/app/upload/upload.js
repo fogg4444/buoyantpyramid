@@ -1,6 +1,6 @@
 angular
   .module('jam.upload', [])
-  .controller('UploadController', ['$scope', 'Upload', 'UploadFactory', 'ngProgressFactory', 'Auth', 'Songs', '$http', function($scope, Upload, UploadFactory, ngProgressFactory, Auth, Songs, $http) {
+  .controller('UploadController', ['$scope', 'Upload', 'UploadFactory', 'ngProgressFactory', 'Users', 'Songs', '$http', function($scope, Upload, UploadFactory, ngProgressFactory, Users, Songs, $http) {
     
     $scope.progressbar = ngProgressFactory.createInstance();
     $scope.queue = UploadFactory.audioQueue;
@@ -66,7 +66,7 @@ angular
     };
 
     var successCallback = function (file, response) {
-      Auth.getUserData()
+      Users.getUserData()
       .then(function(user) {
         getAudioLength(file, function(duration) {
           file.duration = duration;

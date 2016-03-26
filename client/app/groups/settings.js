@@ -1,10 +1,10 @@
 angular.module('jam.groupSettings', [])
 
-.controller('SettingsController', ['$scope', '$timeout', 'Upload', 'Auth', 'Groups', 'UploadFactory', function($scope, to, Up, Auth, Groups, UploadFactory) {
+.controller('SettingsController', ['$scope', '$timeout', 'Upload', 'Users', 'Groups', 'UploadFactory', function($scope, to, Up, Users, Groups, UploadFactory) {
   $scope.user = {};
   $scope.group = {};
 
-  Auth.getUserData()
+  Users.getUserData()
   .then(function (user) {
     $scope.user = user;
     $scope.group = user.currentGroup;
