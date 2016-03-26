@@ -12,9 +12,10 @@ angular.module('jam.groups', [])
     $scope.createModalShown = !$scope.createModalShown;
   };
 
-  $scope.memberInfo = function (member) {
+  $scope.memberInfo = function (member, index) {
     $scope.clickedMember = member;
     $scope.clickedMember.isAdmin = member.role === 'admin' ? true : false;
+    $scope.clickedMember.index = index;
     $scope.chooseRole.role = member.role;
     console.log(member);
     $scope.memberModalShown = true;
@@ -24,8 +25,7 @@ angular.module('jam.groups', [])
     if ($scope.chooseRole.role !== $scope.clickedMember.role) {
       Groups.updateUserRole($scope.user.currentGroupId, userId, $scope.chooseRole.role)
       .then(function () {
-        console.log('Updated!');
-        // update member role
+        $scope.data.members[$scope.clickedMember.index].role = $scope.chooseRole.role;
         $scope.memberModalShown = false;
       })
       .catch(console.error);
@@ -36,9 +36,7 @@ angular.module('jam.groups', [])
     Groups.removeUser($scope.user.currentGroupId, userId)
     .then(function () {
       // tell the user that the member is no more!
-      $scope.data.members = _.filter($scope.data.members, function (member) {
-        return member.id !== userId;
-      });
+      $scope.data.members.splice($scope.clickedMember.index, 1);
       $scope.memberModalShown = false;
     })
     .catch(console.error);

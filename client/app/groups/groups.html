@@ -54,7 +54,7 @@
     </div>
 
     <div class="group-members">
-      <div ng-repeat="member in data.members | orderBy: member.role: ['admin', 'member', 'pending'] track by $index" ng-click="memberInfo(member)">
+      <div ng-repeat="member in data.members | orderBy: member.role: ['admin', 'member', 'pending'] track by $index" ng-click="memberInfo(member, $index)">
         <div ng-class="'group-member {{member.role}}'">
           <img src={{member.avatarURL}} class="nav-avatar-img">
           <div> {{ member.displayName }} </div>
