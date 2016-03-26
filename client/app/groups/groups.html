@@ -2,18 +2,33 @@
 <div class="groups">
   <div class="page-content">
     <div class="create-group">
-      <button ng-click="toggleModal()">Create New Group</button>
-      <modal-dialog show="modalShown">
+      <button ng-click="toggleCreateModal()">Create New Group</button>
+      <!-- Create group modal -->
+      <modal-dialog show="createModalShown">
         <form name="createGroupForm"> 
           <label>name </label><input ng-model="newGroup.name"/>
           <label>description </label><input ng-model="newGroup.description"/>
           <button ng-click="createGroup()" ng-disabled="createGroupForm.$invalid">Create Group</button>
         </form>
       </modal-dialog>
+      <!-- Member info modal -->
+      <modal-dialog show="memberModalShown">
+        <form name="memberInfoForm">
+          <fieldset>
+            <!-- Name -->
+            <legend>{{clickedMember.displayName}}</legend>
+            <!-- Email -->
+            <div>{{clickedMember.email}}</div>
+            <!-- Role, can change if user is admin -->
+            <div>{{clickedMember.role}}</div>
+            <!-- Kick out -->
+          </fieldset>
+        </form>
+      </modal-dialog>
     </div>
     <!-- List of pending groups -->
     <div class="group-list">
-      <div ng-repeat="group in data.pendingGroups | orderBy:'-timestamp'" class="group" style="background-color:#005000">
+      <div ng-repeat="group in data.pendingGroups | orderBy:'-timestamp'" class="group">
         {{ group.name }}
         <i class="invite-icon fa fa-check-circle-o fa-2x" ng-click="acceptInvite(group)"></i>
         <i class="invite-icon fa fa-times fa-2x" ng-click="rejectInvite(group)"></i>
@@ -25,26 +40,16 @@
         <i class="invite-icon fa fa-cog fa-2x"></i>
       </a>
     </div>
-    <div class ="users-container">
-      <div ng-repeat="user in data.users.admin | orderBy:'-timestamp'">
-        <div class="user-container" style="border: 5px solid black">
-          <img src={{user.avatarURL}} class="nav-avatar-img">
-          <div> {{ user.displayName }} </div>
-        </div>
-      </div>
-      <div ng-repeat="user in data.users.member | orderBy:'-timestamp'">
-        <div class="user-container">
-          <img src={{user.avatarURL}} class="nav-avatar-img">
-          <div> {{ user.displayName }} </div>
-        </div>
-      </div>
-      <div ng-repeat="user in data.users.pending | orderBy:'-timestamp'">
-        <div class="user-container" style="opacity:0.5">
-          <img src={{user.avatarURL}} class="nav-avatar-img">
-          <div> {{ user.displayName }} </div>
+
+    <div class="group-members">
+      <div ng-repeat="member in data.members | orderBy: member.role: ['admin', 'member', 'pending']" ng-click="memberInfo(member)">
+        <div ng-class="'group-member {{member.role}}'">
+          <img src={{member.avatarURL}} class="nav-avatar-img">
+          <div> {{ member.displayName }} </div>
         </div>
       </div>
     </div>
+
     <!-- Other groups -->
     <div class="group-list">
       <div ng-repeat="group in data.adminGroups | orderBy:'-timestamp'" class="group" ng-click="setCurrentGroup(group)" ng-show="isNotCurrentGroup(group)">

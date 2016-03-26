@@ -5,12 +5,18 @@ var Song = db.Song;
 var User = db.User;
 var Promise = require('bluebird');
 
+var sanitizeUser = function (user) {
+  var sanitizedUser = user.toJSON();
+  // user = JSON.parse(JSON.stringify(user));
+  delete sanitizedUser.password;
+  return sanitizedUser;
+};
+
 var compileUserData = function(user) {
   return Group.findById(user.currentGroupId, {include: [{model: Song}]})
   .then(function(currentGroup) {
-    // Possibly revise
-    user = JSON.parse(JSON.stringify(user));
-    delete user.password;
+    // Get rid of the password;
+    user = sanitizeUser(user);
     user.currentGroup = currentGroup;
     return user;
   });
@@ -55,6 +61,7 @@ var getGroups = function(userId) {
         .then(function (pendingGroups) {
           user.getMemberGroups()
           .then(function (memberGroups) {
+            // TO DO: take out passwords
             resolve({admin: adminGroups, member: memberGroups, pending: pendingGroups});
           });
         });
@@ -74,5 +81,6 @@ module.exports = {
   compileUserData: compileUserData,
   createUser: createUser,
   getGroups: getGroups,
-  getUser: getUser
+  getUser: getUser,
+  sanitizeUser: sanitizeUser
 };
