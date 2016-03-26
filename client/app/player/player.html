@@ -9,9 +9,8 @@
   </div>
   
   <div class="form-group time">
-    <span>Time</span>
+    <span class="track-time">{{timeFormat}}</span>
     <input class="time-slider" min="0" max="{{audio.duration}}" step="0.01" type="range" ng-model="audio.currentTime" />
-    <span>{{timeFormat}}</span>
   </div>
   <div class="input-group">
     <span class="input-group-addon">Volume</span>

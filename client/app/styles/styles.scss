@@ -47,7 +47,8 @@ input[type=range] {
 }
 
 input[type=range].time-slider {
-  @include input-type-range(0.5rem, 1.5rem, 100%, 1.5rem);
+  position:relative;
+  @include input-type-range(0.5rem, 1.5rem, $linkcolor, 100%, 1.5rem, rgba(0,0,0, 0.35));
 }
 
 a, a:visited, a:active {
@@ -619,10 +620,16 @@ footer {
   background-color: $bgcolor-2;
   width: 100%;
 }
+.track-time {
+  position: absolute;
+  top: 1rem;
+  left: 2rem;
+}
 
 .player div {
-  float: left;
+  display: inline-block;
   padding: 0.5rem 1rem;
+  position: relative;
 }
 
 .player button {
