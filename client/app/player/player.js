@@ -4,7 +4,7 @@ angular.module('jam.player', [])
   $scope.currentTime = 0;
   $scope.song = null;
   $scope.muted = Songs.getMuted();
-
+  $scope.timeFormat = '00:00';
   setInterval(function() { $scope.$apply(); }, 200);
   
   $scope.$watch(function(scope) {
@@ -19,6 +19,15 @@ angular.module('jam.player', [])
         $scope.muted = false;
       }
       Songs.setVolume(vol);
+    }
+  });
+
+
+  $scope.$watch(function(scope) {
+    return scope.audio.currentTime;
+  }, function(newV, oldV) {
+    if (newV) {
+      $scope.timeFormat = Songs.timeFormat(newV);
     }
   });
 

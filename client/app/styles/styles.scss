@@ -1,19 +1,8 @@
 /*jam styling*/
 
-/**************************************************
- * COLOR VARIABLES
- **************************************************/
-$white: #fff;
-$lightgrey: #d1d1d1;
-$midgrey: #999;
-$darkgrey: #555;
-$bgcolor: #FAFCFC;
-$bgcolor-2: #385E8A;
-$textcolor: $darkgrey;
-$textcolor-2: #FBFBFB;
-$textcolor-3: #5C86B8;
-$linkcolor: #99D1B2;
-$red: #ed5e5e;
+@import 'colors';
+@import 'sliders';
+
 
 /**************************************************/
 // TODO: Adjust nav bar for mobile use
@@ -51,6 +40,14 @@ body {
   margin:0;
   padding:0;
   padding-bottom: $player-height;
+}
+
+input[type=range] {
+  @include input-type-range;
+}
+
+input[type=range].time-slider {
+  @include input-type-range(0.5rem, 1.5rem, 100%, 1.5rem);
 }
 
 a, a:visited, a:active {
@@ -651,7 +648,7 @@ footer {
   max-height:0;
 }
 
-@media (max-width: 600px) {
+@media (max-width: $mobileBreakpoint) {
   .topbar {
     // position:absolute;
   }
@@ -695,3 +692,4 @@ footer {
     padding: 1em;    
   }
 }
+
