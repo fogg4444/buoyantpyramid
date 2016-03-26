@@ -14,10 +14,9 @@ angular.module('jam.groups', [])
 
   $scope.memberInfo = function (member, index) {
     $scope.clickedMember = member;
-    $scope.clickedMember.isAdmin = member.role === 'admin' ? true : false;
+    $scope.clickedMember.isAdmin = member.userGroups.role === 'admin' ? true : false;
     $scope.clickedMember.index = index;
-    $scope.chooseRole.role = member.role;
-    console.log(member);
+    $scope.chooseRole.role = member.userGroups.role;
     $scope.memberModalShown = true;
   };
 
@@ -25,7 +24,7 @@ angular.module('jam.groups', [])
     if ($scope.chooseRole.role !== $scope.clickedMember.role) {
       Groups.updateUserRole($scope.user.currentGroupId, userId, $scope.chooseRole.role)
       .then(function () {
-        $scope.data.members[$scope.clickedMember.index].role = $scope.chooseRole.role;
+        $scope.data.members[$scope.clickedMember.index].userGroups.role = $scope.chooseRole.role;
         $scope.memberModalShown = false;
       })
       .catch(console.error);
@@ -110,14 +109,7 @@ angular.module('jam.groups', [])
     });
     Groups.getUsersByGroupId(userData.currentGroupId)
     .then(function (users) {
-      // Add all the group members to one array, with a key role and a value of their role
-      $scope.data.members = _.reduce(users, function(allMembers, roleMembers, role) {
-        _.each(roleMembers, function(member) {
-          member.role = role;
-          allMembers.push(member);
-        });
-        return allMembers;
-      }, []);
+      $scope.data.members = users;
     });
   })
   .catch(console.error);
