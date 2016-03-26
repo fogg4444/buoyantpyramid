@@ -3,8 +3,8 @@ angular.module('jam.song', [])
 .controller('SongController', ['$scope', '$location', 'Songs', 'Users', function ($scope, loc, Songs, Users) {
   // When user adds a new link, put it in the collection
   $scope.song = Songs.getSongClicked();
-  $scope.player = Songs.getPlayer();
-  $scope.duration = $scope.player.duration;
+  $scope.audio = Songs.getPlayer();
+  $scope.duration = $scope.audio.duration;
 
   // setInterval(function() {
   //   console.log('player ............ ', );
@@ -23,6 +23,26 @@ angular.module('jam.song', [])
   var svgWidth = '1000';
   var barPadding = '1';
 
+  $scope.togglePlay = function () {
+    if ($scope.audio.src) {
+      if ($scope.audio.paused) {
+        $scope.audio.play();
+      } else {
+        $scope.audio.pause();
+      }
+    } else {
+      $scope.audio.src = $scope.song.compressedAddress ||
+        $scope.song.address;
+      $scope.audio.play();
+    }
+  };
+
+  $scope.setPlayTime = function (e) {
+    div = document.getElementsByClassName('visualizer')[0];
+    var x = e.clientX - div.offsetLeft;
+    
+    $scope.audio.currentTime = $scope.audio.duration * x / svgWidth;
+  };
   function createSvg(parent, height, width) {
     return d3.select(parent).append('svg').attr('height', height).attr('width', width);
   }
@@ -30,36 +50,36 @@ angular.module('jam.song', [])
   var svg = createSvg('.visualizer', svgHeight, svgWidth);
 
   svg.selectAll('rect')
-       .data(frequencyData)
-       .enter()
-       .append('rect')
-       .attr('x', function (d, i) {
-          console.log('...', i / frequencyData.length);
-          return i * (svgWidth / frequencyData.length);
-       })
-       .attr('width', svgWidth / frequencyData.length - barPadding);
+    .data(frequencyData)
+    .enter()
+    .append('rect')
+    .attr('x', function (d, i) {
+     return i * (svgWidth / frequencyData.length);
+    })
+    .attr('width', svgWidth / frequencyData.length - barPadding);
 
-    // Continuously loop and update chart with frequency data.
-    function renderChart() {
-       // Update d3 chart with new data.
-       svg.selectAll('rect')
-          .data(frequencyData)
-          .attr('y', function(d) {
-             return svgHeight - d;
-          })
-          .attr('height', function(d) {
-             return d;
-          })
-          .transition()
-          .duration(800)
-          .attr('fill', function(d, i) {
-            if ((i / frequencyData.length) < ($scope.player.currentTime / $scope.duration)) {
-              return 'rgb(0, 0, ' + 220 + ')';
-            } else {
-              return 'rgb(0, 0, ' + 100 + ')';
-            }
-          });
-    }
+  // Continuously loop and update chart with frequency data.
+  function renderChart() {
+     // Update d3 chart with new data.
+     svg.selectAll('rect')
+        .data(frequencyData)
+        .attr('y', function(d) {
+           return svgHeight - d;
+        })
+        .attr('height', function(d) {
+           return d;
+        })
+        .transition()
+        .duration(400)
+        .attr('fill', function(d, i) {
+          if ((i / frequencyData.length) < ($scope.audio.currentTime / $scope.duration)) {
+            return 'rgb(0, 0, ' + 220 + ')';
+          } else {
+            return 'rgb(0, 0, ' + 100 + ')';
+          }
+        });
+  }
 
-    setInterval(renderChart, 300);
+  setInterval(renderChart, 300);
+
 }]);

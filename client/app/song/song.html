@@ -1,9 +1,14 @@
 <nav-bar></nav-bar>
 <div class="songs">
   <div class="page-content">
-  <div class="visualizer"></div>
+  <h2> {{ song.title }} </h2>
+  <div> 
+    <button ng-click="togglePlay()"><i ng-class="{'fa fa-play fa-lg': audio.paused, 'fa fa-pause fa-lg': !audio.paused}"></i></button>
+  </div>
+  <div class="visualizer" ng-click="setPlayTime($event)"></div>
+
+  <a href='/#/songs/'><i class="fa fa-arrow-left"></i></a>
     <!-- Add song to playlist modal -->
-  <div> {{ song.title }} </div>
   <footer>
     <player></player>
   </footer>
