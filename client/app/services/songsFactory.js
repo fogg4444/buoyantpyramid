@@ -89,7 +89,7 @@ angular.module('jam.songsFactory', ['jam.usersFactory'])
 
   var getSongClicked = function () {
     return songClicked;
-  }
+  };
 
   // FUNCTIONS FOR PLAYLISTS 
 
@@ -232,6 +232,16 @@ angular.module('jam.songsFactory', ['jam.usersFactory'])
       return null;
     }
   };
+  var timeFormat = function(seconds) {
+    var s = Math.floor(seconds % 60);
+    var m = Math.floor((seconds % 3600) / 60);
+    var h = Math.floor(seconds / 3600);
+
+    var format = (h) ? (h + ':') : ('');
+    format += String('00' + m).slice(-2) + ':' + String('00' + s).slice(-2);
+
+    return format;
+  };
 
   return {
     addComment: addComment,
@@ -256,6 +266,7 @@ angular.module('jam.songsFactory', ['jam.usersFactory'])
     getMuted: getMuted,
     setSongClicked: setSongClicked,
     getSongClicked: getSongClicked,
-    getCurrentSong: getCurrentSong
+    getCurrentSong: getCurrentSong,
+    timeFormat: timeFormat
   };
 }]);

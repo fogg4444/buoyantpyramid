@@ -1,19 +1,8 @@
 /*jam styling*/
 
-/**************************************************
- * COLOR VARIABLES
- **************************************************/
-$white: #fff;
-$lightgrey: #d1d1d1;
-$midgrey: #999;
-$darkgrey: #555;
-$bgcolor: #FAFCFC;
-$bgcolor-2: #385E8A;
-$textcolor: $darkgrey;
-$textcolor-2: #FBFBFB;
-$textcolor-3: #5C86B8;
-$linkcolor: #99D1B2;
-$red: #ed5e5e;
+@import 'colors';
+@import 'sliders';
+
 
 /**************************************************/
 // TODO: Adjust nav bar for mobile use
@@ -51,6 +40,15 @@ body {
   margin:0;
   padding:0;
   padding-bottom: $player-height;
+}
+
+input[type=range] {
+  @include input-type-range;
+}
+
+input[type=range].time-slider {
+  position:relative;
+  @include input-type-range(0.5rem, 1.5rem, $linkcolor, 100%, 1.5rem, rgba(0,0,0, 0.35));
 }
 
 a, a:visited, a:active {
@@ -591,13 +589,17 @@ input.ng-invalid.ng-dirty {
   border: 1px solid $red !important;
 
 }
-.icon-button, .icon-button:active {
+.icon-button, .icon-button:active, .icon-button:focus {
   padding: 0;
   margin: 0 0.25em;
   font-size: 1.25em;
   color: $linkcolor;
   border:none;
   background:none;
+  text-transform: none;
+}
+.icon-button:focus:hover {
+  color: $midgrey;
 }
 .icon-button:disabled,
 .icon-button:disabled:hover,
@@ -622,14 +624,33 @@ footer {
   background-color: $bgcolor-2;
   width: 100%;
 }
+.track-time {
+  position: absolute;
+  top: 1rem;
+  left: 2rem;
+}
+.speed-slider {
+  position: absolute;
+  left: -2rem;
+  bottom: 6rem;
+  transform: rotate(-90deg);
+}
+.mute-button {
+  width:1.5em;
+  text-align: left;
+}
 
 .player div {
-  float: left;
-  padding: 0.5rem 1rem;
+  display: inline-block;
+  padding: 0.5rem;
+  position: relative;
+  &.time {
+    vertical-align: middle;
+  }
 }
 
 .player button {
-  width: 55px;
+  // width: 55px;
 }
 
 .clickable-playlist {
@@ -637,7 +658,6 @@ footer {
 }
 
 .animate-show {
-  // opacity:1;
   max-height: 200px;
   overflow: hidden;
 }
@@ -647,11 +667,10 @@ footer {
 }
 
 .animate-show.ng-hide {
-  // opacity:0;
   max-height:0;
 }
 
-@media (max-width: 600px) {
+@media (max-width: $mobileBreakpoint) {
   .topbar {
     // position:absolute;
   }
@@ -695,3 +714,4 @@ footer {
     padding: 1em;    
   }
 }
+
