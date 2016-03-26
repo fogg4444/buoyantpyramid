@@ -4,16 +4,22 @@ angular.module('jam.song', [])
   // When user adds a new link, put it in the collection
   $scope.song = Songs.getSongClicked();
   $scope.player = Songs.getPlayer();
+  $scope.duration = $scope.player.duration;
 
   // setInterval(function() {
   //   console.log('player ............ ', );
   // }, 100);
 
-  var frequencyData = new Uint8Array(200);
+  // mock data
+  var frequencyData = [1, 10, 30, 30, 60, 80, 140, 180, 150, 140, 150, 100, 50, 20, 20, 30, 50,
+  90, 100, 120, 120, 100, 120, 115, 120, 150, 100, 50, 20, 20, 30, 50, 80, 140, 180,
+   90, 100, 120, 120, 100, 120, 115, 120, 150, 100, 50, 20, 20, 30, 50, 1, 10, 30, 30, 60, 80, 140, 180,
+    90, 100, 120, 120, 100, 120, 115, 120, 150, 100, 50, 20, 20, 30, 50, 60, 80, 140, 180,
+     90, 100, 120, 120, 100, 120, 115, 120, 150, 100, 50, 20, 20, 30, 50, 30, 30, 60, 80, 140, 180,
+      90, 100, 120, 120, 100, 120, 115, 120, 150, 100, 50, 20, 20, 30, 30, 60, 80, 140, 180,
+       90, 100, 120, 120, 100, 120, 115, 120, 150, 100, 50, 20, 20, 30, 50, 1, 10, 30, 30, 60, 80, 140, 180];
 
-  frequencyData = [1, 10, 180, 150, 200, 100, 400, 180, 150, 200, 100, 400, 180, 150, 200, 100, 400,
-  180, 150, 200, 100, 400,180, 150, 200, 100, 400,180, 150, 200, 100, 400,180, 150, 200, 100, 400];
-  var svgHeight = '300';
+  var svgHeight = '200';
   var svgWidth = '1000';
   var barPadding = '1';
 
@@ -28,6 +34,7 @@ angular.module('jam.song', [])
        .enter()
        .append('rect')
        .attr('x', function (d, i) {
+          console.log('...', i / frequencyData.length);
           return i * (svgWidth / frequencyData.length);
        })
        .attr('width', svgWidth / frequencyData.length - barPadding);
@@ -43,10 +50,16 @@ angular.module('jam.song', [])
           .attr('height', function(d) {
              return d;
           })
-          .attr('fill', function(d) {
-             return 'rgb(0, 0, ' + d + ')';
+          .transition()
+          .duration(800)
+          .attr('fill', function(d, i) {
+            if ((i / frequencyData.length) < ($scope.player.currentTime / $scope.duration)) {
+              return 'rgb(0, 0, ' + 220 + ')';
+            } else {
+              return 'rgb(0, 0, ' + 100 + ')';
+            }
           });
     }
 
-    renderChart();
+    setInterval(renderChart, 300);
 }]);
