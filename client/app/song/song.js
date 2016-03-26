@@ -5,8 +5,14 @@ angular.module('jam.song', [])
   $scope.song = Songs.getSongClicked();
   $scope.audio = Songs.getPlayer();
   $scope.duration = $scope.audio.duration;
-  $scope.commentTime = 0;
-  $scope.addingComment = false;
+  $scope.commentTime = null;
+  $scope.pinningComment = false;
+  $scope.user = {};
+
+  Users.getUserData()
+  .then(function (user) {
+    $scope.user = user;
+  });
 
   // mock data
   var frequencyData = [1, 10, 30, 30, 60, 80, 140, 180, 150, 140, 150, 100, 50, 20, 20, 30, 50,
@@ -36,14 +42,16 @@ angular.module('jam.song', [])
     }
   };
 
-  $scope.startComment = function () {
+  $scope.pinComment = function () {
     $scope.commentTime = $scope.audio.currentTime / $scope.audio.duration;
-    $scope.addingComment = true;
+    $scope.pinningComment = true;
   };
 
-  $scope.submitComment = function (comment) {
-    $scope.commentTime = $scope.audio.currentTime / $scope.audio.duration;
-    $scope.addingComment = true;
+  $scope.addComment = function (comment) {
+    var time = Math.floor($scope.commentTime * $scope.audio.duration);
+    Songs.addComment({note: comment, time: time, userId: $scope.user.id}, $scope.song.id);
+    $scope.pinningComment = false;
+    $scope.comment = '';
   };
 
   $scope.setPlayTime = function (e) {

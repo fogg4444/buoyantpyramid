@@ -7,8 +7,7 @@ angular.module('jam.songsFactory', [])
   // stores all songs and current playlist songs
   var songQueue = {songs: [], playlist: []};
   // index of the current song playing
-
-  var soundIndex = null;
+  var songIndex = null;
   var songClicked = {song: {}, index: null};
   var currentLocation = 'songs';
   var volume = 0;
