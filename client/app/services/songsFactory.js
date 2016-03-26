@@ -7,8 +7,9 @@ angular.module('jam.songsFactory', [])
   // stores all songs and current playlist songs
   var songQueue = {songs: [], playlist: []};
   // index of the current song playing
-  var songIndex = null;
-  var songClicked = {};
+
+  var soundIndex = null;
+  var songClicked = {song: {}, index: null};
   var currentLocation = 'songs';
   var volume = 0;
   var muted = false;
@@ -83,8 +84,9 @@ angular.module('jam.songsFactory', [])
     });
   };
 
-  var setSongClicked = function (song) {
+  var setSongClicked = function (song, index) {
     songClicked = song;
+    songClicked.index = index;
   };
 
   var getSongClicked = function () {

@@ -5,10 +5,8 @@ angular.module('jam.song', [])
   $scope.song = Songs.getSongClicked();
   $scope.audio = Songs.getPlayer();
   $scope.duration = $scope.audio.duration;
-
-  // setInterval(function() {
-  //   console.log('player ............ ', );
-  // }, 100);
+  $scope.commentTime = 0;
+  $scope.addingComment = false;
 
   // mock data
   var frequencyData = [1, 10, 30, 30, 60, 80, 140, 180, 150, 140, 150, 100, 50, 20, 20, 30, 50,
@@ -22,6 +20,7 @@ angular.module('jam.song', [])
   var svgHeight = '200';
   var svgWidth = '1000';
   var barPadding = '1';
+  $scope.width = '1000px';
 
   $scope.togglePlay = function () {
     if ($scope.audio.src) {
@@ -35,6 +34,16 @@ angular.module('jam.song', [])
         $scope.song.address;
       $scope.audio.play();
     }
+  };
+
+  $scope.startComment = function () {
+    $scope.commentTime = $scope.audio.currentTime / $scope.audio.duration;
+    $scope.addingComment = true;
+  };
+
+  $scope.submitComment = function (comment) {
+    $scope.commentTime = $scope.audio.currentTime / $scope.audio.duration;
+    $scope.addingComment = true;
   };
 
   $scope.setPlayTime = function (e) {
@@ -70,7 +79,7 @@ angular.module('jam.song', [])
            return d;
         })
         .transition()
-        .duration(400)
+        .duration(600)
         .attr('fill', function(d, i) {
           if ((i / frequencyData.length) < ($scope.audio.currentTime / $scope.duration)) {
             return 'rgb(0, 0, ' + 220 + ')';
