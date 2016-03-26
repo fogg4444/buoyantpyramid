@@ -36,27 +36,11 @@ var getGroup = function (groupId) {
 };
 
 var getUsers = function(groupId) {
-  return new Promise(function (resolve, reject) {
-    Group.findById(groupId)
-    .then(function (group) {
-      group.getPendingUsers()
-      .then(function (pending) {
-        group.getMemberUsers()
-        .then(function (member) {
-          group.getAdminUsers()
-          .then(function (admin) {
-            resolve({
-              pending: pending,
-              member: member,
-              admin: admin
-            });
-          });
-        });
-      });
-    })
-    .catch(function (error) {
-      reject(error);
-    });
+  return Group.findById(groupId, {
+    include: [{
+      model: User,
+      attributes: { exclude: ['password'] }
+    }]
   });
 };
 
