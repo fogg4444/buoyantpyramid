@@ -73,6 +73,16 @@ angular.module('jam.songsFactory', [])
     });
   };
 
+  var getComments = function (songId) {
+    return http({
+      method: 'GET',
+      url: '/api/songs/' + songId + '/comments/',
+    })
+    .then(function (res) {
+      return res.data;
+    });
+  };
+
   var deleteComment = function (tag) {
     return http({
       method: 'DELETE',
@@ -247,6 +257,7 @@ angular.module('jam.songsFactory', [])
   return {
     addComment: addComment,
     addSong: addSong,
+    getComments: getComments,
     deleteComment: deleteComment,
     deleteSong: deleteSong,
     getAllSongs: getAllSongs,
