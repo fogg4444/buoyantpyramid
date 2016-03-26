@@ -4,15 +4,41 @@ angular.module('jam.groups', [])
   $scope.user = {};
   $scope.newGroup = {};
   $scope.data = {};
+  $scope.chooseRole = {
+    role: 'admin'
+  };
 
   $scope.toggleCreateModal = function () {
     $scope.createModalShown = !$scope.createModalShown;
   };
 
-  $scope.memberInfo = function (member) {
+  $scope.memberInfo = function (member, index) {
     $scope.clickedMember = member;
-    console.log(member);
+    $scope.clickedMember.isAdmin = member.userGroups.role === 'admin' ? true : false;
+    $scope.clickedMember.index = index;
+    $scope.chooseRole.role = member.userGroups.role;
     $scope.memberModalShown = true;
+  };
+
+  $scope.updateRole = function (userId) {
+    if ($scope.chooseRole.role !== $scope.clickedMember.role) {
+      Groups.updateUserRole($scope.user.currentGroupId, userId, $scope.chooseRole.role)
+      .then(function () {
+        $scope.data.members[$scope.clickedMember.index].userGroups.role = $scope.chooseRole.role;
+        $scope.memberModalShown = false;
+      })
+      .catch(console.error);
+    }
+  };
+
+  $scope.removeMember = function (userId) {
+    Groups.removeUser($scope.user.currentGroupId, userId)
+    .then(function () {
+      // tell the user that the member is no more!
+      $scope.data.members.splice($scope.clickedMember.index, 1);
+      $scope.memberModalShown = false;
+    })
+    .catch(console.error);
   };
 
   $scope.acceptInvite = function (group) {
@@ -83,14 +109,7 @@ angular.module('jam.groups', [])
     });
     Groups.getUsersByGroupId(userData.currentGroupId)
     .then(function (users) {
-      // Add all the group members to one array, with a key role and a value of their role
-      $scope.data.members = _.reduce(users, function(allMembers, roleMembers, role) {
-        _.each(roleMembers, function(member) {
-          member.role = role;
-          allMembers.push(member);
-        });
-        return allMembers;
-      }, []);
+      $scope.data.members = users;
     });
   })
   .catch(console.error);
