@@ -113,8 +113,13 @@ angular.module('jam', [
     controller: ['$scope', 'Songs', '$sce', function($scope, Songs, $sce) {
       $scope.comment = {};
       $scope.song.sourceUrl = $sce.trustAsResourceUrl( 'https://s3-us-west-1.amazonaws.com/jamrecordtest/audio/' + $scope.song.uniqueHash );
-      $scope.addComment = function(songId) {
-        Songs.addComment($scope.comment, songId);
+      $scope.addComment = function() {
+        $scope.commentModalShown = false;
+        Songs.addComment($scope.comment, $scope.songId);
+      };
+      $scope.toggleCommentModal = function (songId) {
+        $scope.songId = songId;
+        $scope.commentModalShown = !$scope.commentModalShown;
       };
     }]
   };

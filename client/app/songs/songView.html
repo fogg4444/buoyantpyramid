@@ -1,23 +1,22 @@
 <div class="song-item">
   <div class="song-thumbnail"><img ng-src="{{ song.imageUrl }}" ng-show="song.imageUrl"/></div>
-  <!-- <div class="song-player"> -->
     
-    <div><input class="song-title" type="textarea" value="{{ song.title }}"></input></div>
-    <div >
-      <button class="change-song" ng-click="$parent.updateIndex(index)"><i class="fa fa-play-circle-o fa-lg"></i></button>
-    </div>
+  <div><input class="song-title" type="textarea" value="{{ song.title }}"></input></div>
+  <div>
+    <button class="change-song" ng-click="$parent.updateIndex(index)"><i class="fa fa-play-circle-o fa-lg"></i></button>
+  </div>
 
-    <div class="songViewTextArea">
-      <textarea
-        
-      ></textarea>
-    </div>
+  <div>
+    <button ng-click="toggleCommentModal(song.id)">Add comment</button>
+  </div>
 
-		<form name="addCommentForm"> 
-      <input ng-model="comment.time" placeholder="time"/>
-     	<input ng-model="comment.note" placeholder="comment"/>
-      <button ng-click="addComment(song.id)">Add Comment</button>
+  <modal-dialog show="commentModalShown">
+    <form name="commentForm">
+      <fieldset>
+      <legend>{{song.title}}</legend>
+        <input type="text" ng-model="comment.note" placeholder="comment"/>
+        <button ng-click="addComment()">Add comment</button>
+      </fieldset>
     </form>
-  <!-- </div> -->
-  <!-- <div> Description: {{ song.description }}</div> -->
+  </modal-dialog> 
 </div>
