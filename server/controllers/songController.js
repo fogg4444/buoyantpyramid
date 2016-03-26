@@ -13,7 +13,7 @@ AWS.config.update({
 var s3 = new AWS.S3();
 var bucketAddress = s3.endpoint.protocol + '//' + awsConfig.bucket + '.' + s3.endpoint.hostname + s3.endpoint.pathname;
 
-var addCompressedLink = function(req, res, next) {
+var addCompressedLink = function (req, res, next) {
   console.log('--- Add Compressed Link ---', req.body);
   var songID = req.body.songID;
   var compressedID = req.body.compressedID;
@@ -21,7 +21,7 @@ var addCompressedLink = function(req, res, next) {
   SongModel.addCompressedLink(songID, compressedID);
 };
 
-var addSong = function(req, res, next) {
+var addSong = function (req, res, next) {
   var song = {};
   song.title = req.body.name || '';
   song.description = req.body.description || '';
@@ -45,7 +45,7 @@ var addSong = function(req, res, next) {
   });
 };
 
-var s3delete = function(song) {
+var s3delete = function (song) {
   // delete both original and compressed files from aws
   var params = {
     Bucket: awsConfig.bucket, /* required */
@@ -71,8 +71,7 @@ var s3delete = function(song) {
   });
 };
 
-
-var deleteSong = function(req, res, next) {
+var deleteSong = function (req, res, next) {
   var songId = req.params.id;
 
   SongModel.getSong(songId)
@@ -95,8 +94,21 @@ var deleteSong = function(req, res, next) {
   });
 };
 
+var getComments = function (req, res, next) {
+  var songId = req.params.id;
+  SongModel.getComments(songId)
+  .then(function (comments) {
+    res.json(comments);
+  })
+  .catch(function (error) {
+    res.status(500).json('error retreiving comments');
+  })
+
+};
+
 module.exports = {
   addCompressedLink: addCompressedLink,
   addSong: addSong,
-  deleteSong: deleteSong
+  deleteSong: deleteSong,
+  getComments: getComments
 };
