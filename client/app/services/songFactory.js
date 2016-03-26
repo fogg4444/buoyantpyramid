@@ -8,6 +8,7 @@ angular.module('jam.songFactory', ['jam.usersFactory'])
   var songQueue = {songs: [], playlist: []};
   // index of the current song playing
   var soundIndex = null;
+  var songClicked = {};
   var currentLocation = 'songs';
   var volume = 0;
   var muted = false;
@@ -81,6 +82,14 @@ angular.module('jam.songFactory', ['jam.usersFactory'])
       return res.data;
     });
   };
+
+  var setSongClicked = function (song) {
+    songClicked = song;
+  };
+
+  var getSongClicked = function () {
+    return songClicked;
+  }
 
   // FUNCTIONS FOR PLAYLISTS 
 
@@ -236,6 +245,8 @@ angular.module('jam.songFactory', ['jam.usersFactory'])
     setVolume: setVolume,
     getVolume: getVolume,
     setMuted: setMuted,
-    getMuted: getMuted
+    getMuted: getMuted,
+    setSongClicked: setSongClicked,
+    getSongClicked: getSongClicked
   };
 }]);

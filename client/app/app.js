@@ -1,4 +1,5 @@
 angular.module('jam', [
+  'jam.song',
   'jam.songs',
   'jam.profile',
   'jam.auth',
@@ -25,6 +26,12 @@ angular.module('jam', [
     .when('/login/:email', {
       templateUrl: 'app/auth/login.html',
       controller: 'AuthController'
+    })
+    .when('/song', {
+      templateUrl: 'app/song/song.html',
+      controller: 'SongController',
+      controllerAs: 'songCtrl',
+      authenticate: true
     })
     .when('/songs', {
       templateUrl: 'app/songs/songs.html',
@@ -93,12 +100,12 @@ angular.module('jam', [
     }]
   };
 })
-.directive('groupsNav', function() {
+.directive('groupsNav', function () {
   return {
     restrict: 'E',
     templateUrl: 'app/nav/groupsNav.html',
     scope: {},
-    controller: ['$scope', 'Auth', function($scope, Auth) {
+    controller: ['$scope', 'Auth', function ($scope, Auth) {
     }]
   };
 })
@@ -110,7 +117,7 @@ angular.module('jam', [
       song: '=',
       index: '='
     },
-    controller: ['$scope', 'Songs', '$sce', function($scope, Songs, $sce) {
+    controller: ['$scope', 'Songs', '$sce', function ($scope, Songs, $sce) {
       $scope.comment = {};
       $scope.song.sourceUrl = $sce.trustAsResourceUrl( 'https://s3-us-west-1.amazonaws.com/jamrecordtest/audio/' + $scope.song.uniqueHash );
       $scope.addComment = function() {
@@ -121,16 +128,19 @@ angular.module('jam', [
         $scope.songId = songId;
         $scope.commentModalShown = !$scope.commentModalShown;
       };
+      $scope.setSongClicked = function (song) {
+        Songs.setSongClicked(song);
+      };
     }]
   };
 })
-.directive('player', function() {
+.directive('player', function () {
   return {
     restrict: 'E',
     templateUrl: 'app/player/player.html'
   };
 })
-.directive('modalDialog', function() {
+.directive('modalDialog', function () {
   return {
     restrict: 'E',
     templateUrl: 'app/modal/modal.html',
@@ -139,7 +149,7 @@ angular.module('jam', [
     },
     replace: true,
     transclude: true,
-    link: function(scope, element, attrs) {
+    link: function (scope, element, attrs) {
       scope.dialogStyle = {};
       if (attrs.width) {
         scope.dialogStyle.width = attrs.width;
@@ -147,7 +157,7 @@ angular.module('jam', [
       if (attrs.height) {
         scope.dialogStyle.height = attrs.height;
       }
-      scope.hideModal = function() {
+      scope.hideModal = function () {
         scope.show = false;
       };
     }
