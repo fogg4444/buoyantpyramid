@@ -5,8 +5,12 @@ angular.module('jam.groups', [])
   $scope.newGroup = {};
   $scope.data = {};
 
-  $scope.toggleModal = function () {
-    $scope.modalShown = !$scope.modalShown;
+  $scope.toggleCreateModal = function () {
+    $scope.createModalShown = !$scope.createModalShown;
+  };
+
+  $scope.testing = function () {
+    console.log('Member clicked!');
   };
 
   $scope.acceptInvite = function (group) {
@@ -85,6 +89,7 @@ angular.module('jam.groups', [])
         });
         return allMembers;
       }, []);
+      console.log($scope.data.members, $scope.data.isAdmin);
     });
   })
   .catch(console.error);

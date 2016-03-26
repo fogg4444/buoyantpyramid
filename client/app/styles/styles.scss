@@ -418,11 +418,11 @@ li:hover > .submenu-container {
 
 .group-member {
   &.member {
-    border: 5px solid black;
+    
   }
 
   &.admin {
-  
+    border: 5px solid black;
   }
 
   &.pending {

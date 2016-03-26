@@ -2,7 +2,7 @@
 <div class="groups">
   <div class="page-content">
     <div class="create-group">
-      <button ng-click="toggleModal()">Create New Group</button>
+      <button ng-click="toggleCreateModal()">Create New Group</button>
       <!-- Create group modal -->
       <modal-dialog show="createModalShown">
         <form name="createGroupForm"> 
@@ -38,7 +38,7 @@
     </div>
 
     <div class="group-members">
-      <div ng-repeat="member in data.members | orderBy:'-timestamp'">
+      <div ng-click="memberInfo()" ng-repeat="member in data.members | orderBy: member.role: ['admin', 'member', 'pending']">
         <div ng-class="'group-member {{member.role}}'">
           <img src={{member.avatarURL}} class="nav-avatar-img">
           <div> {{ member.displayName }} </div>
