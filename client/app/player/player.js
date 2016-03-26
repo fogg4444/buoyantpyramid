@@ -6,6 +6,9 @@ angular.module('jam.player', [])
   $scope.muted = Songs.getMuted();
   $scope.timeFormat = '00:00';
   setInterval(function() { $scope.$apply(); }, 200);
+
+
+  $scope.showSpeed = false;
   
   $scope.$watch(function(scope) {
     return scope.audio.volume;
@@ -44,6 +47,10 @@ angular.module('jam.player', [])
     }
     $scope.muted = !$scope.muted;
     Songs.setMuted($scope.muted);
+  };
+
+  $scope.toggleSpeed = function () {
+    $scope.showSpeed = !$scope.showSpeed;
   };
 
   $scope.togglePlay = function () {
