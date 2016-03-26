@@ -1,4 +1,4 @@
-angular.module('jam.uploadFactory', ['jam.usersFactory'])
+angular.module('jam.uploadsFactory', ['jam.usersFactory'])
 .factory('UploadFactory', ['$http', '$window', '$q', 'Upload', 'Users', 'Songs',
 function ($http, win, q, Upload, Users, Songs) {
   var audioQueue = [];
