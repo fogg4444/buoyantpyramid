@@ -6,7 +6,7 @@ var User = db.User;
 var Promise = require('bluebird');
 
 var sanitizeUser = function (user) {
-  var sanitizedUser = JSON.parse(JSON.stringify(user));
+  var sanitizedUser = user.toJSON();
   // user = JSON.parse(JSON.stringify(user));
   delete sanitizedUser.password;
   return sanitizedUser;

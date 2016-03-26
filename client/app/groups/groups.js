@@ -11,6 +11,7 @@ angular.module('jam.groups', [])
 
   $scope.memberInfo = function (member) {
     $scope.clickedMember = member;
+    console.log(member);
     $scope.memberModalShown = true;
   };
 
@@ -90,7 +91,6 @@ angular.module('jam.groups', [])
         });
         return allMembers;
       }, []);
-      console.log($scope.data.members, $scope.data.isAdmin);
     });
   })
   .catch(console.error);
