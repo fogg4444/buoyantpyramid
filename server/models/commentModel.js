@@ -1,5 +1,7 @@
 var db = require('../db/database');
 var Comment = db.Comment;
+var Song = db.Song;
+var User = db.User;
 
 var addComment = function (userId, songId, time, note) {
   return Comment.create({

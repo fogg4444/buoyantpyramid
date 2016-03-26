@@ -7,13 +7,14 @@
   </div>
 
   <div>
-    <button ng-click="toggleCommentModal(song.id)">Add comment</button>
+    <button ng-click="toggleCommentModal(song.id, $parent.user.id)">Add comment</button>
   </div>
 
   <modal-dialog show="commentModalShown">
     <form name="commentForm">
       <fieldset>
       <legend>{{song.title}}</legend>
+        <p ng-show="time">Current time: {{time}}</p>
         <input type="text" ng-model="comment.note" placeholder="comment"/>
         <button ng-click="addComment()">Add comment</button>
       </fieldset>

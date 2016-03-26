@@ -119,17 +119,28 @@ angular.module('jam', [
     },
     controller: ['$scope', 'Songs', '$sce', function ($scope, Songs, $sce) {
       $scope.comment = {};
-      $scope.song.sourceUrl = $sce.trustAsResourceUrl( 'https://s3-us-west-1.amazonaws.com/jamrecordtest/audio/' + $scope.song.uniqueHash );
+      $scope.time = null;
       $scope.addComment = function() {
         $scope.commentModalShown = false;
+        $scope.comment.time = $scope.time;
+        $scope.comment.userId = $scope.userId;
         Songs.addComment($scope.comment, $scope.songId);
       };
-      $scope.toggleCommentModal = function (songId) {
+      $scope.toggleCommentModal = function (songId, userId) {
         $scope.songId = songId;
+        $scope.userId = userId;
+        var playingSong = Songs.getCurrentSong();
+        if (playingSong && playingSong.id === songId) {
+          $scope.getTime();
+        }
         $scope.commentModalShown = !$scope.commentModalShown;
       };
+
       $scope.setSongClicked = function (song) {
         Songs.setSongClicked(song);
+      };
+      $scope.getTime = function () {
+        $scope.time = Songs.getPlayer().currentTime;
       };
     }]
   };

@@ -7,7 +7,7 @@ angular.module('jam.songFactory', ['jam.usersFactory'])
   // stores all songs and current playlist songs
   var songQueue = {songs: [], playlist: []};
   // index of the current song playing
-  var soundIndex = null;
+  var songIndex = null;
   var songClicked = {};
   var currentLocation = 'songs';
   var volume = 0;
@@ -168,22 +168,22 @@ angular.module('jam.songFactory', ['jam.usersFactory'])
   var getSoundsAndIndex = function () {
     return {
       songs: songQueue[currentLocation],
-      index: soundIndex
+      index: songIndex
     };
   };
 
   var nextIndex = function() {
-    if (soundIndex < songQueue[currentLocation].length - 1) {
-      soundIndex++;
+    if (songIndex < songQueue[currentLocation].length - 1) {
+      songIndex++;
     }
     notifyObservers('CHANGE_SONG');
   };
 
   var choose = function(index, location) {
-    if (soundIndex === +index && currentLocation === location) {
+    if (songIndex === +index && currentLocation === location) {
       notifyObservers('TOGGLE_PLAY');
     } else {
-      soundIndex = index;
+      songIndex = index;
       currentLocation = location;
       notifyObservers('CHANGE_SONG');
     }
@@ -191,10 +191,10 @@ angular.module('jam.songFactory', ['jam.usersFactory'])
 
   var checkReset = function(songId, location) {
     if (location === currentLocation) {
-      if (songQueue[currentLocation][soundIndex] && songQueue[currentLocation][soundIndex].id === songId) {
+      if (songQueue[currentLocation][songIndex] && songQueue[currentLocation][songIndex].id === songId) {
         player = new Audio();
-        songQueue[currentLocation].splice(soundIndex, 1);
-        soundIndex = null;
+        songQueue[currentLocation].splice(songIndex, 1);
+        songIndex = null;
         notifyObservers('RESET_PLAYER');
       } else {
         songQueue[currentLocation] = _.filter(songQueue[currentLocation], function(currentSong) {
@@ -225,6 +225,14 @@ angular.module('jam.songFactory', ['jam.usersFactory'])
     return player;
   };
 
+  var getCurrentSong = function () {
+    if (songQueue[currentLocation][songIndex]) {
+      return songQueue[currentLocation][songIndex];
+    } else {
+      return null;
+    }
+  };
+
   return {
     addComment: addComment,
     addSong: addSong,
@@ -247,6 +255,7 @@ angular.module('jam.songFactory', ['jam.usersFactory'])
     setMuted: setMuted,
     getMuted: getMuted,
     setSongClicked: setSongClicked,
-    getSongClicked: getSongClicked
+    getSongClicked: getSongClicked,
+    getCurrentSong: getCurrentSong
   };
 }]);
