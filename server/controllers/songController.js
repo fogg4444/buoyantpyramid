@@ -103,12 +103,23 @@ var getComments = function (req, res, next) {
   .catch(function (error) {
     res.status(500).json('error retreiving comments');
   })
+};
 
+var getSong = function (req, res, next) {
+  var songId = req.params.id;
+  SongModel.getSong(songId)
+  .then(function (song) {
+    res.json(song);
+  })
+  .catch(function (error) {
+    res.status(500).json('error retreiving song');
+  })
 };
 
 module.exports = {
   addCompressedLink: addCompressedLink,
   addSong: addSong,
   deleteSong: deleteSong,
-  getComments: getComments
+  getComments: getComments,
+  getSong: getSong
 };
