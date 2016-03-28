@@ -28,7 +28,7 @@ angular.module('jam', [
       templateUrl: 'app/auth/login.html',
       controller: 'AuthController'
     })
-    .when('/song', {
+    .when('/song/:id', {
       templateUrl: 'app/song/song.html',
       controller: 'SongController',
       controllerAs: 'songCtrl',
@@ -121,11 +121,11 @@ angular.module('jam', [
     controller: ['$scope', 'Songs', '$sce', function ($scope, Songs, $sce) {
       $scope.comment = {};
       $scope.time = null;
+      $scope.songClicked = {};
       $scope.addComment = function() {
         $scope.commentModalShown = false;
         $scope.comment.time = $scope.time;
         $scope.comment.userId = $scope.userId;
-        console.log($scope.comment);
         Songs.addComment($scope.comment, $scope.songId);
       };
       $scope.toggleCommentModal = function (songId, userId) {
@@ -140,7 +140,9 @@ angular.module('jam', [
 
       $scope.setSongClicked = function (song) {
         Songs.setSongClicked(song);
+        $scope.songClicked = song;
       };
+      
       $scope.getTime = function () {
         $scope.time = Songs.getPlayer().currentTime;
       };
