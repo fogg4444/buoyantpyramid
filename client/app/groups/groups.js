@@ -43,7 +43,6 @@ angular.module('jam.groups', [])
 
   $scope.acceptInvite = function (group, index) {
     Groups.updateUserRole(group.id, $scope.user.id, 'member');
-    console.log(index);
     $scope.data.groups[index].userGroups.role = 'member';
   };
 
