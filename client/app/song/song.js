@@ -8,7 +8,7 @@ angular.module('jam.song', [])
   $scope.user = {};
   $scope.comments = [];
   $scope.selectedComment = [{}];
-  // $scope.currentSongIsPlaying = true;
+  $scope.currentSongIsPlaying;
 
   var pageWidth = document.getElementsByClassName('page-content')[0].offsetWidth;
   var waveHeight = '100';
@@ -20,13 +20,12 @@ angular.module('jam.song', [])
   $scope.width = waveWidth + 'px';
 
   // mock data
-  var frequencyData = [1, 10, 30, 30, 60, 80, 140, 180, 150, 140, 150, 100, 50, 20, 20, 30, 50,
-  90, 100, 120, 120, 100, 120, 115, 120, 150, 100, 50, 20, 20, 30, 50, 80, 140, 180,
-   90, 100, 120, 120, 100, 120, 115, 120, 150, 100, 50, 20, 20, 30, 50, 1, 10, 30, 30, 60, 80, 140, 180,
-    90, 100, 120, 120, 100, 120, 115, 120, 150, 100, 50, 20, 20, 30, 50, 60, 80, 140, 180,
-     90, 100, 120, 120, 100, 120, 115, 120, 150, 100, 50, 20, 20, 30, 50, 30, 30, 60, 80, 140, 180,
-      90, 100, 120, 120, 100, 120, 115, 120, 150, 100, 50, 20, 20, 30, 30, 60, 80, 140, 180,
-       90, 100, 120, 120, 100, 120, 115, 120, 150, 100, 50, 20, 20, 30, 50, 1, 10, 30, 30, 60, 80, 140, 180];
+  var frequencyData = [1, 10, 30, 30, 40, 60, 70, 40, 50, 75, 80, 75, 70, 65, 60, 40, 30, 20, 20, 15, 10, 15, 30, 
+    30, 40, 60, 70, 40, 60, 70, 40, 50, 75, 80, 75, 70, 65, 60, 40, 30, 20, 20, 15, 10, 10, 30, 30, 40, 60, 70, 40,
+    50, 75, 80, 75, 70, 65, 60, 40, 60, 70, 40, 50, 75, 80, 75, 70, 60, 50, 40, 30, 20, 20, 10, 10, 5, 5, 5, 5,
+    10, 15, 20, 10, 15, 20, 35, 45, 60, 70, 65, 60, 65, 55, 45, 40, 30, 25, 20, 20, 25, 20, 15, 25, 30 ,35, 45, 60,
+    70, 65, 60, 65, 55, 45, 40, 30, 25, 20, 20, 25, 20, 15, 10, 15, 20, 35, 45, 60, 70, 65, 60, 65, 55, 45, 40, 30,
+    25, 20, 20, 25, 20, 15, 25, 30, 25, 30, 45, 50, 60, 65, 65, 60, 40, 50, 45, 40, 40, 35, 30, 35, 35, 30, 30, 20, 25, 20, 15, 10, 5, 5, 2, 0];
  
   Users.getUserData()
   .then(function (user) {
@@ -68,13 +67,29 @@ angular.module('jam.song', [])
     .attr('x', function (d, i) {
      return i * (waveWidth / frequencyData.length);
     })
-    .attr('width', waveWidth / frequencyData.length - barPadding);
+    .attr('y',waveHeight)
+    .attr('height', 0)
+    .transition()
+    .delay(function(d, i) {
+      return 1000 * i / frequencyData.length;
+    })
+    .attr('width', waveWidth / frequencyData.length - barPadding)
+    .attr('y', function(d) {
+      return waveHeight - d;
+    })
+    .attr('height', function(d) {
+      return d;
+    });
+
+  d3.select('body').selectAll('.comment-pin-container')
+    .style('height', pinHeight * 2 + 'px')
+    .style('width', waveWidth + 'px');
 
   d3.select('body').selectAll('.selected-comment-container')
     .style('height', pinHeight + 'px')
     .style('width', waveWidth + 'px');
 
-  var box = d3.select('body').selectAll('.selected-comment');
+  var selectedComment = d3.select('body').selectAll('.selected-comment');
   var comment = d3.select('body').selectAll('.comment-icon');
 
   $scope.addComment = function (comment) {
@@ -97,7 +112,7 @@ angular.module('jam.song', [])
     $scope.pinningComment = true;
   };
 
-  var renderComments = function(comments) {
+  var renderComments = function() {
     commentPins.selectAll('div')
       .data($scope.comments)
       .enter()
@@ -108,30 +123,32 @@ angular.module('jam.song', [])
       })
       .attr('class', 'pin')
       .on('mouseover', function(d, i) {
-        $scope.selectedComment = [d];
-        renderSelectedComment();
+        $scope.setSelectedComment(d);
       });
   };
 
-  var renderSelectedComment = function(comment) {
+  var renderSelectedComment = function() {
     var left = Math.floor($scope.selectedComment[0].time / $scope.song.duration * waveWidth);
-    box.data($scope.selectedComment)
-      .style({left: left + 'px'})
+    var onLeft = left < waveWidth / 2
+    selectedComment.data($scope.selectedComment)
+      .style("left", function() {
+        if (onLeft) {
+          return left + 'px';
+        } else {
+          return left - waveWidth / 2 + 'px';
+        }
+      })
+      .classed("left", onLeft)
+      .classed("right", !onLeft)
       .style('width', waveWidth / 2 + 'px')
       .text(function (d) {
         return d.note;
-      })
+      });
   };
 
   function renderFlow() {
     svg.selectAll('rect')
       .data(frequencyData)
-      .attr('y', function(d) {
-         return waveHeight - d;
-      })
-      .attr('height', function(d) {
-         return d;
-      })
       .transition()
       .duration(600)
       .attr('fill', function(d, i) {
@@ -142,6 +159,11 @@ angular.module('jam.song', [])
         }
       });
   };
+
+  $scope.setSelectedComment = function(comment) {
+    $scope.selectedComment = [comment];
+    renderSelectedComment();
+  }
 
   $scope.setPlayTime = function (e) {
     if ($scope.currentSongIsPlaying) {
@@ -164,8 +186,8 @@ angular.module('jam.song', [])
       $scope.currentSongIsPlaying = $scope.song.address === $scope.audio.src;
       $scope.audio.play();
     }
-  };  
+  };
 
-  setInterval(renderFlow, 300);
+  _.delay(setInterval, 1000, renderFlow, 300);
 
 }]);
