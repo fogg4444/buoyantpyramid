@@ -22,7 +22,7 @@
             <!-- Role, can change if user is admin -->
             <div>{{clickedMember.userGroups.role}}</div>
             <!-- Kick out -->
-            <div ng-show="data.isAdmin && !clickedMember.isAdmin">
+            <div ng-show="user.currentGroup.userGroups.role=='admin' && !clickedMember.isAdmin">
               <label>
                 <input type="radio" ng-model="chooseRole.role" value="admin">
                 Admin
@@ -38,19 +38,13 @@
         </form>
       </modal-dialog>
     </div>
-    <!-- List of pending groups -->
-    <div class="group-list">
-      <div ng-repeat="group in data.pendingGroups | orderBy:'-timestamp'" class="group">
-        {{ group.name }}
-        <i class="invite-icon fa fa-check-circle-o fa-2x" ng-click="acceptInvite(group)"></i>
-        <i class="invite-icon fa fa-times fa-2x" ng-click="rejectInvite(group)"></i>
-      </div>
-    </div>
+
     <!-- Current group -->
     <div class="group"> {{ user.currentGroup.name }}        
-      <a href="/#/group/settings" ng-show="data.isAdmin">
+      <a href="/#/group/settings" ng-show="user.currentGroup.userGroups.role=='admin'">
         <i class="invite-icon fa fa-cog fa-2x"></i>
       </a>
+      <!-- Accept invite controls -->
     </div>
 
     <div class="group-members">
@@ -64,11 +58,15 @@
 
     <!-- Other groups -->
     <div class="group-list">
-      <div ng-repeat="group in data.groups | orderBy: 'userGroups.role' track by $index" ng-class="'group {{group.userGroups.role}}'" ng-click="setCurrentGroup(group)" ng-show="isNotCurrentGroup(group)">
+      <div ng-repeat="group in data.groups | orderBy: 'userGroups.role' track by $index" ng-class="'group {{group.userGroups.role}}'" ng-click="group.userGroups.role!='pending' && setCurrentGroup(group)" ng-show="isNotCurrentGroup(group)">
         {{ group.name }}
+        <!-- Admin controls -->
         <a href="/#/group/settings" ng-show="group.userGroups.role=='admin'">
           <i class="invite-icon fa fa-cog fa-2x"></i>
         </a>
+        <!-- Accept invite controls -->
+        <i class="invite-icon fa fa-check-circle-o fa-2x" ng-click="acceptInvite(group, $index)" ng-show="group.userGroups.role=='pending'"></i>
+        <i class="invite-icon fa fa-times fa-2x" ng-click="rejectInvite(group, $index)" ng-show="group.userGroups.role=='pending'"></i>
       </div>
     </div>
 

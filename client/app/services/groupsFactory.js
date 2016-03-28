@@ -1,6 +1,10 @@
 angular.module('jam.groupsFactory', [])
 
-.factory('Groups', ['$http', function (http) {
+.factory('Groups', ['$http', '$q', function (http, q) {
+
+  // Each group has an array of members
+  var groupsData = null;
+
   var createGroup = function (newGroup) {
     return http({
       method: 'POST',
@@ -30,19 +34,20 @@ angular.module('jam.groupsFactory', [])
       url: '/api/users/' + userId + '/groups/'
     })
     .then(function (res) {
+      _.extend(groupsData, res.data);
       return res.data;
     });
   };
 
-  var getUsersByGroupId = function (groupId) {
-    return http({
-      method: 'GET',
-      url: '/api/groups/' + groupId + '/users/'
-    })
-    .then(function (res) {
-      return res.data;
-    });
-  };
+  // var getUsersByGroupId = function (groupId) {
+  //   return http({
+  //     method: 'GET',
+  //     url: '/api/groups/' + groupId + '/users/'
+  //   })
+  //   .then(function (res) {
+  //     return res.data;
+  //   });
+  // };
 
   var getPlaylistsByGroupId = function (groupId) {
     return http({
@@ -101,15 +106,36 @@ angular.module('jam.groupsFactory', [])
     });
   };
 
+  var getGroupsData = function(userId, force) {
+    force = force || false;
+    return q(function(resolve, reject) {
+      if (groupsData && !force) {
+        resolve(groupsData);
+      }
+      getGroupsByUserId(userId)
+      .then(function(groups) {
+        if (groupsData) {
+          _.extend(groupsData, groups);
+        } else {
+          groupsData = groups;
+        }
+        resolve(groupsData);
+      })
+      .catch(function (error) {
+        reject(error);
+      });
+    });
+  };
+
   return {
     createGroup: createGroup,
     addUser: addUser,
     getGroupsByUserId: getGroupsByUserId,
-    getUsersByGroupId: getUsersByGroupId,
     getPlaylistsByGroupId: getPlaylistsByGroupId,
     updateInfo: updateInfo,
     sendInvite: sendInvite,
     updateUserRole: updateUserRole,
-    removeUser: removeUser
+    removeUser: removeUser,
+    getGroupsData: getGroupsData
   };
 }]);
