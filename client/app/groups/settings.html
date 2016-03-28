@@ -5,7 +5,7 @@
      <modal-dialog class="modal banner-dialog" width="100%" show="bannerModalShown">
       <div class='progress-bar' ng-style="{width: file.progressPercentage + '%'}"></div>
       <div ngf-drop ng-model="picFile" ngf-pattern="image/*" class="cropArea">
-        <img-crop image="picFile  | ngfDataUrl" result-image="croppedDataUrl" area-type="rectangle" aspect-ratio="10" ng-init="croppedDataUrl=''">
+        <img-crop image="picFile  | ngfDataUrl" result-image="croppedDataUrl" area-type="rectangle" result-image-size="'max'" area-min-size=10 aspect-ratio="12" ng-init="croppedDataUrl=''">
       <div>{{file.name}} {{errFile.name}} {{errFile.$error}} {{errFile.$errorParam}}</div>
         </img-crop>
       </div>
