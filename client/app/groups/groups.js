@@ -100,12 +100,13 @@ angular.module('jam.groups', [])
     $scope.user = userData;
     Groups.getGroupsByUserId(userData.id)
     .then(function (groups) {
-      $scope.data.pendingGroups = groups.pending;
-      $scope.data.adminGroups = groups.admin;
-      $scope.data.memberGroups = groups.member;
-      $scope.data.isAdmin = _.reduce(groups.admin, function(accumulator, band) {
-        return userData.currentGroupId === band.id || accumulator;
-      }, false);
+      console.log("Groups: ", groups);
+      $scope.data.groups = groups;
+      $scope.user.currentGroup = _.findWhere(groups, function (group) {
+        return group.id === $scope.user.currentGroupId;
+      });
+      $scope.data.isAdmin = $scope.user.currentGroup.userGroups.role === 'admin';
+      console.log("Is it admin? ", $scope.data.isAdmin);
     });
     Groups.getUsersByGroupId(userData.currentGroupId)
     .then(function (users) {
