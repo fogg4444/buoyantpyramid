@@ -41,8 +41,6 @@ var getComments = function(songId) {
 };
 
 var getSong = function(songId) {
-  // TODO: what is this comment? Seems like this is not a delete function...
-  // Only deletes from the database. FILES ARE STILL ON S3!
   return Song.findById(songId);
 };
 

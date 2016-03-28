@@ -5,23 +5,6 @@ var User = require('../models/userModel');
 
 var JWT_SECRET = config.JWT_SECRET || 's00p3R53kritt';
 
-// var getAvatar = function(req, res, next) {
-//   var userId = parseInt(req.params.id);
-
-//   User.getUser({id: userId})
-//   .then(function(foundUser) {
-//     if (foundUser) {
-//       var url = path.resolve(__dirname + '/../uploadInbox/' + foundUser.avatarURL);
-//       res.sendFile(url);
-//     } else {
-//       res.status(404).send('user doesn\'t exist');
-//     } 
-//   })
-//   .catch(function(error) {
-//     next(error);
-//   });
-// };
-
 var getGroups = function(req, res, next) {
   var userId = parseInt(req.params.id);
 
