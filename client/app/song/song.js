@@ -8,6 +8,7 @@ angular.module('jam.song', [])
   $scope.user = {};
   $scope.comments = [];
   $scope.selectedComment = [{}];
+  // $scope.currentSongIsPlaying = true;
 
   var pageWidth = document.getElementsByClassName('page-content')[0].offsetWidth;
   var waveHeight = '100';
@@ -15,7 +16,6 @@ angular.module('jam.song', [])
   var pinWidth = '12';
   var pinHeight = '20';
   var barPadding = '1';
-  var currentSongIsPlaying = false;
 
   $scope.width = waveWidth + 'px';
 
@@ -43,7 +43,7 @@ angular.module('jam.song', [])
     .then(function (comments) {
       $scope.comments = comments;
       renderComments(comments);
-      currentSongIsPlaying = $scope.song.address === $scope.audio.src;
+      $scope.currentSongIsPlaying = $scope.song.address === $scope.audio.src;
     });
   });
 
@@ -53,7 +53,7 @@ angular.module('jam.song', [])
 
   // D3
   var svg = createSvg('.waveform-container', waveHeight, waveWidth);
-  
+
   var commentPins = d3.select('body').selectAll('.pin-container')
                       .style('height', pinHeight + 'px')
                       .style('width', waveWidth + 'px');
@@ -70,12 +70,12 @@ angular.module('jam.song', [])
     })
     .attr('width', waveWidth / frequencyData.length - barPadding);
 
-    d3.select('body').selectAll('.selected-comment-container')
-      .style('height', pinHeight + 'px')
-      .style('width', waveWidth + 'px');
+  d3.select('body').selectAll('.selected-comment-container')
+    .style('height', pinHeight + 'px')
+    .style('width', waveWidth + 'px');
 
-    var box = d3.select('body').selectAll('.selected-comment');
-    var comment = d3.select('body').selectAll('.comment-icon');
+  var box = d3.select('body').selectAll('.selected-comment');
+  var comment = d3.select('body').selectAll('.comment-icon');
 
   $scope.addComment = function (comment) {
     var time = Math.floor($scope.commentTime * $scope.song.duration);
@@ -135,7 +135,7 @@ angular.module('jam.song', [])
       .transition()
       .duration(600)
       .attr('fill', function(d, i) {
-        if ((i / frequencyData.length) < ($scope.audio.currentTime / $scope.song.duration) && currentSongIsPlaying) {
+        if ((i / frequencyData.length) < ($scope.audio.currentTime / $scope.song.duration) && $scope.currentSongIsPlaying) {
           return 'rgb(0, 0, ' + 220 + ')';
         } else {
           return 'rgb(0, 0, ' + 100 + ')';
@@ -144,7 +144,7 @@ angular.module('jam.song', [])
   };
 
   $scope.setPlayTime = function (e) {
-    if (currentSongIsPlaying) {
+    if ($scope.currentSongIsPlaying) {
       div = document.getElementsByClassName('visualizer')[0];
       var x = e.clientX - div.offsetLeft;
       $scope.audio.currentTime = $scope.song.duration * x / waveWidth;
@@ -152,7 +152,7 @@ angular.module('jam.song', [])
   };
 
   $scope.togglePlay = function () {
-    if (currentSongIsPlaying) {
+    if ($scope.currentSongIsPlaying) {
       if ($scope.audio.paused) {
         $scope.audio.play();
       } else {
@@ -161,7 +161,7 @@ angular.module('jam.song', [])
     } else {
       $scope.audio.src = $scope.song.compressedAddress ||
         $scope.song.address;
-      currentSongIsPlaying = $scope.song.address === $scope.audio.src;
+      $scope.currentSongIsPlaying = $scope.song.address === $scope.audio.src;
       $scope.audio.play();
     }
   };  

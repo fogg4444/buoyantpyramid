@@ -3,7 +3,10 @@
   <div class="page-content">
   <h2> {{ song.title }} </h2>
   <div> 
-    <button ng-click="togglePlay()"><i ng-class="{'fa fa-play fa-lg': audio.paused, 'fa fa-pause fa-lg': !audio.paused}"></i></button>
+    <button ng-click="togglePlay()">
+      <i ng-class="{ 'fa fa-play fa-lg': audio.paused, 'fa fa-pause fa-lg': !audio.paused }" ng-show="currentSongIsPlaying"></i>
+      <i class="fa fa-play fa-lg" ng-show="!currentSongIsPlaying"></i>
+    </button>
   </div>
   <div class="song-visualizer">
     <div class="waveform-container" ng-click="setPlayTime($event)"></div>
