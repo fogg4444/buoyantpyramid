@@ -44,13 +44,13 @@ client/dist/
 .DS_Store
 
 # Ignore config file
-config.js
+config.js*
 
 # ignore uploadInbox
 server/uploadInbox/*
 
 # ignore real aws config credentials
-server/config/aws.json
+server/config/aws.config.js*
 
 # ignore compression_server audio folder
 # compression_server/temp_audio/*

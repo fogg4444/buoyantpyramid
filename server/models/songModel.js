@@ -2,7 +2,7 @@ var db = require('../db/database');
 var Song = db.Song;
 var request = require('request');
 var Promise = require('bluebird');
-var awsConfig = require('../config/aws.json');
+var awsConfig = require('../config/aws.config.json');
 
 var addSong = function (songData) {
   return Song.create(songData);
@@ -16,7 +16,7 @@ var addCompressedLink = function(songID, compressedID) {
       if (song) {
         song.updateAttributes({
           'compressedAddress': 'https://' + awsConfig.bucket + '.s3.amazonaws.com/audio/' + compressedID
-        })
+        });
         resolve();
       }
     })
@@ -38,7 +38,8 @@ var requestFileCompression = function(song) {
   return new Promise(function (resolve, reject) {
     request.post(
       'http://localhost:4000/compress',
-      { json: {
+      {
+        json: {
           songID: song.id,
           s3UniqueHash: song.uniqueHash
         }
@@ -47,7 +48,7 @@ var requestFileCompression = function(song) {
         if (error) {
           // console.log('--- 2.5 --- Request compression error: ', error);
           reject(error);
-        } else if (!error && response.statusCode == 200) {
+        } else if (!error && response.statusCode === 200) {
           // console.log(' --- 2.6 --- Successful request to compression server: ', body);
           resolve(true);
         }
