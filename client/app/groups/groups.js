@@ -78,7 +78,6 @@ angular.module('jam.groups', [])
     .then(function (res) {
       $scope.user = res.data.user;
       $scope.user.currentGroup = group;
-      $scope.data.isAdmin = $scope.user.currentGroup.userGroups.role === 'admin';
       $scope.data.members = $scope.user.currentGroup.users;
     })
     .catch(function (error) {
@@ -110,7 +109,6 @@ angular.module('jam.groups', [])
       $scope.user.currentGroup = _.findWhere(groups, function (group) {
         return group.id === $scope.user.currentGroupId;
       });
-      $scope.data.isAdmin = $scope.user.currentGroup.userGroups.role === 'admin';
       $scope.data.members = $scope.user.currentGroup.users;
     });
   })
