@@ -1,5 +1,6 @@
 var db = require('../db/database');
 var Song = db.Song;
+var Comment = db.Comment;
 var request = require('request');
 var Promise = require('bluebird');
 var awsConfig = require('../config/aws.config.json');
@@ -23,6 +24,19 @@ var addCompressedLink = function(songID, compressedID) {
     .catch(function(err) {
       reject(err);
     });  
+  });
+};
+
+var getComments = function(songId) {
+  return new Promise(function (resolve, reject) {
+    Song.findById(songId)
+    .then(function(song) {
+      if (song) {
+        resolve(song.getComments());
+      } else {
+        resolve([]);
+      }
+    });
   });
 };
 
@@ -60,6 +74,7 @@ var requestFileCompression = function(song) {
 module.exports = {
   addCompressedLink: addCompressedLink,
   addSong: addSong,
+  getComments: getComments,
   getSong: getSong,
   requestFileCompression: requestFileCompression
 };

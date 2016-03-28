@@ -32,7 +32,9 @@ var routing = function (app, express) {
 
   // Song related requests
   apiRoutes.delete('/songs/:id', Song.deleteSong);
+  apiRoutes.get('/songs/:id', Song.getSong);
   apiRoutes.post('/songs/:id/comments', Comment.addComment);
+  apiRoutes.get('/songs/:id/comments', Song.getComments);
 
   // User related requests
   apiRoutes.post('/users/avatar', Upload.catchUpload, User.setAvatar);

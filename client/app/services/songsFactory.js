@@ -8,7 +8,7 @@ angular.module('jam.songsFactory', [])
   var songQueue = {songs: [], playlist: []};
   // index of the current song playing
   var songIndex = null;
-  var songClicked = {};
+  var songClicked = {song: {}, index: null};
   var currentLocation = 'songs';
   var volume = 0;
   var muted = false;
@@ -16,7 +16,6 @@ angular.module('jam.songsFactory', [])
   // FUNCTIONS FOR SONGS
 
   var addSong = function (song, groupId) {
-    console.log('Song', song);
     var songData = {
       size: song.size,
       lastModified: song.lastModified,
@@ -52,6 +51,17 @@ angular.module('jam.songsFactory', [])
     });
   };
 
+
+  var getSong = function (songId) {
+    return http({
+      method: 'GET',
+      url: '/api/songs/' + songId
+    })
+    .then(function (res) {
+      return res.data;
+    });
+  };
+
   var deleteSong = function (song) {
     return http({
       method: 'DELETE',
@@ -73,6 +83,16 @@ angular.module('jam.songsFactory', [])
     });
   };
 
+  var getComments = function (songId) {
+    return http({
+      method: 'GET',
+      url: '/api/songs/' + songId + '/comments/',
+    })
+    .then(function (res) {
+      return res.data;
+    });
+  };
+
   var deleteComment = function (tag) {
     return http({
       method: 'DELETE',
@@ -83,8 +103,9 @@ angular.module('jam.songsFactory', [])
     });
   };
 
-  var setSongClicked = function (song) {
+  var setSongClicked = function (song, index) {
     songClicked = song;
+    songClicked.index = index;
   };
 
   var getSongClicked = function () {
@@ -246,9 +267,11 @@ angular.module('jam.songsFactory', [])
   return {
     addComment: addComment,
     addSong: addSong,
+    getComments: getComments,
     deleteComment: deleteComment,
     deleteSong: deleteSong,
     getAllSongs: getAllSongs,
+    getSong: getSong,
     createPlaylist: createPlaylist,
     addSongToPlaylist: addSongToPlaylist,
     getPlaylistSongs: getPlaylistSongs,
