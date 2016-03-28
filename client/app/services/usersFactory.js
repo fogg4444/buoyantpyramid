@@ -53,7 +53,7 @@ angular.module('jam.usersFactory', [])
   var logout = function () {
     win.localStorage.removeItem('com.jam');
     userData = null;
-    Groups.groupsData = null;
+    Groups.setGroupsData(null);
     loc.path('/login');
   };
 

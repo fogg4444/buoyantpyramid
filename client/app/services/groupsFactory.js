@@ -127,6 +127,10 @@ angular.module('jam.groupsFactory', [])
     });
   };
 
+  var setGroupsData = function(data) {
+    groupsData = data;
+  };
+
   return {
     createGroup: createGroup,
     addUser: addUser,
@@ -136,6 +140,7 @@ angular.module('jam.groupsFactory', [])
     sendInvite: sendInvite,
     updateUserRole: updateUserRole,
     removeUser: removeUser,
-    getGroupsData: getGroupsData
+    getGroupsData: getGroupsData,
+    setGroupsData: setGroupsData
   };
 }]);
