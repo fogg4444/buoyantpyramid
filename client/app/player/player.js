@@ -1,12 +1,38 @@
-angular.module('jam.player', [])
+angular.module('jam.player', ['rzModule'])
 .controller('PlayerController', ['$scope', '$timeout', 'Songs', function($scope, timeout, Songs) {
   $scope.audio = Songs.getPlayer();
-  $scope.currentTime = 0;
   $scope.song = null;
   $scope.muted = Songs.getMuted();
   $scope.timeFormat = '00:00';
-  setInterval(function() { $scope.$apply(); }, 200);
 
+  $scope.timeSlider = { 
+    options: {
+      floor: 0,
+      ceil: $scope.audio.duration,
+      showSelectionBar: true,
+      step: 0.01,
+      hideLimitLabels: true,
+      disabled: true,
+      translate: function(value) {
+        return Songs.timeFormat(value);
+      }
+    }
+  };
+
+  $scope.volSlider = { 
+    options: {
+      floor: 0.0,
+      ceil: 1.0,
+      step: 0.01,
+      showSelectionBar: true,
+      hideLimitLabels: true,
+      translate: function(value) {
+        return '';
+      }
+    }
+  };
+
+  setInterval(function() { $scope.$apply(); }, 200);
 
   $scope.showSpeed = false;
   
@@ -65,16 +91,23 @@ angular.module('jam.player', [])
     $scope.audio.src = $scope.song.compressedAddress ||
       $scope.song.address;
     $scope.audio.onended = Songs.nextIndex;
+    $scope.audio.ondurationchange = function(e) {
+      $scope.timeSlider.options.disabled = !$scope.audio.duration;
+      $scope.timeSlider.options.ceil = $scope.audio.duration;
+    };
     $scope.audio.play();
   };
 
   var resetPlayer = function() {
     $scope.stop();
     $scope.audio = Songs.getPlayer();
+    $scope.playlist = Songs.getSoundsAndIndex();
+    $scope.timeSlider.options.disabled = !$scope.audio.duration;
   };
 
   var refreshList = function() {
     $scope.playlist = Songs.getSoundsAndIndex();
+    $scope.timeSlider.options.disabled = !$scope.audio.duration;
   };
 
   Songs.registerObserverCallback('CHANGE_SONG', changeSong);
