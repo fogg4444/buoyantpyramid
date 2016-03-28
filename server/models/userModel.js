@@ -51,18 +51,17 @@ var createUser = function (email, displayName, password) {
 };
 
 var getGroups = function(userId) {
-  return new Promise(function (resolve, reject) {
-    var groups = {};
-    User.findById(userId)
-    .then(function (user) {
-      user.getGroups()
-      .then(function (groups) {
-        resolve(groups);
-      });
-    })
-    .catch(function(error) {
-      reject(error);
-    });
+  return User.findById(userId, {
+    include: [{
+      model: Group,
+      include: [{
+        model: User,
+        attributes: { exclude: ['password'] }
+      }]
+    }]
+  })
+  .then(function(user) {
+    return user.groups;
   });
 };
 
