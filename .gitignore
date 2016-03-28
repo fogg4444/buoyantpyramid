@@ -50,7 +50,8 @@ config.js*
 server/uploadInbox/*
 
 # ignore real aws config credentials
-server/config/aws.config.js*
+**/aws.config.js*
+**/aws.js*
 
 # ignore compression_server audio folder
 # compression_server/temp_audio/*
