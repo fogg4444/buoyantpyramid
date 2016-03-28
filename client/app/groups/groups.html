@@ -22,7 +22,7 @@
             <!-- Role, can change if user is admin -->
             <div>{{clickedMember.userGroups.role}}</div>
             <!-- Kick out -->
-            <div ng-show="user.currentGroup.userGroups.role=='admin' && !clickedMember.isAdmin">
+            <div ng-show="user.isAdmin && !clickedMember.isAdmin">
               <label>
                 <input type="radio" ng-model="chooseRole.role" value="admin">
                 Admin
@@ -64,7 +64,7 @@
 
       <!-- Admin controls -->
       <div class="group-members cog">
-        <a href="/#/group/settings" ng-show="user.currentGroup.userGroups.role=='admin'">
+        <a href="/#/group/settings" ng-show="user.isAdmin">
           <i class="invite-icon fa fa-cog fa-2x"></i>
         </a>
       </div>

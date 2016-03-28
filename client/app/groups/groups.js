@@ -5,7 +5,7 @@ angular.module('jam.groups', [])
   $scope.newGroup = {};
   $scope.data = {};
   $scope.chooseRole = {
-    role: ''
+    role: 'admin'
   };
 
   $scope.toggleCreateModal = function () {
@@ -82,6 +82,7 @@ angular.module('jam.groups', [])
     .then(function (res) {
       $scope.user = res.data.user;
       $scope.user.currentGroup = group;
+      $scope.user.isAdmin = $scope.user.currentGroup.userGroups.role === 'admin' ? true : false;
       $scope.data.members = $scope.user.currentGroup.users;
     })
     .catch(function (error) {
@@ -109,12 +110,13 @@ angular.module('jam.groups', [])
     $scope.user = userData;
     Groups.getGroupsData(userData.id)
     .then(function (groups) {
-      // use each, assign current group and put the pending groups into seperate list?
       $scope.data.groups = [];
       $scope.data.pendingGroups = [];
       _.each(groups, function (group) {
         if (group.id === $scope.user.currentGroupId) {
           $scope.user.currentGroup = group;
+          $scope.user.isAdmin = $scope.user.currentGroup.userGroups.role === 'admin' ? true : false;
+          $scope.data.members = $scope.user.currentGroup.users;
         }
         if (group.userGroups.role === 'pending') {
           $scope.data.pendingGroups.push(group);
@@ -122,7 +124,6 @@ angular.module('jam.groups', [])
           $scope.data.groups.push(group);
         }
       });
-      $scope.data.members = $scope.user.currentGroup.users;
     });
   })
   .catch(console.error);

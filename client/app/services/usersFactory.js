@@ -1,6 +1,6 @@
 angular.module('jam.usersFactory', [])
 
-.factory('Users', ['$http', '$location', '$window', '$q', function (http, loc, win, q) {
+.factory('Users', ['$http', '$location', '$window', '$q', 'Groups', function (http, loc, win, q, Groups) {
   // stores users token as com.jam
   var userData = null;
 
@@ -53,6 +53,7 @@ angular.module('jam.usersFactory', [])
   var logout = function () {
     win.localStorage.removeItem('com.jam');
     userData = null;
+    Groups.groupsData = null;
     loc.path('/login');
   };
 
