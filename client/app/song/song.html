@@ -3,12 +3,18 @@
   <div class="page-content">
   <h2> {{ song.title }} </h2>
   <div> 
-    <button ng-click="togglePlay()"><i ng-class="{'fa fa-play fa-lg': audio.paused, 'fa fa-pause fa-lg': !audio.paused}"></i></button>
+    <!-- <button ng-click="togglePlay()"><i ng-class="{'fa fa-play fa-lg': audio.paused, 'fa fa-pause fa-lg': !audio.paused}"></i></button> -->
   </div>
-  <div class="visualizer" ng-click="setPlayTime($event)"></div>
-  <div class="comment-pin-container" ng-show="!pinningComment"></div>
+  <div class="song-visualizer">
+    <div class="waveform-container" ng-click="setPlayTime($event)"></div>
+    <div class="comment-pin-container" ng-show="!pinningComment">
+      <div class="pin-container"></div>
+      <div class="selected-comment-container" ng-show="commentSelected()">
+        <div class="selected-comment">
+      </div>
+    </div>
+  </div>
   <input min="0" max="1" step="0.01" type="range" style="width:{{width}}" ng-model="commentTime" ng-show="pinningComment" class="comment-slider" />
-  <div class="selected-comment" ng-show="commentSelected()"></div>
 
   <br>
   <br>
@@ -18,7 +24,7 @@
   <br>
   <br>
   <br>
-  <div> Add Comment
+  <div class="group"> Add Comment
     <div ng-click="pinComment()">
       <i class="fa fa-map-pin"></i>
     </div>
