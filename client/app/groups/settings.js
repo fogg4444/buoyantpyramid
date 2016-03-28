@@ -11,6 +11,16 @@ angular.module('jam.groupSettings', [])
   })
   .catch(console.error);
 
+
+  $scope.showBannerModal = function (file) {
+    $scope.file = file;
+    $scope.bannerModalShown = true;
+  };
+
+  $scope.hideBannerModal = function () {
+    $scope.bannerModalShown = false;
+  };
+
   $scope.sendInvite = function() {
     Groups.sendInvite($scope.group, $scope.invite);
   };
@@ -47,6 +57,7 @@ angular.module('jam.groupSettings', [])
   var successCallback = function (file, response) {
     $scope.result = response.data;
     $scope.group.bannerUrl = file.s3url;
+    $scope.hideBannerModal();
     $scope.updateGroupProfile($scope.group);
   };
 
