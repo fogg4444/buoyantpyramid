@@ -51,25 +51,17 @@ var createUser = function (email, displayName, password) {
 };
 
 var getGroups = function(userId) {
-  return new Promise(function (resolve, reject) {
-    var groups = {};
-    User.findById(userId)
-    .then(function (user) {
-      user.getAdminGroups()
-      .then(function (adminGroups) {
-        user.getPendingGroups()
-        .then(function (pendingGroups) {
-          user.getMemberGroups()
-          .then(function (memberGroups) {
-            // TO DO: take out passwords
-            resolve({admin: adminGroups, member: memberGroups, pending: pendingGroups});
-          });
-        });
-      });
-    })
-    .catch(function(error) {
-      reject(error);
-    });
+  return User.findById(userId, {
+    include: [{
+      model: Group,
+      include: [{
+        model: User,
+        attributes: { exclude: ['password'] }
+      }]
+    }]
+  })
+  .then(function(user) {
+    return user.groups;
   });
 };
 

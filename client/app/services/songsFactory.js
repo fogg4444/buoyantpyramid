@@ -1,4 +1,4 @@
-angular.module('jam.songsFactory', ['jam.usersFactory'])
+angular.module('jam.songsFactory', [])
 
 .factory('Songs', ['$http', '$q', function (http, q) {
 
