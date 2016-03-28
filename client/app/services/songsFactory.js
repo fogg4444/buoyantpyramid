@@ -16,7 +16,6 @@ angular.module('jam.songsFactory', [])
   // FUNCTIONS FOR SONGS
 
   var addSong = function (song, groupId) {
-    console.log('Song', song);
     var songData = {
       size: song.size,
       lastModified: song.lastModified,
@@ -48,6 +47,17 @@ angular.module('jam.songsFactory', [])
     })
     .then(function (res) {
       songQueue.songs = res.data;
+      return res.data;
+    });
+  };
+
+
+  var getSong = function (songId) {
+    return http({
+      method: 'GET',
+      url: '/api/songs/' + songId
+    })
+    .then(function (res) {
       return res.data;
     });
   };
@@ -261,6 +271,7 @@ angular.module('jam.songsFactory', [])
     deleteComment: deleteComment,
     deleteSong: deleteSong,
     getAllSongs: getAllSongs,
+    getSong: getSong,
     createPlaylist: createPlaylist,
     addSongToPlaylist: addSongToPlaylist,
     getPlaylistSongs: getPlaylistSongs,
