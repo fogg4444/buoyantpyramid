@@ -66,12 +66,12 @@
     <div class="group-list">
       <div ng-repeat="group in data.groups | orderBy: 'userGroups.role' track by $index" ng-class="'group {{group.userGroups.role}}'" ng-click="setCurrentGroup(group)" ng-show="isNotCurrentGroup(group)">
         {{ group.name }}
-        <a href="/#/group/settings">
+        <a href="/#/group/settings" ng-show="group.userGroups.role=='admin'">
           <i class="invite-icon fa fa-cog fa-2x"></i>
         </a>
       </div>
     </div>
-    
+
   </div>
   <footer>
     <player></player>

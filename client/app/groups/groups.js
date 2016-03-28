@@ -73,6 +73,9 @@ angular.module('jam.groups', [])
     Users.updateProfile({currentGroupId: group.id})
     .then(function (res) {
       $scope.user = res.data.user;
+      $scope.user.currentGroup = group;
+      $scope.data.isAdmin = $scope.user.currentGroup.userGroups.role === 'admin';
+      console.log("Is it admin?: ", $scope.data.isAdmin);
       $route.reload();
     })
     .catch(function (error) {
@@ -100,13 +103,12 @@ angular.module('jam.groups', [])
     $scope.user = userData;
     Groups.getGroupsByUserId(userData.id)
     .then(function (groups) {
-      console.log("Groups: ", groups);
+      console.log(groups);
       $scope.data.groups = groups;
       $scope.user.currentGroup = _.findWhere(groups, function (group) {
         return group.id === $scope.user.currentGroupId;
       });
       $scope.data.isAdmin = $scope.user.currentGroup.userGroups.role === 'admin';
-      console.log("Is it admin? ", $scope.data.isAdmin);
     });
     Groups.getUsersByGroupId(userData.currentGroupId)
     .then(function (users) {
