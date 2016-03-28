@@ -8,9 +8,9 @@ var crypto = require('crypto');
 var config = require('../config/aws.config.json');
 
 var getExpiryTime = function () {
-    var _date = new Date();
-    return '' + (_date.getFullYear()) + '-' + (_date.getMonth() + 1) + '-' +
-        (_date.getDate() + 1) + 'T' + (_date.getHours() + 3) + ':' + '00:00.000Z';
+  var _date = new Date();
+  return '' + (_date.getFullYear()) + '-' + (_date.getMonth() + 1) + '-' +
+      (_date.getDate() + 1) + 'T' + (_date.getHours() + 3) + ':' + '00:00.000Z';
 };
 
 var createS3Policy = function (contentType, callback) {
@@ -22,7 +22,7 @@ var createS3Policy = function (contentType, callback) {
       {'bucket': config.bucket},
       {'acl': 'public-read'},
       ['starts-with', '$Content-Type', contentType],
-      {'success_action_status' : '201'}
+      {'success_action_status': '201'}
     ]
   };
 
@@ -51,7 +51,7 @@ var createS3Policy = function (contentType, callback) {
 var getS3Policy = function (req, res) {
   createS3Policy(req.body.fileType, function (creds, err) {
     if (!err) {
-      console.log('No error creating s3 policy: ', creds)
+      console.log('No error creating s3 policy: ', creds);
       return res.status(200).send(creds);
     } else {
       console.log('Error creating s3 policy');
