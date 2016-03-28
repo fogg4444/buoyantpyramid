@@ -42,18 +42,21 @@ angular.module('jam.groups', [])
   };
 
   $scope.acceptInvite = function (group, index) {
-    Groups.updateUserRole(group.id, $scope.user.id, 'member');
-    $scope.data.groups[index].userGroups.role = 'member';
+    Groups.updateUserRole(group.id, $scope.user.id, 'member')
+    .then(function(data) {
+      console.log(data);
+      $scope.data.groups.push(group);
+      $scope.data.pendingGroups.splice(index, 1);
+    })
+    .catch(console.error);
   };
 
   $scope.rejectInvite = function (group, index) {
     Groups.removeUser(group.id, $scope.user.id)
     .then(function (data) {
-      console.log(data);
+      $scope.data.pendingGroups.splice(index, 1);
     })
     .catch(console.error);
-    console.log(index);
-    $scope.data.groups.splice(index, 1);
   };
 
   $scope.createGroup = function () {

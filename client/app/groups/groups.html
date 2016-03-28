@@ -42,7 +42,7 @@
     <!-- Pending groups -->
     <div class="group-list pending">
       <div ng-repeat="group in data.pendingGroups track by $index" class="group">
-        {{ group.name }}
+        <span class="message-text">You've been invited to join:</span> {{ group.name }}
 
         <!-- Accept invite controls -->
         <i class="invite-icon fa fa-check-circle-o fa-2x" ng-click="acceptInvite(group, $index)" ng-show="group.userGroups.role=='pending'"></i>
@@ -54,7 +54,7 @@
     <div class="group">{{ user.currentGroup.name }}</div> 
           
       <div class="group-members">
-        <div ng-repeat="member in data.members track by $index" ng-click="memberInfo(member, $index)">
+        <div ng-repeat="member in data.members | orderBy: 'userGroups.role' track by $index" ng-click="memberInfo(member, $index)">
           <div ng-class="'group-member {{member.userGroups.role}}'">
             <img src={{member.avatarURL}} class="nav-avatar-img">
             <div> {{ member.displayName }} </div>
