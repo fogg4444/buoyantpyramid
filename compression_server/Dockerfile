@@ -11,7 +11,7 @@
 #
 #
 
-# FROM          centos:7
+# FROM          fogg4444/centosffmpeg
 # MAINTAINER    Raman Nanda <Raman148@gmail.com>
 
 
