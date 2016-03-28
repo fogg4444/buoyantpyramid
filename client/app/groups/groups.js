@@ -65,7 +65,7 @@ angular.module('jam.groups', [])
       Groups.addUser(group.id, $scope.user.id, 'admin')
       .then(function (user) {
         $scope.createModalShown = false;
-        $scope.refreshGroups(user.id, true);
+        $scope.refreshGroups(user, true);
       });
     });
   };
@@ -121,7 +121,7 @@ angular.module('jam.groups', [])
   Users.getUserData()
   .then(function (userData) {
     $scope.user = userData;
-    $scope.refreshGroups(userData.id);
+    $scope.refreshGroups(userData);
   })
   .catch(console.error);
 }]);

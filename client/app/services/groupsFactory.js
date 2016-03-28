@@ -39,16 +39,6 @@ angular.module('jam.groupsFactory', [])
     });
   };
 
-  // var getUsersByGroupId = function (groupId) {
-  //   return http({
-  //     method: 'GET',
-  //     url: '/api/groups/' + groupId + '/users/'
-  //   })
-  //   .then(function (res) {
-  //     return res.data;
-  //   });
-  // };
-
   var getPlaylistsByGroupId = function (groupId) {
     return http({
       method: 'GET',
@@ -66,7 +56,7 @@ angular.module('jam.groupsFactory', [])
       data: group
     })
     .then(function(res) {
-      return res;
+      return res.data;
     })
     .catch(console.error);
   };
@@ -106,13 +96,13 @@ angular.module('jam.groupsFactory', [])
     });
   };
 
-  var getGroupsData = function(userId, force) {
+  var getGroupsData = function(user, force) {
     force = force || false;
     return q(function(resolve, reject) {
       if (groupsData && !force) {
         resolve(groupsData);
       }
-      getGroupsByUserId(userId)
+      getGroupsByUserId(user.id)
       .then(function(groups) {
         if (groupsData) {
           _.extend(groupsData, groups);
@@ -128,7 +118,11 @@ angular.module('jam.groupsFactory', [])
   };
 
   var setGroupsData = function(data) {
-    groupsData = data;
+    if (!data) {
+      groupsData = null;
+    } else {
+      _.extend(groupsData, data);
+    }
   };
 
   return {

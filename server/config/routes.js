@@ -47,7 +47,7 @@ var routing = function (app, express) {
   apiRoutes.put('/groups/:gid/users/:uid', Group.updateUserRole);
   apiRoutes.post('/groups/', Group.createGroup);
   apiRoutes.post('/groups/:id/users/', Group.addUser);
-  apiRoutes.get('/groups/:id/users/', Group.getUsers);
+  // apiRoutes.get('/groups/:id/users/', Group.getUsers);
   apiRoutes.get('/groups/:id/playlists/', Group.getPlaylists);
   apiRoutes.delete('/groups/:gid/users/:uid', Group.removeUser);
   apiRoutes.delete('/groups/:id', Group.deleteGroup);
