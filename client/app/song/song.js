@@ -1,7 +1,6 @@
 angular.module('jam.song', [])
 
 .controller('SongController', ['$scope', '$location', '$route', 'Songs', 'Users', function ($scope, loc, $route, Songs, Users) {
-  // When user adds a new link, put it in the collection
   $scope.song = Songs.getSongClicked();
   $scope.audio = Songs.getPlayer();
   $scope.duration = $scope.audio.duration;
@@ -10,16 +9,28 @@ angular.module('jam.song', [])
   $scope.user = {};
   $scope.comments = [];
   $scope.selectedComment = [{}];
-  $scope.width = '1000px';
-
-  var svgHeight = '200';
+  // $scope.width = '1000px';
+  var pinWidth = 12;
+  var pageWidth = document.getElementsByClassName('page-content')[0].offsetWidth;
+  var svgHeight = '100';
   var svgHeight2 = '20';
-
-  var svgWidth = '1000';
+  var svgWidth = pageWidth * 0.9;
   var barPadding = '1';
-  var svg = createSvg('.visualizer', svgHeight, svgWidth);
-  var commentPins = d3.select('body').selectAll('.comment-pin-container').style('height', '20px').style('width', '1000px')
+  var svg = createSvg('.waveform-container', svgHeight, svgWidth);
+  var commentPins = d3.select('body').selectAll('.pin-container').style('height', '20px').style('width', svgWidth + 'px');
 
+  $scope.width = svgWidth + 'px';
+
+  // mock data
+  var frequencyData = [1, 10, 30, 30, 60, 80, 140, 180, 150, 140, 150, 100, 50, 20, 20, 30, 50,
+  90, 100, 120, 120, 100, 120, 115, 120, 150, 100, 50, 20, 20, 30, 50, 80, 140, 180,
+   90, 100, 120, 120, 100, 120, 115, 120, 150, 100, 50, 20, 20, 30, 50, 1, 10, 30, 30, 60, 80, 140, 180,
+    90, 100, 120, 120, 100, 120, 115, 120, 150, 100, 50, 20, 20, 30, 50, 60, 80, 140, 180,
+     90, 100, 120, 120, 100, 120, 115, 120, 150, 100, 50, 20, 20, 30, 50, 30, 30, 60, 80, 140, 180,
+      90, 100, 120, 120, 100, 120, 115, 120, 150, 100, 50, 20, 20, 30, 30, 60, 80, 140, 180,
+       90, 100, 120, 120, 100, 120, 115, 120, 150, 100, 50, 20, 20, 30, 50, 1, 10, 30, 30, 60, 80, 140, 180];
+
+ 
   Users.getUserData()
   .then(function (user) {
     $scope.user = user;
@@ -32,14 +43,24 @@ angular.module('jam.song', [])
     });
   });
 
-  // mock data
-  var frequencyData = [1, 10, 30, 30, 60, 80, 140, 180, 150, 140, 150, 100, 50, 20, 20, 30, 50,
-  90, 100, 120, 120, 100, 120, 115, 120, 150, 100, 50, 20, 20, 30, 50, 80, 140, 180,
-   90, 100, 120, 120, 100, 120, 115, 120, 150, 100, 50, 20, 20, 30, 50, 1, 10, 30, 30, 60, 80, 140, 180,
-    90, 100, 120, 120, 100, 120, 115, 120, 150, 100, 50, 20, 20, 30, 50, 60, 80, 140, 180,
-     90, 100, 120, 120, 100, 120, 115, 120, 150, 100, 50, 20, 20, 30, 50, 30, 30, 60, 80, 140, 180,
-      90, 100, 120, 120, 100, 120, 115, 120, 150, 100, 50, 20, 20, 30, 30, 60, 80, 140, 180,
-       90, 100, 120, 120, 100, 120, 115, 120, 150, 100, 50, 20, 20, 30, 50, 1, 10, 30, 30, 60, 80, 140, 180];
+  svg.attr('class', 'visualizer')
+    .selectAll('rect')
+    .data(frequencyData)
+    .enter()
+    .append('rect')
+    .attr('rx', '2px')
+    .attr('ry', '2px')
+    .attr('x', function (d, i) {
+     return i * (svgWidth / frequencyData.length);
+    })
+    .attr('width', svgWidth / frequencyData.length - barPadding);
+
+    d3.select('body').selectAll('.selected-comment-container')
+      .style('height', '20px')
+      .style('width', svgWidth + 'px');
+
+    var box = d3.select('body').selectAll('.selected-comment');
+    var comment = d3.select('body').selectAll('.comment-icon');
 
   $scope.addComment = function (comment) {
     var time = Math.floor($scope.commentTime * $scope.audio.duration);
@@ -65,30 +86,16 @@ angular.module('jam.song', [])
     $scope.pinningComment = true;
   };
 
-  svg.selectAll('rect')
-    .data(frequencyData)
-    .enter()
-    .append('rect')
-    .attr('rx', '2px')
-    .attr('ry', '2px')
-    .attr('x', function (d, i) {
-     return i * (svgWidth / frequencyData.length);
-    })
-    .attr('width', svgWidth / frequencyData.length - barPadding);
-    var box = d3.select('body').selectAll('.selected-comment')
-    var comment = d3.select('body').selectAll('.comment-icon')
-
-
   var renderComments = function(comments) {
     commentPins.selectAll('div')
       .data($scope.comments)
       .enter()
       .append('div')
       .style("left", function (d) {
-        var left = Math.floor(d.time / $scope.duration * svgWidth);
+        var left = Math.floor(d.time / $scope.duration * svgWidth) - pinWidth / 2;
         return left + 'px';
       })
-      .attr('class', 'comment-pin')
+      .attr('class', 'pin')
       .on('mouseover', function(d, i) {
         $scope.selectedComment = [d];
         renderSelectedComment();
@@ -99,13 +106,10 @@ angular.module('jam.song', [])
     var left = Math.floor($scope.selectedComment[0].time / $scope.duration * svgWidth);
     box.data($scope.selectedComment)
       .style({left: left + 'px'})
-      .attr('color', 'white')
-      .transition()
-      .duration(1000)
+      .style('width', svgWidth / 2 + 'px')
       .text(function (d) {
         return d.note;
       })
-      .attr('color', 'black');
   };
 
   function renderFlow() {
