@@ -22,7 +22,7 @@
             <!-- Role, can change if user is admin -->
             <div>{{clickedMember.userGroups.role}}</div>
             <!-- Kick out -->
-            <div ng-show="user.currentGroup.userGroups.role=='admin' && !clickedMember.isAdmin">
+            <div ng-show="user.isAdmin && !clickedMember.isAdmin">
               <label>
                 <input type="radio" ng-model="chooseRole.role" value="admin">
                 Admin
@@ -39,34 +39,42 @@
       </modal-dialog>
     </div>
 
-    <!-- Current group -->
-    <div class="group"> {{ user.currentGroup.name }}        
-      <a href="/#/group/settings" ng-show="user.currentGroup.userGroups.role=='admin'">
-        <i class="invite-icon fa fa-cog fa-2x"></i>
-      </a>
-      <!-- Accept invite controls -->
-    </div>
+    <!-- Pending groups -->
+    <div class="group-list pending">
+      <div ng-repeat="group in data.pendingGroups track by $index" class="group">
+        <span class="message-text">You've been invited to join:</span> {{ group.name }}
 
-    <div class="group-members">
-      <div ng-repeat="member in data.members | orderBy: 'userGroups.role' track by $index" ng-click="memberInfo(member, $index)">
-        <div ng-class="'group-member {{member.userGroups.role}}'">
-          <img src={{member.avatarURL}} class="nav-avatar-img">
-          <div> {{ member.displayName }} </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Other groups -->
-    <div class="group-list">
-      <div ng-repeat="group in data.groups | orderBy: 'userGroups.role' track by $index" ng-class="'group {{group.userGroups.role}}'" ng-click="group.userGroups.role!='pending' && setCurrentGroup(group)" ng-show="isNotCurrentGroup(group)">
-        {{ group.name }}
-        <!-- Admin controls -->
-        <a href="/#/group/settings" ng-show="group.userGroups.role=='admin'">
-          <i class="invite-icon fa fa-cog fa-2x"></i>
-        </a>
         <!-- Accept invite controls -->
         <i class="invite-icon fa fa-check-circle-o fa-2x" ng-click="acceptInvite(group, $index)" ng-show="group.userGroups.role=='pending'"></i>
         <i class="invite-icon fa fa-times fa-2x" ng-click="rejectInvite(group, $index)" ng-show="group.userGroups.role=='pending'"></i>
+      </div>
+    </div>
+
+    <!-- Current group -->
+    <div class="group">{{ user.currentGroup.name }}</div> 
+          
+      <div class="group-members">
+        <div ng-repeat="member in data.members | orderBy: 'userGroups.role' track by $index" ng-click="memberInfo(member, $index)">
+          <div ng-class="'group-member {{member.userGroups.role}}'">
+            <img src={{member.avatarURL}} class="nav-avatar-img">
+            <div> {{ member.displayName }} </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Admin controls -->
+      <div class="group-members cog">
+        <a href="/#/group/settings" ng-show="user.isAdmin">
+          <i class="invite-icon fa fa-cog fa-2x"></i>
+        </a>
+      </div>
+
+
+
+    <!-- Other groups -->
+    <div class="group-list">
+      <div ng-repeat="group in data.groups track by $index" ng-class="'group {{group.userGroups.role}}'" ng-click="setCurrentGroup(group)" ng-show="isNotCurrentGroup(group)">
+        {{ group.name }}
       </div>
     </div>
 

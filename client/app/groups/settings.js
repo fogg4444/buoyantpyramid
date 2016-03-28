@@ -22,14 +22,22 @@ angular.module('jam.groupSettings', [])
   };
 
   $scope.sendInvite = function() {
-    Groups.sendInvite($scope.group, $scope.invite);
+    Groups.sendInvite($scope.group, $scope.invite)
+    .then(function(res) {
+      console.log(res);
+      Groups.getGroupsData($scope.user, true)
+      .then(function() {
+        // Give some feedback!
+      })
+      .catch(console.error);
+    })
+    .catch(console.error);
   };
 
   $scope.updateGroupProfile = function() {
     Groups.updateInfo($scope.group)
-    .then(function(res) {
-      console.log(res.data);
-      _.extend($scope.user.currentGroup, res.data);
+    .then(function(updatedGroup) {
+      _.extend($scope.user.currentGroup, updatedGroup);
     })
     .catch(console.error);
   };
@@ -40,7 +48,6 @@ angular.module('jam.groupSettings', [])
       bannerUrl: ''
     })
     .then(function(res) {
-      // console.log(res.data);
       _.extend($scope.user.currentGroup, res.data);
     })
     .catch(console.error);

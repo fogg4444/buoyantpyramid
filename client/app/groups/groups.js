@@ -1,11 +1,11 @@
 angular.module('jam.groups', [])
-
+  
 .controller('GroupsController', ['$scope', '$route', 'Users', 'Groups', function($scope, $route, Users, Groups) {
   $scope.user = {};
   $scope.newGroup = {};
   $scope.data = {};
   $scope.chooseRole = {
-    role: ''
+    role: 'admin'
   };
 
   $scope.toggleCreateModal = function () {
@@ -42,32 +42,30 @@ angular.module('jam.groups', [])
   };
 
   $scope.acceptInvite = function (group, index) {
-    Groups.updateUserRole(group.id, $scope.user.id, 'member');
-    $scope.data.groups[index].userGroups.role = 'member';
+    Groups.updateUserRole(group.id, $scope.user.id, 'member')
+    .then(function() {
+      group.userGroups.role = 'member';
+      $scope.data.groups.push(group);
+      $scope.data.pendingGroups.splice(index, 1);
+    })
+    .catch(console.error);
   };
 
   $scope.rejectInvite = function (group, index) {
     Groups.removeUser(group.id, $scope.user.id)
     .then(function (data) {
-      console.log(data);
+      $scope.data.pendingGroups.splice(index, 1);
     })
     .catch(console.error);
-    console.log(index);
-    $scope.data.groups.splice(index, 1);
   };
 
   $scope.createGroup = function () {
     Groups.createGroup($scope.newGroup)
     .then(function (group) {
       Groups.addUser(group.id, $scope.user.id, 'admin')
-      .then(function () {
+      .then(function (user) {
         $scope.createModalShown = false;
-        $scope.user.currentGroupId = group.id;
-        $scope.user.currentGroup = group;
-        $scope.user.currentGroup.users = [$scope.user];
-        $scope.data.groups.push($scope.user.currentGroup);
-        $scope.data.members = [$scope.user];
-        $scope.updateProfile($scope.user);
+        $scope.refreshGroups(user, true);
       });
     });
   };
@@ -77,6 +75,7 @@ angular.module('jam.groups', [])
     .then(function (res) {
       $scope.user = res.data.user;
       $scope.user.currentGroup = group;
+      $scope.user.isAdmin = $scope.user.currentGroup.userGroups.role === 'admin' ? true : false;
       $scope.data.members = $scope.user.currentGroup.users;
     })
     .catch(function (error) {
@@ -87,7 +86,7 @@ angular.module('jam.groups', [])
   $scope.updateProfile = function () {
     return Users.updateProfile($scope.user)
     .then(function (res) {
-      $scope.user = res.data.user;
+      // $scope.user = res.data.user;
     })
     .catch(function (error) {
       console.error(error);
@@ -98,18 +97,31 @@ angular.module('jam.groups', [])
     return group.id !== $scope.user.currentGroup.id;
   };
 
+  $scope.refreshGroups = function (userId, force) {
+    Groups.getGroupsData(userId, force)
+    .then(function (groups) {
+      $scope.data.groups = [];
+      $scope.data.pendingGroups = [];
+      _.each(groups, function (group) {
+        if (group.id === $scope.user.currentGroupId) {
+          $scope.user.currentGroup = group;
+          $scope.user.isAdmin = $scope.user.currentGroup.userGroups.role === 'admin' ? true : false;
+          $scope.data.members = $scope.user.currentGroup.users;
+        }
+        if (group.userGroups.role === 'pending') {
+          $scope.data.pendingGroups.push(group);
+        } else {
+          $scope.data.groups.push(group);
+        }
+      });
+    });
+  };
+
   // Load groups and group users
   Users.getUserData()
   .then(function (userData) {
     $scope.user = userData;
-    Groups.getGroupsData(userData.id)
-    .then(function (groups) {
-      $scope.data.groups = groups;
-      $scope.user.currentGroup = _.findWhere(groups, function (group) {
-        return group.id === $scope.user.currentGroupId;
-      });
-      $scope.data.members = $scope.user.currentGroup.users;
-    });
+    $scope.refreshGroups(userData);
   })
   .catch(console.error);
 }]);
