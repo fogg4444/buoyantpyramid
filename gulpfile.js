@@ -37,7 +37,7 @@ gulp.task('browser-sync', ['nodemon'], function() {
 });
 
 // Minify the things
-gulp.task('build', function() {
+gulp.task('build', ['sass'], function() {
   return gulp.src(paths.scripts)
     .pipe(ngmin())
     .pipe(concat('main.js'))   // Combine into 1 file

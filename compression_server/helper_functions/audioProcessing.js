@@ -142,6 +142,7 @@ var compress = function(hiResFilePath, s3UniqueHash, songID) {
   var lowResFilePath = path.join(__dirname + '/../temp_audio/low_res_outbox/' + lowResFileName);
 
   var ffmpegCommand = ffmpeg(hiResFilePath)
+    .setFfmpegPath('/usr/local/bin/ffmpeg')
     .audioCodec('libmp3lame')
     .audioBitrate(256)
     .audioQuality(0)

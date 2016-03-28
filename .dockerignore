@@ -1,0 +1,15 @@
+node_modules/
+compression_server/
+client/lib/
+client/dist/
+test/
+.git
+.gitignore
+.editorconfig
+.eslintignore
+eslintrc.json
+.travis.yml
+CONTRIBUTING.md
+pomander.sh
+sessionsSetup.js
+STYLE-GUIDE.md

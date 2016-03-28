@@ -2,14 +2,14 @@
 // and complete commented lines
 var port = 3000;
 
-var connectionString = 'postgres://localhost:5432/jams';
-var testConnectionString = 'postgres://localhost:5432/jamstest';
+var connectionString = 'postgres://:5432/jams';
+var testConnectionString = 'postgres://:5432/jamstest';
 var JWT_SECRET = 'not_telling_you';
 var mailgun = {
   api_key: 'KEY',
   domain: 'DOMAIN'
 };
-var compressionServer = 'http://localhost:4000';
+var compressionServer = process.env.COMPRESSION_SERVER || 'http://localhost:4000';
 
 module.exports = {
   port: port,

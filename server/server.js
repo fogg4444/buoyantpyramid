@@ -5,9 +5,9 @@ var http = require('http');
 var app = express();
 var path = require('path');
 
-var server = http.createServer(app);
-var io = require('socket.io').listen(server);  //pass a http.Server instance
-server.listen(8080); //listen on port 80
+// var server = http.createServer(app);
+// var io = require('socket.io').listen(server);  //pass a http.Server instance
+// server.listen(8080); //listen on port 80
 
 
 var normalizePort = function(val) {
