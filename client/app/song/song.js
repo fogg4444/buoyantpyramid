@@ -16,6 +16,7 @@ angular.module('jam.song', [])
   var pinWidth = '12';
   var pinHeight = '20';
   var barPadding = '1';
+  var initialDelay = 2000;
 
   $scope.width = waveWidth + 'px';
 
@@ -71,7 +72,7 @@ angular.module('jam.song', [])
     .attr('height', 0)
     .transition()
     .delay(function(d, i) {
-      return 1000 * i / frequencyData.length;
+      return initialDelay * i / frequencyData.length;
     })
     .attr('width', waveWidth / frequencyData.length - barPadding)
     .attr('y', function(d) {
@@ -188,6 +189,6 @@ angular.module('jam.song', [])
     }
   };
 
-  _.delay(setInterval, 1000, renderFlow, 300);
+  _.delay(setInterval, initialDelay, renderFlow, 300);
 
 }]);
