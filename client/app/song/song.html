@@ -1,47 +1,48 @@
 <nav-bar></nav-bar>
 <div class="song">
   <div class="page-content">
-  <h2> {{ song.title }} </h2>
-  <div> 
-    <button ng-click="togglePlay()">
-      <i ng-class="{ 'fa fa-play fa-lg': audio.paused, 'fa fa-pause fa-lg': !audio.paused }" ng-show="currentSongIsPlaying"></i>
-      <i class="fa fa-play fa-lg" ng-show="!currentSongIsPlaying"></i>
-    </button>
-  </div>
-  <div class="song-visualizer">
-    <div class="waveform-container" ng-click="setPlayTime($event)"></div>
-    <div class="comment-pin-container">
-      <div class="pin-container" ng-show="!pinningComment"></div>
-      <input min="0" max="1" step="0.01" type="range" style="width:{{width}}" ng-model="commentTime" ng-show="pinningComment" class="comment-slider"/>
-
-      <div class="selected-comment-container" ng-show="commentSelected()">
-        <div class="selected-comment"></div>
+    <div style="display:inline-block"> 
+      <button ng-click="togglePlay()">
+        <i ng-class="{ 'fa fa-play fa-lg': audio.paused, 'fa fa-pause fa-lg': !audio.paused }" ng-show="currentSongIsPlaying"></i>
+        <i class="fa fa-play fa-lg" ng-show="!currentSongIsPlaying"></i>
+      </button>
+    </div>
+    <h2 style="display:inline-block"> {{ song.title }} </h2>
+    <div class="song-visualizer">
+      <div class="waveform-container" ng-click="setPlayTime($event)"></div>
+      <div class="comment-pin-container">
+        <div class="pin-container" ng-show="!pinningComment"></div>
+        <input min="0" max="1" step="0.01" type="range" style="width:{{width}}" ng-model="commentTime" ng-show="pinningComment" class="comment-slider"/>
+        <div class="selected-comment-container" ng-show="commentSelected()">
+          <div class="selected-comment"></div>
+        </div>
       </div>
     </div>
-  </div>
-  <br>
-  <br>
-  <div class="comments-container">
-    <div class="comments"> Comments
-      <div ng-repeat="comment in comments">
-        <h2>{{comment.note}}</h2>
+    <br>
+    <div class="comments-container">
+      <div class="comments">
+        <div class="comments-header"> Comments </div>
+        <div ng-repeat="comment in comments" ng-mouseover="setSelectedComment(comment)">
+          <img class="nav-avatar-img comment" ng-src="{{user.avatarURL}}" alt="avatar">
+          <p class="comment">{{ comment.note }} @ {{ comment.time }}</p>
+        </div>
+      </div>
+      <div class="add-comment-container">
+        <div class="add-comment"> Add Comment </div>
+        <div class="add-comment" ng-click="pinComment()">
+          <i class="fa fa-map-pin"></i>
+        </div>
+        <form>
+          <input type="text" ng-model="comment">
+          <button ng-click="addComment(comment)"> Submit </button>
+        </form>
       </div>
     </div>
-    <div class="add-comment"> Add Comment
-      <div ng-click="pinComment()">
-        <i class="fa fa-map-pin"></i>
-      </div>
-      <form>
-        <input type="text" ng-model="comment">
-        <button ng-click="addComment(comment)"> Submit </button>
-      </form>
-    </div>
-  </div>
-  </div>
   </div>
   <br>
   <a href='/#/songs/'><i class="fa fa-arrow-left fa-3x"></i></a>
   <br>
+</div>
   <footer>
     <player></player>
   </footer>
