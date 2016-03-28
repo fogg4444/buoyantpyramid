@@ -1,13 +1,13 @@
 <nav-bar></nav-bar>
 <div class="song">
   <div class="page-content">
-    <div style="display:inline-block"> 
+    <div> 
       <button ng-click="togglePlay()">
         <i ng-class="{ 'fa fa-play fa-lg': audio.paused, 'fa fa-pause fa-lg': !audio.paused }" ng-show="currentSongIsPlaying"></i>
         <i class="fa fa-play fa-lg" ng-show="!currentSongIsPlaying"></i>
       </button>
     </div>
-    <h2 style="display:inline-block"> {{ song.title }} </h2>
+    <h2> {{ song.title }} </h2>
     <div class="song-visualizer">
       <div class="waveform-container" ng-click="setPlayTime($event)"></div>
       <div class="comment-pin-container">
