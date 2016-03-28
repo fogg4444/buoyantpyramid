@@ -1,5 +1,5 @@
 angular.module('jam.groups', [])
-
+  
 .controller('GroupsController', ['$scope', '$route', 'Users', 'Groups', function($scope, $route, Users, Groups) {
   $scope.user = {};
   $scope.newGroup = {};
@@ -60,14 +60,16 @@ angular.module('jam.groups', [])
     Groups.createGroup($scope.newGroup)
     .then(function (group) {
       Groups.addUser(group.id, $scope.user.id, 'admin')
-      .then(function () {
+      .then(function (user) {
         $scope.createModalShown = false;
-        $scope.user.currentGroupId = group.id;
-        $scope.user.currentGroup = group;
-        $scope.user.currentGroup.users = [$scope.user];
-        $scope.data.groups.push($scope.user.currentGroup);
-        $scope.data.members = [$scope.user];
-        $scope.updateProfile($scope.user);
+        console.log(user);
+        console.log(group);
+        // $scope.user.currentGroupId = group.id;
+        // $scope.user.currentGroup = group;
+        // $scope.user.currentGroup.users = [$scope.user];
+        // $scope.data.groups.push($scope.user.currentGroup);
+        // $scope.data.members = [$scope.user];
+        // $scope.updateProfile($scope.user);
       });
     });
   };
@@ -87,7 +89,7 @@ angular.module('jam.groups', [])
   $scope.updateProfile = function () {
     return Users.updateProfile($scope.user)
     .then(function (res) {
-      $scope.user = res.data.user;
+      // $scope.user = res.data.user;
     })
     .catch(function (error) {
       console.error(error);
@@ -104,9 +106,18 @@ angular.module('jam.groups', [])
     $scope.user = userData;
     Groups.getGroupsData(userData.id)
     .then(function (groups) {
-      $scope.data.groups = groups;
-      $scope.user.currentGroup = _.findWhere(groups, function (group) {
-        return group.id === $scope.user.currentGroupId;
+      // use each, assign current group and put the pending groups into seperate list?
+      $scope.data.groups = [];
+      $scope.data.pendingGroups = [];
+      _.each(groups, function (group) {
+        if (group.id === $scope.user.currentGroupId) {
+          $scope.user.currentGroup = group;
+        }
+        if (group.userGroups.role === 'pending') {
+          $scope.data.pendingGroups.push(group);
+        } else {
+          $scope.data.groups.push(group);
+        }
       });
       $scope.data.members = $scope.user.currentGroup.users;
     });
