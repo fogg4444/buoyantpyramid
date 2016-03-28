@@ -1,7 +1,7 @@
 var path = require('path');
 var fs = require('fs');
 var SongModel = require('../models/songModel');
-var awsConfig = require('../config/aws.json');
+var awsConfig = require('../config/aws.config.json');
 var Promise = require('bluebird');
 
 var AWS = require('aws-sdk');

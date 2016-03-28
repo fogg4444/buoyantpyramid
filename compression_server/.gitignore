@@ -1,2 +1,2 @@
-config/aws.config.js
-config/server.config.js
+config/aws.config.js*
+config/server.config.js*

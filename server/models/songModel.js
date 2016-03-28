@@ -2,7 +2,7 @@ var db = require('../db/database');
 var Song = db.Song;
 var request = require('request');
 var Promise = require('bluebird');
-var awsConfig = require('../config/aws.json');
+var awsConfig = require('../config/aws.config.json');
 
 var addSong = function (songData) {
   return Song.create(songData);

@@ -2,7 +2,7 @@
   <nav-bar banner="{{newBanner}}"></nav-bar>
   <div class="page-content">
 
-     <modal-dialog class="modal banner-dialog" width="100%" show="bannerModalShown">
+     <modal-dialog class="modal banner-dialog" width="80%" show="bannerModalShown">
       <div class='progress-bar' ng-style="{width: file.progressPercentage + '%'}"></div>
       <div ngf-drop ng-model="picFile" ngf-pattern="image/*" class="cropArea">
         <img-crop image="picFile  | ngfDataUrl" result-image="croppedDataUrl" area-type="rectangle" result-image-size="'max'" area-min-size=10 aspect-ratio="12" ng-init="croppedDataUrl=''">

@@ -5,7 +5,7 @@ var os = require('os');
 var fs = require('fs');
 var AWS = require('aws-sdk');
 var crypto = require('crypto');
-var config = require('../config/aws.json');
+var config = require('../config/aws.config.json');
 
 var getExpiryTime = function () {
     var _date = new Date();
