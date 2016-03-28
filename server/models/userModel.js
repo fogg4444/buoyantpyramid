@@ -55,16 +55,9 @@ var getGroups = function(userId) {
     var groups = {};
     User.findById(userId)
     .then(function (user) {
-      user.getAdminGroups()
-      .then(function (adminGroups) {
-        user.getPendingGroups()
-        .then(function (pendingGroups) {
-          user.getMemberGroups()
-          .then(function (memberGroups) {
-            // TO DO: take out passwords
-            resolve({admin: adminGroups, member: memberGroups, pending: pendingGroups});
-          });
-        });
+      user.getGroups()
+      .then(function (groups) {
+        resolve(groups);
       });
     })
     .catch(function(error) {

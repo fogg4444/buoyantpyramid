@@ -57,6 +57,7 @@ var removeUser = function (groupId, userId) {
 var deleteGroup = function (groupId) {
   return Groups.findOne({where: {groupId: groupId}})
   .then(function (group) {
+    // get and destroy all songs uploaded by the group
     return group.destroy();
   })
   .catch(console.error);
