@@ -1,19 +1,18 @@
 angular.module('jam.song', [])
 
 .controller('SongController', ['$scope', '$location', '$route', 'Songs', 'Users', function ($scope, loc, $route, Songs, Users) {
-  $scope.song = Songs.getSongClicked();
+  $scope.song = {};
   $scope.audio = Songs.getPlayer();
-  $scope.duration = $scope.audio.duration;
   $scope.commentTime = null;
   $scope.pinningComment = false;
   $scope.user = {};
   $scope.comments = [];
   $scope.selectedComment = [{}];
-  // $scope.width = '1000px';
+
   var pinWidth = 12;
-  var pageWidth = document.getElementsByClassName('page-content')[0].offsetWidth;
   var svgHeight = '100';
   var svgHeight2 = '20';
+  var pageWidth = document.getElementsByClassName('page-content')[0].offsetWidth;
   var svgWidth = pageWidth * 0.9;
   var barPadding = '1';
   var svg = createSvg('.waveform-container', svgHeight, svgWidth);
@@ -34,6 +33,12 @@ angular.module('jam.song', [])
   Users.getUserData()
   .then(function (user) {
     $scope.user = user;
+  })
+  .then(function() {
+    return Songs.getSong(loc.path().split('/')[2])
+    .then(function (song) {
+      $scope.song = song;
+    });
   })
   .then(function () {
     Songs.getComments($scope.song.id)
@@ -63,7 +68,7 @@ angular.module('jam.song', [])
     var comment = d3.select('body').selectAll('.comment-icon');
 
   $scope.addComment = function (comment) {
-    var time = Math.floor($scope.commentTime * $scope.audio.duration);
+    var time = Math.floor($scope.commentTime * $scope.song.duration);
     Songs.addComment({note: comment, time: time, userId: $scope.user.id}, $scope.song.id)
     .then(function (comment) {
       $scope.comments.push(comment);
@@ -82,7 +87,7 @@ angular.module('jam.song', [])
   };
 
   $scope.pinComment = function () {
-    $scope.commentTime = $scope.audio.currentTime / $scope.audio.duration;
+    $scope.commentTime = $scope.audio.currentTime / $scope.song.duration;
     $scope.pinningComment = true;
   };
 
@@ -92,7 +97,7 @@ angular.module('jam.song', [])
       .enter()
       .append('div')
       .style("left", function (d) {
-        var left = Math.floor(d.time / $scope.duration * svgWidth) - pinWidth / 2;
+        var left = Math.floor(d.time / $scope.song.duration * svgWidth) - pinWidth / 2;
         return left + 'px';
       })
       .attr('class', 'pin')
@@ -103,7 +108,7 @@ angular.module('jam.song', [])
   };
 
   var renderSelectedComment = function(comment) {
-    var left = Math.floor($scope.selectedComment[0].time / $scope.duration * svgWidth);
+    var left = Math.floor($scope.selectedComment[0].time / $scope.song.duration * svgWidth);
     box.data($scope.selectedComment)
       .style({left: left + 'px'})
       .style('width', svgWidth / 2 + 'px')
@@ -124,18 +129,18 @@ angular.module('jam.song', [])
       .transition()
       .duration(600)
       .attr('fill', function(d, i) {
-        if ((i / frequencyData.length) < ($scope.audio.currentTime / $scope.duration)) {
+        if ((i / frequencyData.length) < ($scope.audio.currentTime / $scope.song.duration)) {
           return 'rgb(0, 0, ' + 220 + ')';
         } else {
           return 'rgb(0, 0, ' + 100 + ')';
         }
       });
-    }
+  };
 
   $scope.setPlayTime = function (e) {
     div = document.getElementsByClassName('visualizer')[0];
     var x = e.clientX - div.offsetLeft;
-    $scope.audio.currentTime = $scope.audio.duration * x / svgWidth;
+    $scope.audio.currentTime = $scope.song.duration * x / svgWidth;
   };
 
   $scope.togglePlay = function () {
