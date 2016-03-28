@@ -65,14 +65,7 @@ angular.module('jam.groups', [])
       Groups.addUser(group.id, $scope.user.id, 'admin')
       .then(function (user) {
         $scope.createModalShown = false;
-        console.log(user);
-        console.log(group);
-        // $scope.user.currentGroupId = group.id;
-        // $scope.user.currentGroup = group;
-        // $scope.user.currentGroup.users = [$scope.user];
-        // $scope.data.groups.push($scope.user.currentGroup);
-        // $scope.data.members = [$scope.user];
-        // $scope.updateProfile($scope.user);
+        $scope.refreshGroups(user.id, true);
       });
     });
   };
@@ -104,11 +97,8 @@ angular.module('jam.groups', [])
     return group.id !== $scope.user.currentGroup.id;
   };
 
-  // Load groups and group users
-  Users.getUserData()
-  .then(function (userData) {
-    $scope.user = userData;
-    Groups.getGroupsData(userData.id)
+  $scope.refreshGroups = function (userId, force) {
+    Groups.getGroupsData(userId, force)
     .then(function (groups) {
       $scope.data.groups = [];
       $scope.data.pendingGroups = [];
@@ -125,6 +115,13 @@ angular.module('jam.groups', [])
         }
       });
     });
+  };
+
+  // Load groups and group users
+  Users.getUserData()
+  .then(function (userData) {
+    $scope.user = userData;
+    $scope.refreshGroups(userData.id);
   })
   .catch(console.error);
 }]);
