@@ -6,12 +6,14 @@
     <button ng-click="togglePlay()"><i ng-class="{'fa fa-play fa-lg': audio.paused, 'fa fa-pause fa-lg': !audio.paused}"></i></button>
   </div>
   <div class="visualizer" ng-click="setPlayTime($event)"></div>
-  <div class="comment-pin" ng-show="!pinningComment"></div>
-  <input min="0" max="1" step="0.01" type="range" style="width:{{width}}" ng-model="commentTime" ng-show="pinningComment"/>
-  
-  <div class="selected-comment" ng-show="selectedComment"></div>
+  <div class="comment-pin-container" ng-show="!pinningComment"></div>
+  <input min="0" max="1" step="0.01" type="range" style="width:{{width}}" ng-model="commentTime" ng-show="pinningComment" class="comment-slider" />
+  <div class="selected-comment" ng-show="commentSelected()"></div>
 
-  <a href='/#/songs/'><i class="fa fa-arrow-left"></i></a>
+  <br>
+  <br>
+  <br>
+  <a href='/#/songs/'><i class="fa fa-arrow-left fa-3x"></i></a>
     <!-- Add song to playlist modal -->
   <br>
   <br>

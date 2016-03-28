@@ -18,8 +18,7 @@ angular.module('jam.song', [])
   var svgWidth = '1000';
   var barPadding = '1';
   var svg = createSvg('.visualizer', svgHeight, svgWidth);
-  var commentMarkers = createSvg('.comment-pin', svgHeight2, svgWidth);
-  var selectedComment = createSvg('.selected-comment', svgHeight2, svgWidth);
+  var commentPins = d3.select('body').selectAll('.comment-pin-container').style('height', '20px').style('width', '1000px')
 
   Users.getUserData()
   .then(function (user) {
@@ -53,6 +52,10 @@ angular.module('jam.song', [])
     });
   };
 
+  $scope.commentSelected = function () {
+    return !!Object.keys($scope.selectedComment[0]).length;
+  };
+
   function createSvg(parent, height, width) {
     return d3.select(parent).append('svg').attr('height', height).attr('width', width);
   };
@@ -66,71 +69,46 @@ angular.module('jam.song', [])
     .data(frequencyData)
     .enter()
     .append('rect')
+    .attr('rx', '2px')
+    .attr('ry', '2px')
     .attr('x', function (d, i) {
      return i * (svgWidth / frequencyData.length);
     })
     .attr('width', svgWidth / frequencyData.length - barPadding);
+    var box = d3.select('body').selectAll('.selected-comment')
+    var comment = d3.select('body').selectAll('.comment-icon')
 
-  selectedComment.selectAll('text')
-    .data(selectedComment)
-    .enter()
-    .append('text')
-    // .attr('width', '200')
-    // .attr('height', '20')
 
   var renderComments = function(comments) {
-    commentMarkers.selectAll('rect')
-      .data(comments)
+    commentPins.selectAll('div')
+      .data($scope.comments)
       .enter()
-      .append('rect')
-      .attr('x', function (d, i) {
-        return d.time / $scope.duration * svgWidth;
+      .append('div')
+      .style("left", function (d) {
+        var left = Math.floor(d.time / $scope.duration * svgWidth);
+        return left + 'px';
       })
-      .attr('width', svgWidth / frequencyData.length - barPadding)
-      .on('click', function(d, i) {
+      .attr('class', 'comment-pin')
+      .on('mouseover', function(d, i) {
         $scope.selectedComment = [d];
         renderSelectedComment();
       });
-
-    commentMarkers.selectAll('rect')
-      .data($scope.comments)
-      .attr('x', function (d, i) {
-        return d.time / $scope.duration * svgWidth;
-      })
-      .attr('y', function(d) {
-        return svgHeight2 - 10;
-      })
-      .attr('height', function(d) {
-        return 100;
-      })
-      .transition()
-      .duration(600)
-      .attr('fill', function(d, i) {
-        return 'rgb(0, 0, ' + 220 + ')';
-      })
   };
 
   var renderSelectedComment = function(comment) {
-    selectedComment.selectAll('text')
-      .data($scope.selectedComment)
-      .attr('x', function (d, i) {
-        return svgWidth * d.time / $scope.duration;
-      })
-      .attr('text-align', 'center')
-      .attr('dy', '10')
-      // .attr('y', function (d, i) {
-      //   return '-20px';
-      // })
+    var left = Math.floor($scope.selectedComment[0].time / $scope.duration * svgWidth);
+    box.data($scope.selectedComment)
+      .style({left: left + 'px'})
+      .attr('color', 'white')
       .transition()
-      .duration(600)
+      .duration(1000)
       .text(function (d) {
         return d.note;
-      });
+      })
+      .attr('color', 'black');
   };
 
-  // Continuously loop and update chart with frequency data.
   function renderFlow() {
-     // Update d3 chart with new data.
     svg.selectAll('rect')
       .data(frequencyData)
       .attr('y', function(d) {
