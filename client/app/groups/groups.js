@@ -1,6 +1,6 @@
 angular.module('jam.groups', [])
   
-.controller('GroupsController', ['$scope', '$route', 'Users', 'Groups', function($scope, $route, Users, Groups) {
+.controller('GroupsController', ['$scope', '$route', 'Users', 'Groups', 'Songs', function($scope, $route, Users, Groups, Songs) {
   $scope.user = {};
   $scope.newGroup = {};
   $scope.data = {};
@@ -77,6 +77,7 @@ angular.module('jam.groups', [])
       $scope.user.currentGroup = group;
       $scope.user.isAdmin = $scope.user.currentGroup.userGroups.role === 'admin' ? true : false;
       $scope.data.members = $scope.user.currentGroup.users;
+      Songs.resetPlayer();
     })
     .catch(function (error) {
       console.error(error);

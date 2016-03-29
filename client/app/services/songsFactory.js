@@ -182,8 +182,11 @@ angular.module('jam.songsFactory', [])
   };
 
   // call this with the index of the callback to trigger just one
-  var notifyObservers = function(action) {
-    observerCallbacks[action]();
+  var notifyObservers = function() {
+    var actions = Array.prototype.slice.call(arguments);
+    _.each(actions, function(action) {
+      observerCallbacks[action]();
+    });
   };
 
   var getSoundsAndIndex = function () {
@@ -264,6 +267,11 @@ angular.module('jam.songsFactory', [])
     return format;
   };
 
+  var resetPlayer = function () {
+    player = new Audio();
+    notifyObservers('RESET_PLAYER');
+  };
+
   return {
     addComment: addComment,
     addSong: addSong,
@@ -283,6 +291,7 @@ angular.module('jam.songsFactory', [])
     registerObserverCallback: registerObserverCallback,
     getPlayer: getPlayer,
     checkReset: checkReset,
+    resetPlayer: resetPlayer,
     setVolume: setVolume,
     getVolume: getVolume,
     setMuted: setMuted,
