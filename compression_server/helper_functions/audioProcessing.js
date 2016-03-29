@@ -6,7 +6,7 @@ var queue = require('queue');
 var request = require('request');
 var ffmpeg = require('fluent-ffmpeg');
 var serverConfig = require('../config/server.config.js');
-var awsConfig = require('../config/aws.config.json');
+var awsConfig = require('../config/aws.config.js');
 
 var AWS = require('aws-sdk');
 AWS.config.update({
@@ -243,9 +243,9 @@ var saveCompressedFileReference = function(fileName, songID) {
     },
     function(err, res, body) {
       if (!err && res.statusCode === 200) {
-        console.log('--- 11.5 --- Success putting comprssed link to Primary DB: ');
+        console.log('--- 11.6 --- Success putting comprssed link to Primary DB: ');
       } else {
-        console.log('--- 11.5 --- Error putting comprssed link to Primary DB: ');
+        console.log('--- 11.6 --- Error putting comprssed link to Primary DB: ', err);
       }
     }
   );

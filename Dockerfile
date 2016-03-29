@@ -1,11 +1,16 @@
 FROM node:argon
 
+ENV cachebust=840762987412734
+
 RUN npm install gulp -g
 RUN npm install bower -g
 
-# Create app directory and copy files
+# Create app directory
+RUN mkdir -p /usr/src/app/
+WORKDIR /usr/src/app/
+
+# Install app dependencies
 COPY . /usr/src/app/
-WORKDIR /usr/src/app
 
 RUN npm install
 RUN cd client

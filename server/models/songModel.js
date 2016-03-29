@@ -3,7 +3,7 @@ var Song = db.Song;
 var Comment = db.Comment;
 var request = require('request');
 var Promise = require('bluebird');
-var awsConfig = require('../config/aws.json');
+var awsConfig = require('../config/aws.config.js');
 var config = require('../config/config.js');
 
 var addSong = function (songData) {

@@ -11,9 +11,8 @@
 #
 #
 
-# FROM          fogg4444/centosffmpeg
+# FROM          centos7 ??
 # MAINTAINER    Raman Nanda <Raman148@gmail.com>
-
 
 # ENV           FFMPEG_VERSION=2.8.1 \
 #               MPLAYER_VERSION=1.2  \
@@ -42,31 +41,24 @@
 # RUN           node -v
 # RUN           npm -v
 
-
 #################################################################################################################
 # Build from ffmpeg install
 
-FROM centosffmpeg
+FROM fogg4444/centosffmpeg
 
-ENV cachebust = 148445
-
-RUN ls
+ENV cachebust = 1489884445
 
 # Create app directory
 RUN mkdir -p /usr/src/app/
 WORKDIR /usr/src/app/
 
-RUN ls
-
 # Install app dependencies
 COPY . /usr/src/app/
-
-RUN ls
-RUN cat package.json
 
 RUN npm install
 
 
 EXPOSE 4000
 
-CMD ["node", "./bin/www"]
+CMD ["node", "bin/www"]
+
