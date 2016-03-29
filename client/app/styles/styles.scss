@@ -8,7 +8,7 @@
 // TODO: Adjust nav bar for mobile use
 // Starting example below:
 
-$mobileBreakpoint: 600px;
+$mobileBreakpoint: 700px;
 
 .pagewidth {
   @media screen and (min-width: $mobileBreakpoint) {
@@ -19,7 +19,7 @@ $mobileBreakpoint: 600px;
 /**************************************************/
 
 $nav-height: 3rem;
-$player-height: 4rem;
+$player-height: 6rem;
 
 html {
   box-sizing: border-box;
@@ -777,21 +777,29 @@ footer {
   background-color: $bgcolor-2;
   width: 100%;
 }
+.player {
+  text-align: center;
+}
 .time-title {
   position: absolute;
   bottom: 1rem;
   left: 1rem;
-  width: 200px;
+  width: 100%;
+  text-align:center;
 }
 .time {
-  width: 200px;
+  width: 60%;
+  display: inline-block;
+  position: relative;
 }
 .volume {
+  width: 10rem;
   white-space: nowrap;
 }
 
 .vol-slider-container {
-  width: 150px;
+  display: inline-block;
+  width: 8rem;
 }
 
 .player div.speed-slider-container {
@@ -860,14 +868,17 @@ rzslider.rz-vertical .rz-pointer:after {
   height: 4px;
   width: 16px;
 }
-
-.player > div {
+.player-buttons > div {
   display: inline-block;
   padding: 0.5rem;
   position: relative;
-  &.time {
-    vertical-align: middle;
-  }
+}
+
+.player-buttons {
+  display: inline-block;
+}
+.time {
+  vertical-align: middle;
 }
 
 .player button {
@@ -948,6 +959,30 @@ rzslider.rz-vertical .rz-pointer:after {
     width: 90%; /* Default */
     height: 50%;
   }
+  .player {
+    position:relative;
+    height:$player-height;
+  }
+  .player-buttons {
+    left:0;
+    width:100%;
+    position:absolute;
+    bottom:$player-height / 2;
+  }
+  .player-buttons > div {
+    margin: 0 2%;
+  }
+  .time {
+    width: 100%;
+    position:absolute;
+    bottom:0;
+    left:0;
+    padding:0;
+  }
+  .time-title {
+    bottom: 0.5rem;
+  }
+
 
 }
 
