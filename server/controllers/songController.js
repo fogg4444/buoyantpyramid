@@ -14,7 +14,6 @@ var s3 = new AWS.S3();
 var bucketAddress = s3.endpoint.protocol + '//' + awsConfig.bucket + '.' + s3.endpoint.hostname + s3.endpoint.pathname;
 
 var addCompressedLink = function (req, res, next) {
-  console.log('--- Add Compressed Link ---', req.body);
   var songID = req.body.songID;
   var compressedID = req.body.compressedID;
   var amplitudeData = req.body.amplitudeData;
@@ -130,7 +129,6 @@ var getSong = function (req, res, next) {
 var updateSong = function (req, res, next) {
   SongModel.updateSong(req.body)
   .then(function (array) {
-    console.log('array is ' + array);
     if (array[0] > 0) {
       res.json(array[1][0]);
     } else {

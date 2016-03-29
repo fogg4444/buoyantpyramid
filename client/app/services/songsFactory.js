@@ -70,7 +70,6 @@ angular.module('jam.songsFactory', [])
       data: song
     })
     .then(function (res) {
-      console.log('res data is ' + JSON.stringify(res.data));
       return res.data;
     });
   };

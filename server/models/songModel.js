@@ -47,7 +47,6 @@ var getSong = function(songId) {
 };
 
 var updateSong = function(song) {
-  // console.log('song is ' + JSON.stringify(song));
   return Song.update(song, {
     where: { id: song.id },
     fields: ['title', 'description', 'dateRecorded', 'imageUrl'],
