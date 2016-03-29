@@ -3,8 +3,8 @@
     <span>{{song.title}}</span>
   </div>
   <div>
-    <button class='icon-button' ng-click="stop()"><i class="fa fa-stop fa-lg"></i></button>
-    <button class='icon-button' ng-click="togglePlay()"><i ng-class="{'fa fa-play fa-lg': audio.paused, 'fa fa-pause fa-lg': !audio.paused}"></i></button>
+    <!-- <button class='icon-button' ng-click="stop()"><i class="fa fa-stop fa-lg"></i></button> -->
+    <button class='icon-button' ng-disabled="!playable" ng-click="togglePlay()"><i ng-class="{'fa fa-play fa-lg': audio.paused, 'fa fa-pause fa-lg': !audio.paused}"></i></button>
   </div>
   
   <div class="input-group time">
@@ -12,16 +12,22 @@
       rz-slider-model="audio.currentTime" rz-slider-options="timeSlider.options">
     </rzslider>
   </div>
-  <div class="input-group">
-    <!-- <span class="input-group-addon">Volume</span> -->
-    <rzslider class="vol-slider"
-      rz-slider-model="audio.volume" rz-slider-options="volSlider.options">
-    </rzslider>
-    <!-- <input class="form-control ng-pristine ng-untouched ng-valid" type="range" ng-model="audio.volume" step="0.02" max="1" min="0"> -->
+  <div class="input-group volume">
+    <div class="vol-slider-container" >
+    
+      <rzslider class="vol-slider"
+        rz-slider-model="audio.volume" rz-slider-options="volSlider.options">
+      </rzslider>
+    </div>
     <button class='icon-button mute-button' ng-click="mute()"><i ng-class="{'fa fa-volume-off fa-lg': muted, 'fa fa-volume-down fa-lg': !muted, 'fa fa-volume-up fa-lg': !muted && audio.volume > 0.5}"></i></button>
   </div>
-  <div class="input-group">
+  <div class="input-group speed">
     <button class='icon-button' ng-click="toggleSpeed()">{{audio.playbackRate}}x<i class="fa fa-angle-double-right fa-lg"></i></button>
-    <input class="form-control ng-pristine ng-untouched ng-valid speed-slider" ng-show="showSpeed" type="range" ng-model="audio.playbackRate" step="0.25" max="2" min="0.5"><span></span>
+    <div class="speed-slider-container" ng-show="showSpeed" >
+      <rzslider class="speed-slider"
+        rz-slider-model="audio.playbackRate" rz-slider-options="speedSlider.options">
+      </rzslider>
+    </div>
+    <!-- <input class="form-control ng-pristine ng-untouched ng-valid speed-slider" ng-show="showSpeed" type="range" ng-model="audio.playbackRate" step="0.25" max="2" min="0.5"> -->
   </div>
 </div>

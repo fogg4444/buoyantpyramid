@@ -4,6 +4,7 @@ angular.module('jam.player', ['rzModule'])
   $scope.song = null;
   $scope.muted = Songs.getMuted();
   $scope.timeFormat = '00:00';
+  $scope.playable = false;
 
   $scope.timeSlider = { 
     options: {
@@ -21,14 +22,34 @@ angular.module('jam.player', ['rzModule'])
 
   $scope.volSlider = { 
     options: {
-      floor: 0.0,
-      ceil: 1.0,
-      step: 0.01,
+      floor: 0,
+      ceil: 1,
+      step: 0.02,
+      precision: 10,
       showSelectionBar: true,
       hideLimitLabels: true,
       translate: function(value) {
         return '';
+      },
+      onEnd: function(sliderId, modelValue, highValue) {
+        if (modelValue < 0.05) {
+          $scope.mute();
+        }
       }
+    }
+  };
+
+  $scope.speedSlider = { 
+    options: {
+      floor: 0.5,
+      ceil: 2.5,
+      step: 0.5,
+      precision: 10,
+      vertical: true,
+      hideLimitLabels: true,
+      translate: function(value) {
+        return '';
+      },
     }
   };
 
@@ -40,14 +61,15 @@ angular.module('jam.player', ['rzModule'])
     return scope.audio.volume;
   }, function(newV, oldV) {
     if (newV) {
-      var vol = newV < 0.1 ? 0 : newV;
-      if (newV < 0.1 && !$scope.muted) {
-        $scope.mute();
-      } else if ($scope.muted) {
+      // var vol = newV < 0.1 ? 0 : newV;
+      // if (newV < 0.1 && !$scope.muted) {
+      //   $scope.mute();
+      // } else 
+      if ($scope.muted) {
         Songs.setMuted(false);
         $scope.muted = false;
       }
-      Songs.setVolume(vol);
+      Songs.setVolume(newV);
     }
   });
 
@@ -88,12 +110,12 @@ angular.module('jam.player', ['rzModule'])
   var changeSong = function() {
     $scope.playlist = Songs.getSoundsAndIndex();
     $scope.song = $scope.playlist.songs[$scope.playlist.index];
-    $scope.audio.src = $scope.song.compressedAddress ||
-      $scope.song.address;
+    $scope.audio.src = $scope.song.compressedAddress || null;
     $scope.audio.onended = Songs.nextIndex;
     $scope.audio.ondurationchange = function(e) {
       $scope.timeSlider.options.disabled = !$scope.audio.duration;
       $scope.timeSlider.options.ceil = $scope.audio.duration;
+      $scope.playable = !!$scope.audio.duration;
     };
     $scope.audio.play();
   };
