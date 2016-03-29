@@ -11,7 +11,10 @@ var addUser = function (groupId, userId, role) {
   return new Promise(function (resolve, reject) {
     getGroup(groupId)
     .then(function (group) {
-      User.findOne({where: {id: userId}})
+      User.findOne({
+        where: { id: userId },
+        attributes: { exclude: ['password'] }
+      })
       .then(function (user) {
         group.addUser(user, {role: role})
         .then(function () {

@@ -30,23 +30,6 @@ var createGroup = function(req, res, next) {
   });
 };
 
-// var getBanner = function(req, res, next) {
-//   var groupId = parseInt(req.params.id);
-
-//   Group.getGroup(groupId)
-//   .then(function(group) {
-//     if (group) {
-//       var url = path.resolve(__dirname + '/../uploadInbox/' + group.bannerUrl);
-//       res.sendFile(url);
-//     } else {
-//       res.status(404).send('group doesn\'t exist');
-//     }
-//   })
-//   .catch(function(error) {
-//     next(error);
-//   });
-// };
-
 var getUsers = function(req, res, next) {
   // roles:
   //  admin, member, pending

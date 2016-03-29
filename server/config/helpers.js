@@ -32,8 +32,11 @@ var verifyToken = function (req, res, next) {
       
       // check against database
       if (tokenUser.id && tokenUser.email && tokenUser.password) {
-        User.findOne({where: {id: tokenUser.id, email: tokenUser.email, password: tokenUser.password}}).
-        then(function(user) {
+        User.findOne({
+          where: {id: tokenUser.id, email: tokenUser.email},
+          attributes: { exclude: ['password'] }
+        })
+        .then(function(user) {
           req.user = user;
           next();
         });

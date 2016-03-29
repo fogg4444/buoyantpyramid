@@ -42,14 +42,14 @@ body {
   padding-bottom: $player-height;
 }
 
-input[type=range] {
-  @include input-type-range;
-}
+// input[type=range] {
+//   @include input-type-range;
+// }
 
-input[type=range].time-slider {
-  position:relative;
-  @include input-type-range(0.5rem, 1.5rem, $linkcolor, 100%, 1.5rem, rgba(0,0,0, 0.35));
-}
+// input[type=range].time-slider {
+//   position:relative;
+//   @include input-type-range(0.5rem, 1.5rem, $linkcolor, 100%, 1.5rem, rgba(0,0,0, 0.35));
+// }
 
 
 // Replace with new slider
@@ -771,12 +771,85 @@ footer {
   top: 1rem;
   left: 2rem;
 }
-.speed-slider {
-  position: absolute;
-  left: -2rem;
-  bottom: 6rem;
-  transform: rotate(-90deg);
+
+.time {
+  width: 200px;
 }
+.volume {
+  white-space: nowrap;
+}
+
+.vol-slider-container {
+  width: 150px;
+}
+
+.player div.speed-slider-container {
+  position: absolute;
+  height: 200px;
+  background: rgba($darkgrey, 0.8);
+  bottom: 2em;
+}
+
+rzslider .rz-bubble {
+  color:inherit;
+}
+
+rzslider .rz-pointer {
+  top: -14px;
+  z-index: 3;
+  width: 12px;
+  height: 32px;
+  cursor: pointer;
+  background-color: $linkcolor;
+  -webkit-border-radius: 1px;
+     -moz-border-radius: 1px;
+          border-radius: 1px;
+}
+
+rzslider .rz-pointer:after {
+  position: absolute;
+  top: 8px;
+  left: 4px;
+  width: 4px;
+  height: 16px;
+  background: $midgrey;
+  -webkit-border-radius: 1px;
+     -moz-border-radius: 1px;
+          border-radius: 1px;
+  content: '';
+}
+rzslider.time-slider .rz-bar {
+    height: 32px;
+    top: 2px;
+    background: rgba($darkgrey, 0.8);
+}
+rzslider .rz-pointer:hover:after {
+  background-color: $white;
+}
+
+rzslider .rz-pointer.rz-active {
+  z-index: 4;
+}
+
+rzslider .rz-pointer.rz-active:after {
+  background-color: $darkgrey;
+}
+
+rzslider.rz-vertical .rz-pointer {
+  // transform: rotate(-90deg);
+  left: -14px;
+  height: 12px;
+  width: 32px;
+}
+
+rzslider.rz-vertical .rz-pointer:after {
+  position: absolute;
+  left: 8px;
+  top: 4px;
+  height: 4px;
+  width: 16px;
+}
+
 .mute-button {
   width:1.5em;
   text-align: left;
@@ -793,6 +866,7 @@ footer {
 
 .player button {
   width: 1.5em;
+  vertical-align: text-top;
 }
 
 .clickable-playlist {
