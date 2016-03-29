@@ -33,6 +33,11 @@ angular.module('jam.playlist', [])
         $scope.models.currentPlaylist.songs[i].playlistSongs.listPosition = i;
         updateArray.push({songId: $scope.models.currentPlaylist.songs[i].id, listPosition: i});
       }
+      Songs.updatePlaylistPosition($scope.models.currentPlaylist.id, updateArray)
+      .then(function(resp) {
+        // anything?
+      })
+      .catch(console.error);
     }
   };
 

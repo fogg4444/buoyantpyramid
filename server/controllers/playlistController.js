@@ -51,7 +51,19 @@ var getSongs = function (req, res, next) {
   .catch(function (error) {
     next(error);
   });
+};
 
+var updatePositions = function(req, res, next) {
+  var playlistId = req.params.id;
+  var positions = req.body;
+
+  Playlist.updatePositions(playlistId, positions)
+  .then(function(resp) {
+    res.json(resp);
+  })
+  .catch(function (error) {
+    next(error);
+  });
 };
 
 var removeSong = function(req, res, next) {
@@ -72,5 +84,6 @@ module.exports = {
   createPlaylist: createPlaylist,
   deletePlaylist: deletePlaylist,
   getSongs: getSongs,
+  updatePositions: updatePositions,
   removeSong: removeSong
 };

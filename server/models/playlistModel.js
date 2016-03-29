@@ -59,6 +59,28 @@ var getSongs = function(playlistId) {
   });
 };
 
+var updatePositions = function(playlistId, positions) {
+  return new Promise(function(resolve, reject) {
+    PlaylistSongs.findAll({ where: {playlistId: playlistId }})
+      .then(function(playlistSongs) {
+        for (var i = 0; i < playlistSongs.length; i++) {
+          PlaylistSongs.update(
+            { 
+              listPosition: positions[i].listPosition
+            },
+            { where: { songId: positions[i].songId } 
+            } 
+          ).then(function(response) {
+            resolve(response);
+          })
+          .catch(function(error) {
+            reject(error);
+          });
+        }
+      });
+  });
+};
+
 var removeSong = function(songId, playlistId) {
   return PlaylistSongs.destroy({ where: { songId: songId, playlistId: playlistId } });
 };
@@ -68,5 +90,6 @@ module.exports = {
   createPlaylist: createPlaylist,
   deletePlaylist: deletePlaylist,
   getSongs: getSongs,
+  updatePositions: updatePositions,
   removeSong: removeSong
 };

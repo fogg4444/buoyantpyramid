@@ -151,6 +151,14 @@ angular.module('jam.songsFactory', [])
     .catch(console.error);
   };
 
+  var updatePlaylistPosition = function (playlistId, updateArray) {
+    return http({
+      method: 'PUT',
+      url: '/api/playlists/' + playlistId,
+      data: updateArray
+    });
+  };
+
   var deleteFromPlaylist = function (sId, plId) {
     // Takes a playlist object with the song removed
     return http({
@@ -286,6 +294,7 @@ angular.module('jam.songsFactory', [])
     createPlaylist: createPlaylist,
     addSongToPlaylist: addSongToPlaylist,
     getPlaylistSongs: getPlaylistSongs,
+    updatePlaylistPosition: updatePlaylistPosition,
     deleteFromPlaylist: deleteFromPlaylist,
     deletePlaylist: deletePlaylist,
     getSoundsAndIndex: getSoundsAndIndex,
