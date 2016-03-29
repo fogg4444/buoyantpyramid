@@ -3,6 +3,7 @@ angular.module('jam.groupSettings', [])
 .controller('SettingsController', ['$scope', '$timeout', 'Upload', 'Users', 'Groups', 'UploadFactory', function($scope, to, Up, Users, Groups, UploadFactory) {
   $scope.user = {};
   $scope.group = {};
+  $scope.sendingInvite = false;
 
   Users.getUserData()
   .then(function (user) {
@@ -10,7 +11,6 @@ angular.module('jam.groupSettings', [])
     $scope.group = user.currentGroup;
   })
   .catch(console.error);
-
 
   $scope.showBannerModal = function (file) {
     $scope.file = file;
@@ -22,12 +22,15 @@ angular.module('jam.groupSettings', [])
   };
 
   $scope.sendInvite = function() {
+    $scope.sendingInvite = true;
+
     Groups.sendInvite($scope.group, $scope.invite)
     .then(function(res) {
-      console.log(res);
+      $scope.invite = "";
+      $scope.inviteForm.$setPristine();
       Groups.getGroupsData($scope.user, true)
       .then(function() {
-        // Give some feedback!
+        $scope.sendingInvite = false;
       })
       .catch(console.error);
     })
@@ -74,25 +77,6 @@ angular.module('jam.groupSettings', [])
     if (file) {
       UploadFactory.upload(file, 'images', successCallback, errorCallback, progressCallback);
     }
-  };  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  }; 
   
 }]);
