@@ -51,7 +51,8 @@ var requestFileCompression = function(song) {
   return new Promise(function (resolve, reject) {
     request.post(
       config.COMPRESSION_SERVER + '/compress',
-      { json: {
+      {
+        json: {
           songID: song.id,
           s3UniqueHash: song.uniqueHash
         }
@@ -60,7 +61,7 @@ var requestFileCompression = function(song) {
         if (error) {
           console.log('--- 2.5 --- Request compression error: ', error);
           reject(error);
-        } else if (!error && response.statusCode == 200) {
+        } else if (!error && response.statusCode === 200) {
           console.log(' --- 2.6 --- Successful request to compression server: ', body);
           resolve(true);
         }
