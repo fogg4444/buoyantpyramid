@@ -1,7 +1,7 @@
 var path = require('path');
 var fs = require('fs');
 var SongModel = require('../models/songModel');
-var awsConfig = require('../config/aws.config.json');
+var awsConfig = require('../config/aws.config.js');
 var Promise = require('bluebird');
 
 var AWS = require('aws-sdk');
@@ -18,7 +18,17 @@ var addCompressedLink = function (req, res, next) {
   var songID = req.body.songID;
   var compressedID = req.body.compressedID;
 
-  SongModel.addCompressedLink(songID, compressedID);
+  SongModel.addCompressedLink(songID, compressedID)
+  .then(function(data) {
+    console.log('Did it!');
+    res.sendStatus(200);
+  })
+  .catch(function(err) {
+    console.log('Fail!');
+    res.sendStatus(500);
+    // TODO: figure out the correct code here!
+  });
+
 };
 
 var addSong = function (req, res, next) {

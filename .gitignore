@@ -44,7 +44,10 @@ client/dist/
 .DS_Store
 
 # Ignore config file
-config.js*
+# ignore real config credentials
+server/config/aws.json
+server/config/config.js*
+docker-compose.yml
 
 # ignore uploadInbox
 server/uploadInbox/*

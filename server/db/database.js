@@ -5,9 +5,9 @@ var bcrypt = require('bcrypt-nodejs');
 var Promise = require('bluebird');
 
 
-var connectionString = (process.env.NODE_ENV === 'test') ? config.testConnectionString : config.connectionString;
+
 var sqldebug = process.env.SQL_DEBUG || false;
-var db = new Sequelize(connectionString, {logging: sqldebug});
+var db = new Sequelize(config.connectionString, {logging: sqldebug});
 
 // Define table schemas
 var User = db.define('user', {
