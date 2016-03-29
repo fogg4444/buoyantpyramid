@@ -13,7 +13,6 @@ angular.module('jam.playlist', [])
   };
 
   $scope.dropCallback = function(event, index, item, external, type, allowedType) {
-    $scope.logListEvent('dropped at', event, index, external, type);
     $scope.reorderPlaylist($scope.models.selected, index);
     return item;
   };
@@ -39,17 +38,6 @@ angular.module('jam.playlist', [])
       })
       .catch(console.error);
     }
-  };
-
-  $scope.logEvent = function(message, event) {
-    console.log(message, '(triggered by the following', event.type, 'event)');
-    console.log($scope.models.selected);
-  };
-
-  $scope.logListEvent = function(action, event, index, external, type) {
-    var message = external ? 'External ' : '';
-    message += 'Song element is ' + action + ' position ' + index;
-    $scope.logEvent(message, event);
   };
 
   Users.getUserData()
