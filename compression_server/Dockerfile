@@ -48,6 +48,7 @@ FROM fogg4444/centosffmpeg
 
 ENV cachebust = 1489884445
 
+
 # Create app directory
 RUN mkdir -p /usr/src/app/
 WORKDIR /usr/src/app/

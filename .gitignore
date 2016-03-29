@@ -44,17 +44,11 @@ client/dist/
 .DS_Store
 
 # Ignore config file
-# ignore real config credentials
-server/config/aws.json
-server/config/config.js*
 docker-compose.yml
 
 # ignore uploadInbox
 server/uploadInbox/*
 
-# ignore real aws config credentials
-**/aws.config.js*
-**/aws.js*
 
 # ignore compression_server audio folder
 # compression_server/temp_audio/*
