@@ -10,12 +10,14 @@ angular.module('jam.player', ['rzModule'])
     options: {
       floor: 0,
       ceil: $scope.audio.duration,
-      showSelectionBar: true,
       step: 0.01,
       hideLimitLabels: true,
       disabled: true,
       translate: function(value) {
         return Songs.timeFormat(value);
+      },
+      onEnd: function(sliderId, modelValue, highValue) {
+        $scope.audio.currentTime = modelValue;
       }
     }
   };
