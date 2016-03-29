@@ -6,7 +6,7 @@
 
 # JAM RECORD
 
-Audio organization system for stoned musicians
+Audio organization platform for team collaboration among recording artists
 
 ## Team
   - __Product Owner__: Brian Fogg
