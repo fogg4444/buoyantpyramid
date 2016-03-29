@@ -61,7 +61,6 @@ describe('Song Controller', function () {
     it('should call res.json to return a json object', function (done) {
       var res = {};
       res.json = function(jsonresponse) {
-        console.log('jsonresponse is ' + JSON.stringify(jsonresponse));
         expect(jsonresponse).to.have.property('title');
         done();
       };
