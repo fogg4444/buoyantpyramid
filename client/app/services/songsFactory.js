@@ -128,7 +128,6 @@ angular.module('jam.songsFactory', [])
 
   var addSongToPlaylist = function (songId, plId, index) {
     // takes a playlist id and a song obj
-    console.log("The index in the factory: ", index);
     var data = {index: index};
     return http({
       method: 'POST',
@@ -154,7 +153,6 @@ angular.module('jam.songsFactory', [])
 
   var deleteFromPlaylist = function (sId, plId) {
     // Takes a playlist object with the song removed
-    console.log('ID to delete: ', plId, sId);
     return http({
       method: 'DELETE',
       url: '/api/playlists/' + sId + '/' + plId + '/',
