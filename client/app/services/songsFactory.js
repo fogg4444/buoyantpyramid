@@ -199,8 +199,10 @@ angular.module('jam.songsFactory', [])
   var nextIndex = function() {
     if (songIndex < songQueue[currentLocation].length - 1) {
       songIndex++;
+      notifyObservers('CHANGE_SONG');
+    } else {
+      notifyObservers('RESET_PLAYER');
     }
-    notifyObservers('CHANGE_SONG');
   };
 
   var choose = function(index, location) {
