@@ -1,12 +1,14 @@
 var sinon = require('sinon');
 var chai = require('chai');
 var expect = chai.expect;
+var Promise = require('bluebird');
 var Sequelize = require('sequelize');
 var dbModels = require('../../../server/db/database.js');
 var helpers = require('../testHelpers');
 var Song = dbModels.Song; 
 var Group = dbModels.Group; 
 var GroupController = require('../../../server/controllers/groupController.js');
+var SongModel = require('../../../server/models/songModel.js');
 var SongController = require('../../../server/controllers/songController.js');
 
 // The `clearDB` helper function, when invoked, will clear the database
@@ -21,6 +23,8 @@ var clearDB = function (done) {
 var songReq = helpers.songReq;
 var groupReq = helpers.groupReq;
 
+var compressStub;
+
 describe('Song Controller', function () {
 
   // Connect to database before any tests
@@ -30,10 +34,20 @@ describe('Song Controller', function () {
       songReq.params.groupId = jsonresponse.id;
       done();
     };
-
     helpers.rebuildDb(function() {
       GroupController.createGroup(groupReq, res);
     });
+
+    compressStub = sinon.stub(SongModel, 'requestFileCompression', function() {
+      return new Promise(function(resolve, reject) {
+        resolve(true);
+      });
+    });
+  });
+
+  after(function (done) {
+    compressStub.restore();
+    done();
   });
 
   describe ('add song', function() {
@@ -43,11 +57,9 @@ describe('Song Controller', function () {
         done();
       });
     });
+
     it('should call res.json to return a json object', function (done) {
-
       var res = {};
-
-      // make my own damn spy
       res.json = function(jsonresponse) {
         expect(jsonresponse).to.have.property('title');
         done();
@@ -56,7 +68,6 @@ describe('Song Controller', function () {
       res.send = function(err) {
         console.error(err);
       };
-      // var spy = res.json = sinon.stub();
       SongController.addSong(songReq, res, console.error);
     });
 
