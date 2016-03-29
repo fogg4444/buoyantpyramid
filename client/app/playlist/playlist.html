@@ -33,10 +33,12 @@
      <div ng-show="data.playlists.length === 0" class="empty-placeholder">
         Your group doesn't have any playlists. Click the button above to create one.
       </div>
-    <div ng-repeat="playlist in data.playlists">
-      <button class="delete-button icon-button" title="delete playlist" ng-click="pendingDeletePlaylist(playlist)"><i class="fa fa-trash fa-lg"></i></button>
-      <button class="clickable-playlist" ng-click="makeCurrent(playlist)">{{playlist.title}}</button>
-    </div>
+    <ul dnd-list="data.playlists">
+      <li ng-repeat="playlist in data.playlists" dnd-draggable="playlist">
+        <button class="delete-button icon-button" title="delete playlist" ng-click="pendingDeletePlaylist(playlist)"><i class="fa fa-trash fa-lg"></i></button>
+        <button class="clickable-playlist" ng-click="makeCurrent(playlist)">{{playlist.title}}</button>
+      </li>
+    </ul>
     <div ng-repeat="song in data.currentPlaylist.songs" class="song">
       <hr>
       <button class="delete-button icon-button" title="delete song" ng-click="deleteSong($index)"><i class="fa fa-trash fa-lg"></i></button>

@@ -126,11 +126,14 @@ angular.module('jam.songsFactory', [])
     });
   };
 
-  var addSongToPlaylist = function (songId, plId) {
+  var addSongToPlaylist = function (songId, plId, index) {
     // takes a playlist id and a song obj
+    console.log("The index in the factory: ", index);
+    var data = {index: index};
     return http({
       method: 'POST',
-      url: '/api/playlists/' + songId + '/' + plId + '/'
+      url: '/api/playlists/' + songId + '/' + plId + '/',
+      data: data
     })
     .then(function (res) {
       return res.data;
