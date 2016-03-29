@@ -289,7 +289,6 @@ angular.module('jam.songsFactory', [])
     nextIndex: nextIndex,
     choose: choose,
     registerObserverCallback: registerObserverCallback,
-    notifyObservers: notifyObservers,
     getPlayer: getPlayer,
     checkReset: checkReset,
     resetPlayer: resetPlayer,
