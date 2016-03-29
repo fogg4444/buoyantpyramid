@@ -29,9 +29,7 @@ angular.module('jam.player', [])
   $scope.$watch(function(scope) {
     return scope.audio.currentTime;
   }, function(newV, oldV) {
-    if (newV) {
-      $scope.timeFormat = Songs.timeFormat(newV);
-    }
+    $scope.timeFormat = Songs.timeFormat(newV);
   });
 
   $scope.stop = function () {
