@@ -1,21 +1,28 @@
 angular.module('jam.player', ['rzModule'])
 .controller('PlayerController', ['$scope', '$timeout', 'Songs', function($scope, timeout, Songs) {
+  var isTouchDevice = 'ontouchstart' in document.documentElement;
   $scope.audio = Songs.getPlayer();
   $scope.song = null;
   $scope.muted = Songs.getMuted();
   $scope.timeFormat = '00:00';
   $scope.playable = false;
 
+
+
+  $scope.speeds = [0.5, 0.75, 1, 1.5, 2];
+
   $scope.timeSlider = { 
     options: {
       floor: 0,
       ceil: $scope.audio.duration,
-      showSelectionBar: true,
       step: 0.01,
       hideLimitLabels: true,
       disabled: true,
       translate: function(value) {
         return Songs.timeFormat(value);
+      },
+      onEnd: function(sliderId, modelValue, highValue) {
+        // $scope.audio.currentTime = modelValue;
       }
     }
   };
@@ -39,20 +46,6 @@ angular.module('jam.player', ['rzModule'])
     }
   };
 
-  $scope.speedSlider = { 
-    options: {
-      floor: 0.5,
-      ceil: 2.5,
-      step: 0.5,
-      precision: 10,
-      vertical: true,
-      hideLimitLabels: true,
-      translate: function(value) {
-        return '';
-      },
-    }
-  };
-
   setInterval(function() { $scope.$apply(); }, 200);
 
   $scope.showSpeed = false;
@@ -69,16 +62,16 @@ angular.module('jam.player', ['rzModule'])
         Songs.setMuted(false);
         $scope.muted = false;
       }
-      Songs.setVolume(newV);
+      // Songs.setVolume(newV);
     }
   });
 
 
-  $scope.$watch(function(scope) {
-    return scope.audio.currentTime;
-  }, function(newV, oldV) {
-    $scope.timeFormat = Songs.timeFormat(newV);
-  });
+  // $scope.$watch(function(scope) {
+  //   return scope.audio.currentTime;
+  // }, function(newV, oldV) {
+  //   $scope.timeFormat = Songs.timeFormat(newV);
+  // });
 
   $scope.stop = function () {
     $scope.audio.pause();
@@ -96,7 +89,12 @@ angular.module('jam.player', ['rzModule'])
   };
 
   $scope.toggleSpeed = function () {
-    $scope.showSpeed = !$scope.showSpeed;
+    var currentIndex = $scope.speeds.indexOf($scope.audio.playbackRate);
+    console.log('currentRate ' + $scope.audio.playbackRate);
+    console.log('currentIndex ' + currentIndex);
+    var nextIndex = (currentIndex + 1) % $scope.speeds.length;
+    console.log('nextIndex ' + currentIndex);
+    $scope.audio.playbackRate = $scope.speeds[nextIndex];
   };
 
   $scope.togglePlay = function () {
@@ -113,7 +111,7 @@ angular.module('jam.player', ['rzModule'])
     $scope.audio.src = $scope.song.compressedAddress || null;
     $scope.audio.onended = Songs.nextIndex;
     $scope.audio.ondurationchange = function(e) {
-      $scope.timeSlider.options.disabled = !$scope.audio.duration;
+      $scope.timeSlider.options.disabled = !$scope.audio.duration || isTouchDevice;
       $scope.timeSlider.options.ceil = $scope.audio.duration;
       $scope.playable = !!$scope.audio.duration;
     };

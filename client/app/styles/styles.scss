@@ -8,7 +8,7 @@
 // TODO: Adjust nav bar for mobile use
 // Starting example below:
 
-$mobileBreakpoint: 600px;
+$mobileBreakpoint: 700px;
 
 .pagewidth {
   @media screen and (min-width: $mobileBreakpoint) {
@@ -19,7 +19,7 @@ $mobileBreakpoint: 600px;
 /**************************************************/
 
 $nav-height: 3rem;
-$player-height: 4rem;
+$player-height: 6rem;
 
 html {
   box-sizing: border-box;
@@ -41,6 +41,17 @@ body {
   padding:0;
   padding-bottom: $player-height;
 }
+
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none;   /* Chrome/Safari/Opera */
+  -khtml-user-select: none;    /* Konqueror */
+  -moz-user-select: none;      /* Firefox */
+  -ms-user-select: none;       /* IE/Edge */
+  user-select: none;           /* non-prefixed version, currently                               not supported by any browser */
+}
+
+
 
 // input[type=range] {
 //   @include input-type-range;
@@ -766,21 +777,29 @@ footer {
   background-color: $bgcolor-2;
   width: 100%;
 }
-.track-time {
-  position: absolute;
-  top: 1rem;
-  left: 2rem;
+.player {
+  text-align: center;
 }
-
+.time-title {
+  position: absolute;
+  bottom: 1rem;
+  left: 1rem;
+  width: 100%;
+  text-align:center;
+}
 .time {
-  width: 200px;
+  width: 60%;
+  display: inline-block;
+  position: relative;
 }
 .volume {
+  width: 10rem;
   white-space: nowrap;
 }
 
 .vol-slider-container {
-  width: 150px;
+  display: inline-block;
+  width: 8rem;
 }
 
 .player div.speed-slider-container {
@@ -849,24 +868,30 @@ rzslider.rz-vertical .rz-pointer:after {
   height: 4px;
   width: 16px;
 }
-
-.mute-button {
-  width:1.5em;
-  text-align: left;
-}
-
-.player div {
+.player-buttons > div {
   display: inline-block;
   padding: 0.5rem;
   position: relative;
-  &.time {
-    vertical-align: middle;
-  }
+}
+
+.player-buttons {
+  display: inline-block;
+}
+.time {
+  vertical-align: middle;
 }
 
 .player button {
-  width: 1.5em;
+  width: 1.5rem;
   vertical-align: text-top;
+}
+
+.mute-button {
+  text-align: left;
+}
+
+.speed-button {
+  width:3rem;
 }
 
 .clickable-playlist {
@@ -887,53 +912,77 @@ rzslider.rz-vertical .rz-pointer:after {
 }
 
 @media (max-width: $mobileBreakpoint) {
-  .topbar {
-    // position:absolute;
-  }
-  .mobile-menu-icon {
-    display: block;
-    position: relative;
-    float: right;
-    font-size: $nav-height/2;
-    margin: $nav-height/8;
-
-  }
-  nav {
-    display:none;
-    position:fixed;
-    top: $nav-height;
-    background-color:rgba(64,64,64, 0.75);
-    right:0;
-    bottom:0;
-    overflow: scroll;
-  }
-  nav.show {
-    display:block;
-  }
-  .nav-item {
-    display: block;
-    margin: 1em 0.5em;
-    font-size: 1.5em;
-    text-align: left;
-    .submenu-container {
-      display: block;
-      position:relative;
-      padding:0;
-      margin:0;
+    .topbar {
+      // position:absolute;
     }
+    .mobile-menu-icon {
+      display: block;
+      position: relative;
+      float: right;
+      font-size: $nav-height/2;
+      margin: $nav-height/8;
+
+    }
+    nav {
+      display:none;
+      position:fixed;
+      top: $nav-height;
+      background-color:rgba(64,64,64, 0.75);
+      right:0;
+      bottom:0;
+      overflow: scroll;
+    }
+    nav.show {
+      display:block;
+    }
+    .nav-item {
+      display: block;
+      margin: 1em 0.5em;
+      font-size: 1.5em;
+      text-align: left;
+      .submenu-container {
+        display: block;
+        position:relative;
+        padding:0;
+        margin:0;
+      }
+    }
+    .dropdown-avatar {
+      display: none;
+    }
+    .empty-placeholder {
+      font-size: 1.5em;
+      padding: 1em;    
+    }
+    .modal-dialog {
+    /* A centered div above the overlay with a box shadow. */
+    width: 90%; /* Default */
+    height: 50%;
   }
-  .dropdown-avatar {
-    display: none;
+  .player {
+    position:relative;
+    height:$player-height;
   }
-  .empty-placeholder {
-    font-size: 1.5em;
-    padding: 1em;    
+  .player-buttons {
+    left:0;
+    width:100%;
+    position:absolute;
+    bottom:$player-height / 2;
   }
-  .modal-dialog {
-  /* A centered div above the overlay with a box shadow. */
-  width: 90%; /* Default */
-  height: 50%;
-}
+  .player-buttons > div {
+    margin: 0 2%;
+  }
+  .time {
+    width: 100%;
+    position:absolute;
+    bottom:0;
+    left:0;
+    padding:0;
+  }
+  .time-title {
+    bottom: 0.5rem;
+  }
+
 
 }
 
