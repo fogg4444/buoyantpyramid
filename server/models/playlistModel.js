@@ -4,57 +4,63 @@ var Playlist = db.Playlist;
 var Song = db.Song;
 var PlaylistSongs = db.PlaylistSongs;
 
-var addSong = function (songId, playlistId) {
-  return new Promise(function (resolve, reject) {
+var addSong = function(songId, playlistId) {
+  return new Promise(function(resolve, reject) {
     Song.findById(songId)
-    .then(function (song) {
-      Playlist.findById(playlistId)
-      .then(function (playlist) {
-        playlist.addSong(song)
-        .then(function (response) {
-          resolve(response[0][0]); // return the playlistSongs row
+    .then(function(song) {
+      PlaylistSongs.count({ where: { playlistId: playlistId } })
+      .then(function(count) {
+        PlaylistSongs.create({
+          songId: songId,
+          playlistId: playlistId,
+          listPosition: count
+        })
+        .then(function(response) {
+          console.log(JSON.stringify(response));
+          resolve(response); // return the playlistSongs row
         });
       })
       .catch(function(error) {
         reject(error);
       });
     })
-    .catch(function (error) {
+    .catch(function(error) {
       reject(error);
     });
   });
 };
 
-var createPlaylist = function (groupId, title, description) {
+var createPlaylist = function(groupId, title, description) {
   return Playlist.create({
     title: title,
     description: description,
     groupId: groupId
-  },
-  {include: {
-    model: Group}
+  }, {
+    include: {
+      model: Group
+    }
   });
 };
 
-var deletePlaylist = function (playlistId) {
-  return Playlist.findOne({where: {id: playlistId}});
+var deletePlaylist = function(playlistId) {
+  return Playlist.findOne({ where: { id: playlistId } });
 };
 
-var getSongs = function (playlistId) {
-  return new Promise(function (resolve, reject) {
+var getSongs = function(playlistId) {
+  return new Promise(function(resolve, reject) {
     Playlist.findById(playlistId)
-    .then(function(playlist) {
-      if (playlist) {
-        resolve(playlist.getSongs());
-      } else {
-        resolve([]);
-      }
-    });
+      .then(function(playlist) {
+        if (playlist) {
+          resolve(playlist.getSongs());
+        } else {
+          resolve([]);
+        }
+      });
   });
 };
 
-var removeSong = function (songId, playlistId) {
-  return PlaylistSongs.destroy({ where: {songId: songId, playlistId: playlistId}});
+var removeSong = function(songId, playlistId) {
+  return PlaylistSongs.destroy({ where: { songId: songId, playlistId: playlistId } });
 };
 
 module.exports = {
