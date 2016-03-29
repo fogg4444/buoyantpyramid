@@ -73,7 +73,6 @@ angular.module('jam.player', [])
   var resetPlayer = function() {
     $scope.stop();
     $scope.audio = Songs.getPlayer();
-    $scope.playlist = Songs.getSoundsAndIndex();
   };
 
   var refreshList = function() {
