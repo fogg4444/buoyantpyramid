@@ -136,6 +136,7 @@ start it
 connect to it from an app
   docker run --link some-postgres:postgres -d brian/testapp
 
+<<<<<<< HEAD
 ##########################
 
 --------------- Docker Environment Setup ---------------
@@ -146,6 +147,8 @@ docker-compose up
 Wait for the long download!
 
 visit: 192.168.99.100
+=======
+>>>>>>> 80b5ac4b818d7c46a735915ec48372dc2c83b197
 
 
 ### Roadmap
