@@ -11,11 +11,12 @@ angular.module('jam.song', [])
   $scope.currentSongIsPlaying;
 
   var pageWidth = document.getElementsByClassName('page-content')[0].offsetWidth;
-  var waveHeight = '100';
+  var waveHeight = 100;
   var waveWidth = pageWidth * 0.9;
-  var pinWidth = '12';
-  var pinHeight = '20';
-  var barPadding = '1';
+  var waveRadius = 2;
+  var pinWidth = 12;
+  var pinHeight = 20;
+  var barPadding = 1;
   var initialDelay = 2000;
 
   $scope.width = waveWidth + 'px';
@@ -69,8 +70,8 @@ angular.module('jam.song', [])
       .data(frequencyData)
       .enter()
       .append('rect')
-      .attr('rx', '2px')
-      .attr('ry', '2px')
+      .attr('rx', waveRadius + 'px')
+      .attr('ry', waveRadius + 'px')
       .attr('x', function (d, i) {
         return i * (waveWidth / frequencyData.length);
       })
@@ -174,8 +175,10 @@ angular.module('jam.song', [])
 
   $scope.setPlayTime = function (e) {
     if ($scope.currentSongIsPlaying) {
-      div = document.getElementsByClassName('visualizer')[0];
-      var x = e.clientX - div.offsetLeft;
+      var visualizer = document.getElementsByClassName('visualizer')[0];
+      var rect = visualizer.getBoundingClientRect();
+
+      var x = e.clientX - rect.left;
       $scope.audio.currentTime = $scope.song.duration * x / waveWidth;
     }
   };
