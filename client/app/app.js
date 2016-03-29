@@ -123,11 +123,19 @@ angular.module('jam', [
       $scope.comment = {};
       $scope.time = null;
       $scope.songClicked = {};
+      $scope.editTitle = false;
+      $scope.isPlaying = false;
       $scope.addComment = function() {
         $scope.commentModalShown = false;
         $scope.comment.time = $scope.time;
         $scope.comment.userId = $scope.userId;
         Songs.addComment($scope.comment, $scope.songId);
+      };
+      $scope.updateSong = function() {
+        Songs.updateSong($scope.song)
+        .then(function(updatedSong) {
+          _.extend($scope.song, updatedSong);
+        });
       };
       $scope.toggleCommentModal = function (songId, userId) {
         $scope.songId = songId;
@@ -147,6 +155,19 @@ angular.module('jam', [
       $scope.getTime = function () {
         $scope.time = Songs.getPlayer().currentTime;
       };
+
+      $scope.setIsPlaying = function() {
+        if (Songs.getCurrentSong() && Songs.getCurrentSong().id === $scope.song.id) {
+          $scope.isPlaying = true;
+        } else {
+          $scope.isPlaying = false;
+        }
+      };
+
+      Songs.registerObserverCallback('CHANGE_SONG', $scope.setIsPlaying);
+      Songs.registerObserverCallback('TOGGLE_PLAY', $scope.setIsPlaying);
+      Songs.registerObserverCallback('RESET_PLAYER', $scope.setIsPlaying);
+      Songs.registerObserverCallback('REFRESH_LIST', $scope.setIsPlaying);
     }]
   };
 })

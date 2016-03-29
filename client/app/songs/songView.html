@@ -1,11 +1,16 @@
 <div class="song-item">
-  <div class="song-thumbnail"><img ng-src="{{ song.imageUrl }}" ng-show="song.imageUrl"/></div>
-    
-  <div><input class="song-title" type="textarea" value="{{ song.title }}"></input></div>
+  <!-- <div class="song-thumbnail"><img ng-src="{{ song.imageUrl }}" ng-show="song.imageUrl"/></div>
+   -->  
   <div>
-    <button class="change-song" ng-click="$parent.updateIndex(index)"><i class="fa fa-play-circle-o fa-lg"></i></button>
+    <button class="song-loading" ng-hide="song.compressedAddress" disabled><i class="fa fa-refresh fa-spin fa-lg"></i></button>
+    <button class="change-song icon-button" ng-click="$parent.updateIndex(index)"><i ng-class="isPlaying ? 'fa-pause-circle-o' : 'fa-play-circle-o' " class="fa fa-2x"></i></button>
   </div>
 
+  <div class="song-title-container">
+    <span class="song-title" ng-click="editTitle = true;" ng-hide="editTitle">{{ song.title }}</span>
+    <input class="song-title" ng-show="editTitle" type="text" ng-model="song.title" ng-blur="editTitle=false; updateSong()" />
+  </div>
+ 
   <div>
     <button ng-click="toggleCommentModal(song.id, $parent.user.id)">Add comment</button>
   </div>
@@ -20,5 +25,5 @@
       </fieldset>
     </form>
   </modal-dialog> 
-  <a href="/#/song/{{songClicked.id}}" ng-click="setSongClicked(song, index)"><i class="fa fa-arrow-right"></i></a>
+  <a href="/#/song/{{song.id}}" ng-click="setSongClicked(song, index)"><i class="fa fa-arrow-right"></i></a>
 </div>

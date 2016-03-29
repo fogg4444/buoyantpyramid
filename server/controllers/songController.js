@@ -113,7 +113,7 @@ var getComments = function (req, res, next) {
   })
   .catch(function (error) {
     res.status(500).json('error retreiving comments');
-  })
+  });
 };
 
 var getSong = function (req, res, next) {
@@ -124,7 +124,22 @@ var getSong = function (req, res, next) {
   })
   .catch(function (error) {
     res.status(500).json('error retreiving song');
+  });
+};
+
+var updateSong = function (req, res, next) {
+  SongModel.updateSong(req.body)
+  .then(function (array) {
+    console.log('array is ' + array);
+    if (array[0] > 0) {
+      res.json(array[1][0]);
+    } else {
+      res.status(404).json('no songs updated');
+    }
   })
+  .catch(function (error) {
+    res.status(500).json('error retreiving song');
+  });
 };
 
 module.exports = {
@@ -132,5 +147,6 @@ module.exports = {
   addSong: addSong,
   deleteSong: deleteSong,
   getComments: getComments,
-  getSong: getSong
+  getSong: getSong,
+  updateSong: updateSong
 };
