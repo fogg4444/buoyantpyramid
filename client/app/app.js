@@ -102,6 +102,30 @@ angular.module('jam', [
     }]
   };
 })
+.directive('loginCarousel', function() {
+  return {
+    restrict: 'E',
+    templateUrl: 'app/carousel/carousel.html',
+    scope: {},
+    controller: ['$scope', function($scope) {
+      $scope.myInterval = 3000;
+      $scope.slides = [
+        {
+          image: 'http://lorempixel.com/400/200/'
+        },
+        {
+          image: 'http://lorempixel.com/400/200/food'
+        },
+        {
+          image: 'http://lorempixel.com/400/200/sports'
+        },
+        {
+          image: 'http://lorempixel.com/400/200/people'
+        }
+      ];
+    }]  
+  };
+})
 .directive('groupsNav', function () {
   return {
     restrict: 'E',
