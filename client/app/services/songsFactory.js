@@ -240,6 +240,15 @@ angular.module('jam.songsFactory', [])
     }
   };
 
+  var setSongIndex = function (index) {
+    songIndex = index;
+    notifyObservers('CHANGE_SONG');
+  };
+
+  var getSongIndex = function (index) {
+    return songIndex;
+  };
+
   var setVolume = function (percent) {
     volume = percent;
   };
@@ -304,6 +313,8 @@ angular.module('jam.songsFactory', [])
     getPlayer: getPlayer,
     checkReset: checkReset,
     resetPlayer: resetPlayer,
+    setSongIndex: setSongIndex,
+    getSongIndex: getSongIndex,
     setVolume: setVolume,
     getVolume: getVolume,
     setMuted: setMuted,
