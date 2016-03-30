@@ -120,44 +120,44 @@ angular.module('jam', [
       index: '='
     },
     controller: ['$scope', 'Songs', '$sce', function ($scope, Songs, $sce) {
-      $scope.comment = {};
-      $scope.time = null;
+      // $scope.comment = {};
+      // $scope.time = null;
       $scope.songClicked = {};
       $scope.editTitle = false;
       $scope.isPlaying = false;
-      $scope.addComment = function() {
-        $scope.commentModalShown = false;
-        $scope.comment.time = $scope.time;
-        $scope.comment.userId = $scope.userId;
-        Songs.addComment($scope.comment, $scope.songId);
-      };
+      // $scope.addComment = function() {
+      //   $scope.commentModalShown = false;
+      //   $scope.comment.time = $scope.time;
+      //   $scope.comment.userId = $scope.userId;
+      //   Songs.addComment($scope.comment, $scope.songId);
+      // };
       $scope.updateSong = function() {
         Songs.updateSong($scope.song)
         .then(function(updatedSong) {
           _.extend($scope.song, updatedSong);
         });
       };
-      $scope.toggleCommentModal = function (songId, userId) {
-        $scope.songId = songId;
-        $scope.userId = userId;
-        var playingSong = Songs.getCurrentSong();
-        if (playingSong && playingSong.id === songId) {
-          $scope.getTime();
-        }
-        $scope.commentModalShown = !$scope.commentModalShown;
-      };
+      // $scope.toggleCommentModal = function (songId, userId) {
+      //   $scope.songId = songId;
+      //   $scope.userId = userId;
+      //   var playingSong = Songs.getCurrentSong();
+      //   if (playingSong && playingSong.id === songId) {
+      //     $scope.getTime();
+      //   }
+      //   $scope.commentModalShown = !$scope.commentModalShown;
+      // };
 
       $scope.setSongClicked = function (song) {
         Songs.setSongClicked(song);
         $scope.songClicked = song;
       };
       
-      $scope.getTime = function () {
-        $scope.time = Songs.getPlayer().currentTime;
-      };
+      // $scope.getTime = function () {
+      //   $scope.time = Songs.getPlayer().currentTime;
+      // };
 
       $scope.setIsPlaying = function() {
-        if (Songs.getCurrentSong() && Songs.getCurrentSong().id === $scope.song.id) {
+        if (Songs.getCurrentSong() && Songs.getCurrentSong().id === $scope.song.id && !(Songs.getPlayer().paused)) {
           $scope.isPlaying = true;
         } else {
           $scope.isPlaying = false;
