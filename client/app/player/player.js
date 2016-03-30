@@ -130,12 +130,12 @@ angular.module('jam.player', ['rzModule'])
     $scope.stop();
     $scope.audio = Songs.getPlayer();
     $scope.playlist = Songs.getSoundsAndIndex();
-    $scope.timeSlider.options.disabled = !$scope.audio.duration;
+    $scope.timeSliderDisabled = !$scope.audio.duration;
   };
 
   var refreshList = function() {
     $scope.playlist = Songs.getSoundsAndIndex();
-    $scope.timeSlider.options.disabled = !$scope.audio.duration;
+    $scope.timeSliderDisabled = !$scope.audio.duration;
   };
 
   Songs.registerObserverCallback('CHANGE_SONG', changeSong);

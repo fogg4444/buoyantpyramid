@@ -724,15 +724,20 @@ input[type="button"] {
 button:hover,
 input[type="submit"]:hover,
 input[type="reset"]:hover,
-input[type="button"]:hover,
+input[type="button"]:hover {
+  color: $midgrey;
+  border-color: $linkcolor;
+  outline: 0;
+}
+
 .button:focus,
 button:focus,
 input[type="submit"]:focus,
 input[type="reset"]:focus,
 input[type="button"]:focus {
-  color: $midgrey;
-  border-color: $linkcolor;
-  outline: 0;
+  -webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.3);
+  -moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.3);
+  box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.3);
 }
 
 .button:disabled,
@@ -748,6 +753,9 @@ input[type="button"]:disabled:hover {
   background-color:$lightgrey;
   color: $midgrey;
   border-color:$lightgrey;
+    -webkit-box-shadow:none;
+  -moz-box-shadow:none;
+  box-shadow:none;
 }
 
 
