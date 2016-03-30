@@ -47,8 +47,7 @@ var addToQueue = function(req, res, next) {
   var songID = req.body.songID;
   console.log('--- 1.2 --- Song ID present on input: ', songID);
 
-  var tempWavPath, wavJsonDataPath, lowResFileName;
-
+  var originalFilePath, wavPath, amplitudeDataPath, lowResFileName, lowResFilePath, originalFormat;
   downloadQueue.push(function(cb) {
 
     download(directFileUrl, downloadDestination, function(err) {
@@ -58,27 +57,47 @@ var addToQueue = function(req, res, next) {
         res.send(500); //TODO: pick the right error for this!
       } else {
         console.log('--- 6 --- File download success ', s3UniqueHash);
-
-        getFileMetadata(downloadDestination);
-
-        convertToWav(downloadDestination, s3UniqueHash, songID)
-        .then(function(twp) {
-          tempWavPath = twp;
-          console.log('--- 6.1 --- Tempwave path', tempWavPath);
-          return generateWaveformArray(tempWavPath, s3UniqueHash, songID);
+        getFileMetadata(downloadDestination)
+        .then(function(metadata) {
+          originalFormat = metadata.format.format_name;
+          originalFilePath = downloadDestination;
+          if (originalFormat === 'wav') {
+            return downloadDestination;
+          } else {
+            return convertToWav(downloadDestination, s3UniqueHash, songID);
+          }
         })
-        .then(function (wjdp) {
-          wavJsonDataPath = wjdp;
-          return compress(tempWavPath, s3UniqueHash, songID, wavJsonDataPath);
+        .then(function(wp) {
+          wavPath = wp;
+          console.log('--- 6.1 --- wave path', wavPath);
+          return generateWaveformArray(wavPath);
+        })
+        .then(function (adp) {
+          amplitudeDataPath = adp;
+          if (originalFormat === 'mp3') {
+            return {lowResFilePath: originalFilePath, lowResFileName: s3UniqueHash};
+            /// TODO: don't upload twice if original is mp3
+          } else {
+            return compress(wavPath, s3UniqueHash, songID, amplitudeDataPath);
+          }
         })
         .then(function(lowResInfo) {
+          console.log('----------lowresinfo: ', lowResInfo);
           lowResFileName = lowResInfo.lowResFileName;
-          return uploadLowRes( lowResInfo.lowResFilePath, lowResInfo.lowResFileName, songID, wavJsonDataPath);
+          lowResFilePath = lowResInfo.lowResFilePath;
+          return uploadLowRes( lowResInfo.lowResFilePath, lowResInfo.lowResFileName, songID, amplitudeDataPath);
         })
         .then(function(amplitudeData) {
-          return saveCompressedFileReference(lowResFileName, songID, amplitudeData);
+          return sendProcessedMetadata(lowResFileName, songID, amplitudeData);
         })
         .then(function(res) {
+          deleteFile(originalFilePath);
+          if (wavPath) {
+            deleteFile(wavPath);
+          }
+          deleteFile(amplitudeDataPath);
+          deleteFile(lowResFilePath);
+
           console.log('--- 12 FINAL Promise success ---');
           cb();
         });
@@ -181,7 +200,7 @@ var convertToWav = function(hiResFilePath, s3UniqueHash, songID) {
       })
       .on('end', function() {
         console.log('--- 6.6 --- Finished temp wav');
-        deleteFile(hiResFilePath);
+        // deleteFile(hiResFilePath);
         // generateWaveformArray(tempWavPath, s3UniqueHash, songID);
         resolve(tempWavPath);
 
@@ -308,15 +327,15 @@ var uploadLowRes = function(filePath, fileName, songID, wavJsonDataPath) {
       } else {
         console.log('--- 10.5 --- Successfully uploaded data to ', awsConfig.bucket);
         console.log('--- 10.6 --- Delete this mp3: ', filePath);
-        deleteFile(filePath);
-        deleteFile(wavJsonDataPath);
+        // deleteFile(filePath);
+        // deleteFile(wavJsonDataPath);
         resolve(amplitudeData);
       }
     });
   });
 };
 
-var saveCompressedFileReference = function(fileName, songID, amplitudeData) {
+var sendProcessedMetadata = function(fileName, songID, amplitudeData) {
   return new Promise( function( resolve, reject ) {
 
     console.log('--- 11 --- Send request to primary server to save compressed Ref into DB');
