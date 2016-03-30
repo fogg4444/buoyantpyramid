@@ -4,7 +4,7 @@ angular.module('jam.playlist', [])
   $scope.models = {
     selected: null
   };
-  $scope.models.currentPlaylist = {};
+  $scope.models.currentPlaylist = Songs.getCurrentPlaylist();
   $scope.models.playlists = [];
   $scope.user = {};
   $scope.where = 'playlist';
@@ -12,7 +12,7 @@ angular.module('jam.playlist', [])
   $scope.playable = Songs.getPlayable();
 
   $scope.updateIndex = function(index) {
-    Songs.choose(index, $scope.where);
+    Songs.choose(index, $scope.where, $scope.models.currentPlaylist);
   };
 
   $scope.dropCallback = function(event, index, item, external, type, allowedType) {
