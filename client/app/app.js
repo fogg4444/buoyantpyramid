@@ -17,7 +17,8 @@ angular.module('jam', [
   'ngFileUpload',
   'ngImgCrop',
   'ngProgress',
-  'dndLists'
+  'dndLists',
+  'focus-if'
 ])
 .config(function ($routeProvider, $httpProvider) {
   $routeProvider

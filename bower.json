@@ -26,7 +26,8 @@
     "ng-img-crop-full-extended": "ngImgCropFullExtended#~0.5.4",
     "d3": "^3.5.16",
     "angularjs-slider": "^2.10.4",
-    "angular-drag-and-drop-lists": "^1.4.0"
+    "angular-drag-and-drop-lists": "^1.4.0",
+    "ng-focus-if": "^1.0.5"
   },
   "resolutions": {
     "angular": "1.5.2"
