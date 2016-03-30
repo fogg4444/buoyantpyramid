@@ -19,16 +19,8 @@ angular.module('jam.song', [])
   var pinHeight = 20;
   var barPadding = 1;
   var initialDelay = 2000;
-
+  var scaledAmplitudes;
   $scope.width = waveWidth + 'px';
-
-  // mock data
-  var frequencyData = [1, 10, 30, 30, 40, 60, 70, 40, 50, 75, 80, 75, 70, 65, 60, 40, 30, 20, 20, 15, 10, 15, 30,
-    30, 40, 60, 70, 40, 60, 70, 40, 50, 75, 80, 75, 70, 65, 60, 40, 30, 20, 20, 15, 10, 10, 30, 30, 40, 60, 70, 40,
-    50, 75, 80, 75, 70, 65, 60, 40, 60, 70, 40, 50, 75, 80, 75, 70, 60, 50, 40, 30, 20, 20, 10, 10, 5, 5, 5, 5,
-    10, 15, 20, 10, 15, 20, 35, 45, 60, 70, 65, 60, 65, 55, 45, 40, 30, 25, 20, 20, 25, 20, 15, 25, 30 ,35, 45, 60, 
-    70, 65, 60, 65, 55, 45, 40, 30, 25, 20, 20, 25, 20, 15, 10, 15, 20, 35, 45, 60, 70, 65, 60, 65, 55, 45, 40, 30,
-    25, 20, 20, 25, 20, 15, 25, 30, 25, 30, 45, 50, 60, 65, 65, 60, 40, 50, 45, 40, 40, 35, 30, 35, 35, 30, 30, 20, 25, 20, 15, 10, 5, 5, 2, 0];
  
   // Obtain song information and display comments
   Users.getUserData()
@@ -40,6 +32,12 @@ angular.module('jam.song', [])
   })
   .then(function (song) {
     $scope.song = song;
+    var rawAmplitudes =  JSON.parse(song.amplitudeData).max;
+    var max = _.max(rawAmplitudes);
+    var scale = 100 / max;
+    scaledAmplitudes = rawAmplitudes.map(function(amp) {
+      return amp * scale;
+    });
   })
   .then(function () {
     return Songs.getComments($scope.song.id);
@@ -47,7 +45,7 @@ angular.module('jam.song', [])
   .then(function (comments) {
     $scope.comments = comments;
     renderComments(comments);
-    $scope.currentSongIsPlaying = $scope.song.address === $scope.audio.src;
+    $scope.currentSongIsPlaying = $scope.song.compressedAddress === $scope.audio.src;
     initialRender();
   });
 
@@ -68,21 +66,21 @@ angular.module('jam.song', [])
   var initialRender = function() {
     svg.attr('class', 'visualizer')
       .selectAll('rect')
-      .data(frequencyData)
+      .data(scaledAmplitudes)
       .enter()
       .append('rect')
       .attr('rx', waveRadius + 'px')
       .attr('ry', waveRadius + 'px')
       .attr('x', function (d, i) {
-        return i * (waveWidth / frequencyData.length);
+        return i * (waveWidth / scaledAmplitudes.length);
       })
       .attr('y', waveHeight)
       .attr('height', 0)
       .transition()
       .delay(function(d, i) {
-        return initialDelay * i / frequencyData.length;
+        return initialDelay * i / scaledAmplitudes.length;
       })
-      .attr('width', waveWidth / frequencyData.length - barPadding)
+      .attr('width', waveWidth / scaledAmplitudes.length - barPadding)
       .attr('y', function(d) {
         return waveHeight - d;
       })
@@ -158,11 +156,11 @@ angular.module('jam.song', [])
 
   var renderFlow = function () {
     svg.selectAll('rect')
-      .data(frequencyData)
+      .data(scaledAmplitudes)
       .transition()
       .duration(600)
       .attr('fill', function(d, i) {
-        if ((i / frequencyData.length) < ($scope.audio.currentTime / $scope.song.duration) && $scope.currentSongIsPlaying) {
+        if ((i / scaledAmplitudes.length) < ($scope.audio.currentTime / $scope.song.duration) && $scope.currentSongIsPlaying) {
           return 'rgb(0, 0, ' + 220 + ')';
         } else {
           return 'rgb(0, 0, ' + 100 + ')';
