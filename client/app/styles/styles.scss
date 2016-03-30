@@ -209,6 +209,10 @@ li:hover > .submenu-container {
   height: 1em;
   margin-top: 0.25em;
 }
+.login-form {
+  float: right;
+  margin: 0 10%;
+}
 .login-form fieldset {
   text-align: left;
 }
@@ -249,6 +253,22 @@ li:hover > .submenu-container {
   color: $midgrey;
 }
 
+/* For the login page */
+.login header {
+  padding: 1em;
+}
+
+.login header .cover-title {
+  i, h1 {
+    padding: 0.25em;
+    float: left;
+    display: inline;
+  }
+
+  h1 {
+    font-family: 'Special Elite', sans-serif;
+  }
+}
 
 .upload-button:hover {
   background: $red;
