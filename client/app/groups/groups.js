@@ -7,6 +7,7 @@ angular.module('jam.groups', [])
   $scope.chooseRole = {
     role: 'admin'
   };
+  $scope.playable = Songs.getPlayable();
 
   $scope.toggleCreateModal = function () {
     $scope.createModalShown = !$scope.createModalShown;

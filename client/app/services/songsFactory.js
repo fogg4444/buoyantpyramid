@@ -12,6 +12,7 @@ angular.module('jam.songsFactory', [])
   var currentLocation = 'songs';
   var volume = 0;
   var muted = false;
+  var playable = false;
 
   // FUNCTIONS FOR SONGS
 
@@ -235,6 +236,7 @@ angular.module('jam.songsFactory', [])
     } else {
       songIndex = index;
       currentLocation = location;
+      playable = true;
       notifyObservers('CHANGE_SONG');
     }
   };
@@ -245,6 +247,7 @@ angular.module('jam.songsFactory', [])
         player = new Audio();
         songQueue[currentLocation].splice(songIndex, 1);
         songIndex = null;
+        playable = false;
         notifyObservers('RESET_PLAYER');
       } else {
         songQueue[currentLocation] = _.filter(songQueue[currentLocation], function(currentSong) {
@@ -284,6 +287,14 @@ angular.module('jam.songsFactory', [])
     return player;
   };
 
+  var setPlayable = function (playable) {
+    playable = playable;
+  };
+
+  var getPlayable = function () {
+    return playable;
+  };
+
   var getCurrentSong = function () {
     if (songQueue[currentLocation][songIndex]) {
       return songQueue[currentLocation][songIndex];
@@ -304,6 +315,7 @@ angular.module('jam.songsFactory', [])
 
   var resetPlayer = function () {
     player = new Audio();
+    playable = false;
     notifyObservers('RESET_PLAYER');
   };
 
@@ -335,6 +347,8 @@ angular.module('jam.songsFactory', [])
     getVolume: getVolume,
     setMuted: setMuted,
     getMuted: getMuted,
+    setPlayable: setPlayable,
+    getPlayable: getPlayable,
     setSongClicked: setSongClicked,
     getSongClicked: getSongClicked,
     getCurrentSong: getCurrentSong,

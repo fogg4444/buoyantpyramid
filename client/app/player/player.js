@@ -5,7 +5,7 @@ angular.module('jam.player', ['rzModule'])
   $scope.song = null;
   $scope.muted = Songs.getMuted();
   $scope.timeFormat = '00:00';
-  $scope.playable = false;
+  $scope.playable = Songs.getPlayable();
 
 
 
@@ -133,7 +133,8 @@ angular.module('jam.player', ['rzModule'])
     $scope.audio.ondurationchange = function(e) {
       $scope.timeSlider.options.disabled = !$scope.audio.duration || isTouchDevice;
       $scope.timeSlider.options.ceil = $scope.audio.duration;
-      $scope.playable = !!$scope.audio.duration;
+      Songs.setPlayable(!!$scope.audio.duration);
+      $scope.playable = Songs.getPlayable();
     };
     $scope.audio.play();
   };

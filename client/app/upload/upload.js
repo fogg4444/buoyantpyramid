@@ -4,6 +4,7 @@ angular
     
     $scope.progressbar = ngProgressFactory.createInstance();
     $scope.queue = UploadFactory.audioQueue;
+    $scope.playable = Songs.getPlayable();
 
     var totalToUpload = 0;
     var totalUploaded = 0;
