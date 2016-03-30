@@ -46,6 +46,15 @@ var getSong = function(songId) {
   return Song.findById(songId);
 };
 
+var updateSong = function(song) {
+  return Song.update(song, {
+    where: { id: song.id },
+    fields: ['title', 'description', 'dateRecorded', 'imageUrl'],
+    returning: true
+  });
+};
+
+
 // TODO: why is this a promise?
 var requestFileCompression = function(song) {
   // console.log('--- 2 --- Request file compression Promise');
@@ -76,5 +85,6 @@ module.exports = {
   addSong: addSong,
   getComments: getComments,
   getSong: getSong,
+  updateSong: updateSong,
   requestFileCompression: requestFileCompression
 };

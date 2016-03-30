@@ -62,6 +62,18 @@ angular.module('jam.songsFactory', [])
     });
   };
 
+
+  var updateSong = function (song) {
+    return http({
+      method: 'PUT',
+      url: '/api/songs/' + song.id,
+      data: song
+    })
+    .then(function (res) {
+      return res.data;
+    });
+  };
+
   var deleteSong = function (song) {
     return http({
       method: 'DELETE',
@@ -187,14 +199,17 @@ angular.module('jam.songsFactory', [])
 
   //register an observer
   var registerObserverCallback = function(action, callback) {
-    observerCallbacks[action] = callback;
+    observerCallbacks[action] = observerCallbacks[action] || [];
+    observerCallbacks[action].push(callback);
   };
 
   // call this with the index of the callback to trigger just one
   var notifyObservers = function() {
     var actions = Array.prototype.slice.call(arguments);
     _.each(actions, function(action) {
-      observerCallbacks[action]();
+      _.each(observerCallbacks[action], function(cb) {
+        cb();
+      });
     });
   };
 
@@ -300,6 +315,7 @@ angular.module('jam.songsFactory', [])
     deleteSong: deleteSong,
     getAllSongs: getAllSongs,
     getSong: getSong,
+    updateSong: updateSong,
     createPlaylist: createPlaylist,
     addSongToPlaylist: addSongToPlaylist,
     getPlaylistSongs: getPlaylistSongs,

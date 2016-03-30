@@ -4,6 +4,11 @@ angular.module('jam.songs', [])
   // When user adds a new link, put it in the collection
   $scope.data = {};
   $scope.user = {};
+  $scope.time = null;
+  $scope.comment = {};
+  $scope.message = '';
+  $scope.commentSong = {};
+      
 
   $scope.updateIndex = function(index) {
     Songs.choose(index, 'songs');
@@ -30,6 +35,32 @@ angular.module('jam.songs', [])
     })
     .catch(console.error);
   };
+
+  $scope.getTime = function () {
+    $scope.time = Songs.getPlayer().currentTime;
+  };
+
+  $scope.toggleCommentModal = function (song, userId) {
+    $scope.commentSong = song;
+    var playingSong = Songs.getCurrentSong();
+    if (playingSong && playingSong.id === song.id) {
+      $scope.getTime();
+    }
+    $scope.commentModalShown = !$scope.commentModalShown;
+  };
+
+  $scope.addComment = function() {
+    $scope.comment.time = $scope.time;
+    $scope.comment.userId = $scope.user.id;
+    Songs.addComment($scope.comment, $scope.commentSong.id)
+    .then(function(comment) {
+      $scope.comment = {};
+      $scope.time = null;
+      $scope.commentModalShown = false;
+      $scope.message = 'comment posted: ' + comment;
+    });
+  };
+
 
   $scope.toggleAddModal = function () {
     $scope.addModalShown = !$scope.addModalShown;

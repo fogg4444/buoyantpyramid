@@ -258,13 +258,11 @@ li:hover > .submenu-container {
 
 /* Song View  Brian's mods */
 .song-item {
-  border: 1px red solid;
+  & > div {
+    display: inline-block;
+  }
 }
 
-.songViewTextArea {
-  float: right;
-  border: 1px solid blue;
-}
 /**/
 .song {
   margin-top: 2em;

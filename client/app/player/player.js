@@ -15,7 +15,8 @@ angular.module('jam.player', ['rzModule'])
     options: {
       floor: 0,
       ceil: $scope.audio.duration,
-      step: 0.01,
+      step: 0.1,
+      precision: 10,
       hideLimitLabels: true,
       disabled: true,
       translate: function(value) {

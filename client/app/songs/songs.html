@@ -1,6 +1,18 @@
 <nav-bar></nav-bar>
 <div class="songs">
   <div class="page-content">
+
+    <modal-dialog show="commentModalShown">
+    <form name="commentForm">
+      <fieldset>
+      <legend>{{commentSong.title}}</legend>
+        <p ng-show="time">Current time: {{time}}</p>
+        <input type="text" ng-model="comment.note" placeholder="comment"/>
+        <button ng-click="addComment()">Add comment</button>
+      </fieldset>
+    </form>
+  </modal-dialog> 
+
     <!-- Add song to playlist modal -->
     <modal-dialog show="addModalShown">
       <form>
@@ -41,6 +53,9 @@
     </div>
     <div ng-repeat="song in data.songs | filter:query" class="song">
         <div class="song-buttons">
+        <button class="icon-button" title="add a comment" ng-click="toggleCommentModal(song, $parent.user.id)">
+            <i class="fa fa-comment fa-lg"></i>
+          </button>
           <button class="icon-button" title="add to playlist" ng-click="$parent.newSong = song; toggleAddModal()"><i class="fa fa-plus-circle fa-lg"></i></button>
           <button class="delete-button icon-button" title="delete song" ng-click="makeSongPending(song, $index)"><i class="fa fa-trash fa-lg"></i></button>
         </div>

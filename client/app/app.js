@@ -120,33 +120,33 @@ angular.module('jam', [
       index: '='
     },
     controller: ['$scope', 'Songs', '$sce', function ($scope, Songs, $sce) {
-      $scope.comment = {};
-      $scope.time = null;
       $scope.songClicked = {};
-      $scope.addComment = function() {
-        $scope.commentModalShown = false;
-        $scope.comment.time = $scope.time;
-        $scope.comment.userId = $scope.userId;
-        Songs.addComment($scope.comment, $scope.songId);
+      $scope.editTitle = false;
+      $scope.isPlaying = false;
+      $scope.updateSong = function() {
+        Songs.updateSong($scope.song)
+        .then(function(updatedSong) {
+          _.extend($scope.song, updatedSong);
+        });
       };
-      $scope.toggleCommentModal = function (songId, userId) {
-        $scope.songId = songId;
-        $scope.userId = userId;
-        var playingSong = Songs.getCurrentSong();
-        if (playingSong && playingSong.id === songId) {
-          $scope.getTime();
-        }
-        $scope.commentModalShown = !$scope.commentModalShown;
-      };
-
+    
       $scope.setSongClicked = function (song) {
         Songs.setSongClicked(song);
         $scope.songClicked = song;
       };
-      
-      $scope.getTime = function () {
-        $scope.time = Songs.getPlayer().currentTime;
+    
+      $scope.setIsPlaying = function() {
+        if (Songs.getCurrentSong() && Songs.getCurrentSong().id === $scope.song.id && !(Songs.getPlayer().paused)) {
+          $scope.isPlaying = true;
+        } else {
+          $scope.isPlaying = false;
+        }
       };
+
+      Songs.registerObserverCallback('CHANGE_SONG', $scope.setIsPlaying);
+      Songs.registerObserverCallback('TOGGLE_PLAY', $scope.setIsPlaying);
+      Songs.registerObserverCallback('RESET_PLAYER', $scope.setIsPlaying);
+      Songs.registerObserverCallback('REFRESH_LIST', $scope.setIsPlaying);
     }]
   };
 })
@@ -181,9 +181,9 @@ angular.module('jam', [
 })
 .directive('myEnter', function () {
   return function (scope, element, attrs) {
-    element.bind("keydown keypress", function (event) {
-      if(event.which === 13) {
-        scope.$apply(function (){
+    element.bind('keydown keypress', function (event) {
+      if (event.which === 13) {
+        scope.$apply(function () {
           scope.$eval(attrs.myEnter);
         });
         event.preventDefault();
