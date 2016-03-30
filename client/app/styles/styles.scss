@@ -351,6 +351,10 @@ li:hover > .submenu-container {
 
   /* Add CSS3 styles for transition smoothing */
   transition: all 0.15s ease-in-out;
+  &.complete {
+    background-color: $linkcolor;
+  color: $linkcolor;
+  }
 }
 
 .upload-info {
