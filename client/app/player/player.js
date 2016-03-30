@@ -88,6 +88,25 @@ angular.module('jam.player', ['rzModule'])
     Songs.setMuted($scope.muted);
   };
 
+  $scope.changeTrack = function (direction) {
+    var currentSongIndex = Songs.getSongIndex();
+    if (direction === 'back') {
+      if (currentSongIndex === 0) {
+        $scope.stop();
+        $scope.audio.play();
+      } else {
+        Songs.setSongIndex(currentSongIndex - 1);
+      }
+    }
+    if (direction === 'forward') {
+      if (currentSongIndex === $scope.playlist.songs.length - 1) {
+        $scope.stop();
+      } else {
+        Songs.setSongIndex(currentSongIndex + 1);
+      }
+    }
+  };
+
   $scope.toggleSpeed = function () {
     var currentIndex = $scope.speeds.indexOf($scope.audio.playbackRate);
     console.log('currentRate ' + $scope.audio.playbackRate);

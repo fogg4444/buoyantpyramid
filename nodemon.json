@@ -1,4 +1,4 @@
 {
   "verbose": true,
-  "ignore": ["compression_server/temp_audio/*"]
+  "ignore": ["compression_server/temp_audio/*", "dist/*"]
 }
