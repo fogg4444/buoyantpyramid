@@ -57,8 +57,8 @@ var addSong = function (req, res, next) {
 
 var s3delete = function (song) {
   // delete both original and compressed files from aws
-  song.address = song.address || '';
-  song.compressedAddress = song.compressedAddress || '';
+  song.address = song.address || 'dummy';
+  song.compressedAddress = song.compressedAddress || 'dummy';
   var params = {
     Bucket: awsConfig.bucket, /* required */
     Delete: { /* required */
@@ -75,7 +75,7 @@ var s3delete = function (song) {
   return new Promise(function (resolve, reject) {
     s3.deleteObjects(params, function(err, res) {
       if (err) {
-        reject(error);
+        reject(err);
       } else {
         resolve(res);
       }
