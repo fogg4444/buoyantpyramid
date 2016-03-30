@@ -8,11 +8,12 @@ angular.module('jam.songs', [])
   $scope.comment = {};
   $scope.message = '';
   $scope.commentSong = {};
+  $scope.where = 'songs';
+  Songs.setViewLocation($scope.where);
   $scope.playable = Songs.getPlayable();
-      
 
   $scope.updateIndex = function(index) {
-    Songs.choose(index, 'songs');
+    Songs.choose(index, $scope.where);
   };
 
   Users.getUserData()

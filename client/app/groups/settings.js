@@ -1,6 +1,6 @@
 angular.module('jam.groupSettings', [])
 
-.controller('SettingsController', ['$scope', '$timeout', 'Upload', 'Users', 'Groups', 'UploadFactory', function($scope, to, Up, Users, Groups, UploadFactory) {
+.controller('SettingsController', ['$scope', '$timeout', 'Upload', 'Users', 'Groups', 'UploadFactory', 'Songs', function($scope, to, Up, Users, Groups, UploadFactory, Songs) {
   $scope.user = {};
   $scope.group = {};
   $scope.sendingInvite = false;

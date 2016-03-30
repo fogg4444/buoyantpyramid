@@ -102,6 +102,30 @@ angular.module('jam', [
     }]
   };
 })
+.directive('loginCarousel', function() {
+  return {
+    restrict: 'E',
+    templateUrl: 'app/carousel/carousel.html',
+    scope: {},
+    controller: ['$scope', function($scope) {
+      $scope.myInterval = 3000;
+      $scope.slides = [
+        {
+          image: 'http://lorempixel.com/400/200/'
+        },
+        {
+          image: 'http://lorempixel.com/400/200/food'
+        },
+        {
+          image: 'http://lorempixel.com/400/200/sports'
+        },
+        {
+          image: 'http://lorempixel.com/400/200/people'
+        }
+      ];
+    }]  
+  };
+})
 .directive('groupsNav', function () {
   return {
     restrict: 'E',
@@ -119,10 +143,9 @@ angular.module('jam', [
       song: '=',
       index: '='
     },
-    controller: ['$scope', 'Songs', '$sce', function ($scope, Songs, $sce) {
+    controller: ['$scope', '$sce', '$route', 'Songs', function ($scope, $sce, $route, Songs) {
       $scope.songClicked = {};
       $scope.editTitle = false;
-      $scope.isPlaying = false;
       $scope.updateSong = function() {
         Songs.updateSong($scope.song)
         .then(function(updatedSong) {
@@ -130,23 +153,27 @@ angular.module('jam', [
         });
       };
     
-      $scope.setSongClicked = function (song) {
-        Songs.setSongClicked(song);
+      $scope.setSongClicked = function (song, index) {
+        Songs.setSongClicked(song, index);
         $scope.songClicked = song;
       };
     
       $scope.setIsPlaying = function() {
-        if (Songs.getCurrentSong() && Songs.getCurrentSong().id === $scope.song.id && !(Songs.getPlayer().paused)) {
+        var currentSong = Songs.getCurrentSong();
+        var loc = Songs.getViewLocation();
+        if (currentSong && currentSong.id === $scope.song.id && loc === currentSong.location && !(Songs.getPlayer().paused)) {
           $scope.isPlaying = true;
         } else {
           $scope.isPlaying = false;
         }
       };
 
-      Songs.registerObserverCallback('CHANGE_SONG', $scope.setIsPlaying);
-      Songs.registerObserverCallback('TOGGLE_PLAY', $scope.setIsPlaying);
-      Songs.registerObserverCallback('RESET_PLAYER', $scope.setIsPlaying);
-      Songs.registerObserverCallback('REFRESH_LIST', $scope.setIsPlaying);
+      $scope.setIsPlaying();
+
+      $scope.reset = function () {
+        $route.reload();
+      };
+
     }]
   };
 })

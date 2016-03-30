@@ -13,6 +13,7 @@ angular.module('jam.songsFactory', [])
   var volume = 0;
   var muted = false;
   var playable = false;
+  var viewLocation = null;
 
   // FUNCTIONS FOR SONGS
 
@@ -200,18 +201,12 @@ angular.module('jam.songsFactory', [])
 
   //register an observer
   var registerObserverCallback = function(action, callback) {
-    observerCallbacks[action] = observerCallbacks[action] || [];
-    observerCallbacks[action].push(callback);
+    observerCallbacks[action] = callback;
   };
 
   // call this with the index of the callback to trigger just one
-  var notifyObservers = function() {
-    var actions = Array.prototype.slice.call(arguments);
-    _.each(actions, function(action) {
-      _.each(observerCallbacks[action], function(cb) {
-        cb();
-      });
-    });
+  var notifyObservers = function(action) {
+    observerCallbacks[action]();
   };
 
   var getSoundsAndIndex = function () {
@@ -236,8 +231,8 @@ angular.module('jam.songsFactory', [])
     } else {
       songIndex = index;
       currentLocation = location;
-      playable = true;
       notifyObservers('CHANGE_SONG');
+      playable = true;
     }
   };
 
@@ -296,12 +291,24 @@ angular.module('jam.songsFactory', [])
   };
 
   var getCurrentSong = function () {
-    if (songQueue[currentLocation][songIndex]) {
-      return songQueue[currentLocation][songIndex];
+    var current = songQueue[currentLocation][songIndex];
+    if (current) {
+      current.location = currentLocation;
+      return current;
     } else {
       return null;
     }
   };
+
+  var setViewLocation = function (location) {
+    viewLocation = location;
+  };
+
+  var getViewLocation = function () {
+    return viewLocation;
+  };
+
+
   var timeFormat = function(seconds) {
     var s = Math.floor(seconds % 60);
     var m = Math.floor((seconds % 3600) / 60);
@@ -352,6 +359,8 @@ angular.module('jam.songsFactory', [])
     setSongClicked: setSongClicked,
     getSongClicked: getSongClicked,
     getCurrentSong: getCurrentSong,
+    setViewLocation: setViewLocation,
+    getViewLocation: getViewLocation,
     timeFormat: timeFormat
   };
 }]);
