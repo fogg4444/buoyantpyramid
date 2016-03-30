@@ -11,7 +11,7 @@
     </div>
     <div class="input-group volume" ng-hide='!!isTouchDevice'>
       <div class="vol-slider-container">
-        <input type="range" class="vol-slider" ng-model="audio.volume" step="0.1">
+        <input type="range" min="0" max="1" class="vol-slider" ng-model="audio.volume" step="0.05" ng-mouseup="snapVol()">
       </div>
       <button class='icon-button mute-button' ng-click="mute()"><i ng-class="{'fa fa-volume-off fa-lg': muted, 'fa fa-volume-down fa-lg': !muted, 'fa fa-volume-up fa-lg': !muted && audio.volume > 0.5}"></i></button>
     </div>
