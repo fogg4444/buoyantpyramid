@@ -7,15 +7,13 @@
 // TODO: Adjust nav bar for mobile use
 // Starting example below:
 
-
 $med-breakpoint: 780px;
-$small-breakpoint: 400px;
-
+$small-breakpoint: 480px;
 
 /**************************************************/
 
 $nav-height: 3rem;
-$player-height: 6rem;
+$player-height: 5rem;
 
 html {
   box-sizing: border-box;
@@ -41,24 +39,12 @@ body {
 }
 
 .noselect {
-  -webkit-touch-callout: none;
-
-  /* iOS Safari */
-  -webkit-user-select: none;
-
-  /* Chrome/Safari/Opera */
-  -khtml-user-select: none;
-
-  /* Konqueror */
-  -moz-user-select: none;
-
-  /* Firefox */
-  -ms-user-select: none;
-
-  /* IE/Edge */
-  user-select: none;
-
-  /* non-prefixed version, currently                               not supported by any browser */
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Chrome/Safari/Opera */
+  -khtml-user-select: none;  /* Konqueror */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE/Edge */
+  user-select: none;  /* non-prefixed version, currently                               not supported by any browser */
 }
 
 input[type=range] {
@@ -335,6 +321,7 @@ li:hover > .submenu-container {
   padding: 0.5rem;
   margin: 0.5em auto;
 }
+
 .song-item {
   & > div {
     display: inline-block;
@@ -364,21 +351,25 @@ li:hover > .submenu-container {
 }
 
 .play-button-container {
-  float: left;
+  // float: left;
 }
+
 .song-title-container {
   max-width: 80%;
   position: relative;
-  overflow:hidden;
+  overflow: hidden;
 
   input {
-    width:20rem;
+    width: 20rem;
   }
 }
+
 .song-title {
   font-size: 1.25em;
-  
+  vertical-align: super;
 }
+
+
 .upload-item {
   width: 100%;
   margin: 0.5em auto;
@@ -792,6 +783,10 @@ input[type="button"] {
   border: 1px solid $lightgrey;
   cursor: pointer;
   transition: color 0.2s ease;
+
+  &.goto-song {
+    color: $textcolor-3;
+  }
 }
 
 .button:hover,
@@ -871,7 +866,12 @@ input.ng-invalid.ng-dirty {
   border: none;
   background: none;
   text-transform: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
 }
+
+
 
 .icon-button:focus:hover {
   color: $midgrey;
@@ -883,6 +883,10 @@ input.ng-invalid.ng-dirty {
   border: none;
   background: none;
   cursor: default;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+
 }
 
 .cancel, .cancel:active {
@@ -917,6 +921,7 @@ footer {
   width: 60%;
   display: inline-block;
   position: relative;
+  padding-top: 1rem;
 }
 
 .volume {
@@ -925,8 +930,10 @@ footer {
 }
 
 .vol-slider-container {
-  display: inline-block;
-  width: 8rem;
+    position: relative;
+    display: inline-block;
+    width: 8rem;
+    top: 0.5rem;
 }
 
 .player div.speed-slider-container {
@@ -965,38 +972,6 @@ rzslider .rz-pointer:after {
   content: '';
 }
 
-// .time-slider .rz-bar {
-//     height: 32px;
-//     top: 2px;
-//     background: rgba($darkgrey, 0.8);
-// }
-// .rz-pointer:hover:after {
-//   background-color: $white;
-// }
-
-// .rz-pointer.rz-active {
-//   z-index: 4;
-// }
-
-// rzslider .rz-pointer.rz-active:after {
-//   background-color: $darkgrey;
-// }
-
-// rzslider.rz-vertical .rz-pointer {
-//   // transform: rotate(-90deg);
-//   left: -14px;
-//   height: 12px;
-//   width: 32px;
-// }
-
-// rzslider.rz-vertical .rz-pointer:after {
-//   position: absolute;
-//   left: 8px;
-//   top: 4px;
-//   height: 4px;
-//   width: 16px;
-// }
-//
 .player-buttons > div {
   display: inline-block;
   padding: 0.5rem;
@@ -1017,10 +992,12 @@ rzslider .rz-pointer:after {
   padding: 0.3em;
 }
 
-.player-label {
+.speed-label {
   display: inline-block;
   position: relative;
-  top: 0.5em;
+  top: 0.5rem;
+  width: 1.7rem;
+  text-align:center;
 }
 
 .player button {
@@ -1129,9 +1106,6 @@ rzslider .rz-pointer:after {
     left: 0;
     width: 100%;
 
-    // position:absolute;
-    // bottom:$player-height / 2;
- 
   }
 
   .player-buttons > div {
@@ -1140,45 +1114,32 @@ rzslider .rz-pointer:after {
 
   .time {
     width: 100%;
-
-    //   position:absolute;
-    //   bottom:0;
-    //   left:0;
-    //   padding:0;
- 
+    padding: 0;
   }
 
-  // .time-title {
-  //   bottom: 0.5rem;
-  // }
-
   .modal-dialog {
-    /* A centered div above the overlay with a box shadow. */
     width: 90%;
-
-    /* Default */
     height: 50%;
   }
 }
 
-
 @media (max-width: $small-breakpoint) {
-
   .song-item .song-title-container {
     max-width: 100%;
-    clear:both;
+    clear: both;
     margin-top: 0.5em;
     display: block;
   }
+
   .goto-song {
-    float:right;
+    float: right;
   }
+
   .song-title {
-    position:absolute;
-    bottom:0;
+    position: absolute;
+    bottom: 0;
   }
 }
-
 
 .droplist ul[dnd-list],
 .droplist ul[dnd-list] > li {
