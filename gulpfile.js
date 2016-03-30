@@ -59,5 +59,5 @@ gulp.task('nodemon', function (cb) {
 
 gulp.task('default', ['sass', 'build', 'browser-sync'], function () {
   gulp.watch(paths.styles, ['sass']);
-  gulp.watch(['client/**/*.js', './*.html'], ['build', reload]);
+  gulp.watch(['client/**/*.js', './*.html'], ['build']);
 });
