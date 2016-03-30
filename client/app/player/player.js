@@ -91,12 +91,17 @@ angular.module('jam.player', ['rzModule'])
     }
   };
 
-  $scope.toggleSpeed = function () {
+  $scope.setSpeed = function (inc) {
     var currentIndex = $scope.speeds.indexOf($scope.audio.playbackRate);
     console.log('currentRate ' + $scope.audio.playbackRate);
     console.log('currentIndex ' + currentIndex);
-    var nextIndex = (currentIndex + 1) % $scope.speeds.length;
-    console.log('nextIndex ' + currentIndex);
+    nextIndex = currentIndex + inc;
+    if (nextIndex < 0) {
+      nextIndex = 0;
+    }
+    if (nextIndex >= $scope.speeds.length) {
+      nextIndex = $scope.speeds.length - 1;
+    }
     $scope.audio.playbackRate = $scope.speeds[nextIndex];
   };
 

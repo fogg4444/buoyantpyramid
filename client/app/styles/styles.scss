@@ -924,6 +924,11 @@ rzslider .rz-pointer:after {
     vertical-align: top;
     padding: 0.3em;
 }
+.player-label {
+  display: inline-block;
+  position: relative;
+  top: 0.5em;
+}
 
 .player button {
   width: 1.5rem;
@@ -1014,7 +1019,7 @@ rzslider .rz-pointer:after {
     // bottom:$player-height / 2;
   }
   .player-buttons > div {
-    margin: 0 2%;
+    margin: 0 1%;
   }
    .time {
     width: 100%;
