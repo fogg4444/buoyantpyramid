@@ -14,6 +14,7 @@ angular.module('jam.songsFactory', [])
   var muted = false;
   var playable = false;
   var viewLocation = null;
+  var currentPlaylist = {};
 
   // FUNCTIONS FOR SONGS
 
@@ -225,12 +226,17 @@ angular.module('jam.songsFactory', [])
     }
   };
 
-  var choose = function(index, location) {
+  var choose = function(index, location, playlist) {
     if (songIndex === +index && currentLocation === location) {
       notifyObservers('TOGGLE_PLAY');
     } else {
       songIndex = index;
       currentLocation = location;
+      if (location === 'playlist') {
+        currentPlaylist = playlist;
+      } else {
+        currentPlaylist = {};
+      }
       notifyObservers('CHANGE_SONG');
       playable = true;
     }
@@ -300,6 +306,10 @@ angular.module('jam.songsFactory', [])
     }
   };
 
+  var getCurrentPlaylist = function () {
+    return currentPlaylist;
+  };
+
   var setViewLocation = function (location) {
     viewLocation = location;
   };
@@ -359,6 +369,7 @@ angular.module('jam.songsFactory', [])
     setSongClicked: setSongClicked,
     getSongClicked: getSongClicked,
     getCurrentSong: getCurrentSong,
+    getCurrentPlaylist: getCurrentPlaylist,
     setViewLocation: setViewLocation,
     getViewLocation: getViewLocation,
     timeFormat: timeFormat
