@@ -9,7 +9,7 @@ var uglify = require('gulp-uglify');
 var sass = require('gulp-sass');
 var concat = require('gulp-concat');
 var rename = require('gulp-rename');
-var ngmin = require("gulp-ngmin");
+var ngmin = require('gulp-ngmin');
 var prefix = require('gulp-autoprefixer');
 
 // the paths to our app files
