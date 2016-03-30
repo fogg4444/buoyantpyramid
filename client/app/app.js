@@ -17,7 +17,8 @@ angular.module('jam', [
   'ngFileUpload',
   'ngImgCrop',
   'ngProgress',
-  'dndLists'
+  'dndLists',
+  'focus-if'
 ])
 .config(function ($routeProvider, $httpProvider) {
   $routeProvider
@@ -80,8 +81,11 @@ angular.module('jam', [
     restrict: 'E',
     templateUrl: 'app/nav/nav.html',
     scope: {},
-    controller: ['$scope', 'Users', function($scope, Users) {
-      $scope.logout = Users.logout;
+    controller: ['$scope', 'Users', '$window', function($scope, Users, $window) {
+      $scope.logout = function () {
+        Users.logout();
+        $window.location.reload();
+      }; 
       $scope.user = {};
       $scope.showMenu = false; // only matters for mobile
       

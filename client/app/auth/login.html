@@ -8,7 +8,7 @@
       <fieldset>
         <legend>Login or Signup</legend>
         <label>
-          <input ng-focus="loginError = signupError = '';" name="email" ng-field ng-model="user.email" placeholder="email" type="email" ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/" ng-model-options="{ updateOn: 'blur' }" required />
+          <input ng-focus="loginError = signupError = '';" name="email" ng-field ng-model="user.email" placeholder="email" type="email" ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/" ng-model-options="{ updateOn: 'blur' }" required focus-if />
           <div class="field-error">
             <span ng-show="loginForm.email.$error.required && loginForm.email.$dirty">Required!</span>
             <span ng-show="loginForm.email.$error.email">Not valid email!</span>
@@ -29,7 +29,7 @@
         </div>
         <div class="confirm-account animate-show" ng-show="confirm">
           <label>
-            <input ng-focus="loginError = signupError = '';" type="password" name="passwordConfirm" ng-model="newPassword" placeholder="confirm password" my-enter="signup(newPassword)" ng-minlength="8" />
+            <input ng-focus="loginError = signupError = '';" type="password" name="passwordConfirm" ng-model="newPassword" placeholder="confirm password" my-enter="signup(newPassword)" ng-minlength="8" focus-if="confirm" />
             <div class="field-error">
               <span ng-show="passMismatch && !loginForm.passwordConfirm.$error.minlength && !newPassword.length">Passwords did not match!</span>
               <span ng-show="loginForm.passwordConfirm.$error.minlength">Too short!</span>

@@ -1,20 +1,16 @@
 /*jam styling*/
 
-@import 'colors';
-@import 'sliders';
-
+@import "colors";
+@import "sliders";
 
 /**************************************************/
 // TODO: Adjust nav bar for mobile use
 // Starting example below:
 
-$mobileBreakpoint: 700px;
 
-.pagewidth {
-  @media screen and (min-width: $mobileBreakpoint) {
-    // do things if screen size is under $mobileBreakpoint width
-  }
-}
+$med-breakpoint: 780px;
+$small-breakpoint: 400px;
+
 
 /**************************************************/
 
@@ -25,44 +21,57 @@ html {
   box-sizing: border-box;
   font-family: sans-serif;
 }
+
 *, *:before, *:after {
   box-sizing: inherit;
 }
+
 body {
-  $red: random(256)-1;
-  $green: random(256)-1;
-  $blue: random(256)-1;
-  $alpha: random(100)/100;
+  $red: random(256) - 1;
+  $green: random(256) - 1;
+  $blue: random(256) - 1;
+  $alpha: random(100) / 100;
 
   // background-color: rgba($red, $green, $blue, $alpha);
   background-color: $bgcolor;
   color: $textcolor;
-  margin:0;
-  padding:0;
+  margin: 0;
+  padding: 0;
   padding-bottom: $player-height;
 }
 
 .noselect {
-  -webkit-touch-callout: none; /* iOS Safari */
-  -webkit-user-select: none;   /* Chrome/Safari/Opera */
-  -khtml-user-select: none;    /* Konqueror */
-  -moz-user-select: none;      /* Firefox */
-  -ms-user-select: none;       /* IE/Edge */
-  user-select: none;           /* non-prefixed version, currently                               not supported by any browser */
+  -webkit-touch-callout: none;
+
+  /* iOS Safari */
+  -webkit-user-select: none;
+
+  /* Chrome/Safari/Opera */
+  -khtml-user-select: none;
+
+  /* Konqueror */
+  -moz-user-select: none;
+
+  /* Firefox */
+  -ms-user-select: none;
+
+  /* IE/Edge */
+  user-select: none;
+
+  /* non-prefixed version, currently                               not supported by any browser */
 }
-
-
 
 input[type=range] {
   @include input-type-range;
 }
 
 input[type=range].time-slider {
-  position:relative;
-  @include input-type-range(0.5rem, 1.5rem, $linkcolor, 100%, 1.5rem, rgba(0,0,0, 0.35));
-  width:80%;
-}
+  position: relative;
 
+  @include input-type-range(0.5rem, 1.5rem, $linkcolor, 100%, 1.5rem, rgba(0, 0, 0, 0.35));
+
+  width: 80%;
+}
 
 // Replace with new slider
 
@@ -83,9 +92,15 @@ input[type="range"].comment-slider::-webkit-slider-thumb {
   height: 20px;
   border: none;
   border-radius: 12px;
-  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #529de1), color-stop(100%, #245e8f)); /* android <= 2.2 */
-  background-image: -webkit-linear-gradient(top , #529de1 0, #245e8f 100%); /* older mobile safari and android > 2.2 */;
-  background-image: url('../../assets/pin.png'); /* W3C */
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #529de1), color-stop(100%, #245e8f));
+
+  /* android <= 2.2 */
+  background-image: -webkit-linear-gradient(top, #529de1 0, #245e8f 100%);
+
+  /* older mobile safari and android > 2.2 */
+  background-image: url("../../assets/pin.png");
+
+  /* W3C */
   background-size: 12px 18px;
   background-repeat: no-repeat;
 }
@@ -115,27 +130,30 @@ ul {
 }
 
 .topbar {
-  width:100%;
-  position:fixed; 
+  width: 100%;
+  position: fixed;
   height: $nav-height;
   color: $textcolor-2;
   background-size: cover;
   z-index: 99;
 }
+
 .topbar-overlay {
-  position:absolute;
+  position: absolute;
   top: 0;
   bottom: 0;
-  width:100%;
+  width: 100%;
   background-color: $bgcolor-2;
-  background-color: rgba(64,64,64,0.7);
+  background-color: rgba(64, 64, 64, 0.7);
 }
+
 .main-title {
   float: left;
   position: relative;
-  font-size: $nav-height/2;
-  margin: $nav-height/4;
+  font-size: $nav-height / 2;
+  margin: $nav-height / 4;
 }
+
 nav {
   display: block;
   text-align: right;
@@ -159,60 +177,70 @@ nav {
   border-radius: 50%;
   vertical-align: middle;
 }
+
 li:hover > .submenu-container {
   display: block;
 }
+
 .submenu-container {
   display: none;
-  position:absolute;
+  position: absolute;
   top: 0;
   right: 0;
   padding-top: $nav-height * 0.9;
 }
+
 .submenu {
-  background-color:rgba(64,64,64, 0.75);
-  padding:1em;
+  background-color: rgba(64, 64, 64, 0.75);
+  padding: 1em;
 }
+
 .submenu li {
   padding: 0.25em 0.5em;
   display: block;
   white-space: nowrap;
 }
+
 .menu-category {
   text-transform: uppercase;
   font-size: 1.15em;
 }
 
 .mobile-menu-icon {
-  display:none;
+  display: none;
 }
 
 .form-container {
   margin: 4em auto;
   width: 100%;
-  text-align:center;
+  text-align: center;
 }
 
 .group-form-container form {
   display: inline-block;
-  margin:0.5em;
+  margin: 0.5em;
+
   fieldset {
     padding: 1em;
   }
 }
+
 .form-buttons {
   margin-bottom: 1em;
 }
+
 .field-error {
   font-size: 0.8em;
   color: $red;
   height: 1em;
   margin-top: 0.25em;
 }
+
 .login-form {
   float: right;
   margin: 0 10%;
 }
+
 .login-form fieldset {
   text-align: left;
 }
@@ -222,23 +250,27 @@ li:hover > .submenu-container {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
 .current-avatar {
   max-width: 100px;
   max-height: 100px;
-  text-align:center;
+  text-align: center;
   overflow: hidden;
   border-radius: 50%;
   margin: 1em;
+
   img {
     max-width: 100%;
     max-height: 100%;
   }
 }
+
 .page-content {
   max-width: 1024px;
-  margin: 0 auto; 
+  margin: 0 auto;
   clear: both;
   padding: 1em;
+
   // text-align: center;
 }
 
@@ -276,40 +308,41 @@ li:hover > .submenu-container {
   }
 
   img {
-    margin:auto;
+    margin: auto;
     width: 400px;
   }
 
   .slides_control {
-    position:absolute;
+    position: absolute;
     width: 400px;
-    left:50%;
-    top:20px;
-    margin-left:-200px;
+    left: 50%;
+    top: 20px;
+    margin-left: -200px;
   }
 }
 
 .upload-button:hover {
   background: $red;
 }
+
 .upload-button:active {
   background: white;
 }
 
 /* Song View  Brian's mods */
+.song-info {
+  background-color: rgba($lightgrey, 0.3);
+  padding: 0.5rem;
+  margin: 0.5em auto;
+}
 .song-item {
   & > div {
     display: inline-block;
   }
 }
 
-/**/
-.song {
-  margin-top: 2em;
-}
-
 .song-buttons, .refresh-button {
-  float:right;
+  float: right;
 }
 
 .song-thumbnail {
@@ -319,18 +352,33 @@ li:hover > .submenu-container {
   overflow: hidden;
   float: left;
 }
+
 .song-thumbnail img {
   max-width: 100%;
 }
+
 .song-player {
   display: inline-block;
   margin: 0 0.5em;
   color: $bgcolor-2;
 }
+
+.play-button-container {
+  float: left;
+}
+.song-title-container {
+  max-width: 80%;
+  position: relative;
+  overflow:hidden;
+
+  input {
+    width:20rem;
+  }
+}
 .song-title {
   font-size: 1.25em;
+  
 }
-
 .upload-item {
   width: 100%;
   margin: 0.5em auto;
@@ -347,10 +395,17 @@ li:hover > .submenu-container {
   height: 2px;
   background-color: $red;
   color: $red;
-  box-shadow: 0 0 10px 0; /* Inherits the font color */
+  box-shadow: 0 0 10px 0;
+
+  /* Inherits the font color */
 
   /* Add CSS3 styles for transition smoothing */
   transition: all 0.15s ease-in-out;
+
+  &.complete {
+    background-color: $linkcolor;
+    color: $linkcolor;
+  }
 }
 
 .upload-info {
@@ -358,9 +413,11 @@ li:hover > .submenu-container {
   font-style: italic;
   color: $textcolor-3;
 }
+
 .file-info {
   margin: 0.5em 0;
 }
+
 .error {
   color: $red;
 }
@@ -369,22 +426,21 @@ li:hover > .submenu-container {
   color: $linkcolor;
 }
 
-
-
 .profile-section {
   display: inline-block;
   margin: 0 1em;
   text-align: right;
   vertical-align: top;
+
   header {
     font-size: 1.5em;
   }
 }
 
-
 .drop-box {
   border: dotted 2px black;
 }
+
 .drop-box:hover {
   border: dotted 4px black;
 }
@@ -392,20 +448,22 @@ li:hover > .submenu-container {
 /* for the modal */
 .modal-overlay {
   /* A dark translucent div that covers the whole screen */
-  position:fixed;
-  z-index:9999;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  background-color:#000000;
-  opacity: 0.8;
+  position: fixed;
+  z-index: 9999;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #FFF;
+  opacity: 0.7;
 }
+
 .modal-dialog {
   /* A centered div above the overlay with a box shadow. */
-  z-index:10000;
+  z-index: 10000;
   position: fixed;
-  // min-width: 50%; /* Default */
+
+  // min-width: 50%; /* Default
   // height: 50%;
   // min-height:50%;
 
@@ -415,17 +473,20 @@ li:hover > .submenu-container {
   transform: translate(-50%, -50%);
   -webkit-transform: translate(-50%, -50%);
   -moz-transform: translate(-50%, -50%);
-
   background-color: #fff;
   box-shadow: 4px 4px 80px #000;
 }
 
 .modal-dialog-content {
   position: relative;
-  width:100%;
-  height:100%;
-  padding:2em 1em 1em 1em;
-  text-align: left;
+  width: 100%;
+  height: 100%;
+  padding: 2em 1em 1em 1em;
+  text-align: center;
+}
+
+.create-playlist fieldset {
+  text-align: right;
 }
 
 .modal-close {
@@ -438,26 +499,25 @@ li:hover > .submenu-container {
   font-size: 120%;
   display: inline-block;
   font-weight: bold;
+
   // font-family: 'arial', 'sans-serif';
 }
 
-.avatar-dialog .modal-dialog-content{
+.avatar-dialog .modal-dialog-content {
   padding-bottom: 3em;
   text-align: center;
-}
-.new-playlist-fieldset {
-  text-align: right;
 }
 
 /* For the banner crop uploader */
 .cropArea {
   // overflow: hidden;
-  width:500px;
-  height:500px;
+  width: 500px;
+  height: 500px;
   max-width: 100%;
   max-height: 100%;
+
   .banner-dialog & {
-    width:100%;
+    width: 100%;
   }
 }
 
@@ -485,7 +545,7 @@ li:hover > .submenu-container {
 .group-members {
   display: block;
   width: 60%;
-  margin: 0 auto 0 auto; 
+  margin: 0 auto 0 auto;
   border: 1px, solid, black;
   background-color: #f1f1f1;
   height: 15vh;
@@ -507,9 +567,7 @@ li:hover > .submenu-container {
 }
 
 .group-member {
-  &.member {
-    
-  }
+  &.member {}
 
   &.admin {
     border: 5px solid black;
@@ -519,7 +577,6 @@ li:hover > .submenu-container {
     opacity: 0.5;
   }
 }
-
 
 .badge {
   position: absolute;
@@ -564,7 +621,7 @@ li:hover > .submenu-container {
   background-size: 12px 20px;
   display: inline;
   text-align: left;
-  padding:0;
+  padding: 0;
 }
 
 .pin:hover {
@@ -588,13 +645,14 @@ li:hover > .submenu-container {
 .comment-slider {
   display: block;
   position: relative;
+
   // remove important!
   margin: 0 auto !important;
 }
 
 .selected-comment-container {
   display: block;
-  margin: 0 auto;  
+  margin: 0 auto;
   position: relative;
   text-align: left;
 }
@@ -602,9 +660,11 @@ li:hover > .submenu-container {
 .selected-comment {
   padding: 3px;
   position: relative;
+
   &.left {
     text-align: left;
   }
+
   &.right {
     text-align: right;
   }
@@ -637,15 +697,20 @@ input[type="password"],
 textarea,
 select {
   height: 2rem;
-  padding: 0 1rem; /* The 6px vertically centers text on FF, ignored by Webkit */
+  padding: 0 1rem;
+
+  /* The 6px vertically centers text on FF, ignored by Webkit */
   background-color: $white;
   border: none;
   border: 1px solid $lightgrey;
   color: $textcolor;
   font-size: 1rem;
+
   // border-radius: 4px;
   box-shadow: none;
-  box-sizing: border-box; }
+  box-sizing: border-box;
+}
+
 /* Removes awkward default styles on some inputs for iOS */
 input[type="email"],
 input[type="number"],
@@ -656,12 +721,16 @@ input[type="url"],
 input[type="password"],
 textarea {
   -webkit-appearance: none;
-     -moz-appearance: none;
-          appearance: none; }
+  -moz-appearance: none;
+  appearance: none;
+}
+
 textarea {
   min-height: 65px;
   padding-top: 0.5em;
-  padding-bottom: 0.5em; }
+  padding-bottom: 0.5em;
+}
+
 input[type="email"]:focus,
 input[type="number"]:focus,
 input[type="search"]:focus,
@@ -672,30 +741,32 @@ input[type="password"]:focus,
 textarea:focus,
 select:focus {
   border: 1px solid $linkcolor;
-  outline: 0; }
+  outline: 0;
+}
+
 label {
   display: block;
   margin-bottom: 1em;
 }
+
 legend {
   text-align: left;
+
   // display: block;
   // margin-bottom: .5rem;
-   font-weight: bold;
-  }
-fieldset {
-  position: relative;
-  display: inline-block;
-  margin: 0 auto;
-  border: 1px solid $linkcolor;
+  font-weight: bold;
 }
+
 input[type="checkbox"],
 input[type="radio"] {
-  display: inline; }
+  display: inline;
+}
+
 label > .label-body {
   display: inline-block;
   margin-left: .5rem;
-  font-weight: normal; }
+  font-weight: normal;
+}
 
 .button,
 button,
@@ -708,6 +779,7 @@ input[type="button"] {
   color: $white;
   text-align: center;
   font-size: 1rem;
+
   // font-weight: 600;
   // line-height: 2em;
   letter-spacing: .1rem;
@@ -715,24 +787,32 @@ input[type="button"] {
   text-decoration: none;
   white-space: nowrap;
   background-color: $linkcolor;
+
   // border-radius: 4px;
   border: 1px solid $lightgrey;
   cursor: pointer;
   transition: color 0.2s ease;
- }
+}
+
 .button:hover,
 button:hover,
 input[type="submit"]:hover,
 input[type="reset"]:hover,
-input[type="button"]:hover,
+input[type="button"]:hover {
+  color: $midgrey;
+  border-color: $linkcolor;
+  outline: 0;
+}
+
 .button:focus,
 button:focus,
 input[type="submit"]:focus,
 input[type="reset"]:focus,
 input[type="button"]:focus {
-  color: $midgrey;
-  border-color: $linkcolor;
   outline: 0;
+  -webkit-box-shadow: 1px 1px 4px 0px rgba(64, 64, 64, 0.3);
+  -moz-box-shadow: 1px 1px 4px 0px rgba(64, 64, 64, 0.3);
+  box-shadow: 1px 1px 4px 0px rgba(64, 64, 64, 0.3);
 }
 
 .button:disabled,
@@ -740,16 +820,18 @@ button:disabled,
 input[type="submit"]:disabled,
 input[type="reset"]:disabled,
 input[type="button"]:disabled,
-.button:disabled:hover,:hover
+.button:disabled:hover, :hover
 button:disabled:hover,
 input[type="submit"]:disabled:hover,
 input[type="reset"]:disabled:hover,
 input[type="button"]:disabled:hover {
-  background-color:$lightgrey;
+  background-color: $lightgrey;
   color: $midgrey;
-  border-color:$lightgrey;
+  border-color: $lightgrey;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
 }
-
 
 .button.button-primary,
 button.button-primary,
@@ -760,6 +842,7 @@ input[type="button"].button-primary {
   // background-color: $textcolor-2;
   border-width: 5px;
 }
+
 .button.button-primary:hover,
 button.button-primary:hover,
 input[type="submit"].button-primary:hover,
@@ -778,26 +861,28 @@ input[type="button"].button-primary:focus {
 
 input.ng-invalid.ng-dirty {
   border: 1px solid $red !important;
-
 }
+
 .icon-button, .icon-button:active, .icon-button:focus {
   padding: 0;
   margin: 0 0.25em;
   font-size: 1.25em;
   color: $linkcolor;
-  border:none;
-  background:none;
+  border: none;
+  background: none;
   text-transform: none;
 }
+
 .icon-button:focus:hover {
   color: $midgrey;
 }
+
 .icon-button:disabled,
 .icon-button:disabled:hover,
-:hover .icon-button:disabled:hover, {
-  border:none;
-  background:none;
-  cursor:default;
+:hover .icon-button:disabled:hover {
+  border: none;
+  background: none;
+  cursor: default;
 }
 
 .cancel, .cancel:active {
@@ -815,9 +900,11 @@ footer {
   background-color: $bgcolor-2;
   width: 100%;
 }
+
 .player {
   text-align: center;
 }
+
 .time-title {
   position: absolute;
   top: 0.3rem;
@@ -825,11 +912,13 @@ footer {
   width: 100%;
   text-align: center;
 }
+
 .time {
   width: 60%;
   display: inline-block;
   position: relative;
 }
+
 .volume {
   width: 10rem;
   white-space: nowrap;
@@ -848,7 +937,7 @@ footer {
 }
 
 rzslider .rz-bubble {
-  color:inherit;
+  color: inherit;
 }
 
 rzslider .rz-pointer {
@@ -859,8 +948,8 @@ rzslider .rz-pointer {
   cursor: pointer;
   background-color: $linkcolor;
   -webkit-border-radius: 1px;
-     -moz-border-radius: 1px;
-          border-radius: 1px;
+  -moz-border-radius: 1px;
+  border-radius: 1px;
 }
 
 rzslider .rz-pointer:after {
@@ -871,10 +960,11 @@ rzslider .rz-pointer:after {
   height: 16px;
   background: $midgrey;
   -webkit-border-radius: 1px;
-     -moz-border-radius: 1px;
-          border-radius: 1px;
+  -moz-border-radius: 1px;
+  border-radius: 1px;
   content: '';
 }
+
 // .time-slider .rz-bar {
 //     height: 32px;
 //     top: 2px;
@@ -906,7 +996,7 @@ rzslider .rz-pointer:after {
 //   height: 4px;
 //   width: 16px;
 // }
-// 
+//
 .player-buttons > div {
   display: inline-block;
   padding: 0.5rem;
@@ -916,13 +1006,21 @@ rzslider .rz-pointer:after {
 .player-buttons {
   display: inline-block;
 }
+
 .time {
   vertical-align: middle;
 }
+
 .current-time {
-    display: inline-block;
-    vertical-align: top;
-    padding: 0.3em;
+  display: inline-block;
+  vertical-align: top;
+  padding: 0.3em;
+}
+
+.player-label {
+  display: inline-block;
+  position: relative;
+  top: 0.5em;
 }
 
 .player button {
@@ -935,7 +1033,7 @@ rzslider .rz-pointer:after {
 }
 
 .speed-button {
-  width:3rem;
+  width: 3rem;
 }
 
 .clickable-playlist {
@@ -952,88 +1050,135 @@ rzslider .rz-pointer:after {
 }
 
 .animate-show.ng-hide {
-  max-height:0;
+  max-height: 0;
 }
 
-@media (max-width: $mobileBreakpoint) {
-    .topbar {
-      // position:absolute;
-    }
-    .mobile-menu-icon {
+@media (max-width: $med-breakpoint) {
+  .topbar {
+    // position:absolute;
+ 
+  }
+
+  .mobile-menu-icon {
+    display: block;
+    position: relative;
+    float: right;
+    font-size: $nav-height / 2;
+    margin: $nav-height / 8;
+  }
+
+  nav {
+    display: none;
+    position: fixed;
+    top: $nav-height;
+    background-color: rgba(64, 64, 64, 0.75);
+    right: 0;
+    bottom: 0;
+    overflow: scroll;
+  }
+
+  nav.show {
+    display: block;
+  }
+
+  .nav-item {
+    display: block;
+    margin: 1em 0.5em;
+    font-size: 1.5em;
+    text-align: left;
+
+    .submenu-container {
       display: block;
       position: relative;
-      float: right;
-      font-size: $nav-height/2;
-      margin: $nav-height/8;
+      padding: 0;
+      margin: 0;
+    }
+  }
 
-    }
-    nav {
-      display:none;
-      position:fixed;
-      top: $nav-height;
-      background-color:rgba(64,64,64, 0.75);
-      right:0;
-      bottom:0;
-      overflow: scroll;
-    }
-    nav.show {
-      display:block;
-    }
-    .nav-item {
-      display: block;
-      margin: 1em 0.5em;
-      font-size: 1.5em;
-      text-align: left;
-      .submenu-container {
-        display: block;
-        position:relative;
-        padding:0;
-        margin:0;
-      }
-    }
-    .dropdown-avatar {
-      display: none;
-    }
-    .empty-placeholder {
-      font-size: 1.5em;
-      padding: 1em;    
-    }
-    .modal-dialog {
+  .dropdown-avatar {
+    display: none;
+  }
+
+  .empty-placeholder {
+    font-size: 1.5em;
+    padding: 1em;
+  }
+
+  .modal-dialog {
     /* A centered div above the overlay with a box shadow. */
-    width: 90%; /* Default */
+    width: 90%;
+
+    /* Default */
     height: 50%;
   }
-  .player {
-    position:relative;
-    height:$player-height;
+
+  fieldset {
+    position: relative;
+    display: inline-block;
+    margin: 0 auto;
+    border: 1px solid $linkcolor;
+    padding: 1em;
   }
+
+  .player {
+    position: relative;
+    height: $player-height;
+  }
+
   .player-buttons {
-    left:0;
-    width:100%;
+    left: 0;
+    width: 100%;
+
     // position:absolute;
     // bottom:$player-height / 2;
+ 
   }
+
   .player-buttons > div {
-    margin: 0 2%;
+    margin: 0 1%;
   }
-   .time {
+
+  .time {
     width: 100%;
-  //   position:absolute;
-  //   bottom:0;
-  //   left:0;
-  //   padding:0;
-   }
+
+    //   position:absolute;
+    //   bottom:0;
+    //   left:0;
+    //   padding:0;
+ 
+  }
+
   // .time-title {
   //   bottom: 0.5rem;
   // }
 
   .modal-dialog {
-  /* A centered div above the overlay with a box shadow. */
-  width: 90%; /* Default */
-  height: 50%;
-  }
+    /* A centered div above the overlay with a box shadow. */
+    width: 90%;
 
+    /* Default */
+    height: 50%;
+  }
 }
+
+
+@media (max-width: $small-breakpoint) {
+
+  .song-item .song-title-container {
+    max-width: 100%;
+    clear:both;
+    margin-top: 0.5em;
+    display: block;
+  }
+  .goto-song {
+    float:right;
+  }
+  .song-title {
+    position:absolute;
+    bottom:0;
+  }
+}
+
 
 .droplist ul[dnd-list],
 .droplist ul[dnd-list] > li {
@@ -1045,8 +1190,8 @@ rzslider .rz-pointer:after {
  * otherwise you can't drop to it once it's empty
  */
 .droplist ul[dnd-list] {
-    min-height: 42px;
-    padding-left: 0px;
+  min-height: 42px;
+  padding-left: 0px;
 }
 
 /**
@@ -1056,7 +1201,7 @@ rzslider .rz-pointer:after {
  * that he's actually moving it.
  */
 .droplist ul[dnd-list] .dndDraggingSource {
-    display: none;
+  display: none;
 }
 
 /**
@@ -1065,9 +1210,9 @@ rzslider .rz-pointer:after {
  * over it.
  */
 .droplist ul[dnd-list] .dndPlaceholder {
-    display: block;
-    background-color: #ddd;
-    min-height: 42px;
+  display: block;
+  background-color: #ddd;
+  min-height: 42px;
 }
 
 /**
@@ -1078,21 +1223,19 @@ rzslider .rz-pointer:after {
  * browsers we can use event.offsetY for this.
  */
 .droplist ul[dnd-list] li {
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-top-right-radius: 4px;
-    border-top-left-radius: 4px;
-    display: block;
-    padding: 10px 15px;
-    margin-bottom: -1px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-top-right-radius: 4px;
+  border-top-left-radius: 4px;
+  display: block;
+  padding: 10px 15px;
+  margin-bottom: -1px;
 }
-
 
 /**
  * Show selected elements in green
  */
 .droplist ul[dnd-list] li.selected {
-    background-color: #dff0d8;
-    color: #3c763d;
+  background-color: #dff0d8;
+  color: #3c763d;
 }
-
