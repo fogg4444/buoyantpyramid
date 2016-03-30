@@ -1,7 +1,8 @@
 <div class="player noselect" ng-controller="PlayerController">
   <div class="input-group time">
     <div class="time-title elipsis-end">{{song.title}}</div>
-    <rzslider class="time-slider" rz-slider-model="audio.currentTime" rz-slider-options="timeSlider.options">
+    <div class="current-time">{{timeFormat}}</div><input class="time-slider" min="0" max="{{audio.duration}}" step="0.01" type="range" ng-disabled="timeSliderDisabled" ng-model="audio.currentTime" />
+    <!-- <rzslider class="time-slider" rz-slider-model="audio.currentTime" rz-slider-options="timeSlider.options"> -->
     </rzslider>
   </div>
   <div class="player-buttons">

@@ -6,27 +6,10 @@ angular.module('jam.player', ['rzModule'])
   $scope.muted = Songs.getMuted();
   $scope.timeFormat = '00:00';
   $scope.playable = Songs.getPlayable();
-
+  $scope.timeSliderDisabled = true;
 
 
   $scope.speeds = [0.5, 0.75, 1, 1.5, 2];
-
-  $scope.timeSlider = { 
-    options: {
-      floor: 0,
-      ceil: $scope.audio.duration,
-      step: 0.1,
-      precision: 10,
-      hideLimitLabels: true,
-      disabled: true,
-      translate: function(value) {
-        return Songs.timeFormat(value);
-      },
-      onEnd: function(sliderId, modelValue, highValue) {
-        // $scope.audio.currentTime = modelValue;
-      }
-    }
-  };
 
   $scope.volSlider = { 
     options: {
@@ -68,11 +51,11 @@ angular.module('jam.player', ['rzModule'])
   });
 
 
-  // $scope.$watch(function(scope) {
-  //   return scope.audio.currentTime;
-  // }, function(newV, oldV) {
-  //   $scope.timeFormat = Songs.timeFormat(newV);
-  // });
+  $scope.$watch(function(scope) {
+    return scope.audio.currentTime;
+  }, function(newV, oldV) {
+    $scope.timeFormat = Songs.timeFormat(newV);
+  });
 
   $scope.stop = function () {
     $scope.audio.pause();
@@ -131,8 +114,7 @@ angular.module('jam.player', ['rzModule'])
     $scope.audio.src = $scope.song.compressedAddress || null;
     $scope.audio.onended = Songs.nextIndex;
     $scope.audio.ondurationchange = function(e) {
-      $scope.timeSlider.options.disabled = !$scope.audio.duration || isTouchDevice;
-      $scope.timeSlider.options.ceil = $scope.audio.duration;
+      $scope.timeSliderDisabled = !$scope.audio.duration || isTouchDevice;
       Songs.setPlayable(!!$scope.audio.duration);
       $scope.playable = Songs.getPlayable();
     };
