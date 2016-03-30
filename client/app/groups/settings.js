@@ -4,6 +4,7 @@ angular.module('jam.groupSettings', [])
   $scope.user = {};
   $scope.group = {};
   $scope.sendingInvite = false;
+  $scope.playable = Songs.getPlayable();
 
   Users.getUserData()
   .then(function (user) {

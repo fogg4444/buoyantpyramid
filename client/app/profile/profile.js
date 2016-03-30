@@ -1,8 +1,10 @@
 angular.module('jam.profile', [])
 
-.controller('ProfileController', ['$scope', '$location', '$window', '$timeout', 'Users', 'Upload', 'UploadFactory',
-function ($scope, loc, win, to, Users, Up, UploadFactory) {
+.controller('ProfileController', ['$scope', '$location', '$window', '$timeout', 'Users', 'Upload', 'UploadFactory', 'Songs',
+function ($scope, loc, win, to, Users, Up, UploadFactory, Songs) {
   $scope.avatarURL = '';
+  $scope.playable = Songs.getPlayable();
+
   Users.getUserData()
   .then(function (userData) {
     $scope.user = userData;

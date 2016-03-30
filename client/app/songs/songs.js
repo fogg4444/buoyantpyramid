@@ -8,6 +8,7 @@ angular.module('jam.songs', [])
   $scope.comment = {};
   $scope.message = '';
   $scope.commentSong = {};
+  $scope.playable = Songs.getPlayable();
       
 
   $scope.updateIndex = function(index) {
@@ -24,6 +25,7 @@ angular.module('jam.songs', [])
     });
   })
   .catch(console.error);
+  
   $scope.addToPlaylist = function(playlist) {
     $scope.newSong.playlistId = playlist.id;
     var index = playlist.length;

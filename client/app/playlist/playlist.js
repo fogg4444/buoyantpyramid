@@ -7,6 +7,7 @@ angular.module('jam.playlist', [])
   $scope.models.currentPlaylist = {};
   $scope.models.playlists = [];
   $scope.user = {};
+  $scope.playable = Songs.getPlayable();
 
   $scope.updateIndex = function(index) {
     Songs.choose(index, 'playlist');
