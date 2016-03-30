@@ -57,6 +57,8 @@ var addSong = function (req, res, next) {
 
 var s3delete = function (song) {
   // delete both original and compressed files from aws
+  song.address = song.address || '';
+  song.compressedAddress = song.compressedAddress || '';
   var params = {
     Bucket: awsConfig.bucket, /* required */
     Delete: { /* required */
