@@ -52,6 +52,7 @@
       your group doesn't have any songs yet. you should <a href="/#/upload">upload</a> some
     </div>
     <div ng-repeat="song in data.songs | filter:query" class="song">
+      <div class="song-info">
         <div class="song-buttons">
         <button class="icon-button" title="add a comment" ng-click="toggleCommentModal(song, $parent.user.id)">
             <i class="fa fa-comment fa-lg"></i>
@@ -60,7 +61,6 @@
           <button class="delete-button icon-button" title="delete song" ng-click="makeSongPending(song, $index)"><i class="fa fa-trash fa-lg"></i></button>
         </div>
       <!-- <hr> -->
-      <div class="info">
         <song-view song="song" index="$index" ></song-view>
       </div>
     </div>
