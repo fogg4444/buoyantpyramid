@@ -30,19 +30,29 @@
       </modal-dialog>
 
     </div>
-     <div ng-show="data.playlists.length === 0" class="empty-placeholder">
+     <div ng-show="models.playlists.length === 0" class="empty-placeholder">
         Your group doesn't have any playlists. Click the button above to create one.
       </div>
-    <div ng-repeat="playlist in data.playlists">
+    <div ng-repeat="playlist in models.playlists">
       <button class="delete-button icon-button" title="delete playlist" ng-click="pendingDeletePlaylist(playlist)"><i class="fa fa-trash fa-lg"></i></button>
       <button class="clickable-playlist" ng-click="makeCurrent(playlist)">{{playlist.title}}</button>
     </div>
-    <div ng-repeat="song in data.currentPlaylist.songs" class="song">
-      <hr>
-      <button class="delete-button icon-button" title="delete song" ng-click="deleteSong($index)"><i class="fa fa-trash fa-lg"></i></button>
-      <div class="info">
-        <song-view song="song" index="$index" ></song-view>
-      </div>
+    <div class="droplist">
+      <ul dnd-list="models.currentPlaylist"
+      dnd-drop="dropCallback(event, index, song, external, type)">
+        <li ng-repeat="song in models.currentPlaylist.songs | orderBy: playlistSongs.listPosition track by $index"
+        ng-mousedown="models.selected=song" 
+        dnd-draggable="song"
+        dnd-moved="models.currentPlaylist.splice($index, 1)"
+        dnd-effect-allowed="move"
+        ng-class="{'selected': models.selected === item}"
+        >
+          <button class="delete-button icon-button" title="delete song" ng-click="deleteSong($index)"><i class="fa fa-trash fa-lg"></i></button>
+          <div class="info">
+            <song-view song="song" index="$index" ></song-view>
+          </div>
+        </li>
+      </ul>
     </div>
   </div>
   <footer>

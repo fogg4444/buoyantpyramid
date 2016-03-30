@@ -126,11 +126,13 @@ angular.module('jam.songsFactory', [])
     });
   };
 
-  var addSongToPlaylist = function (songId, plId) {
+  var addSongToPlaylist = function (songId, plId, index) {
     // takes a playlist id and a song obj
+    var data = {index: index};
     return http({
       method: 'POST',
-      url: '/api/playlists/' + songId + '/' + plId + '/'
+      url: '/api/playlists/' + songId + '/' + plId + '/',
+      data: data
     })
     .then(function (res) {
       return res.data;
@@ -149,9 +151,16 @@ angular.module('jam.songsFactory', [])
     .catch(console.error);
   };
 
+  var updatePlaylistPosition = function (playlistId, updateArray) {
+    return http({
+      method: 'PUT',
+      url: '/api/playlists/' + playlistId,
+      data: updateArray
+    });
+  };
+
   var deleteFromPlaylist = function (sId, plId) {
     // Takes a playlist object with the song removed
-    console.log('ID to delete: ', plId, sId);
     return http({
       method: 'DELETE',
       url: '/api/playlists/' + sId + '/' + plId + '/',
@@ -199,8 +208,10 @@ angular.module('jam.songsFactory', [])
   var nextIndex = function() {
     if (songIndex < songQueue[currentLocation].length - 1) {
       songIndex++;
+      notifyObservers('CHANGE_SONG');
+    } else {
+      notifyObservers('RESET_PLAYER');
     }
-    notifyObservers('CHANGE_SONG');
   };
 
   var choose = function(index, location) {
@@ -283,6 +294,7 @@ angular.module('jam.songsFactory', [])
     createPlaylist: createPlaylist,
     addSongToPlaylist: addSongToPlaylist,
     getPlaylistSongs: getPlaylistSongs,
+    updatePlaylistPosition: updatePlaylistPosition,
     deleteFromPlaylist: deleteFromPlaylist,
     deletePlaylist: deletePlaylist,
     getSoundsAndIndex: getSoundsAndIndex,

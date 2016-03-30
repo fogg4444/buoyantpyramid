@@ -1,13 +1,43 @@
 angular.module('jam.playlist', [])
 .controller('PlaylistController', ['$scope', 'Users', 'Songs', 'Groups', function ($scope, Users, Songs, GR) {
   $scope.newPlaylist = {};
-  $scope.data = {};
-  $scope.data.currentPlaylist = {};
-  $scope.data.playlists = [];
+  $scope.models = {
+    selected: null
+  };
+  $scope.models.currentPlaylist = {};
+  $scope.models.playlists = [];
   $scope.user = {};
 
   $scope.updateIndex = function(index) {
     Songs.choose(index, 'playlist');
+  };
+
+  $scope.dropCallback = function(event, index, item, external, type, allowedType) {
+    $scope.reorderPlaylist($scope.models.selected, index);
+    return item;
+  };
+
+  $scope.reorderPlaylist = function(song, newIndex) {
+    var oldIndex = song.playlistSongs.listPosition;
+    if (oldIndex < newIndex) {
+      newIndex--;
+    }
+    if (oldIndex !== newIndex) {
+      var targetSong = $scope.models.currentPlaylist.songs[oldIndex];
+      $scope.models.currentPlaylist.songs.splice(oldIndex, 1);
+      $scope.models.currentPlaylist.songs.splice(newIndex, 0, targetSong);
+      // rekey all the list positions:
+      var updateArray = [];
+      for (var i = 0, l = $scope.models.currentPlaylist.songs.length; i < l; i++) {
+        $scope.models.currentPlaylist.songs[i].playlistSongs.listPosition = i;
+        updateArray.push({songId: $scope.models.currentPlaylist.songs[i].id, listPosition: i});
+      }
+      Songs.updatePlaylistPosition($scope.models.currentPlaylist.id, updateArray)
+      .then(function(resp) {
+        // anything?
+      })
+      .catch(console.error);
+    }
   };
 
   Users.getUserData()
@@ -16,7 +46,7 @@ angular.module('jam.playlist', [])
     $scope.newPlaylist.groupId = $scope.user.currentGroup.id;
     GR.getPlaylistsByGroupId($scope.user.currentGroup.id)
     .then(function (playlists) {
-      $scope.data.playlists = playlists;
+      $scope.models.playlists = playlists;
     });
   })
   .catch(console.error);
@@ -31,10 +61,10 @@ angular.module('jam.playlist', [])
   };
 
   $scope.makeCurrent = function (playlist) {
-    $scope.data.currentPlaylist = playlist;
+    $scope.models.currentPlaylist = playlist;
     Songs.getPlaylistSongs(playlist.id)
     .then(function (songs) {
-      $scope.data.currentPlaylist.songs = songs;
+      $scope.models.currentPlaylist.songs = songs;
     })
     .catch(console.error);
   };
@@ -47,16 +77,16 @@ angular.module('jam.playlist', [])
 
       GR.getPlaylistsByGroupId($scope.user.currentGroup.id)
       .then(function (playlists) {
-        $scope.data.playlists = playlists;
+        $scope.models.playlists = playlists;
       })
       .catch(console.error);
     });
   };
 
   $scope.deleteSong = function (index) {
-    var songId = $scope.data.currentPlaylist.songs[index].id;
-    $scope.data.currentPlaylist.songs.splice(index, 1);
-    Songs.deleteFromPlaylist(songId, $scope.data.currentPlaylist.id)
+    var songId = $scope.models.currentPlaylist.songs[index].id;
+    $scope.models.currentPlaylist.songs.splice(index, 1);
+    Songs.deleteFromPlaylist(songId, $scope.models.currentPlaylist.id)
     .then(function(resp) {
       console.log(resp);
     })
@@ -65,13 +95,13 @@ angular.module('jam.playlist', [])
 
   $scope.deletePlaylist = function () {
     var playlist = $scope.pendingPlaylist;
-    if ($scope.data.currentPlaylist.id === playlist.id) {
-      $scope.data.currentPlaylist = {};
+    if ($scope.models.currentPlaylist.id === playlist.id) {
+      $scope.models.currentPlaylist = {};
     }
     Songs.deletePlaylist(playlist.id)
     .then(function(resp) {
       $scope.destroyModalShown = false;
-      $scope.data.playlists = _.filter($scope.data.playlists, function (currentPlaylist) {
+      $scope.models.playlists = _.filter($scope.models.playlists, function (currentPlaylist) {
         return currentPlaylist.id !== playlist.id;
       });
     })

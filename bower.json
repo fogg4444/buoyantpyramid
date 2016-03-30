@@ -1,10 +1,12 @@
 {
   "name": "jamrecord",
   "version": "0.0.0",
-  "authors": ["Brian Fogg",
-              "Sondra Silverhawk",
-              "Erick Paepke",
-              "Nick Echols"],
+  "authors": [
+    "Brian Fogg",
+    "Sondra Silverhawk",
+    "Erick Paepke",
+    "Nick Echols"
+  ],
   "license": "MIT",
   "ignore": [
     "**/.*",
@@ -23,7 +25,8 @@
     "underscore": "^1.8.3",
     "ng-img-crop-full-extended": "ngImgCropFullExtended#~0.5.4",
     "d3": "^3.5.16",
-    "angularjs-slider": "^2.10.4"
+    "angularjs-slider": "^2.10.4",
+    "angular-drag-and-drop-lists": "^1.4.0"
   },
   "resolutions": {
     "angular": "1.5.2"

@@ -16,7 +16,8 @@ angular.module('jam', [
   'ngAnimate',
   'ngFileUpload',
   'ngImgCrop',
-  'ngProgress'
+  'ngProgress',
+  'dndLists'
 ])
 .config(function ($routeProvider, $httpProvider) {
   $routeProvider

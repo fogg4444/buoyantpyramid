@@ -4,10 +4,9 @@ angular.module('jam.songs', [])
   // When user adds a new link, put it in the collection
   $scope.data = {};
   $scope.user = {};
-  $scope.where = 'songs';
 
   $scope.updateIndex = function(index) {
-    Songs.choose(index, $scope.where);
+    Songs.choose(index, 'songs');
   };
 
   Users.getUserData()
@@ -22,9 +21,12 @@ angular.module('jam.songs', [])
   .catch(console.error);
   $scope.addToPlaylist = function(playlist) {
     $scope.newSong.playlistId = playlist.id;
-    Songs.addSongToPlaylist($scope.newSong.id, playlist.id)
+    var index = playlist.length;
+    console.log('the playlist: ', playlist);
+    Songs.addSongToPlaylist($scope.newSong.id, playlist.id, index)
     .then(function (resp) {
       // tell user song was added
+      console.log(resp);
     })
     .catch(console.error);
   };
