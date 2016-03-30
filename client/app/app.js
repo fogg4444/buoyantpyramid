@@ -143,7 +143,7 @@ angular.module('jam', [
       song: '=',
       index: '='
     },
-    controller: ['$scope', '$sce', 'Songs', function ($scope, $sce, Songs) {
+    controller: ['$scope', '$sce', '$route', 'Songs', function ($scope, $sce, $route, Songs) {
       $scope.songClicked = {};
       $scope.editTitle = false;
       $scope.updateSong = function() {
@@ -159,7 +159,6 @@ angular.module('jam', [
       };
     
       $scope.setIsPlaying = function() {
-        console.log('setting is playing');
         var currentSong = Songs.getCurrentSong();
         var loc = Songs.getViewLocation();
         if (currentSong && currentSong.id === $scope.song.id && loc === currentSong.location && !(Songs.getPlayer().paused)) {
@@ -170,6 +169,11 @@ angular.module('jam', [
       };
 
       $scope.setIsPlaying();
+
+      $scope.reset = function () {
+        $route.reload();
+      };
+
     }]
   };
 })
