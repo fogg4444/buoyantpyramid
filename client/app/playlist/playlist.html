@@ -1,6 +1,5 @@
   <nav-bar></nav-bar>
   <div class="playlist page-content">
-      
       <!-- Create modal -->
       <modal-dialog class="modal" show="createModalShown">
         <form name="createPlayForm" class='create-playlist'>
@@ -30,10 +29,11 @@
           </fieldset>
         </form>
       </modal-dialog>
-
     <div class="all-playlists">
-      <h2>Playlists</h2>
-      <button ng-click="toggleCreateModal()"><i class="fa fa-plus-circle"></i> Create </button>
+      <div class="playlist-header-container">
+        <h2 class="playlist-header">Playlists</h2>
+        <button class="icon-button" ng-click="toggleCreateModal()"><i class="fa fa-plus-circle fa-med"></i></button>
+      </div>
       <div ng-repeat="playlist in models.playlists" class="each-playlist">
         <div class="clickable-playlist" ng-click="makeCurrent(playlist)">{{playlist.title}}</div>
         <div><button class="delete-button icon-button" title="delete playlist" ng-click="pendingDeletePlaylist(playlist)"><i class="fa fa-trash"></i></button></div>
@@ -45,6 +45,9 @@
     <div class="droplist">
       <h1>{{models.currentPlaylist.title}}</h1>
       <p>{{models.currentPlaylist.description}}</p>
+      <div ng-show="!models.currentPlaylist.songs.length" class="empty-placeholder">
+        There are no songs in this playlist.
+      </div>
       <ul dnd-list="models.currentPlaylist"
       dnd-drop="dropCallback(event, index, song, external, type)">
         <li ng-repeat="song in models.currentPlaylist.songs | orderBy: playlistSongs.listPosition track by $index"
