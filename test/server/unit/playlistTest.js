@@ -5,6 +5,7 @@ var Sequelize = require('sequelize');
 var dbModels = require('../../../server/db/database.js');
 var PlaylistSchema = dbModels.Playlist;
 var Group = dbModels.Group;
+var SongModel = require('../../../server/models/songModel.js');
 var SongController = require('../../../server/controllers/songController.js');
 var GroupController = require('../../../server/controllers/groupController.js');
 var PlaylistController = require('../../../server/controllers/playlistController.js');
@@ -15,26 +16,48 @@ var songReq = helpers.songReq;
 var addSongReq = helpers.addSongReq;
 var playlistReq = helpers.playlistReq;
 
-// The `clearDB` helper function, when invoked, will clear the database
-var clearDB = function(done) {
-  var res = {
-    json: function(jsonresponse) {
-      // console.log('playlist response: ' + JSON.stringify(jsonresponse));
-      done();
-    }
-  };
-  helpers.rebuildDb(function() {
-    Group.create({name: 'Buoyant Pyramid'})
-    .then(function() {
-      SongController.addSong(songReq, {json: function() {}}, console.error);
-    })
-    .then(function() {
-      PlaylistController.createPlaylist(playlistReq, res, console.error);
-    });
-  });
-};
+var compressStub;
 
 describe('Playlist Controller', function() {
+  before(function(done) {
+    compressStub = sinon.stub(SongModel, 'requestFileCompression', function() {
+      return new Promise(function(resolve, reject) {
+        resolve(true);
+      });
+    });
+    done();
+  });
+
+  after(function (done) {
+    compressStub.restore();
+    done();
+  });
+
+  // The `clearDB` helper function, when invoked, will clear the database
+  var clearDB = function(done) {
+    var res = {
+      json: function(playlist) {
+        addSongReq.params.pid = playlist.id;
+        done();
+      }
+    };
+
+    var addedSongCallback = function(song) {
+      addSongReq.params.sid = song.id;
+      PlaylistController.createPlaylist(playlistReq, res, console.error);
+    };
+
+    helpers.rebuildDb(function() {
+      Group.create({name: 'Buoyant Pyramid'})
+      .then(function(group) {
+        songReq.params.id = group.id;
+        playlistReq.body.groupId = group.id;
+        SongController.addSong(songReq, {json: addedSongCallback}, console.error);
+      });
+    });
+
+  };
+
 
   describe('create playlist', function() {
     // Clear database before each test and then seed it with example `users` so that you can run tests
@@ -74,7 +97,7 @@ describe('Playlist Controller', function() {
 
     it('should fetch songs from a playlist', function (done) {
       before(function(done) {
-        dbModels.Playlist.addSong(addSongReq.params.sid, addSongReq.params.sid)
+        dbModels.Playlist.addSong(addSongReq.params.pid, addSongReq.params.sid)
         .then(function () {
           done();
         }).catch(console.error);
@@ -91,7 +114,7 @@ describe('Playlist Controller', function() {
       res.send = function(err) {
         console.error(err);
       };
-      PlaylistController.getSongs({params: {id: 1}}, res, console.error);
+      PlaylistController.getSongs({params: {id: addSongReq.params.pid}}, res, console.error);
     });
   });
 });

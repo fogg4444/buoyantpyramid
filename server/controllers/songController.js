@@ -48,6 +48,9 @@ var addSong = function (req, res, next) {
     SongModel.requestFileCompression(song)
     .then(function(bool) {
       res.json(song);
+    })
+    .catch(function(err) {
+      next(err);
     });
   })
   .catch(function(err) {
