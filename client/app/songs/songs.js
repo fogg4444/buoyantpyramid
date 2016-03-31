@@ -5,6 +5,7 @@ angular.module('jam.songs', [])
   $scope.data = {};
   $scope.user = {};
   $scope.time = null;
+  $scope.timeFormat = '00:00';
   $scope.comment = {};
   $scope.message = '';
   $scope.commentSong = {};
@@ -41,6 +42,7 @@ angular.module('jam.songs', [])
 
   $scope.getTime = function () {
     $scope.time = Songs.getPlayer().currentTime;
+    $scope.timeFormat = Songs.timeFormat($scope.time);
   };
 
   $scope.toggleCommentModal = function (song, userId) {

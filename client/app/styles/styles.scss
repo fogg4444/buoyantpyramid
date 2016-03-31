@@ -48,7 +48,9 @@ body {
 }
 
 input[type=range] {
-  @include input-type-range;
+  // @include input-type-range;
+  @include input-type-range(0.5rem, 1.5rem, $linkcolor, 100%, 0.5rem, rgba(0, 0, 0, 0.35));
+
 }
 
 input[type=range].time-slider {
@@ -254,7 +256,7 @@ li:hover > .submenu-container {
 
 .empty-placeholder {
   text-align: center;
-  border: 3px $linkcolor dashed;
+  // border: 3px $linkcolor dashed;
   margin: 2em auto;
   padding: 3em;
   font-size: 2em;
