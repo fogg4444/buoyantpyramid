@@ -12,7 +12,6 @@ var Playlist = dbModels.Playlist;
 var UserGroups = dbModels.UserGroups; 
 var UserController = require('../../../server/controllers/userController.js');
 
-dbModels.db.options.logging = false;
 
 var dbUser, jwtToken;
 

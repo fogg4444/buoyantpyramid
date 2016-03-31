@@ -7,7 +7,7 @@ var PlaylistSongs = dbModels.PlaylistSongs;
 var UserGroups = dbModels.UserGroups; 
 
 
-dbModels.db.options.logging = false;
+dbModels.db.options.logging = console.log;
 
 // rebuild test database
 var rebuildDb = function (done) {
