@@ -1260,6 +1260,32 @@ rzslider .rz-pointer:after {
     width: 90%;
     height: 50%;
   }
+
+  .login header {
+    padding-bottom: 6em;
+  }
+
+  .login .cover-title {
+    h1, button {
+      display: block;
+    }
+
+  }
+
+  .login .section-content {
+    li {
+      display: block;
+      margin-top: 1em;
+      span {
+        display: table-cell;
+        vertical-align: middle;
+      }
+    }
+    h2 {
+      display: none;
+    }
+  }
+
 }
 
 @media (max-width: $small-breakpoint) {
