@@ -203,6 +203,11 @@ li:hover > .submenu-container {
   margin: 4em auto;
   width: 100%;
   text-align: center;
+
+  input {
+    float: right;
+    margin: 0 0.5em;
+  }
 }
 
 .group-form-container form {
