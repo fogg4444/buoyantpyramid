@@ -7,7 +7,11 @@
           <fieldset>
           <legend>Create a new playlist</legend>
             <label>title
-              <input type="text" ng-model="newPlaylist.title" required/>
+              <input type="text" ng-model="newPlaylist.title" max-length="20" required/>
+              <input type="text" ng-model="newPlaylist.title" ng-maxlength="20" required/>
+              <div class="field-error">
+                <span ng-show="createPlayForm.$invalid && createPlayForm.$dirty">That title is too long</span>
+              </div>
             </label>
             <label>description
               <input type="text" ng-model="newPlaylist.description"/>

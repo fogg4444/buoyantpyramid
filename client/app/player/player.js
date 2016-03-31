@@ -6,7 +6,7 @@ angular.module('jam.player', [])
   $scope.muted = Songs.getMuted();
   $scope.timeFormat = '00:00';
   $scope.playable = Songs.getPlayable();
-  $scope.timeSliderDisabled = !$scope.audio.duration || $scope.isTouchDevice;
+  $scope.timeSliderDisabled = !$scope.playable || $scope.isTouchDevice;
 
   $scope.snapVol = function() {
     if ($scope.audio.volume < 0.05) {
