@@ -14,11 +14,10 @@ angular.module('jam.songs', [])
   $scope.playable = Songs.getPlayable();
 
 
-  $scope.broadcastTest = '';
-  $scope.$on('audioPlayerEvent', function(event, data) {
-    $scope.broadcastTest = event + ' ' + data;
-    console.log('EVENT');
-  });
+  // $scope.$on('audioPlayerEvent', function(event, data) {
+  //   $scope.broadcastTest = event + ' ' + data;
+  //   console.log('EVENT');
+  // });
 
 
   $scope.updateIndex = function(index) {

@@ -123,9 +123,18 @@ angular.module('jam', [
       song: '=',
       index: '='
     },
-    controller: ['$scope', '$sce', '$route', 'Songs', function ($scope, $sce, $route, Songs) {
+    controller: ['$scope', '$sce', '$route', '$location', 'Songs', function ($scope, $sce, $route, $location, Songs) {
       $scope.songClicked = {};
       $scope.editTitle = false;
+      $scope.arrowBack = false;
+
+      console.dir('current route scope: ' + $route.current.scope);
+
+      if ($location.search().from) {
+        $scope.songUrl = '/#' + loc.search().from;
+      } else {
+        $scope.songUrl = '/#/song/' + $scope.song.id + '?from=' + $location.path(); 
+      }
 
       $scope.$on('audioPlayerEvent', function(event, data) {
         $scope.setIsPlaying();

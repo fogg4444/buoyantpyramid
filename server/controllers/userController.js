@@ -88,7 +88,7 @@ var setAvatar = function(req, res, next) {
 
   user.update({avatarUrl: req.filename})
   .then(function(user) {
-    var token = jwt.encode(user, JWT_SECRET);
+    var token = jwt.sign(user.toJSON(), JWT_SECRET, { expiresInMinutes: 60 * 24 });
     User.compileUserData(user)
     .then(function(compiledUser) {
       res.json({
@@ -114,7 +114,7 @@ var signup = function (req, res, next) {
     } else {
       User.createUser(email, displayName, password)
       .then(function (user) {
-        var token = jwt.encode(user, JWT_SECRET);
+        var token = jwt.sign(user.toJSON(), JWT_SECRET, { expiresInMinutes: 60 * 24 });
         User.compileUserData(user).then(function (compiledUser) {
           res.json({
             token: token,
@@ -154,7 +154,6 @@ var updateProfile = function(req, res, next) {
 
 module.exports = {
   getUser: getUser,
-  // getAvatar: getAvatar,
   getGroups: getGroups,
   getProfile: getProfile,
   login: login,

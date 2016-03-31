@@ -10,6 +10,7 @@ angular.module('jam.song', [])
   $scope.selectedComment = [{}];
   $scope.currentSongIsPlaying;
   $scope.playable = Songs.getPlayable();
+  $scope.fromUrl = '/#' + loc.search().from; 
 
   var pageWidth = document.getElementsByClassName('page-content')[0].offsetWidth;
   var waveHeight = 100;
