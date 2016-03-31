@@ -11,7 +11,7 @@ var Group = dbModels.Group;
 var Playlist = dbModels.Playlist; 
 var UserGroups = dbModels.UserGroups; 
 var UserController = require('../../../server/controllers/userController.js');
-
+var helpers = require('../testHelpers');
 
 var dbUser, jwtToken;
 
@@ -42,26 +42,8 @@ var clearDB = function(done) {
 describe('API', function() {
   // rebuild test database
   before(function (done) {
-    User.sync({force: true})
-    .then(function() {
-      return Group.sync({force: true});
-    })
-    .then(function() {
-      return Playlist.sync({force: true});
-    })
-    .then(function() {
-      return Song.sync({force: true});
-    })
-    .then(function() {
-      return UserGroups.sync({force: true});
-    })
-    .then(function() {
-      done();
-    });
+    helpers.rebuildDb(done);
   });
-
-
-
 
 
   beforeEach(function(done) {

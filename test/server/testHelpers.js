@@ -16,9 +16,6 @@ var rebuildDb = function (done) {
     return UserGroups.sync({force: true});
   })
   .then(function() {
-    return PlaylistSongs.sync({force: true});
-  })
-  .then(function() {
     return Group.sync({force: true});
   })
   .then(function() {
@@ -26,6 +23,9 @@ var rebuildDb = function (done) {
   })
   .then(function() {
     return Song.sync({force: true});
+  })
+  .then(function() {
+    return PlaylistSongs.sync({force: true});
   })
   .then(function() {
     done();
