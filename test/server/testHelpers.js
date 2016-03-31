@@ -13,10 +13,10 @@ dbModels.db.options.logging = false;
 var rebuildDb = function (done) {
   User.sync({force: true})
   .then(function() {
-    return UserGroups.sync({force: true});
+    return Group.sync({force: true});
   })
   .then(function() {
-    return Group.sync({force: true});
+    return UserGroups.sync({force: true});
   })
   .then(function() {
     return Playlist.sync({force: true});
