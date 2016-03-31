@@ -59,11 +59,11 @@ gulp.task('buildlib', function() {
 gulp.task('build', ['sass', 'buildlib'], function() {
   return gulp.src(paths.scripts)
     .pipe(ngmin())
-    .pipe(concat('main.js'))   // Combine into 1 file
-    .pipe(gulp.dest('client/dist'))            // Write non-minified to disk
+    .pipe(concat('main.js'))            // Combine into 1 file
+    .pipe(gulp.dest('client/dist'))     // Write non-minified to disk
     .pipe(uglify())                     // Minify
     .pipe(rename({extname: '.min.js'})) // Rename to ng-quick-date.min.js
-    .pipe(gulp.dest('client/dist'));            // Write minified to disk
+    .pipe(gulp.dest('client/dist'));    // Write minified to disk
 });
 
 gulp.task('nodemon', function (cb) {

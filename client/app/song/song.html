@@ -2,12 +2,15 @@
 <div class="song">
   <div class="page-content">
     <div> 
-      <button ng-click="togglePlay()">
-        <i ng-class="{ 'fa fa-play fa-lg': audio.paused, 'fa fa-pause fa-lg': !audio.paused }" ng-show="currentSongIsPlaying"></i>
+      <a href='/#/songs/'><i class="fa fa-arrow-left fa-3x"></i></a>
+    </div>
+    <header class="song-header">
+      <button class='icon-button' ng-click="togglePlay()">
+        <i ng-class="{ 'fa fa-play fa-3x': audio.paused, 'fa fa-pause fa-3x': !audio.paused }" ng-show="currentSongIsPlaying"></i>
         <i class="fa fa-play fa-lg" ng-show="!currentSongIsPlaying"></i>
       </button>
-    </div>
-    <h2> {{ song.title }} </h2>
+      {{ song.title }}
+    </header>
     <div class="song-visualizer">
       <div class="waveform-container" ng-click="setPlayTime($event)"></div>
       <div class="comment-pin-container">
@@ -40,7 +43,6 @@
     </div>
   </div>
   <br>
-  <a href='/#/songs/'><i class="fa fa-arrow-left fa-3x"></i></a>
   <br>
 </div>
   <footer>

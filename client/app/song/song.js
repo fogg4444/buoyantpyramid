@@ -32,7 +32,7 @@ angular.module('jam.song', [])
   })
   .then(function (song) {
     $scope.song = song;
-    var rawAmplitudes =  JSON.parse(song.amplitudeData).max;
+    var rawAmplitudes = JSON.parse(song.amplitudeData).max;
     var max = _.max(rawAmplitudes);
     var scale = 100 / max;
     scaledAmplitudes = rawAmplitudes.map(function(amp) {
