@@ -8,14 +8,19 @@ function ($scope, $window, $location, $routeParams, Users) {
   $scope.signupError = '';
   $scope.user = {};
   $scope.user.email = $routeParams.email || '';
-  $scope.showLogin = false;
 
-  $scope.showLoginModal = function () {
-    $scope.showLogin = true;
+  $scope.toggleLogin = function () {
+    $scope.showLogin = !$scope.showLogin;
+    if ($scope.showSignup && $scope.showLogin) {
+      $scope.showSignup = false;
+    }
   };
 
-  $scope.showSignupModal = function () {
-    $scope.showSignup = true;
+  $scope.toggleSignup = function () {
+    $scope.showSignup = !$scope.showSignup;
+    if ($scope.showSignup && $scope.showLogin) {
+      $scope.showLogin = false;
+    }
   };
 
   $scope.login = function () {
