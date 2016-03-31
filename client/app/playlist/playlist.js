@@ -50,6 +50,7 @@ angular.module('jam.playlist', [])
     GR.getPlaylistsByGroupId($scope.user.currentGroup.id)
     .then(function (playlists) {
       $scope.models.playlists = playlists;
+      playlists.length && $scope.makeCurrent(playlists[0]);
     });
   })
   .catch(console.error);
