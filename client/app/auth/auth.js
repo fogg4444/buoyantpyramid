@@ -10,6 +10,8 @@ function ($scope, $window, $location, $routeParams, Users) {
   $scope.user.email = $routeParams.email || '';
 
   $scope.toggleLogin = function () {
+    $scope.user.email = $scope.user.password = '';
+    $scope.loginForm.$setPristine();
     $scope.showLogin = !$scope.showLogin;
     if ($scope.showSignup && $scope.showLogin) {
       $scope.showSignup = false;
@@ -17,6 +19,8 @@ function ($scope, $window, $location, $routeParams, Users) {
   };
 
   $scope.toggleSignup = function () {
+    $scope.user.email = $scope.user.password = '';
+    $scope.signupForm.$setPristine();
     $scope.showSignup = !$scope.showSignup;
     if ($scope.showSignup && $scope.showLogin) {
       $scope.showLogin = false;
