@@ -76,7 +76,7 @@ gulp.task('nodemon', function (cb) {
   });
 });
 
-gulp.task('default', ['sass', 'build', 'browser-sync'], function () {
+gulp.task('default', ['build', 'browser-sync'], function () {
   gulp.watch(paths.styles, ['sass']);
-  gulp.watch(['client/**/*.js', './*.html'], ['build']);
+  gulp.watch([paths.scripts, paths.html], ['build', reload]);
 });
