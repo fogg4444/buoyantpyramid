@@ -137,7 +137,7 @@ var updateProfile = function(req, res, next) {
   var user = req.user;
   user.update(req.body)
   .then(function(user) {
-    var token = jwt.encode(user, JWT_SECRET);
+    var token = jwt.sign(user.toJSON(), JWT_SECRET, { expiresInMinutes: 60 * 24 });
     User.compileUserData(user)
     .then(function(compiledUser) {
       res.json({
