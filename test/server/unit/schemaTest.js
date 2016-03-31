@@ -9,12 +9,14 @@ var Playlist = dbModels.Playlist;
 var UserGroups = dbModels.UserGroups; 
 
 
-// rebuild test database
-before(function (done) {
-  helpers.rebuildDb(done);
-});
 
 describe('User Model', function () {
+  // rebuild test database
+  before(function (done) {
+    helpers.rebuildDb(done);
+  });
+
+  
   it('User should be a Sequelize model', function () {
     expect(User).to.be.instanceOf(Sequelize.Model);
   });

@@ -41,6 +41,7 @@ var clearDB = function(done) {
 
 describe('API', function() {
   // rebuild test database
+  
   before(function (done) {
     helpers.rebuildDb(done);
   });

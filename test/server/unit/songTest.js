@@ -17,6 +17,7 @@ var songReq = helpers.songReq;
 var groupReq = helpers.groupReq;
 
 var compressStub;
+
 describe('Song Controller', function () {
 
 
