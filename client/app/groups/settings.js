@@ -1,6 +1,6 @@
 angular.module('jam.groupSettings', [])
 
-.controller('SettingsController', ['$scope', '$timeout', 'Upload', 'Users', 'Groups', 'UploadFactory', 'Songs', function ($scope, to, Up, Users, Groups, UploadFactory, Songs) {
+.controller('SettingsController', ['$scope', '$timeout', 'Upload', 'Users', 'Groups', 'UploadFactory', 'Songs', function ($scope, $timeout, Up, Users, Groups, UploadFactory, Songs) {
   $scope.user = {};
   $scope.group = {};
   $scope.sendingInvite = false;
@@ -43,7 +43,13 @@ angular.module('jam.groupSettings', [])
     });
   };
 
-  $scope.updateGroupProfile = function () {
+  $scope.updateGroupProfile = function (triggerButton) {
+    if (triggerButton) {
+      $scope.updatingName = true;
+      $timeout(function() {
+        $scope.updatingName = false;
+      }, 300);
+    }
     Groups.updateInfo($scope.group)
     .then(function (updatedGroup) {
       _.extend($scope.user.currentGroup, updatedGroup);
@@ -74,7 +80,7 @@ angular.module('jam.groupSettings', [])
     $scope.result = response.data;
     $scope.group.bannerUrl = file.s3url;
     $scope.hideBannerModal();
-    $scope.updateGroupProfile($scope.group);
+    $scope.updateGroupProfile();
   };
 
   $scope.upload = function (dataUrl, name) {
@@ -83,6 +89,6 @@ angular.module('jam.groupSettings', [])
     if (file) {
       UploadFactory.upload(file, 'images', successCallback, errorCallback, progressCallback);
     }
-  }; 
+  };
   
 }]);
