@@ -37,6 +37,7 @@ $track-shadow-color: rgba(0, 0, 0, 0) !default;
     height: $height;
     cursor: pointer;
     animate: 0.2s;
+    outline:0;
 }
 
 @mixin thumb ($width:$thumb-width, $height:$thumb-height, $color:$thumb-color) {
@@ -88,6 +89,9 @@ $track-shadow-color: rgba(0, 0, 0, 0) !default;
         background: $trackcolor;
         border-radius: $track-radius;
         border: $track-border-width solid $track-border-color;
+        &:focus {
+            outline: none;
+        }
     }
 
     &::-moz-range-thumb {

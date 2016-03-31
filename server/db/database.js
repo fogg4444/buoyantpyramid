@@ -211,19 +211,19 @@ Group.belongsToMany(User, {
   as: 'pendingUsers'
 });
 
-Group.hasMany(Song);
+Group.hasMany(Song, {onDelete: 'cascade'});
 Song.belongsTo(Group);
 
-Group.hasMany(Playlist);
+Group.hasMany(Playlist, {onDelete: 'cascade'});
 Playlist.belongsTo(Group);
 
 Playlist.belongsToMany(Song, {through: 'playlistSongs'});
 Song.belongsToMany(Playlist, {through: 'playlistSongs'});
 
-User.hasMany(Comment);
+User.hasMany(Comment, {onDelete: 'cascade'});
 Comment.belongsTo(User);
 
-Song.hasMany(Comment);
+Song.hasMany(Comment, {onDelete: 'cascade'});
 Comment.belongsTo(Song);
 
 
