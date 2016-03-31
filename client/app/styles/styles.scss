@@ -554,6 +554,10 @@ li:hover > .submenu-container {
   &.current {
     background-color: black;
   }
+
+  &.pending {
+    background-color: $midgrey;
+  }
 }
 
 .group .message-text {
@@ -565,17 +569,19 @@ li:hover > .submenu-container {
 }
 
 .group-members {
-  min-width: 60%;
+  min-width: 55%;
   margin: 0 auto;
   border: 1px, solid, black;
   background-color: #f1f1f1;
   display: block;
   float: right;
+  max-height: 65vh;
+  overflow-y: scroll;
 }
 
 .group-member-container {
   display: block;
-  clear: both;
+  clear: left;
   top: 1vh;
   position: relative;
   float: left;
@@ -633,7 +639,7 @@ li:hover > .submenu-container {
   width: 35%;
 }
 
-@media (max-width: $small-breakpoint) {
+@media (max-width: $med-breakpoint) {
   .group {
     width: 100%;
   }
@@ -686,6 +692,11 @@ li:hover > .submenu-container {
   float: right;
 }
 
+.settings-icon {
+  position: relative;
+  float: right;
+  padding-right: 1%;
+}
 .visualizer {
   display: block;
   margin: 0 auto;
