@@ -267,10 +267,11 @@ li:hover > .submenu-container {
 
 /* For the login page */
 .login-form {
-  margin: 2em;
-  background-color: rgba($lightgrey, 0.7);
   position: absolute;
-  z-index: 666;
+  top: 0;
+  right:3em;
+  padding: 1rem 0.5rem 0.5rem 0.5rem;
+  background-color: $textcolor-2;
 }
 
 .login header {
@@ -1317,7 +1318,16 @@ rzslider .rz-pointer:after {
     position: absolute;
     bottom: 0;
   }
+  /* For the login page */
+  .login-form {
+    width: auto;
+    margin: 0 auto;
+  }
 }
+
+
+
+
 
 .droplist ul[dnd-list],
 .droplist ul[dnd-list] > li {
