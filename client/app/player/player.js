@@ -1,5 +1,5 @@
 angular.module('jam.player', [])
-.controller('PlayerController', ['$scope', '$timeout', 'Songs', function($scope, timeout, Songs) {
+.controller('PlayerController', ['$scope', '$rootScope', '$timeout', 'Songs', function($scope, $rootScope, timeout, Songs) {
   $scope.isTouchDevice = 'ontouchstart' in document.documentElement;
   $scope.audio = Songs.getPlayer();
 
@@ -24,15 +24,10 @@ angular.module('jam.player', [])
     return scope.audio.volume;
   }, function(newV, oldV) {
     if (newV) {
-      // var vol = newV < 0.1 ? 0 : newV;
-      // if (newV < 0.1 && !$scope.muted) {
-      //   $scope.mute();
-      // } else 
       if ($scope.muted) {
         Songs.setMuted(false);
         $scope.muted = false;
       }
-      // Songs.setVolume(newV);
     }
   });
 
@@ -46,6 +41,7 @@ angular.module('jam.player', [])
   $scope.stop = function () {
     $scope.audio.pause();
     $scope.audio.currentTime = 0;
+
   };
 
   $scope.mute = function () {
@@ -70,7 +66,8 @@ angular.module('jam.player', [])
     }
     if (direction === 'forward') {
       if (currentSongIndex === $scope.playlist.songs.length - 1) {
-        $scope.stop();
+        $scope.stop();        
+        Songs.setSongIndex(0);
       } else {
         Songs.setSongIndex(currentSongIndex + 1);
       }
@@ -97,6 +94,7 @@ angular.module('jam.player', [])
     } else {
       $scope.audio.pause();
     }
+    $rootScope.$broadcast('audioPlayerEvent', 'TOGGLE_PLAY');
   };
 
   var changeSong = function() {
@@ -124,8 +122,14 @@ angular.module('jam.player', [])
     $scope.timeSliderDisabled = !$scope.audio.duration;
   };
 
+  // broadcast audio events to all views
+  var broadcastEvent = function(event) {
+    $rootScope.$broadcast('audioPlayerEvent', event);
+  };
+
   Songs.registerObserverCallback('CHANGE_SONG', changeSong);
   Songs.registerObserverCallback('TOGGLE_PLAY', $scope.togglePlay);
   Songs.registerObserverCallback('RESET_PLAYER', resetPlayer);
   Songs.registerObserverCallback('REFRESH_LIST', refreshList);
+  Songs.registerObserverCallback('ANY_AUDIO_EVENT', broadcastEvent);
 }]);

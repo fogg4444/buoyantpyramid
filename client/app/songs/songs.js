@@ -13,6 +13,13 @@ angular.module('jam.songs', [])
   Songs.setViewLocation($scope.where);
   $scope.playable = Songs.getPlayable();
 
+
+  // $scope.$on('audioPlayerEvent', function(event, data) {
+  //   $scope.broadcastTest = event + ' ' + data;
+  //   console.log('EVENT');
+  // });
+
+
   $scope.updateIndex = function(index) {
     Songs.choose(index, $scope.where);
   };

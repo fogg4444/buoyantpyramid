@@ -913,7 +913,7 @@ input[type="button"] {
   cursor: pointer;
   transition: color 0.2s ease;
 
-  &.goto-song {
+  &.accent-color {
     color: $textcolor-3;
   }
 }
@@ -1040,7 +1040,7 @@ footer {
 
 .time-title {
   position: absolute;
-  top: 0.3rem;
+  bottom: 0.5rem;
   left: 1rem;
   width: 100%;
   text-align: center;
