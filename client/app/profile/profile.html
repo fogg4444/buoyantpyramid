@@ -11,36 +11,38 @@
       <button ng-disabled="file.status === 'UPLOADING'" ng-click="upload(croppedDataUrl, picFile.name)">Upload image</button>
     </modal-dialog>
     <h2 class="heading">Profile<span class="small"> - update your information</span></h2>
-    <form name="profileForm">
-      <!-- Code for ng-file-uploader -->
-      <section class="profile-section">
-        <fieldset>
-          <legend>avatar</legend>
-          <div class="current-avatar"><img ng-src="{{user.avatarURL}}" alt="current avatar"></div>
-          <!--  <button type="file" ngf-select="uploadFiles($file, $invalidFiles)" accept="image/*" ngf-resize="{width: 100, height: 100}">
-            Change <i class="fa fa-upload"></i></button> -->
-          <button type="file" ng-model="picFile" ngf-select="showAvatarModal($file, $invalidFiles)" accept="image/*" >Change <i class="fa fa-upload"></i></button>
+    <div class="profile-container">
+      <form name="profileForm">
+        <!-- Code for ng-file-uploader -->
+        <section class="profile-section">
+          <fieldset>
+            <legend>avatar</legend>
+            <div class="current-avatar"><img ng-src="{{user.avatarURL}}" alt="current avatar"></div>
+            <!--  <button type="file" ngf-select="uploadFiles($file, $invalidFiles)" accept="image/*" ngf-resize="{width: 100, height: 100}">
+              Change <i class="fa fa-upload"></i></button> -->
+            <button type="file" ng-model="picFile" ngf-select="showAvatarModal($file, $invalidFiles)" accept="image/*" >Change <i class="fa fa-upload"></i></button>
 
-            <!--             <span class="progress" ng-show="f.progress >= 0">
-              <div style="width:{{f.progress}}%" ng-bind="f.progress + '%'"></div>
-            </span> -->
-          <span class="error">{{errorMsg}}</span>
-          <!-- Code for ng-file-uploader -->
-        </fieldset>
-      </section>
-      <section class="profile-section">
-        <fieldset>
-          <legend>info</legend>
-          <label>name
-            <input type='text' ng-model='user.displayName' placeholder='Name' my-enter="updateProfile()" />
-          </label>
-          <label>email
-            <input type='text' ng-model='user.email' placeholder='Email' my-enter="updateProfile()" />
-          </label>
-          <button type='submit' ng-click='updateProfile();'>Update</button>
-        </fieldset>
-      </section>
-    </form>
+              <!--             <span class="progress" ng-show="f.progress >= 0">
+                <div style="width:{{f.progress}}%" ng-bind="f.progress + '%'"></div>
+              </span> -->
+            <span class="error">{{errorMsg}}</span>
+            <!-- Code for ng-file-uploader -->
+          </fieldset>
+        </section>
+        <section class="profile-section">
+          <fieldset>
+            <legend>info</legend>
+            <label>name
+              <input type='text' ng-model='user.displayName' placeholder='Name' my-enter="updateProfile()" />
+            </label>
+            <label>email
+              <input type='text' ng-model='user.email' placeholder='Email' my-enter="updateProfile()" />
+            </label>
+            <button type='submit' ng-click='updateProfile();'>Update</button>
+          </fieldset>
+        </section>
+      </form>
+    </div>
   </div>
   <footer>
     <player></player>

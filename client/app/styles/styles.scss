@@ -449,15 +449,31 @@ li:hover > .submenu-container {
   color: $linkcolor;
 }
 
+.heading {
+  text-align: center;
+}
+
 .profile-section {
+  text-align:left;
   display: inline-block;
-  margin: 0 1em;
-  text-align: right;
+  width: 45%;
   vertical-align: top;
 
   header {
     font-size: 1.5em;
   }
+}
+
+.profile-section fieldset {
+  text-align: center;
+  margin: 0 auto;
+}
+
+.profile-container {
+  position: relative;
+  width: 50%;
+  min-width: 500px;
+  margin: 0 auto;
 }
 
 .drop-box {
@@ -643,44 +659,6 @@ li:hover > .submenu-container {
 
 .create-group-button {
   width: 35%;
-}
-
-@media (max-width: $med-breakpoint) {
-  .group {
-    width: 100%;
-    &.current {
-      margin: 1vh 0 1vh 0;
-    }
-  }
-
-  .group-members {
-    display: block;
-    width: 100%;
-    float: left;
-  }
-
-  .group-member-container {
-    clear: none;
-    display: inline-block;
-    margin: 0 2%;
-  }
-
-  .group-member-text {
-    clear: both;
-    display: block;
-  }
-
-  .group-list {
-    width: 100%;
-  }
-
-  .create-group-button {
-    width: 100%;
-  }
-
-  .hide-mobile {
-    display: none;
-  }
 }
 
 .badge {
@@ -1000,8 +978,6 @@ input.ng-invalid.ng-dirty {
   box-shadow: none;
 }
 
-
-
 .icon-button:focus:hover {
   color: $midgrey;
 }
@@ -1142,7 +1118,14 @@ rzslider .rz-pointer:after {
   width: 3rem;
 }
 
+.playlist-header {
+  position: relative;
+  display: inline;
+}
+
 .clickable-playlist {
+  position: relative;
+  display: inline;
   margin-top: 1rem;
 }
 
@@ -1153,12 +1136,14 @@ rzslider .rz-pointer:after {
 
 .each-playlist div {
   display: inline;
+  position: relative;
   max-width: 15%;
 }
 
 .droplist {
   float: right;
-  width: 80%;
+  width: 75%;
+
   margin: 1em 0;
 }
 
@@ -1184,6 +1169,79 @@ rzslider .rz-pointer:after {
 .new-playlist-fieldset legend {
   font-size: 1.2em;
 }
+
+@media (max-width: $med-breakpoint) {
+  /* Playlist mobile styling*/
+  .all-playlists {
+    position:relative;
+    display: block;
+    margin: 0 auto;
+    max-height: 25vh;
+    overflow-y: scroll;
+  }
+
+  .droplist {
+    min-height: 20vh;
+    max-height: 50vh;
+    overflow-y: scroll;
+    width: 100%;
+  }
+  
+  /* Profile mobile styling*/
+  .profile-section {
+    text-align:center;
+    width: 100%;
+
+    header {
+      font-size: 1.5em;
+    }
+  }
+
+  .profile-container {
+    display: block;
+    max-width: 90%;
+    min-width: 90%;
+    margin: 0 auto;
+  }
+
+  /* Groups mobile styling*/
+  .group {
+    width: 100%;
+    &.current {
+      margin: 1vh 0 1vh 0;
+    }
+  }
+
+  .group-members {
+    display: block;
+    width: 100%;
+    float: left;
+  }
+
+  .group-member-container {
+    clear: none;
+    display: inline-block;
+    margin: 0 2%;
+  }
+
+  .group-member-text {
+    clear: both;
+    display: block;
+  }
+
+  .group-list {
+    width: 100%;
+  }
+
+  .create-group-button {
+    width: 100%;
+  }
+
+  .hide-mobile {
+    display: none;
+  }
+}
+
 
 .animate-show {
   max-height: 200px;
