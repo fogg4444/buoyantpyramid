@@ -26,7 +26,7 @@ var createGroup = function(req, res, next) {
     res.json(group);
   })
   .catch(function (error) {
-    next(err);
+    next(error);
   });
 };
 
