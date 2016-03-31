@@ -7,7 +7,6 @@ var User = dbModels.User;
 var Group = dbModels.Group; 
 var Playlist = dbModels.Playlist; 
 var UserGroups = dbModels.UserGroups; 
-dbModels.db.options.logging = false;
 
 
 // rebuild test database

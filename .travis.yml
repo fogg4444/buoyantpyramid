@@ -1,7 +1,12 @@
 language: node_js
 node_js:
   - 'stable'
-services:
-  - postgresql
+addons:
+  postgresql: "9.3"
+
+#services:
+#  - postgresql
+
 before_script:
+  - psql --version
   - psql -c 'create database jamstest;' -U postgres

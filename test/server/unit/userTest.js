@@ -5,7 +5,6 @@ var Sequelize = require('sequelize');
 var dbModels = require('../../../server/db/database.js');
 var User = dbModels.User;
 var UserController = require('../../../server/controllers/userController.js');
-dbModels.db.options.logging = false;
 
 var req = {
   body: {

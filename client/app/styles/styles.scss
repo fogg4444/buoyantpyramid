@@ -476,8 +476,8 @@ li:hover > .submenu-container {
   text-align: center;
 }
 
-.create-playlist fieldset {
-  text-align: right;
+.create-playlist input {
+  display: block;
 }
 
 .modal-close {
@@ -678,6 +678,16 @@ li:hover > .submenu-container {
 
 /* Forms and buttons - taken and modified from http://getskeleton.com/
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
+fieldset {
+  position: relative;
+  display: inline-block;
+  margin: 0 auto;
+  border: 1px solid $linkcolor;
+  padding: 1em;
+}
+
+
+
 input[type="email"],
 input[type="number"],
 input[type="search"],
@@ -1087,14 +1097,6 @@ rzslider .rz-pointer:after {
 
     /* Default */
     height: 50%;
-  }
-
-  fieldset {
-    position: relative;
-    display: inline-block;
-    margin: 0 auto;
-    border: 1px solid $linkcolor;
-    padding: 1em;
   }
 
   .player {
