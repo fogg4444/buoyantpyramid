@@ -24,7 +24,6 @@ var paths = {
             'client/lib/ngprogress/build/ngprogress.min.js',
             'client/lib/underscore/underscore-min.js',
             'client/lib/d3/d3.min.js',
-            'client/lib/angularjs-slider/dist/rzslider.min.js',
             'client/lib/angular-drag-and-drop-lists/angular-drag-and-drop-lists.min.js',
             'client/lib/ng-focus-if/focusIf.min.js'
           ],

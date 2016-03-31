@@ -1,4 +1,4 @@
-angular.module('jam.player', ['rzModule'])
+angular.module('jam.player', [])
 .controller('PlayerController', ['$scope', '$timeout', 'Songs', function($scope, timeout, Songs) {
   $scope.isTouchDevice = 'ontouchstart' in document.documentElement;
   $scope.audio = Songs.getPlayer();
@@ -8,27 +8,13 @@ angular.module('jam.player', ['rzModule'])
   $scope.playable = Songs.getPlayable();
   $scope.timeSliderDisabled = !$scope.audio.duration || $scope.isTouchDevice;
 
-
-  $scope.speeds = [0.5, 0.8, 1.0, 1.5, 2.0];
-
-  $scope.volSlider = { 
-    options: {
-      floor: 0,
-      ceil: 1,
-      step: 0.02,
-      precision: 10,
-      showSelectionBar: true,
-      hideLimitLabels: true,
-      translate: function(value) {
-        return '';
-      },
-      onEnd: function(sliderId, modelValue, highValue) {
-        if (modelValue < 0.05) {
-          $scope.mute();
-        }
-      }
+  $scope.snapVol = function() {
+    if ($scope.audio.volume < 0.05) {
+      $scope.mute();
     }
   };
+
+  $scope.speeds = [0.5, 0.8, 1.0, 1.5, 2.0];
 
   setInterval(function() { $scope.$apply(); }, 200);
 
