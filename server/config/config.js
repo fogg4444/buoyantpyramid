@@ -10,8 +10,6 @@ if (process.env.JAMRUN === 'test') {
   connectionString = process.env.JAMRECORD_DEV_CONNECTION_STRING;
 }
 
-console.log('connectionString is ' + connectionString);
-
 var COMPRESSION_SERVER = process.env.COMPRESSION_SERVER;
 
 var JWT_SECRET = process.env.JAMRECORD_JWT_SECRET;

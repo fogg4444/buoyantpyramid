@@ -5,7 +5,6 @@ var bcrypt = require('bcrypt-nodejs');
 var Promise = require('bluebird');
 
 
-console.log('connectionString is ' + config.connectionString);
 var sqldebug = process.env.SQL_DEBUG || false;
 var db = new Sequelize(config.connectionString, {logging: sqldebug});
 

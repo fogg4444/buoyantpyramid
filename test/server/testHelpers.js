@@ -11,21 +11,39 @@ dbModels.db.options.logging = false;
 
 // rebuild test database
 var rebuildDb = function (done) {
-  User.sync({force: true})
-  .then(function() {
-    return UserGroups.sync({force: true});
+  User.sync()
+  .then(function () {
+    return Group.sync();
   })
   .then(function() {
-    return Group.sync({force: true});
+    return UserGroups.sync();
   })
   .then(function() {
-    return Playlist.sync({force: true});
+    return Playlist.sync();
   })
   .then(function() {
-    return Song.sync({force: true});
+    return Song.sync();
   })
   .then(function() {
-    return PlaylistSongs.sync({force: true});
+    return PlaylistSongs.sync();
+  })
+  .then(function () {
+    return PlaylistSongs.destroy({where: {}});
+  })
+  .then(function () {
+    return Playlist.destroy({where: {}});
+  })
+  .then(function () {
+    return Song.destroy({where: {}});
+  })
+  .then(function () {
+    return UserGroups.destroy({where: {}});
+  })
+  .then(function () {
+    return User.destroy({where: {}});
+  })
+  .then(function() {
+    return Group.destroy({where: {}});
   })
   .then(function() {
     done();

@@ -11,13 +11,6 @@ var GroupController = require('../../../server/controllers/groupController.js');
 var SongModel = require('../../../server/models/songModel.js');
 var SongController = require('../../../server/controllers/songController.js');
 
-// The `clearDB` helper function, when invoked, will clear the database
-var clearDB = function (done) {
-  dbModels.db.query('DELETE from SONGS where true')
-    .spread(function(results, metadata) {
-      done();
-    });
-};
 
 
 var songReq = helpers.songReq;
@@ -27,22 +20,14 @@ var compressStub;
 
 describe('Song Controller', function () {
 
-  // Connect to database before any tests
-  before(function (done) {
-    var res = {};
-    res.json = function(jsonresponse) {
-      songReq.params.groupId = jsonresponse.id;
-      done();
-    };
-    helpers.rebuildDb(function() {
-      GroupController.createGroup(groupReq, res);
-    });
 
+  before(function(done) {
     compressStub = sinon.stub(SongModel, 'requestFileCompression', function() {
       return new Promise(function(resolve, reject) {
         resolve(true);
       });
     });
+    done();
   });
 
   after(function (done) {
@@ -50,13 +35,19 @@ describe('Song Controller', function () {
     done();
   });
 
-  describe ('add song', function() {
-  // Clear database before each test and then seed it with example `users` so that you can run tests
-    beforeEach(function (done) {
-      clearDB(function () {
+
+  // Connect to database before any tests
+  beforeEach(function (done) {
+    helpers.rebuildDb(function() {
+      Group.create({name: 'Safety Talk'})
+      .then(function(group) {
+        songReq.params.id = group.id;
         done();
       });
     });
+  });
+
+  describe ('add song', function() {
 
     it('should call res.json to return a json object', function (done) {
       var res = {};
