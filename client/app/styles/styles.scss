@@ -1000,8 +1000,6 @@ input.ng-invalid.ng-dirty {
   box-shadow: none;
 }
 
-
-
 .icon-button:focus:hover {
   color: $midgrey;
 }
@@ -1142,7 +1140,14 @@ rzslider .rz-pointer:after {
   width: 3rem;
 }
 
+.playlist-header {
+  position: relative;
+  display: inline;
+}
+
 .clickable-playlist {
+  position: relative;
+  display: inline;
   margin-top: 1rem;
 }
 
@@ -1153,12 +1158,14 @@ rzslider .rz-pointer:after {
 
 .each-playlist div {
   display: inline;
+  position: relative;
   max-width: 15%;
 }
 
 .droplist {
   float: right;
-  width: 80%;
+  width: 75%;
+
   margin: 1em 0;
 }
 
@@ -1184,6 +1191,24 @@ rzslider .rz-pointer:after {
 .new-playlist-fieldset legend {
   font-size: 1.2em;
 }
+
+@media (max-width: $med-breakpoint) {
+  .all-playlists {
+    position:relative;
+    display: block;
+    margin: 0 auto;
+    max-height: 25vh;
+    overflow-y: scroll;
+  }
+
+  .droplist {
+    min-height: 20vh;
+    max-height: 50vh;
+    overflow-y: scroll;
+    width: 100%;
+  }
+}
+
 
 .animate-show {
   max-height: 200px;
