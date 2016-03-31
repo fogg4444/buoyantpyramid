@@ -208,6 +208,7 @@ angular.module('jam.songsFactory', [])
   // call this with the index of the callback to trigger just one
   var notifyObservers = function(action) {
     observerCallbacks[action]();
+    observerCallbacks['ANY_AUDIO_EVENT'](action);
   };
 
   var getSoundsAndIndex = function () {

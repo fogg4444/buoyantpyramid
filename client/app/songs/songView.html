@@ -11,6 +11,6 @@
     <span class="song-title" ng-click="editTitle = true;" ng-hide="editTitle">{{ song.title }}</span>
     <input class="song-title" ng-show="editTitle" focus-if="editTitle" type="text" ng-model="song.title" ng-blur="editTitle=false; updateSong()" />
 
-    <a href="/#/song/{{song.id}}" ng-click="setSongClicked(song, index)"><button class="icon-button goto-song"><i class="fa fa-arrow-right fa-2x"></i></button></a>
+    <a href="/#/song/{{song.id}}" ng-click="setSongClicked(song, index)"><button class="icon-button goto-song accent-color"><i class="fa fa-arrow-right fa-2x"></i></button></a>
   </div>
 </div>

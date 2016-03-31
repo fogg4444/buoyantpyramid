@@ -126,6 +126,11 @@ angular.module('jam', [
     controller: ['$scope', '$sce', '$route', 'Songs', function ($scope, $sce, $route, Songs) {
       $scope.songClicked = {};
       $scope.editTitle = false;
+
+      $scope.$on('audioPlayerEvent', function(event, data) {
+        $scope.setIsPlaying();
+      });
+
       $scope.updateSong = function() {
         Songs.updateSong($scope.song)
         .then(function(updatedSong) {
@@ -149,7 +154,6 @@ angular.module('jam', [
       };
 
       $scope.setIsPlaying();
-
     }]
   };
 })
