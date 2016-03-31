@@ -150,10 +150,6 @@ angular.module('jam', [
 
       $scope.setIsPlaying();
 
-      $scope.reset = function () {
-        $route.reload();
-      };
-
     }]
   };
 })
