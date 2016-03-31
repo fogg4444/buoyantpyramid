@@ -1057,7 +1057,27 @@ rzslider .rz-pointer:after {
   margin-top: 1rem;
 }
 
-.playlist-add {
+.all-playlists {
+  position: absolute;
+  left: 5%;
+}
+
+.each-playlist div {
+  display: inline;
+  max-width: 15%;
+}
+
+.droplist {
+  float: right;
+  width: 80%;
+  margin: 1em 0;
+}
+
+.droplist .delete-button {
+  float: right;
+}
+
+.playlist-add, .clickable-playlist {
   font-size: 1.5em;
   transition: color 0.2s ease;
   color: $linkcolor;
@@ -1067,7 +1087,7 @@ rzslider .rz-pointer:after {
   margin: 5px;
 }
 
-.playlist-add:hover {
+.playlist-add:hover, .clickable-playlist:hover {
   cursor: pointer;
   color: $lightgrey;
 }

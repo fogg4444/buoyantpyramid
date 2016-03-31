@@ -1,8 +1,6 @@
   <nav-bar></nav-bar>
   <div class="playlist page-content">
-    <h2>Playlist</h2>
-    <div class="create-playlist">
-      <button ng-click="toggleCreateModal()"><i class="fa fa-plus-circle"></i> Create New Playlist</button>
+      
       <!-- Create modal -->
       <modal-dialog class="modal" show="createModalShown">
         <form name="createPlayForm" class='create-playlist'>
@@ -29,15 +27,20 @@
         </form>
       </modal-dialog>
 
-    </div>
-     <div ng-show="models.playlists.length === 0" class="empty-placeholder">
-        Your group doesn't have any playlists. Click the button above to create one.
+    <div class="all-playlists">
+      <h2>Playlists</h2>
+      <button ng-click="toggleCreateModal()"><i class="fa fa-plus-circle"></i> Create </button>
+      <div ng-repeat="playlist in models.playlists" class="each-playlist">
+        <div class="clickable-playlist" ng-click="makeCurrent(playlist)">{{playlist.title}}</div>
+        <div><button class="delete-button icon-button" title="delete playlist" ng-click="pendingDeletePlaylist(playlist)"><i class="fa fa-trash"></i></button></div>
       </div>
-    <div ng-repeat="playlist in models.playlists">
-      <button class="delete-button icon-button" title="delete playlist" ng-click="pendingDeletePlaylist(playlist)"><i class="fa fa-trash fa-lg"></i></button>
-      <button class="clickable-playlist" ng-click="makeCurrent(playlist)">{{playlist.title}}</button>
+    </div>
+    <div ng-show="models.playlists.length === 0" class="empty-placeholder">
+        Your group doesn't have any playlists. Click the button above to create one.
     </div>
     <div class="droplist">
+      <h1>{{models.currentPlaylist.title}}</h1>
+      <p>{{models.currentPlaylist.description}}</p>
       <ul dnd-list="models.currentPlaylist"
       dnd-drop="dropCallback(event, index, song, external, type)">
         <li ng-repeat="song in models.currentPlaylist.songs | orderBy: playlistSongs.listPosition track by $index"
@@ -47,7 +50,7 @@
         dnd-effect-allowed="move"
         ng-class="{'selected': models.selected === item}"
         >
-          <button class="delete-button icon-button" title="delete song" ng-click="deleteSong($index)"><i class="fa fa-trash fa-lg"></i></button>
+          <button class="delete-button icon-button" title="remove song" ng-click="deleteSong($index)"><i class="fa fa-times-circle-o fa-lg"></i></button>
           <div class="info">
             <song-view song="song" index="$index" ></song-view>
           </div>

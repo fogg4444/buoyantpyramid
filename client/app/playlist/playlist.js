@@ -76,8 +76,6 @@ angular.module('jam.playlist', [])
     Songs.createPlaylist($scope.newPlaylist)
     .then(function (playlist) {
       $scope.createModalShown = false;
-      $scope.currentPlaylist = playlist;
-
       GR.getPlaylistsByGroupId($scope.user.currentGroup.id)
       .then(function (playlists) {
         $scope.models.playlists = playlists;
