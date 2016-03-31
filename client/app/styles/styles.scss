@@ -555,10 +555,12 @@ li:hover > .submenu-container {
 
   &.current {
     background-color: black;
+    margin-top: 0;
   }
 
   &.pending {
     background-color: $midgrey;
+    margin-bottom: 0;
   }
 }
 
@@ -635,6 +637,8 @@ li:hover > .submenu-container {
 .group-list {
   float: left;
   width: 35%;
+  padding: 0;
+  margin: 0;
 }
 
 .create-group-button {
@@ -644,6 +648,9 @@ li:hover > .submenu-container {
 @media (max-width: $med-breakpoint) {
   .group {
     width: 100%;
+    &.current {
+      margin: 1vh 0 1vh 0;
+    }
   }
 
   .group-members {
