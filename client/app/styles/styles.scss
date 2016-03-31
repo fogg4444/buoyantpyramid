@@ -1057,6 +1057,45 @@ rzslider .rz-pointer:after {
   margin-top: 1rem;
 }
 
+.all-playlists {
+  position: absolute;
+  left: 5%;
+}
+
+.each-playlist div {
+  display: inline;
+  max-width: 15%;
+}
+
+.droplist {
+  float: right;
+  width: 80%;
+  margin: 1em 0;
+}
+
+.droplist .delete-button {
+  float: right;
+}
+
+.playlist-add, .clickable-playlist {
+  font-size: 1.5em;
+  transition: color 0.2s ease;
+  color: $linkcolor;
+  background-color: $bgcolor;
+  text-align: left;
+  font-family: 'Special Elite';
+  margin: 5px;
+}
+
+.playlist-add:hover, .clickable-playlist:hover {
+  cursor: pointer;
+  color: $lightgrey;
+}
+
+.new-playlist-fieldset legend {
+  font-size: 1.2em;
+}
+
 .animate-show {
   max-height: 200px;
   overflow: hidden;

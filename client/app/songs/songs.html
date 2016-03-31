@@ -17,9 +17,9 @@
     <modal-dialog show="addModalShown">
       <form>
         <fieldset class="new-playlist-fieldset">
-        <legend>Click a playlist to add the song</legend>
-          <ul ng-repeat="playlist in data.playlists" >
-            <a><li ng-click="addToPlaylist(playlist); $parent.toggleAddModal()">{{playlist.title}}</li></a>
+        <legend>Choose a playlist: </legend>
+          <ul ng-repeat="playlist in data.playlists">
+            <li ng-click="addToPlaylist(playlist); $parent.toggleAddModal()" class="playlist-add"><span>{{playlist.title}}</span></li>
           </ul>
         </fieldset>
       </form>
