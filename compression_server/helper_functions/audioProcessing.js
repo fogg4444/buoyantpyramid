@@ -5,6 +5,11 @@ var path = require('path');
 var queue = require('queue');
 var request = require('request');
 var ffmpeg = require('fluent-ffmpeg');
+ffmpeg.setFfmpegPath('/usr/local/bin/ffmpeg'); 
+ffmpeg.setFfprobePath('/usr/local/bin/ffprobe');
+
+var exec = require('child_process').exec;
+
 var serverConfig = require('../config/server.config.js');
 var awsConfig = require('../config/aws.config.js');
 var exec = require('child_process').exec;
@@ -12,12 +17,11 @@ var Promise = require('bluebird');
 
 var AWS = require('aws-sdk');
 AWS.config.update({
-  "accessKeyId": awsConfig.accessKeyId,
-  "secretAccessKey": awsConfig.secretAccessKey,
-  "region": awsConfig.region
+  'accessKeyId': awsConfig.accessKeyId,
+  'secretAccessKey': awsConfig.secretAccessKey,
+  'region': awsConfig.region
 });
 var s3 = new AWS.S3();
-
 
 
 var downloadQueue = queue();
@@ -47,7 +51,7 @@ var addToQueue = function(req, res, next) {
   var songID = req.body.songID;
   console.log('--- 1.2 --- Song ID present on input: ', songID);
 
-  var originalFilePath, wavPath, amplitudeDataPath, lowResFileName, lowResFilePath, originalFormat;
+  var originalFilePath, wavPath, amplitudeDataPath, lowResFileName, lowResFilePath, originalFormat, normalizeBoostData;
   downloadQueue.push(function(cb) {
 
     download(directFileUrl, downloadDestination, function(err) {
@@ -72,13 +76,17 @@ var addToQueue = function(req, res, next) {
           console.log('--- 6.1 --- wave path', wavPath);
           return generateWaveformArray(wavPath);
         })
-        .then(function (adp) {
+        .then(function(adp) {
           amplitudeDataPath = adp;
+          return getNormalizeBoostData(originalFilePath);
+        })
+        .then(function (nbd) {
+          normalizeBoostData = nbd;
           if (originalFormat === 'mp3') {
             return {lowResFilePath: originalFilePath, lowResFileName: s3UniqueHash};
             /// TODO: don't upload twice if original is mp3
           } else {
-            return compress(wavPath, s3UniqueHash, songID, amplitudeDataPath);
+            return compress(wavPath, s3UniqueHash, songID, amplitudeDataPath, normalizeBoostData);
           }
         })
         .then(function(lowResInfo) {
@@ -93,10 +101,10 @@ var addToQueue = function(req, res, next) {
         .then(function(res) {
           deleteFile(originalFilePath);
           if (wavPath) {
-            deleteFile(wavPath);
+            // deleteFile(wavPath);
           }
-          deleteFile(amplitudeDataPath);
-          deleteFile(lowResFilePath);
+          // deleteFile(amplitudeDataPath);
+          // deleteFile(lowResFilePath);
 
           console.log('--- 12 FINAL Promise success ---');
           cb();
@@ -123,7 +131,7 @@ var getFileMetadata = function (path) {
       if (err) {
         reject(err);
       } else {
-        console.dir('FORMAT----------------------'+metadata.format.format_name);
+        console.log('FORMAT', metadata);
         resolve(metadata);
       }
     });
@@ -186,7 +194,7 @@ var convertToWav = function(hiResFilePath, s3UniqueHash, songID) {
     var tempWavPath = path.join(__dirname + '/../temp_audio/wav_temp/' + tempWavFilename);
 
     var anythingToWav = ffmpeg(hiResFilePath)
-      .setFfmpegPath('/usr/local/bin/ffmpeg')
+      .setFfmpegPath('/usr/local/bin/ffmpeg') // TODO: take this out
       // .audioCodec('libmp3lame')
       // .audioBitrate(256)
       // .audioQuality(0)
@@ -233,65 +241,94 @@ var generateWaveformArray = function(wavTempPath, s3UniqueHash, songID) {
   });
 };
 
-var compress = function(hiResFilePath, s3UniqueHash, songID, wavJsonDataPath) {
+var getNormalizeBoostData = function(hiResFilePath) {
   return new Promise(function(resolve, reject) {
-    console.log('--- 7 --- Get ready to read and compress the file!');
+    var getMaxFromString = function(string) {
+      var maxVolumePosition = string.indexOf('max_volume:');
+      var maxVolumeString = string.slice(maxVolumePosition + 13, maxVolumePosition + 13 + 4);
+      var maxVolumeFloat = parseFloat( maxVolumeString );
+      return maxVolumeFloat;
+    };
+
+    var dbToBoost = 0;
+
+    var ffmpegVolumeDetect = 'ffmpeg -i ' + hiResFilePath + ' -af volumedetect -f null /dev/null';
+    exec(ffmpegVolumeDetect, function(err, stdout, stderr) {
+      if (err) {
+        console.error('--- 7.4 --- ', err);
+        reject(err);
+      }
+      dbToBoost = getMaxFromString(stderr);
+      console.log('--- 7.4 --- DB to boost', dbToBoost);
+      
+      resolve(dbToBoost);
+    });
+  });
+};
+
+var compress = function(hiResFilePath, s3UniqueHash, songID, wavJsonDataPath, normalizeBoostData) {
+  return new Promise(function(resolve, reject) {
+    console.log('--- 7 --- Get ready to read and compress the file!', normalizeBoostData);
 
     var fileName = s3UniqueHash.split('.')[0];
     var lowResFileName = fileName + '.mp3';
     var lowResFilePath = path.join(__dirname + '/../temp_audio/low_res_outbox/' + lowResFileName);
+    var volumeToBoost = 'volume=' + normalizeBoostData;
+    console.log('--- volume to boost ---', volumeToBoost);
 
+    var normalize = ffmpeg(hiResFilePath)
+      .audioFilters(volumeToBoost)
+      .save(hiResFilePath);
 
+    // var mp3Compress = ffmpeg(hiResFilePath)
+    //   .audioCodec('libmp3lame')
+    //   .audioBitrate(256)
+    //   .audioQuality(0)
+    //   .audioChannels(2)
+    //   // .audioFilters('volume=' + getNormalizeBoostData)
 
-    var ffmpegCommand = ffmpeg(hiResFilePath)
-      .setFfmpegPath('/usr/local/bin/ffmpeg')
-      .audioCodec('libmp3lame')
-      .audioBitrate(256)
-      .audioQuality(0)
-      .audioChannels(2)
+    //   // .audioFilters(
+    //   //   {
+    //   //     filter: 'acompressor',
+    //   //     options: {
+    //   //       // level_in
+    //   //         // Set input gain. Default is 1. Range is between 0.015625 and 64.
+    //   //       // threshold
+    //   //         // If a signal of second stream rises above this level it will affect the gain reduction of the first stream. By default it is 0.125. Range is between 0.00097563 and 1.
+    //   //       ratio: 24,
+    //   //         // Set a ratio by which the signal is reduced. 1:2 means that if the level rose 4dB above the threshold, it will be only 2dB above after the reduction. Default is 2. Range is between 1 and 20.
+    //   //       // attack
+    //   //         // Amount of milliseconds the signal has to rise above the threshold before gain reduction starts. Default is 20. Range is between 0.01 and 2000.
+    //   //       // release
+    //   //         // Amount of milliseconds the signal has to fall below the threshold before reduction is decreased again. Default is 250. Range is between 0.01 and 9000.
+    //   //       // makeup
+    //   //         // Set the amount by how much signal will be amplified after processing. Default is 2. Range is from 1 and 64.
+    //   //       // knee
+    //   //         // Curve the sharp knee around the threshold to enter gain reduction more softly. Default is 2.82843. Range is between 1 and 8.
+    //   //       // link
+    //   //         // Choose if the average level between all channels of input stream or the louder(maximum) channel of input stream affects the reduction. Default is average.
+    //   //       // detection
+    //   //         // Should the exact signal be taken in case of peak or an RMS one in case of rms. Default is rms which is mostly smoother.
+    //   //       // mix
+    //   //         // How much to use compressed signal in output. Default is 1. Range is between 0 and 1.
+    //   //     }
+    //   //   }
+    //   // )
 
-      // .audioFilters(
-      //   {
-      //     filter: 'acompressor',
-      //     options: {
-      //       // level_in
-      //         // Set input gain. Default is 1. Range is between 0.015625 and 64.
-      //       // threshold
-      //         // If a signal of second stream rises above this level it will affect the gain reduction of the first stream. By default it is 0.125. Range is between 0.00097563 and 1.
-      //       ratio: 24,
-      //         // Set a ratio by which the signal is reduced. 1:2 means that if the level rose 4dB above the threshold, it will be only 2dB above after the reduction. Default is 2. Range is between 1 and 20.
-      //       // attack
-      //         // Amount of milliseconds the signal has to rise above the threshold before gain reduction starts. Default is 20. Range is between 0.01 and 2000.
-      //       // release
-      //         // Amount of milliseconds the signal has to fall below the threshold before reduction is decreased again. Default is 250. Range is between 0.01 and 9000.
-      //       // makeup
-      //         // Set the amount by how much signal will be amplified after processing. Default is 2. Range is from 1 and 64.
-      //       // knee
-      //         // Curve the sharp knee around the threshold to enter gain reduction more softly. Default is 2.82843. Range is between 1 and 8.
-      //       // link
-      //         // Choose if the average level between all channels of input stream or the louder(maximum) channel of input stream affects the reduction. Default is average.
-      //       // detection
-      //         // Should the exact signal be taken in case of peak or an RMS one in case of rms. Default is rms which is mostly smoother.
-      //       // mix
-      //         // How much to use compressed signal in output. Default is 1. Range is between 0 and 1.
-      //     }
-      //   }
-      // )
-
-      .on('progress', function(progress) {
-        console.log('--- 8 --- Processing: ' + progress.percent + '% done');
-      })
-      .on('error', function(err, stdout, stderr) {
-        console.log('--- 8 --- Cannot process audio: ' + err.message);
-        reject(err);
-      })
-      .on('end', function() {
-        console.log('--- 8 --- Finished processing');
-        // deleteFile(hiResFilePath);
-        resolve({lowResFilePath: lowResFilePath, lowResFileName: lowResFileName});
-        // uploadLowRes( lowResFilePath, lowResFileName, songID, wavJsonDataPath);
-      })
-      .save( lowResFilePath );
+    //   .on('progress', function(progress) {
+    //     console.log('--- 8 --- Processing: ' + progress.percent + '% done');
+    //   })
+    //   .on('error', function(err, stdout, stderr) {
+    //     console.log('--- 8 --- Cannot process audio: ' + err.message);
+    //     reject(err);
+    //   })
+    //   .on('end', function() {
+    //     console.log('--- 8 --- Finished processing');
+    //     // deleteFile(hiResFilePath);
+    //     resolve({lowResFilePath: lowResFilePath, lowResFileName: lowResFileName});
+    //     // uploadLowRes( lowResFilePath, lowResFileName, songID, wavJsonDataPath);
+    //   })
+    //   .save( lowResFilePath );
   });
 };
 
