@@ -15,11 +15,7 @@ var COMPRESSION_SERVER = process.env.COMPRESSION_SERVER;
 var JWT_SECRET = process.env.JAMRECORD_JWT_SECRET;
 var mailgun = {
   'api_key': process.env.JAMRECORD_MAILGUN_API_KEY,
-<<<<<<< 1087ef5cac1f6b92ee3ec754e546cd3253258db6
-  domain: process.env.JAMRECORD_MAILGUN_DOMAIN
-=======
   'domain': process.env.JAMRECORD_MAILGUN_DOMAIN
->>>>>>> (feat) normalization
 };
 
 module.exports = {
