@@ -80,8 +80,12 @@ var addToQueue = function(req, res, next) {
           amplitudeDataPath = adp;
           return getNormalizeBoostData(originalFilePath);
         })
-        .then(function (nbd) {
+        .then(function(nbd) {
           normalizeBoostData = nbd;
+          // normalize original file
+          return normalize(originalFilePath, normalizeBoostData);
+        })
+        .then(function () {
           if (originalFormat === 'mp3') {
             return {lowResFilePath: originalFilePath, lowResFileName: s3UniqueHash};
             /// TODO: don't upload twice if original is mp3
@@ -101,10 +105,10 @@ var addToQueue = function(req, res, next) {
         .then(function(res) {
           deleteFile(originalFilePath);
           if (wavPath) {
-            // deleteFile(wavPath);
+            deleteFile(wavPath);
           }
-          // deleteFile(amplitudeDataPath);
-          // deleteFile(lowResFilePath);
+          deleteFile(amplitudeDataPath);
+          deleteFile(lowResFilePath);
 
           console.log('--- 12 FINAL Promise success ---');
           cb();
@@ -243,9 +247,11 @@ var generateWaveformArray = function(wavTempPath, s3UniqueHash, songID) {
 
 var getNormalizeBoostData = function(hiResFilePath) {
   return new Promise(function(resolve, reject) {
+
     var getMaxFromString = function(string) {
+      // recieve giant string from ffmpeg, parse out max_volume: data
       var maxVolumePosition = string.indexOf('max_volume:');
-      var maxVolumeString = string.slice(maxVolumePosition + 13, maxVolumePosition + 13 + 4);
+      var maxVolumeString = string.slice(maxVolumePosition + 13, maxVolumePosition + 13 + 4).trim();
       var maxVolumeFloat = parseFloat( maxVolumeString );
       return maxVolumeFloat;
     };
@@ -266,6 +272,28 @@ var getNormalizeBoostData = function(hiResFilePath) {
   });
 };
 
+var normalize = function(hiResFilePath, normalizeBoostData) {
+  return new Promise(function(resolve, reject) {
+    var volumeToBoost = 'volume=' + normalizeBoostData;
+    console.log('--- volume to boost ---', volumeToBoost);
+
+    var normalize = ffmpeg(hiResFilePath)
+      .audioFilters(volumeToBoost)
+      .on('end', function() {
+        console.log('--- 7.9 --- Normalize has occurred!');
+        resolve();
+      })
+        .on('progress', function(progress) {
+          console.log('--- --- ' + progress.percent + '% done');
+        })
+        .on('error', function(err, stdout, stderr) {
+          console.log('--- 7.9 --- Cannot process audio: ' + err.message);
+          reject(err);
+        })
+      .save(hiResFilePath);
+  });
+};
+
 var compress = function(hiResFilePath, s3UniqueHash, songID, wavJsonDataPath, normalizeBoostData) {
   return new Promise(function(resolve, reject) {
     console.log('--- 7 --- Get ready to read and compress the file!', normalizeBoostData);
@@ -273,12 +301,7 @@ var compress = function(hiResFilePath, s3UniqueHash, songID, wavJsonDataPath, no
     var fileName = s3UniqueHash.split('.')[0];
     var lowResFileName = fileName + '.mp3';
     var lowResFilePath = path.join(__dirname + '/../temp_audio/low_res_outbox/' + lowResFileName);
-    var volumeToBoost = 'volume=' + normalizeBoostData;
-    console.log('--- volume to boost ---', volumeToBoost);
 
-    var normalize = ffmpeg(hiResFilePath)
-      .audioFilters(volumeToBoost)
-      .save(hiResFilePath);
 
     // var mp3Compress = ffmpeg(hiResFilePath)
     //   .audioCodec('libmp3lame')
