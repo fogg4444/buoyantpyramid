@@ -3,6 +3,7 @@ angular.module('jam.player', [])
   $scope.isTouchDevice = 'ontouchstart' in document.documentElement;
   $scope.audio = Songs.getPlayer();
   $scope.song = Songs.getCurrentSong();
+  $scope.playlist = Songs.getSoundsAndIndex();
   $scope.muted = Songs.getMuted();
   $scope.timeFormat = '00:00';
   $scope.playable = Songs.getPlayable();
@@ -30,7 +31,6 @@ angular.module('jam.player', [])
       }
     }
   });
-
 
   $scope.$watch(function(scope) {
     return scope.audio.currentTime;
@@ -65,9 +65,10 @@ angular.module('jam.player', [])
       }
     }
     if (direction === 'forward') {
-      if (currentSongIndex === $scope.playlist.songs.length - 1) {
-        $scope.stop();        
-        Songs.setSongIndex(0);
+      if (currentSongIndex === $scope.playlist.songs.length - 1) { 
+        Songs.resetPlayer();
+        $scope.song = Songs.getCurrentSong();
+        console.log($scope.song);       
       } else {
         Songs.setSongIndex(currentSongIndex + 1);
       }
@@ -76,8 +77,6 @@ angular.module('jam.player', [])
 
   $scope.setSpeed = function (inc) {
     var currentIndex = $scope.speeds.indexOf($scope.audio.playbackRate);
-    console.log('currentRate ' + $scope.audio.playbackRate);
-    console.log('currentIndex ' + currentIndex);
     nextIndex = currentIndex + inc;
     if (nextIndex < 0) {
       nextIndex = 0;

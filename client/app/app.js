@@ -127,8 +127,6 @@ angular.module('jam', [
       $scope.editTitle = false;
       $scope.arrowBack = false;
 
-      console.dir('current route scope: ' + $route.current.scope);
-
       if ($location.path().match(/^\/song\/.*/)) {
       // we are in single song view
         $scope.songUrl = '/#' + $location.search().from;
