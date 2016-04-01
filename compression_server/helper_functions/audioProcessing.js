@@ -5,8 +5,8 @@ var path = require('path');
 var queue = require('queue');
 var request = require('request');
 var ffmpeg = require('fluent-ffmpeg');
-ffmpeg.setFfmpegPath('/root/bin/ffmpeg');
-ffmpeg.setFfprobePath('/root/bin/ffprobe');
+ffmpeg.setFfmpegPath('/usr/local/bin/ffmpeg');
+ffmpeg.setFfprobePath('/usr/local/bin/ffprobe');
 
 var exec = require('child_process').exec;
 
