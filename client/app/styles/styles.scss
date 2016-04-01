@@ -723,20 +723,18 @@ li:hover > .submenu-container {
   padding-right: 1%;
 }
 
+.song-visualizer-page {
+  margin: 7% 0 0 0;
+}
+
 .song-visualizer {
   display: block;
   margin: 1em auto;
 }
 
-.visualizer {
-  display: block;
-  margin: 0 auto;
-}
-
 .comment-pin-container {
   display: block;
   position: relative;
-  margin: 0 auto;
 }
 
 .pin-container {
@@ -760,26 +758,42 @@ li:hover > .submenu-container {
   background-image: url("../../assets/pin-selected.png");
 }
 
-.add-comment-container {
-  display: inline-block;
+.click-pin {
+  margin: 0 0 0 0.2em;
+}
+
+.click-pin:hover {
+  color: $linkcolor;
+  cursor: pointer;
+}
+
+.comment-form button {
+  width: 90%;
+}
+
+.add-comment {
   float: right;
-  margin: 0 10%;
   width: 30%;
   position: relative;
   vertical-align: top;
   background-color: $lightgrey;
+  margin: 0 6% 0 0;
+  padding: 1.2em;
+  
+  div {
+    display: inline-block;
+  }
 }
 
-.add-comment {
-  display: inline-block;
+.comments-container > div {
+  height: 13em;
+  border: 1px solid $midgrey;
+  border-radius: 2px;
 }
 
 .comment-slider {
   display: block;
   position: relative;
-
-  // remove important!
-  margin: 0 auto !important;
 }
 
 .selected-comment-container {
@@ -805,16 +819,29 @@ li:hover > .submenu-container {
 .comments {
   display: inline-block;
   position: relative;
-  margin: 0 auto;
-  height: 200px;
   overflow-y: scroll;
-  width: 50%;
-  background-color: $lightgrey;
+  width: 30em;
+  background-color: $reallylightgrey;
+  margin: 0;
+
+  .comments-header {
+    font-size: 1.3em;
+    position: fixed;
+    background-color: $lightgrey;
+    width: 23em;
+    padding: 0.5em 0 0.25em 0.5em;
+    border-bottom: 1px solid $midgrey;
+  }
+}
+
+.comment-list {
+  margin: 3em 0 0 0;
+  clear: both;
 }
 
 .comment {
-  display: inline-block;
-  padding: 5px;
+  display: inline;
+  margin: 0.5em;
 }
 
 /* Forms and buttons - taken and modified from http://getskeleton.com/

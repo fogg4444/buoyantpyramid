@@ -1,5 +1,5 @@
 <nav-bar></nav-bar>
-<div class="song">
+<div class="song-visualizer-page">
   <div class="page-content">
     <div> 
     <song-view song="song" index="0" ></song-view>
@@ -17,19 +17,24 @@
     <div class="comments-container">
       <div class="comments">
         <div class="comments-header"> Comments </div>
-        <div ng-repeat="comment in comments" ng-mouseover="setSelectedComment(comment)">
-          <img class="nav-avatar-img comment" ng-src="{{user.avatarURL}}" alt="avatar">
-          <p class="comment">{{ comment.note }} @ {{ comment.time }}</p>
+        <div class="comment-list">
+          <div ng-repeat="comment in comments" ng-mouseover="setSelectedComment(comment)">
+            <img class="nav-avatar-img comment" ng-src="{{user.avatarURL}}" alt="avatar">
+            <p class="comment">{{ comment.note }} @ {{ comment.time }}</p>
+          </div>
         </div>
       </div>
-      <div class="add-comment-container">
-        <div class="add-comment"> Add Comment </div>
-        <div class="add-comment" ng-click="pinComment()">
-          <i class="fa fa-map-pin"></i>
-        </div>
-        <form>
+      <div class="add-comment">
+        <div> Add Comment </div>
+        <form class="comment-form">
+          <fieldset>
           <input type="text" ng-model="comment">
+          <div ng-click="pinComment()">
+            <i class="fa fa-map-pin fa-lg click-pin"></i>
+          </div>
           <button ng-click="addComment(comment)"> Submit </button>
+          </fieldset>
+          <div class="field-message">Click the pin to comment on a specific part of the song</div>
         </form>
       </div>
     </div>
