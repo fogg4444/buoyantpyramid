@@ -315,7 +315,7 @@ angular.module('jam.songsFactory', [])
   };
 
   var getCurrentSong = function () {
-    var current = songIndex ? songQueue[currentLocation][songIndex] : null;
+    var current = songIndex !== null ? songQueue[currentLocation][songIndex] : null;
     if (current) {
       current.location = currentLocation;
       return current;
@@ -349,9 +349,9 @@ angular.module('jam.songsFactory', [])
   };
 
   var resetPlayer = function () {
-    player = new Audio();
-    playable = false;
     songIndex = null;
+    playable = false;
+    player = new Audio();
     notifyObservers('RESET_PLAYER');
   };
 
