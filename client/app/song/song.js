@@ -94,7 +94,8 @@ angular.module('jam.song', [])
       })
       .attr('height', function(d) {
         return d;
-      });
+      })
+      .attr('fill', '#999');
 
     d3.select('body').selectAll('.comment-pin-container')
       .style('height', pinHeight * 2 + 'px')
