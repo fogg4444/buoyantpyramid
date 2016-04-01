@@ -20,7 +20,7 @@
         <div class="comment-list">
           <div ng-repeat="comment in comments" ng-mouseover="setSelectedComment(comment)">
             <img class="nav-avatar-img comment" ng-src="{{user.avatarURL}}" alt="avatar">
-            <p class="comment">{{ comment.note }} @ {{ comment.time }}</p>
+            <p class="comment">{{ comment.note }} @ {{ formatTime(comment.time) }}</p>
           </div>
         </div>
       </div>
