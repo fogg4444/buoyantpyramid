@@ -15,7 +15,7 @@
             <label>
               invite members
               <input name="invite" ng-model="nextInvitee" placeholder="email" type="email" ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/"/>
-              <span ng-click="invitees.push(nextInvitee)"><i class="fa fa-plus-square fa-2x"></i></span>
+              <span class="add-invitee" ng-click="invitees.push(nextInvitee)"><i class="fa fa-plus fa-lg"></i></span>
             </label>
             <button ng-click="createGroup()" ng-disabled="createGroupForm.$invalid">Create Group</button>
           </fieldset>

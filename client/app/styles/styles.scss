@@ -667,6 +667,18 @@ li:hover > .submenu-container {
   width: 35%;
 }
 
+.groups .add-invitee {
+  background-color: $linkcolor;
+  color: $white;
+  border: 1px solid $lightgrey;
+  border-radius: 2px;
+  padding: 1px;
+}
+
+.groups .add-invitee:hover {
+  background-color: $darkgrey;
+}
+
 .badge {
   position: absolute;
   top: -25%;
