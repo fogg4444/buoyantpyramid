@@ -2,14 +2,14 @@
 <div class="groups">
   <div class="page-content">
     <div class="create-group">
-      <button ng-click="toggleCreateModal()" class="create-group-button">New Band</button>
+      <button ng-click="toggleCreateModal()" class="create-group-button">New Group</button>
       <!-- Create group modal -->
       <modal-dialog show="createModalShown">
         <form name="createGroupForm" class="form-container">
           <fieldset> 
-            <legend>New Band:</legend>
+            <legend>New Group:</legend>
             <label>
-              band name  
+              group name  
               <input ng-model="newGroup.name" placeholder="name" type="text"/>
             </label>
             <label>
