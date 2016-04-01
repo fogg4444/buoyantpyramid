@@ -1278,6 +1278,21 @@ rzslider .rz-pointer:after {
   .hide-mobile {
     display: none;
   }
+
+  /*Group settings mobile styling*/
+  .group-form-container {
+    margin-top: 1vh;
+    margin-bottom: 1vh;
+    padding: 0;
+  }
+
+  h2.heading {
+    margin: 0;
+  }
+
+  .form-buttons {
+    margin-bottom: 0.5em;
+  }
 }
 
 
