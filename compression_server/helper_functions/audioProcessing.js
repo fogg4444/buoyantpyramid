@@ -54,7 +54,7 @@ var addToQueue = function(req, res, next) {
   var originalFilePath, wavPath, amplitudeDataPath, lowResFileName, lowResFilePath, originalFormat, normalizeBoostData, normalizedFilePath;
   downloadQueue.push(function(cb) {
 
-    download(directFileUrl, downloadDestination, function(err) {
+    httpDownload(directFileUrl, downloadDestination, function(err) {
       console.log('--- 1 --- Begin downloading S3 source', s3UniqueHash);
       if (err) {
         // console.log('--- 6 --- Error: file did not download!');
@@ -160,30 +160,82 @@ var startQueue = function() {
   });
 };
 
-var download = function(url, dest, cb) {
-  // var totalDownloaded = 0;
-  var totalDownloaded = 0;
-  var fileSize = 0;
-  request
-    .get(url, function(err, res) {
-      if (err) {
-        // console.log('--- --- S3 Download failed');
-      } else {
-        // console.log('--- --- S3 Download success');
+var httpDownload = function( url, dest, cb ) {
+
+  // var options = {
+  //   // port: 1337,
+  //   // hostname: '127.0.0.1',
+  //   method: 'GET',
+  //   path: url
+  // };
+
+  console.log('--- http download --- ', url, dest);
+  var request = https.get(url, function (resp, err) {
+    if (err) {
+        //Error handling
+    } else {
+      resp.on('end', function(data) {
+        console.log('--- END DOWNLOAD! --- ', data);
         cb();
-      }
-    })
-    .on('response', function(res) {
-      fileSize = res.headers['content-length'];
-      // console.log('--- --- Download response from AWS!', res.statusCode, fileSize);
-    })
-    .on('data', function(data) {
-      totalDownloaded += data.length;
-      percentDownloaded = Math.floor( (totalDownloaded / fileSize) * 100 );
-      // // console.log('S3 download progress:', percentDownloaded);
-    })
-    .pipe(fs.createWriteStream(dest));
+      });
+      resp.on('data', function (chunk) {
+        fs.writeFile(dest, chunk, function (err) {
+          if (err) {
+            //Error handling
+          } else {
+            console.log('chunk');
+          }
+        });
+      });
+    }
+  });
+  request.end();
 };
+
+// var s3download = function(filename, dest, cb) {
+//   // var totalDownloaded = 0;
+//   var params = {Bucket: 'audio', Key: 'audio/' + filename };
+//   var file = require('fs').createWriteStream(dest);
+
+//   s3.getObject(params).
+//   on('httpData', function(chunk) {
+//     file.write(chunk);
+//     console.log('WRITIN CHUNKS!!!!');
+//   }).
+//   on('httpDone', function() {
+//     file.end();
+//     cb();
+//   }).
+//   send();
+// };
+
+
+// var download = function(url, dest, cb) {
+//   // var totalDownloaded = 0;
+//   var totalDownloaded = 0;
+//   var fileSize = 0;
+//   request
+//     .get(url, function(err, res) {
+//       if (err) {
+//         // console.log('--- --- S3 Download failed');
+//       } else {
+//         // console.log('--- --- S3 Download success');
+//       }
+//     })
+//     .on('response', function(res) {
+//       fileSize = res.headers['content-length'];
+//       // console.log('--- --- Download response from AWS!', res.statusCode, fileSize);
+//     })
+//     .on('data', function(data) {
+//       totalDownloaded += data.length;
+//       percentDownloaded = Math.floor( (totalDownloaded / fileSize) * 100 );
+//       // // console.log('S3 download progress:', percentDownloaded);
+//     })
+//     .on('end', function() {
+//       cb();
+//     })
+//     .pipe(fs.createWriteStream(dest));
+// };
 
 var deleteFile = function(filePath) {
   // console.log('--- --- Attept delete');
