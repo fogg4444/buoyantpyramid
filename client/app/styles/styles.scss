@@ -205,7 +205,6 @@ li:hover > .submenu-container {
   text-align: center;
 
   input {
-    float: right;
     margin: 0 0.5em;
   }
 }
@@ -226,6 +225,13 @@ li:hover > .submenu-container {
 .field-error {
   font-size: 0.8em;
   color: $red;
+  height: 1em;
+  margin-top: 0.25em;
+}
+
+.field-message {
+  font-size: 0.8em;
+  color: $darkgrey;
   height: 1em;
   margin-top: 0.25em;
 }
@@ -672,7 +678,7 @@ li:hover > .submenu-container {
   color: $white;
   border: 1px solid $lightgrey;
   border-radius: 2px;
-  padding: 1px;
+  padding: 3px;
 }
 
 .groups .add-invitee:hover {

@@ -18,6 +18,9 @@
               <span class="add-invitee" ng-click="invitees.push(nextInvitee)"><i class="fa fa-plus fa-lg"></i></span>
             </label>
             <button ng-click="createGroup()" ng-disabled="createGroupForm.$invalid">Create Group</button>
+            <div class="field-message">
+              <span ng-show="invitees.length">{{invitees[invitees.length - 1]}} will get an invite!</span>
+            </div>
           </fieldset>
         </form>
       </modal-dialog>
