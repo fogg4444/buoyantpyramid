@@ -67,8 +67,7 @@ angular.module('jam.player', [])
     if (direction === 'forward') {
       if (currentSongIndex === $scope.playlist.songs.length - 1) { 
         Songs.resetPlayer();
-        $scope.song = Songs.getCurrentSong();
-        console.log($scope.song);       
+        $scope.song = Songs.getCurrentSong();       
       } else {
         Songs.setSongIndex(currentSongIndex + 1);
       }
