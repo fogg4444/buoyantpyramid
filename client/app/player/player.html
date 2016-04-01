@@ -5,9 +5,9 @@
   </div>
   <div class="player-buttons">
     <div class='play-button-container'>
-      <button class='icon-button' ng-click="changeTrack('back')"><i class="fa fa-fast-backward fa-lg"></i></button>
+      <button class='icon-button' ng-disabled="!playable" ng-click="changeTrack('back')"><i class="fa fa-fast-backward fa-lg"></i></button>
       <button class='icon-button' ng-disabled="!playable" ng-click="togglePlay()"><i ng-class="{'fa fa-play fa-lg': audio.paused, 'fa fa-pause fa-lg': !audio.paused}"></i></button>
-      <button class='icon-button' ng-click="changeTrack('forward')"><i class="fa fa-fast-forward fa-lg"></i></button>
+      <button class='icon-button' ng-disabled="!playable" ng-click="changeTrack('forward')"><i class="fa fa-fast-forward fa-lg"></i></button>
     </div>
     <div class="input-group volume" ng-hide='!!isTouchDevice'>
       <div class="vol-slider-container">

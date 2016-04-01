@@ -375,6 +375,10 @@ li:hover > .submenu-container {
   float: right;
 }
 
+.back-arrow {
+  float: left;
+}
+
 .song-thumbnail {
   display: inline-block;
   height: 3em;
@@ -411,7 +415,10 @@ li:hover > .submenu-container {
   font-size: 1.25em;
   vertical-align: super;
 }
-
+.current-song {
+  font-weight: bold;
+  color: $textcolor-3;
+}
 
 .upload-item {
   width: 100%;
@@ -708,9 +715,9 @@ li:hover > .submenu-container {
   float: right;
   padding-right: 1%;
 }
-.visualizer {
+.song-visualizer {
   display: block;
-  margin: 0 auto;
+  margin: 1em auto;
 }
 
 .comment-pin-container {
@@ -1119,6 +1126,7 @@ rzslider .rz-pointer:after {
   display: inline-block;
   vertical-align: top;
   padding: 0.3em;
+  width: 3.5em;
 }
 
 .speed-label {

@@ -1,4 +1,4 @@
-var jwt = require('jwt-simple');
+var jwt = require('jsonwebtoken');
 var config = require('../config/config.js');
 var db = require('../db/database');
 var User = db.User;
@@ -25,27 +25,27 @@ var verifyToken = function (req, res, next) {
   if (!token) {
     res.status(401).json('No authentication token');
   } else {
-    try {
-      // decode token and attach user to the request
-      // for use inside our controllers
-      tokenUser = jwt.decode(token, JWT_SECRET);
-      
-      // check against database
-      if (tokenUser.id && tokenUser.email) {
-        User.findOne({
-          where: {id: tokenUser.id, email: tokenUser.email},
-          attributes: { exclude: ['password'] }
-        })
-        .then(function(user) {
-          req.user = user;
-          next();
-        });
-      } else {
-        throw Error('no user associated with that token'); // promise catch will handle this
+    // decode token and attach user to the request
+    // for use inside our controllers
+    jwt.verify(token, JWT_SECRET, function(err, tokenUser) {
+      if (err) {
+        res.status(401).json('Bad authentication token');
+      } else {     
+        // check against database
+        if (tokenUser.id && tokenUser.email) {
+          User.findOne({
+            where: {id: tokenUser.id, email: tokenUser.email},
+            attributes: { exclude: ['password'] }
+          })
+          .then(function(user) {
+            req.user = user;
+            next();
+          });
+        } else {
+          res.status(404).json('no user associated with that authentication token');
+        }
       }
-    } catch (error) {
-      res.status(401).json('Bad authentication token');
-    }
+    });
   }
 };
 

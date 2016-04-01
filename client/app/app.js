@@ -124,19 +124,22 @@ angular.module('jam', [
       index: '='
     },
     controller: ['$scope', '$sce', '$route', '$location', 'Songs', function ($scope, $sce, $route, $location, Songs) {
-      $scope.songClicked = {};
       $scope.editTitle = false;
       $scope.arrowBack = false;
 
       console.dir('current route scope: ' + $route.current.scope);
 
-      if ($location.search().from) {
-        $scope.songUrl = '/#' + loc.search().from;
+      if ($location.path().match(/^\/song\/.*/)) {
+      // we are in single song view
+        $scope.songUrl = '/#' + $location.search().from;
+        $scope.arrowBack = true;
       } else {
+        // we are in songs or playlists or something
         $scope.songUrl = '/#/song/' + $scope.song.id + '?from=' + $location.path(); 
       }
 
       $scope.$on('audioPlayerEvent', function(event, data) {
+        // console.log('event: ', data);
         $scope.setIsPlaying();
       });
 
@@ -146,15 +149,10 @@ angular.module('jam', [
           _.extend($scope.song, updatedSong);
         });
       };
-    
-      $scope.setSongClicked = function (song, index) {
-        Songs.setSongClicked(song, index);
-        $scope.songClicked = song;
-      };
-    
+     
       $scope.setIsPlaying = function() {
         var currentSong = Songs.getCurrentSong();
-        var loc = Songs.getViewLocation();
+        var loc = Songs.getViewLocation() || 'songs';
         if (currentSong && currentSong.id === $scope.song.id && loc === currentSong.location && !(Songs.getPlayer().paused)) {
           $scope.isPlaying = true;
         } else {

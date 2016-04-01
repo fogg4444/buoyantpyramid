@@ -62,7 +62,7 @@ var Group = db.define('group', {
   },
   bannerUrl: {
     type: Sequelize.STRING,
-    defaultValue: 'http://i.imgur.com/QI8f5gx.jpg' // Update
+    defaultValue: '' // Update
   }
 });
 
