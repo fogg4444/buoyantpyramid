@@ -100,7 +100,7 @@ angular.module('jam.player', [])
   var changeSong = function() {
     $scope.playlist = Songs.getSoundsAndIndex();
     $scope.song = $scope.playlist.songs[$scope.playlist.index];
-    $scope.audio.src = $scope.song.compressedAddress || null;
+    $scope.audio.src = $scope.song.address || null;
     $scope.audio.onended = Songs.nextIndex;
     $scope.audio.ondurationchange = function(e) {
       $scope.timeSliderDisabled = !$scope.audio.duration || $scope.isTouchDevice;

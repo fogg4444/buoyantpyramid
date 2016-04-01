@@ -8,6 +8,7 @@ angular.module('jam.groups', [])
     role: 'admin'
   };
   $scope.playable = Songs.getPlayable();
+  $scope.invitees = [];
 
   $scope.toggleCreateModal = function () {
     $scope.createModalShown = !$scope.createModalShown;
@@ -72,7 +73,18 @@ angular.module('jam.groups', [])
       .then(function (user) {
         $scope.createModalShown = false;
         $scope.refreshGroups(user, true);
+        $scope.sendInvites(group);
       });
+    });
+  };
+
+  $scope.sendInvites = function (group) {
+    _.each($scope.invitees, function (invitee) {
+      Groups.sendInvite(group, invitee)
+      .then(function (res) {
+        console.log(invitee + ' invited! ');
+      })
+      .catch(console.error);
     });
   };
 

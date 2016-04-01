@@ -2,13 +2,26 @@
 <div class="groups">
   <div class="page-content">
     <div class="create-group">
-      <button ng-click="toggleCreateModal()" class="create-group-button">Create New Group</button>
+      <button ng-click="toggleCreateModal()" class="create-group-button">New Group</button>
       <!-- Create group modal -->
       <modal-dialog show="createModalShown">
-        <form name="createGroupForm"> 
-          <label>name </label><input ng-model="newGroup.name"/>
-          <label>description </label><input ng-model="newGroup.description"/>
-          <button ng-click="createGroup()" ng-disabled="createGroupForm.$invalid">Create Group</button>
+        <form name="createGroupForm" class="form-container">
+          <fieldset> 
+            <legend>New Group:</legend>
+            <label>
+              group name  
+              <input ng-model="newGroup.name" placeholder="name" type="text"/>
+            </label>
+            <label>
+              invite members
+              <input name="invite" ng-model="nextInvitee" placeholder="email" type="email" ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/"/>
+              <span class="add-invitee" ng-click="invitees.push(nextInvitee)"><i class="fa fa-plus fa-lg"></i></span>
+            </label>
+            <button ng-click="createGroup()" ng-disabled="createGroupForm.$invalid">Create Group</button>
+            <div class="field-message">
+              <span ng-show="invitees.length">{{invitees[invitees.length - 1]}} will get an invite!</span>
+            </div>
+          </fieldset>
         </form>
       </modal-dialog>
       <!-- Member info modal -->

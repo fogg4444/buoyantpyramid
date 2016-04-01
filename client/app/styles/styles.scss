@@ -203,6 +203,10 @@ li:hover > .submenu-container {
   margin: 4em auto;
   width: 100%;
   text-align: center;
+
+  input {
+    margin: 0 0.5em;
+  }
 }
 
 .group-form-container form {
@@ -221,6 +225,13 @@ li:hover > .submenu-container {
 .field-error {
   font-size: 0.8em;
   color: $red;
+  height: 1em;
+  margin-top: 0.25em;
+}
+
+.field-message {
+  font-size: 0.8em;
+  color: $darkgrey;
   height: 1em;
   margin-top: 0.25em;
 }
@@ -660,6 +671,18 @@ li:hover > .submenu-container {
 
 .create-group-button {
   width: 35%;
+}
+
+.groups .add-invitee {
+  background-color: $linkcolor;
+  color: $white;
+  border: 1px solid $lightgrey;
+  border-radius: 2px;
+  padding: 3px;
+}
+
+.groups .add-invitee:hover {
+  background-color: $darkgrey;
 }
 
 .badge {
