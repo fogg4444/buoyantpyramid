@@ -77,7 +77,7 @@ input[type="range"].comment-slider {
 input[type="range"].comment-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   width: 12px;
-  height: 20px;
+  height: 22px;
   border: none;
   border-radius: 12px;
   background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #529de1), color-stop(100%, #245e8f));
@@ -86,10 +86,11 @@ input[type="range"].comment-slider::-webkit-slider-thumb {
   background-image: -webkit-linear-gradient(top, #529de1 0, #245e8f 100%);
 
   /* older mobile safari and android > 2.2 */
+  background-color: transparent;
   background-image: url("../../assets/pin.png");
 
   /* W3C */
-  background-size: 12px 18px;
+  background-size: 12px 20px;
   background-repeat: no-repeat;
 }
 
@@ -721,9 +722,15 @@ li:hover > .submenu-container {
   float: right;
   padding-right: 1%;
 }
+
 .song-visualizer {
   display: block;
   margin: 1em auto;
+}
+
+.visualizer {
+  display: block;
+  margin: 0 auto;
 }
 
 .comment-pin-container {
