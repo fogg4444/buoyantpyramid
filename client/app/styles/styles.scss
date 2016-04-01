@@ -765,13 +765,15 @@ li:hover > .submenu-container {
   cursor: pointer;
 }
 
-.comment-form button {
-  width: 90%;
+.comment-form {
+  input, button {
+    width: 16em;
+  }
 }
 
 .add-comment {
   float: right;
-  width: 30%;
+  width: 22em;
   position: relative;
   vertical-align: top;
   background-color: $lightgrey;
@@ -783,10 +785,14 @@ li:hover > .submenu-container {
   }
 }
 
+.comments-container {
+  border-radius: 2px;
+
+}
+
 .comments-container > div {
   height: 13em;
-  border: 1px solid $midgrey;
-  border-radius: 2px;
+
 }
 
 .comment-slider {
@@ -814,27 +820,26 @@ li:hover > .submenu-container {
   }
 }
 
+.comments-header {
+  font-size: 1.3em;
+  background-color: $lightgrey;
+  width: 23em;
+  padding: 0.5em 0 0.25em 0.5em;
+  margin: 0;
+}
+
 .comments {
   display: inline-block;
-  position: relative;
-  overflow-y: scroll;
   width: 30em;
   background-color: $reallylightgrey;
   margin: 0;
+  overflow-y: scroll;
+  position: absolute;
 
-  .comments-header {
-    font-size: 1.3em;
-    position: fixed;
-    background-color: $lightgrey;
-    width: 23em;
-    padding: 0.5em 0 0.25em 0.5em;
-    border-bottom: 1px solid $midgrey;
+  .comment-list {
+    margin: 0;
   }
-}
 
-.comment-list {
-  margin: 3em 0 0 0;
-  clear: both;
 }
 
 .comment {
