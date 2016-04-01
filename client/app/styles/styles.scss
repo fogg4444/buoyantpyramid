@@ -628,6 +628,12 @@ li:hover > .submenu-container {
   margin: 1vh 2% 1vh 2%;
   text-align: center;
   padding: 2%;
+
+  div {
+    vertical-align: middle;
+    font-size: 1.5em;
+    margin: 0 0.5em;
+  }
 }
 
 .group-member {
