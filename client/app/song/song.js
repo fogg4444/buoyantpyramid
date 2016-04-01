@@ -169,9 +169,9 @@ angular.module('jam.song', [])
       .duration(600)
       .attr('fill', function(d, i) {
         if ((i / scaledAmplitudes.length) < ($scope.audio.currentTime / $scope.song.duration) && $scope.songInPlayer) {
-          return 'rgb(0, 0, ' + 220 + ')';
+          return '#99D1B2';
         } else {
-          return 'rgb(0, 0, ' + 100 + ')';
+          return '#999';
         }
       });
   };
@@ -199,7 +199,7 @@ angular.module('jam.song', [])
     } else {
       Songs.playFromAllSongs($scope.song.id, $scope.user.currentGroupId);
     }
-    songInPlayer = true;
+    $scope.songInPlayer = true;
   };
 
 }]);

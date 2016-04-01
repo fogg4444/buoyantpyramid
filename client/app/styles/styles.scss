@@ -415,7 +415,10 @@ li:hover > .submenu-container {
   font-size: 1.25em;
   vertical-align: super;
 }
-
+.current-song {
+  font-weight: bold;
+  color: $textcolor-3;
+}
 
 .upload-item {
   width: 100%;
