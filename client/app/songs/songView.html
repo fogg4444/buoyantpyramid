@@ -1,6 +1,7 @@
 <div class="song-item">
   <!-- <div class="song-thumbnail"><img ng-src="{{ song.imageUrl }}" ng-show="song.imageUrl"/></div>
    -->  
+    <a href="{{songUrl}}" ng-show="arrowBack" ><button class="icon-button goto-song accent-color"><i class="fa fa-2x fa-arrow-left"></i></button></a>
   
   <div class="play-button-container">
     <button class="icon-button song-loading" ng-hide="!!song.compressedAddress" disabled><i class="fa fa-refresh fa-spin fa-lg"></i></button>
@@ -8,9 +9,11 @@
   </div>
 
   <div class="song-title-container">
+
+
     <span class="song-title" ng-click="editTitle = true;" ng-hide="editTitle">{{ song.title }}</span>
     <input class="song-title" ng-show="editTitle" focus-if="editTitle" type="text" ng-model="song.title" ng-blur="editTitle=false; updateSong()" />
 
-    <a href="{{songUrl}}" ng-click="setSongClicked(song, index)"><button class="icon-button goto-song accent-color"><i class="fa fa-arrow-right fa-2x"></i></button></a>
+    <a href="{{songUrl}}" ng-hide="arrowBack" ><button class="icon-button goto-song accent-color"><i class="fa  fa-2x fa-arrow-right"></i></button></a>
   </div>
 </div>

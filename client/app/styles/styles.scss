@@ -375,6 +375,10 @@ li:hover > .submenu-container {
   float: right;
 }
 
+.back-arrow {
+  float: left;
+}
+
 .song-thumbnail {
   display: inline-block;
   height: 3em;
@@ -1119,6 +1123,7 @@ rzslider .rz-pointer:after {
   display: inline-block;
   vertical-align: top;
   padding: 0.3em;
+  width: 3.5em;
 }
 
 .speed-label {

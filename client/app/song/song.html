@@ -2,16 +2,7 @@
 <div class="song">
   <div class="page-content">
     <div> 
-    <a href="{{fromUrl}}"><button class="icon-button accent-color"><i class="fa fa-arrow-left fa-2x"></i></button></a>
-    </div>
     <song-view song="song" index="0" ></song-view>
-
-    <!-- <header class="song-title">
-      <button class='icon-button' ng-click="togglePlay()">
-        <i class="fa fa-2x" ng-class="{ 'fa-play : audio.paused, 'fa-pause': !audio.paused }"></i>
-      </button>
-      {{ song.title }}
-    </header> -->
     <div class="song-visualizer">
       <div class="waveform-container" ng-click="setPlayTime($event)"></div>
       <div class="comment-pin-container">

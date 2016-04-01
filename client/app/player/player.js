@@ -2,7 +2,7 @@ angular.module('jam.player', [])
 .controller('PlayerController', ['$scope', '$rootScope', '$timeout', 'Songs', function($scope, $rootScope, timeout, Songs) {
   $scope.isTouchDevice = 'ontouchstart' in document.documentElement;
   $scope.audio = Songs.getPlayer();
-
+  $scope.song = Songs.getCurrentSong();
   $scope.muted = Songs.getMuted();
   $scope.timeFormat = '00:00';
   $scope.playable = Songs.getPlayable();

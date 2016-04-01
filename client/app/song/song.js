@@ -8,9 +8,10 @@ angular.module('jam.song', [])
   $scope.user = {};
   $scope.comments = [];
   $scope.selectedComment = [{}];
-  $scope.currentSongIsPlaying;
+  $scope.songInPlayer = false;
+  $scope.alreadyPlaying = false;    
   $scope.playable = Songs.getPlayable();
-  $scope.fromUrl = '/#' + loc.search().from; 
+  $scope.fromUrl = '/#' + loc.search().from;
 
   var pageWidth = document.getElementsByClassName('page-content')[0].offsetWidth;
   var waveHeight = 100;
@@ -21,6 +22,8 @@ angular.module('jam.song', [])
   var barPadding = 1;
   var initialDelay = 2000;
   var scaledAmplitudes;
+
+
   $scope.width = waveWidth + 'px';
  
   // Obtain song information and display comments
@@ -46,9 +49,14 @@ angular.module('jam.song', [])
   .then(function (comments) {
     $scope.comments = comments;
     renderComments(comments);
-    $scope.currentSongIsPlaying = $scope.song.compressedAddress === $scope.audio.src;
+    $scope.songInPlayer = Songs.getCurrentSong() && $scope.song.id === Songs.getCurrentSong().id;
+    if ($scope.songInPlayer && !$scope.audio.paused) {
+      // $scope.alreadyPlaying = true;
+      $scope.$broadcast('audioPlayerEvent', 'ALREADY_PLAYING');
+    }
     initialRender();
   });
+
 
   var createSvg = function (parent, height, width) {
     return d3.select(parent).append('svg').attr('height', height).attr('width', width);
@@ -161,7 +169,7 @@ angular.module('jam.song', [])
       .transition()
       .duration(600)
       .attr('fill', function(d, i) {
-        if ((i / scaledAmplitudes.length) < ($scope.audio.currentTime / $scope.song.duration) && $scope.currentSongIsPlaying) {
+        if ((i / scaledAmplitudes.length) < ($scope.audio.currentTime / $scope.song.duration) && $scope.songInPlayer) {
           return 'rgb(0, 0, ' + 220 + ')';
         } else {
           return 'rgb(0, 0, ' + 100 + ')';
@@ -175,7 +183,7 @@ angular.module('jam.song', [])
   };
 
   $scope.setPlayTime = function (e) {
-    if ($scope.currentSongIsPlaying) {
+    if ($scope.songInPlayer) {
       var visualizer = document.getElementsByClassName('visualizer')[0];
       var rect = visualizer.getBoundingClientRect();
 
@@ -184,19 +192,15 @@ angular.module('jam.song', [])
     }
   };
 
-  $scope.togglePlay = function () {
-    if ($scope.currentSongIsPlaying) {
-      if ($scope.audio.paused) {
-        $scope.audio.play();
-      } else {
-        $scope.audio.pause();
-      }
+  // hack to work with songview for now
+  $scope.updateIndex = function() {
+    var currentSong = Songs.getCurrentSong();
+    if (currentSong && currentSong.id === $scope.song.id) {
+      Songs.togglePlay();
     } else {
-      $scope.audio.src = $scope.song.compressedAddress ||
-        $scope.song.address;
-      $scope.currentSongIsPlaying = $scope.song.address === $scope.audio.src;
-      $scope.audio.play();
+      Songs.playFromAllSongs($scope.song.id, $scope.user.currentGroupId);
     }
+    songInPlayer = true;
   };
 
 }]);

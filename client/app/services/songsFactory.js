@@ -8,7 +8,6 @@ angular.module('jam.songsFactory', [])
   var songQueue = {songs: [], playlist: []};
   // index of the current song playing
   var songIndex = null;
-  var songClicked = {song: {}, index: null};
   var currentLocation = 'songs';
   var volume = 0;
   var muted = false;
@@ -118,15 +117,6 @@ angular.module('jam.songsFactory', [])
     });
   };
 
-  var setSongClicked = function (song, index) {
-    songClicked = song;
-    songClicked.index = index;
-  };
-
-  var getSongClicked = function () {
-    return songClicked;
-  };
-
   // FUNCTIONS FOR PLAYLISTS 
 
   var createPlaylist = function (playlist) {
@@ -195,6 +185,28 @@ angular.module('jam.songsFactory', [])
     });
   };
 
+  var playFromAllSongs = function(songId, groupId) {
+    var promise = q(function(resolve, reject) {
+      if (songQueue.songs.length <= 0) {
+        getAllSongs(groupId)
+        .then(function () {
+          resolve(true);
+        })
+        .catch(reject);
+      } else {
+        resolve(true);
+      }
+    });
+
+    return promise.then(function () {
+      var index = _.findIndex(songQueue.songs, function(song) {
+        return songId === song.id;
+      });
+      choose(index, 'songs');
+      return songQueue.songs[index];
+    });
+  };
+
   // FUNCTIONS FOR PLAYBACK
 
   // use the observer pattern to watch for changes in the queue or song
@@ -214,7 +226,8 @@ angular.module('jam.songsFactory', [])
   var getSoundsAndIndex = function () {
     return {
       songs: songQueue[currentLocation],
-      index: songIndex
+      index: songIndex,
+      location: currentLocation
     };
   };
 
@@ -225,6 +238,10 @@ angular.module('jam.songsFactory', [])
     } else {
       notifyObservers('RESET_PLAYER');
     }
+  };
+
+  var togglePlay = function() {
+    notifyObservers('TOGGLE_PLAY');
   };
 
   var choose = function(index, location, playlist) {
@@ -355,7 +372,6 @@ angular.module('jam.songsFactory', [])
     getSoundsAndIndex: getSoundsAndIndex,
     nextIndex: nextIndex,
     choose: choose,
-    registerObserverCallback: registerObserverCallback,
     getPlayer: getPlayer,
     checkReset: checkReset,
     resetPlayer: resetPlayer,
@@ -365,14 +381,15 @@ angular.module('jam.songsFactory', [])
     getVolume: getVolume,
     setMuted: setMuted,
     getMuted: getMuted,
+    togglePlay: togglePlay,
     setPlayable: setPlayable,
     getPlayable: getPlayable,
-    setSongClicked: setSongClicked,
-    getSongClicked: getSongClicked,
     getCurrentSong: getCurrentSong,
     getCurrentPlaylist: getCurrentPlaylist,
+    playFromAllSongs: playFromAllSongs,
     setViewLocation: setViewLocation,
     getViewLocation: getViewLocation,
+    registerObserverCallback: registerObserverCallback,
     timeFormat: timeFormat
   };
 }]);
