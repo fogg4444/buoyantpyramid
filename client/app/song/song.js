@@ -123,6 +123,10 @@ angular.module('jam.song', [])
     return !!Object.keys($scope.selectedComment[0]).length;
   };
 
+  $scope.formatTime = function (time) {
+    return Songs.timeFormat(time);
+  };
+
   $scope.pinComment = function () {
     $scope.commentTime = $scope.audio.currentTime / $scope.song.duration;
     $scope.pinningComment = true;
