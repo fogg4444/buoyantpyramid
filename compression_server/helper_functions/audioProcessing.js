@@ -5,7 +5,7 @@ var path = require('path');
 var queue = require('queue');
 var request = require('request');
 var ffmpeg = require('fluent-ffmpeg');
-ffmpeg.setFfmpegPath('/usr/local/bin/ffmpeg'); 
+ffmpeg.setFfmpegPath('/usr/local/bin/ffmpeg');
 ffmpeg.setFfprobePath('/usr/local/bin/ffprobe');
 
 var exec = require('child_process').exec;
@@ -62,10 +62,11 @@ var addToQueue = function(req, res, next) {
       } else {
         // console.log('--- 6 --- File download success ', s3UniqueHash);
         getFileMetadata(downloadDestination)
-        .then(function(metadata) {
-          originalFormat = metadata.format.format_name;
+        .then(function(filetype) {
+          console.log('--- 1.5 --- Return metadata from ffprobe: ', filetype);
+          // originalFormat = metadata.format.format_name;
           originalFilePath = downloadDestination;
-          if (originalFormat === 'wav') {
+          if (filetype === 'wav') {
             return downloadDestination;
           } else {
             return convertToWav(downloadDestination, s3UniqueHash, songID);
@@ -90,7 +91,7 @@ var addToQueue = function(req, res, next) {
         .then(function (nfp) {
           console.log('--- 4 --- Compress to MP3');
           normalizedFilePath = nfp;
-            return compress(normalizedFilePath, s3UniqueHash, songID, amplitudeDataPath, normalizeBoostData);
+          return compress(normalizedFilePath, s3UniqueHash, songID, amplitudeDataPath, normalizeBoostData);
         })
         .then(function(lowResInfo) {
           console.log('--- 5 --- Upload low res: ', lowResInfo);
@@ -133,14 +134,18 @@ var addToQueue = function(req, res, next) {
 
 var getFileMetadata = function (path) {
   return new Promise(function(resolve, reject) {
-    ffmpeg.ffprobe(path, function(err, metadata) {
-      if (err) {
-        reject(err);
-      } else {
-        // console.log('FORMAT', metadata);
-        resolve(metadata);
-      }
-    });
+    var re = /(?:\.([^.]+))?$/;
+    var ext = re.exec(path)[1];   // "txt"
+    resolve(ext);
+    // ffmpeg.ffprobe(path, function(err, metadata) {
+    //   if (err) {
+
+    //     reject(err);
+    //   } else {
+    //     // console.log('FORMAT', metadata);
+    //     resolve(metadata);
+    //   }
+    // });
   });
 };
 
@@ -193,34 +198,48 @@ var deleteFile = function(filePath) {
 
 var convertToWav = function(hiResFilePath, s3UniqueHash, songID) {
   return new Promise(function(resolve, reject) {
-    // console.log('--- 6.5 --- Prepare to convert to wav');
+    console.log('--- --- Prepare to convert to wav');
 
     var fileName = s3UniqueHash.split('.')[0];
     var tempWavFilename = fileName + '.wav';
     var tempWavPath = path.join(__dirname + '/../temp_audio/wav_temp/' + tempWavFilename);
 
-    var anythingToWav = ffmpeg(hiResFilePath)
-      .setFfmpegPath('/usr/local/bin/ffmpeg') // TODO: take this out
-      // .audioCodec('libmp3lame')
-      // .audioBitrate(256)
-      // .audioQuality(0)
-      // .audioChannels(2)
-      .on('progress', function(progress) {
-        // console.log('--- 6.6 --- Processing: ' + progress.percent + '% done');
-      })
-      .on('error', function(err, stdout, stderr) {
-        // console.log('--- 6.6 --- Cannot process temp wav: ' + err.message);
+    var ffmpegCommand = 'ffmpeg -i ' + hiResFilePath + ' ' + tempWavPath;
+    exec(ffmpegCommand, function(err, stdout, stderr) {
+      if (err) {
+        console.log('--- TEST DOCKER ++++++++++++++++++++ --- ffmpeg convert to wave fails!', err);
         reject(err);
-      })
-      .on('end', function() {
-        // console.log('--- 6.6 --- Finished temp wav');
-        // deleteFile(hiResFilePath);
-        // generateWaveformArray(tempWavPath, s3UniqueHash, songID);
+      } else {
+        console.log('--- stdout --- ffmpeg Convert to wave finished: ', stdout);
+        console.log('--- stderr --- ', stderr);
         resolve(tempWavPath);
+      }
+    });
 
-        // uploadLowRes( lowResFilePath, tempWavFilename, songID );
-      })
-      .save( tempWavPath );
+    // Fluent ffmpeg is really not working with my docker image!
+
+    // var anythingToWav = ffmpeg(hiResFilePath)
+    //   .setFfmpegPath('/usr/local/bin/ffmpeg') // TODO: take this out
+    //   // .audioCodec('libmp3lame')
+    //   // .audioBitrate(256)
+    //   // .audioQuality(0)
+    //   // .audioChannels(2)
+    //   .on('progress', function(progress) {
+    //     // console.log('--- 6.6 --- Processing: ' + progress.percent + '% done');
+    //   })
+    //   .on('error', function(err, stdout, stderr) {
+    //     console.log('--- --- Cannot converToWav: ', err.message);
+    //     reject(err);
+    //   })
+    //   .on('end', function() {
+    //     console.log('--- --- Finished convertToWav');
+    //     // deleteFile(hiResFilePath);
+    //     // generateWaveformArray(tempWavPath, s3UniqueHash, songID);
+    //     resolve(tempWavPath);
+
+    //     // uploadLowRes( lowResFilePath, tempWavFilename, songID );
+    //   })
+    //   .save( tempWavPath );
 
   // on end compress(downloadDestination, s3UniqueHash, songID)
   });
