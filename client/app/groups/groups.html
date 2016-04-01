@@ -71,7 +71,7 @@
         {{user.currentGroup.name}}
       </div>
       <a href="/#/group/settings" ng-show="user.isAdmin">
-        <i class="settings-icon fa fa-cog fa-2x hide-mobile"></i>
+        <i class="settings-icon fa fa-cog fa-3x hide-mobile"></i>
       </a>
       <div ng-repeat="member in data.members | orderBy: 'userGroups.role' track by $index" ng-click="memberInfo(member, $index)">
         <div class="group-member-container">
