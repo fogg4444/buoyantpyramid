@@ -51,7 +51,6 @@ angular.module('jam.song', [])
     renderComments(comments);
     $scope.songInPlayer = Songs.getCurrentSong() && $scope.song.id === Songs.getCurrentSong().id;
     if ($scope.songInPlayer && !$scope.audio.paused) {
-      // $scope.alreadyPlaying = true;
       $scope.$broadcast('audioPlayerEvent', 'ALREADY_PLAYING');
     }
     initialRender();
