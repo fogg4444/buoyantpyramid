@@ -92,7 +92,7 @@ var deleteGroup = function(req, res, next) {
 
   Group.deleteGroup(groupId)
   .then(function(response) {
-    res.json(respons);
+    res.json(response);
   })
   .catch(function(error) {
     next(error);
@@ -160,7 +160,6 @@ var updateUserRole = function(req, res, next) {
 module.exports = {
   addUser: addUser,
   createGroup: createGroup,
-  // getBanner: getBanner,
   getUsers: getUsers,
   getPlaylists: getPlaylists,
   getSongs: getSongs,

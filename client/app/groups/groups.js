@@ -136,6 +136,14 @@ angular.module('jam.groups', [])
     });
   };
 
+  $scope.deleteGroup = function(id) {
+    Groups.deleteGroup(id)
+    .then(function(resp) {
+      console.log(resp);
+    })
+    .catch(console.error);
+  };
+
   // Load groups and group users
   Users.getUserData()
   .then(function (userData) {

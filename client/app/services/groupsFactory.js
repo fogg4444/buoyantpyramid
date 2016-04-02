@@ -125,6 +125,16 @@ angular.module('jam.groupsFactory', [])
     }
   };
 
+  var deleteGroup = function(id) {
+    return http({
+      method: 'DELETE',
+      url: '/api/groups/' + id
+    })
+    .then(function (res) {
+      return res.data;
+    });
+  };
+
   return {
     createGroup: createGroup,
     addUser: addUser,
@@ -135,6 +145,7 @@ angular.module('jam.groupsFactory', [])
     updateUserRole: updateUserRole,
     removeUser: removeUser,
     getGroupsData: getGroupsData,
-    setGroupsData: setGroupsData
+    setGroupsData: setGroupsData,
+    deleteGroup: deleteGroup
   };
 }]);

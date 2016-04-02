@@ -94,8 +94,9 @@
 
     <!-- Other groups -->
     <div class="group-list">
-      <div ng-repeat="group in data.groups track by $index" ng-class="'group {{group.userGroups.role}}'" ng-click="setCurrentGroup(group)" ng-show="isNotCurrentGroup(group)">
-        {{ group.name }}
+      <div ng-repeat="group in data.groups track by $index" ng-class="'group {{group.userGroups.role}}'" ng-show="isNotCurrentGroup(group)">
+        <div ng-click="setCurrentGroup(group)">{{ group.name }}</div>
+        <!-- <button ng-click="deleteGroup(group.id)">Delete</button> -->
       </div>
     </div>
 
