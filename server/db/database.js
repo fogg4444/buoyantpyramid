@@ -91,7 +91,7 @@ var Song = db.define('song', {
     type: Sequelize.INTEGER,
     allowNull: false
   },
-  uniqueHash : {
+  uniqueHash: {
     type: Sequelize.STRING,
     allowNull: false
   },

@@ -32,26 +32,33 @@ var addCompressedLink = function (req, res, next) {
 };
 
 var addSong = function (req, res, next) {
-  var song = {};
-  song.title = req.body.name || '';
-  song.description = req.body.description || '';
-  song.dateRecorded = req.body.lastModified || null;
-  song.dateUploaded = Date.now(); //TODO: make a db entry for this data
-  song.groupId = req.params.id;
-  song.size = req.body.size;
-  song.address = req.body.address;
-  song.uniqueHash = req.body.uniqueHash;
-  song.duration = req.body.duration || 300;
+  var dbSongEntry = {};
+  dbSongEntry.title = req.body.name || '';
+  dbSongEntry.description = req.body.description || '';
+  dbSongEntry.dateRecorded = req.body.lastModified || null;
+  dbSongEntry.dateUploaded = Date.now(); //TODO: make a db entry for this data
+  dbSongEntry.groupId = req.params.id;
+  dbSongEntry.size = req.body.size;
+  dbSongEntry.address = req.body.address;
+  dbSongEntry.uniqueHash = req.body.uniqueHash;
+  dbSongEntry.duration = req.body.duration || 300;
 
-  SongModel.addSong(song)
-  .then(function(song) {
-    SongModel.requestFileCompression(song)
-    .then(function(bool) {
-      res.json(song);
-    })
-    .catch(function(err) {
-      next(err);
-    });
+  // initialize dbsong
+  var dbSong;
+
+  SongModel.addSong(dbSongEntry)
+  .then(function(songDbReturn) {
+    dbSong = songDbReturn;
+    return SongModel.requestFileCompression(songDbReturn);
+  })
+  .then(function(zencoderBodyResponse) {
+    var compressedID = zencoderBodyResponse.outputs[0].url;
+    var songID = dbSong.id;
+    var dummyAmplitudeData = {
+      'max': [.5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5],
+      'duration': 10
+    };
+    SongModel.addCompressedLink(songID, compressedID, dummyAmplitudeData);
   })
   .catch(function(err) {
     next(err);

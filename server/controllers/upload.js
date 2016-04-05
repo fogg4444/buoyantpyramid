@@ -94,5 +94,6 @@ var catchUpload = function (req, res, next) {
 
 module.exports = {
   catchUpload: catchUpload,
-  getS3Data: getS3Policy
+  getS3Data: getS3Policy,
+  createS3Policy: createS3Policy
 };

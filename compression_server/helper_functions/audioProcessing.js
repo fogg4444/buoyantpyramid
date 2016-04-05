@@ -74,8 +74,8 @@ var addToQueue = function(req, res, next) {
           }
         })
         .then(function(wp) {
-          console.log('--- 2 --- Generate wavform array: ', wavPath);
           wavPath = wp;
+          console.log('--- 2 --- Generate wavform array: ', wavPath);
           return generateWaveformArray(wavPath);
         })
         .then(function(adp) {
@@ -162,7 +162,7 @@ var startQueue = function() {
 };
 
 var s3download = function(filename, dest, cb) {
-  console.log('in s3download')
+  console.log('in s3download');
   var params = {Bucket: process.env.AWS_JAMRECORD_BUCKET, Key: 'audio/'+ filename};
  
   s3.getObject(params).
@@ -293,11 +293,14 @@ var generateWaveformArray = function(wavTempPath, s3UniqueHash, songID) {
 
     exec(cmd, function(error, stdout, stderr) {
       // command output is in stdout
-      // console.log('--- 6.9 ---', error, stdout, stderr);
+      console.log('--- generate waveform array ---', error, stdout, stderr);
       if (error) {
         // console.log('--- 6.9 ---', error);
         reject(error);
       } else {
+        // console.log('--- --- else everything else no resoleve ');
+        // console.log('--- stderr ---', stderr);
+        // console.log('--- stdout ---', stdout);
         resolve(wavJsonDataPath);
       }
       // compress(wavTempPath, s3UniqueHash, songID, wavJsonDataPath);
