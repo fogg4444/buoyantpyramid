@@ -23,7 +23,6 @@ angular.module('jam.song', [])
   var initialDelay = 2000;
   var scaledAmplitudes;
 
-
   $scope.width = waveWidth + 'px';
  
   // Obtain song information and display comments
@@ -36,7 +35,7 @@ angular.module('jam.song', [])
   })
   .then(function (song) {
     $scope.song = song;
-    var rawAmplitudes = JSON.parse(song.amplitudeData).max;
+    var rawAmplitudes = song.amplitudeData.max;
     var max = _.max(rawAmplitudes);
     var scale = 100 / max;
     scaledAmplitudes = rawAmplitudes.map(function(amp) {

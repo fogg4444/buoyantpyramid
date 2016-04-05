@@ -5,6 +5,8 @@ var request = require('request');
 var Promise = require('bluebird');
 var awsConfig = require('../config/aws.config.js');
 var config = require('../config/config.js');
+var uploadController = require('../controllers/upload.js');
+
 
 var addSong = function (songData) {
   return Song.create(songData);
@@ -25,7 +27,7 @@ var addCompressedLink = function(songID, compressedID, amplitudeData) {
     })
     .catch(function(err) {
       reject(err);
-    });  
+    });
   });
 };
 
@@ -57,26 +59,37 @@ var updateSong = function(song) {
 
 // TODO: why is this a promise?
 var requestFileCompression = function(song) {
-  // console.log('--- 2 --- Request file compression Promise');
-  return new Promise(function (resolve, reject) {
-    request.post(
-      config.COMPRESSION_SERVER + '/compress',
-      {
-        json: {
-          songID: song.id,
-          s3UniqueHash: song.uniqueHash
+  return new Promise(function (resolve, reject) {    
+    var url = config.ZENCODER_COMPRESSION_SERVER;
+    var fileSource = song.dataValues.address;
+    var fileDestination = 'https://s3-us-west-1.amazonaws.com/jamrecordtest/audio/';
+
+    var params = {
+      'api_key': config.ZENCODER_API_KEY,
+      'input': song.dataValues.address,
+      'outputs': [
+        {
+          'url': fileDestination + song.dataValues.uniqueHash + '.mp3',
+          'credentials': 'jamrecordtest',
+          'audio_normalize': true
         }
-      },
+      ],
+    };
+
+    request.post(
+      url,
+      { json: params },
       function (error, response, body) {
         if (error) {
-          console.log('--- 2.5 --- Request compression error: ', error);
+          console.log('--- --- Request compression error: ', error);
           reject(error);
-        } else if (!error && response.statusCode === 200) {
-          console.log(' --- 2.6 --- Successful request to compression server: ', body);
-          resolve(true);
+        } else if (!error && response.statusCode === 201) {
+          console.log(' --- --- Successful creation of new audio on zencoder: ', body);
+          resolve(body);
         }
       }
     );
+
   });
 };
 
