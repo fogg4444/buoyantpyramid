@@ -13,25 +13,32 @@ AWS.config.update({
 var s3 = new AWS.S3();
 var bucketAddress = s3.endpoint.protocol + '//' + awsConfig.bucket + '.' + s3.endpoint.hostname + s3.endpoint.pathname;
 
-var addCompressedLink = function (req, res, next) {
-  var songID = req.body.songID;
-  var compressedID = req.body.compressedID;
-  var amplitudeData = req.body.amplitudeData;
+// var addCompressedLink = function (req, res, next) {
+//   console.log('add compressed link');
+  
+//   var songID = req.body.songID;
+//   var compressedID = req.body.compressedID;
+//   var amplitudeData = req.body.amplitudeData;
 
-  SongModel.addCompressedLink(songID, compressedID, amplitudeData)
-  .then(function(data) {
-    console.log('Did it!');
-    res.sendStatus(200);
-  })
-  .catch(function(err) {
-    console.log('Fail!');
-    res.sendStatus(500);
-    // TODO: figure out the correct code here!
-  });
+//   SongModel.addCompressedLink(songID, compressedID, amplitudeData)
+//   .then(function(data) {
+//     console.log('Did it!');
+//     res.sendStatus(200);
+//   })
+//   .catch(function(err) {
+//     console.log('Fail!');
+//     res.sendStatus(500);
+//     // TODO: figure out the correct code here!
+//   });
 
-};
+// };
 
 var addSong = function (req, res, next) {
+  
+  console.log('-----------------------------------------------------------------------');
+  console.log('Add Song to DB');
+  console.log('-----------------------------------------------------------------------');
+
   var dbSongEntry = {};
   dbSongEntry.title = req.body.name || '';
   dbSongEntry.description = req.body.description || '';
@@ -153,7 +160,7 @@ var updateSong = function (req, res, next) {
 };
 
 module.exports = {
-  addCompressedLink: addCompressedLink,
+  // addCompressedLink: addCompressedLink,
   addSong: addSong,
   deleteSong: deleteSong,
   getComments: getComments,
