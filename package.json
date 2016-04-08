@@ -13,7 +13,7 @@
     "lint": "./node_modules/eslint/bin/eslint.js .",
     "start": "gulp",
     "build": "gulp build",
-    "startForever": "forever start --spinSleepTime 10000 server/server.js && forever start --spinSleepTime 10000 compression_server/bin/www",
+    "startForever": "forever start --spinSleepTime 10000 server/server.js",
     "deploy": "npm run build && npm run startForever",
     "restartForever": "forever restart server/server.js && forever restart compression_server/bin/www",
     "killnode": "killall -9 node"
