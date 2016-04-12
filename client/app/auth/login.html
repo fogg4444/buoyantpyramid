@@ -1,20 +1,26 @@
 <div class="login">
-  <header>
+  <header class="cf">
     <div class="cover-title">
       <h1>Audiopile</h1>
       <i class="fa fa-headphones fa-3x"></i>
-      <button ng-click="toggleSignup()">Signup</button>
-      <button ng-click="toggleLogin()">Login</button>
+      <div class="form-buttons">
+        <button ng-click="toggleSignup()">Signup</button>
+        <button ng-click="toggleLogin()">Login</button>
+      </div>
     </div>
   </header>
   <section ng-style='backImage'>
 
-    <div class="section-content">
+    <div class="section-content cf">
       <ul>
+        <div class="circle-group">
           <li><span>Upload music to share with your band</span></li>
           <li><span>All your recordings in one place</span></li>
+        </div>
+        <div class="circle-group">
           <li><span>Automatic audio file compression</span></li>
           <li><span>Seamless streaming on desktop and mobile</span></li>
+        </div>
       </ul>
 
     <form ng-show="showLogin" name="loginForm" class="login-form">
@@ -78,7 +84,7 @@
 
 
 
-      <h2>Login or signup to put all your audio on the pile</h2>
+      <h2 class="tagline">Login or signup to put all your audio on the pile</h2>
     </div>
   </section>
 </div>
