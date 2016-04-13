@@ -47,10 +47,6 @@ body {
   user-select: none;  /* non-prefixed version, currently                               not supported by any browser */
 }
 
-.cf {
-  color: $lightgrey;
-}
-
 .cf:after {
   content: "";
   display: block;
@@ -301,6 +297,7 @@ li:hover > .submenu-container {
 }
 
 .login header .cover-title {
+  color: $lightgrey;
   h1, button {
     margin: 0.3em;
     display: inline;
