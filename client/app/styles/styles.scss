@@ -47,6 +47,10 @@ body {
   user-select: none;  /* non-prefixed version, currently                               not supported by any browser */
 }
 
+.cf {
+  color: $lightgrey;
+}
+
 .cf:after {
   content: "";
   display: block;
@@ -147,7 +151,6 @@ ul {
   position: relative;
   font-size: $nav-height / 2;
   margin: $nav-height / 4;
-  font-family: 'Special Elite';
 }
 
 nav {
@@ -294,7 +297,7 @@ li:hover > .submenu-container {
 
 .login header {
   padding: 1em;
-  background-color: $lightgrey;
+  background-color: $black;
 }
 
 .login header .cover-title {
@@ -307,7 +310,8 @@ li:hover > .submenu-container {
     vertical-align: middle;
   }
   h1 {
-    font-family: 'Special Elite', sans-serif;
+    font-size: 2em;
+    font-weight: 400;
   }
   .form-buttons {
     float: right;
@@ -316,7 +320,6 @@ li:hover > .submenu-container {
 
 .login section {
   background-size: cover;
-  border: 2px solid $darkgrey; 
   position: fixed;
   width: 100%;
   height: 100%;
@@ -343,10 +346,12 @@ li:hover > .submenu-container {
     padding: 1em;
     width: 10em;
     height: 10em;
-    background-color: rgba($white, 0.7);
+    background-color: rgba($black, 0.7);
+    border: 1px solid $midgrey;
     border-radius: 666%;
     text-align: center;
     vertical-align: middle;
+    color: $lightgrey;
     // display: table-cell;
     span {
       position: absolute;
@@ -356,7 +361,6 @@ li:hover > .submenu-container {
     }
   }
   h2 {
-    font-family: 'Special Elite', sans-serif;
     width: 100%;
     color: $lightgrey;
     text-align: center;
@@ -989,6 +993,10 @@ input[type="button"] {
   &.accent-color {
     color: $textcolor-3;
   }
+
+  &.login {
+    background-color: transparent;
+  }
 }
 
 .button:hover,
@@ -1253,7 +1261,6 @@ rzslider .rz-pointer:after {
   color: $linkcolor;
   background-color: $bgcolor;
   text-align: left;
-  font-family: 'Special Elite';
   margin: 5px;
 }
 
@@ -1463,6 +1470,7 @@ rzslider .rz-pointer:after {
     li {
       display: block;
       margin-top: 1em;
+      border: 1px solid $white;
       span {
         display: table-cell;
         vertical-align: middle;
