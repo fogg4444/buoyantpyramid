@@ -77,17 +77,24 @@ var s3delete = function (song) {
   song.address = song.address || 'dummy';
   song.compressedAddress = song.compressedAddress || 'dummy';
   
-  console.log('Songs to delete: ', song.address, song.compressedAddress);
+
+  var source = song.address.replace(bucketAddress, '');
+  var mini = song.compressedAddress.replace(bucketAddress, '');
+  
+  console.log(' ------------ Songs to delete: ---------- ');
+  console.log('source: ', source);
+  console.log('mini: ', mini);
+  console.log('song:', song);
 
   var params = {
     Bucket: awsConfig.bucket, /* required */
     Delete: { /* required */
       Objects: [ /* required */
         {
-          Key: song.address.replace(bucketAddress, ''), /* required */
+          Key: source, /* required */
         },
         {
-          Key: song.compressedAddress.replace(bucketAddress, ''), /* required */
+          Key: mini, /* required */
         }
       ],
     },

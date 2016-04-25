@@ -66,7 +66,7 @@ var requestFileCompression = function(song) {
   return new Promise(function (resolve, reject) {    
     var url = config.ZENCODER_COMPRESSION_SERVER;
     var fileSource = song.dataValues.address;
-    var fileDestination = 'https://s3-us-west-1.amazonaws.com/jamrecordtest/audio/';
+    var fileDestination = 'https://jamrecordtest.s3.amazonaws.com/audio/';
 
     var compressedFileName = song.dataValues.uniqueHash;
     var period = compressedFileName.lastIndexOf(".");
