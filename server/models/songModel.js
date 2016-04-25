@@ -57,6 +57,10 @@ var updateSong = function(song) {
 };
 
 
+var replaceAt = function(string, index, character) {
+  return string.substr(0, index) + character + string.substr(index+character.length);
+};
+
 // TODO: why is this a promise?
 var requestFileCompression = function(song) {
   return new Promise(function (resolve, reject) {    
@@ -64,12 +68,20 @@ var requestFileCompression = function(song) {
     var fileSource = song.dataValues.address;
     var fileDestination = 'https://s3-us-west-1.amazonaws.com/jamrecordtest/audio/';
 
+    var compressedFileName = song.dataValues.uniqueHash;
+    var period = compressedFileName.lastIndexOf(".");
+    if (period) {
+      compressedFileName = replaceAt(compressedFileName, period, '_');
+    }
+
+    console.log('New file name zencoder: ', compressedFileName, period);
+
     var params = {
       'api_key': config.ZENCODER_API_KEY,
       'input': song.dataValues.address,
       'outputs': [
         {
-          'url': fileDestination + song.dataValues.uniqueHash + '.mp3',
+          'url': fileDestination + compressedFileName + '.mp3',
           'credentials': 'jamrecordtest',
           'audio_normalize': true
         }
