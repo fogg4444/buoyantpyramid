@@ -1,0 +1,107 @@
+<nav-bar></nav-bar>
+<div class="groups">
+  <div class="page-content">
+    <div class="create-group">
+      <button ng-click="toggleCreateModal()" class="create-group-button">New Group</button>
+      <!-- Create group modal -->
+      <modal-dialog show="createModalShown">
+        <form name="createGroupForm" class="form-container">
+          <fieldset> 
+            <legend>New Group:</legend>
+            <label>
+              group name  
+              <input ng-model="newGroup.name" placeholder="name" type="text"/>
+            </label>
+            <label>
+              invite members
+              <input name="invite" ng-model="nextInvitee" placeholder="email" type="email" ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/"/>
+              <span class="add-invitee" ng-click="invitees.push(nextInvitee)"><i class="fa fa-plus fa-lg"></i></span>
+            </label>
+            <button ng-click="createGroup()" ng-disabled="createGroupForm.$invalid">Create Group</button>
+            <div class="field-message">
+              <span ng-show="invitees.length">{{invitees[invitees.length - 1]}} will get an invite!</span>
+            </div>
+          </fieldset>
+        </form>
+      </modal-dialog>
+      <!-- Member info modal -->
+      <modal-dialog show="memberModalShown">
+        <form name="memberInfoForm">
+          <fieldset>
+            <!-- Name -->
+            <legend>{{clickedMember.displayName}}</legend>
+            <!-- Email -->
+            <div>{{clickedMember.email}}</div>
+            <!-- Role, can change if user is admin -->
+            <div>{{clickedMember.userGroups.role}}</div>
+            <!-- Kick out -->
+            <div ng-show="user.isAdmin && !clickedMember.isAdmin">
+              <label>
+                <input type="radio" ng-model="chooseRole.role" value="admin">
+                Admin
+              </label>
+              <label>
+                <input type="radio" ng-model="chooseRole.role" value="member">
+                Member
+              </label>
+              <button ng-click="updateRole(clickedMember.id)">Update</button>
+              <button ng-click="removeMember(clickedMember.id)">Kick Out</button>
+            </div>
+          </fieldset>
+        </form>
+      </modal-dialog>
+    </div>
+
+    <!-- Pending groups -->
+    <div class="group-list pending">
+      <div ng-repeat="group in data.pendingGroups track by $index" class="group pending">
+        <span class="message-text">Request:</span> {{ group.name }}
+
+        <!-- Accept invite controls -->
+        <i class="invite-icon fa fa-check-circle-o fa-1x" ng-click="acceptInvite(group, $index)" ng-show="group.userGroups.role=='pending'"></i>
+        <i class="invite-icon fa fa-times fa-1x" ng-click="rejectInvite(group, $index)" ng-show="group.userGroups.role=='pending'"></i>
+      </div>
+    </div>
+
+    <!-- Current group -->
+    <!-- <div class="group">{{ user.currentGroup.name }}</div>  -->
+          
+    <div class="group-members">
+      <div class="group current">
+        {{user.currentGroup.name}}
+      </div>
+      <a href="/#/group/settings" ng-show="user.isAdmin">
+        <i class="settings-icon fa fa-cog fa-3x hide-mobile"></i>
+      </a>
+      <div ng-repeat="member in data.members | orderBy: 'userGroups.role' track by $index" ng-click="memberInfo(member, $index)">
+        <div class="group-member-container">
+          <div ng-class="'group-member {{member.userGroups.role}}'">
+            <img src={{member.avatarURL}} class="group-avatar-img">
+          </div>
+          <div class="group-member-text"> {{ member.displayName }} </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Admin controls -->
+    <div class="group-members cog">
+      <a href="/#/group/settings" ng-show="user.isAdmin">
+        <i class="settings-icon fa fa-cog fa-2x"></i>
+      </a>
+    </div>
+
+
+
+    <!-- Other groups -->
+    <div class="group-list">
+      <div ng-repeat="group in data.groups track by $index" ng-class="'group {{group.userGroups.role}}'" ng-show="isNotCurrentGroup(group)">
+        <div ng-click="setCurrentGroup(group)">{{ group.name }}</div>
+        <!-- <button ng-click="deleteGroup(group.id)">Delete</button> -->
+      </div>
+    </div>
+
+  </div>
+  <footer>
+    <player></player>
+  </footer>
+</div>

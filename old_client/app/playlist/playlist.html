@@ -1,0 +1,69 @@
+  <nav-bar></nav-bar>
+  <div class="playlist page-content">
+      <!-- Create modal -->
+      <modal-dialog class="modal" show="createModalShown">
+        <form name="createPlayForm" class='create-playlist'>
+          <fieldset>
+          <legend>Create a new playlist</legend>
+            <label>title
+              <input type="text" ng-model="newPlaylist.title" ng-maxlength="20" required/>
+              <div class="field-error">
+                <span ng-show="createPlayForm.$invalid && createPlayForm.$dirty">That title is too long</span>
+              </div>
+            </label>
+            <label>description
+              <input type="text" ng-model="newPlaylist.description"/>
+            </label>
+            <button ng-click="createPlaylist()" ng-disabled="createPlayForm.$invalid">Create Playlist</button>
+          </fieldset>
+        </form>
+      </modal-dialog>
+      <!-- Destroy modal -->
+      <modal-dialog class="modal" show="destroyModalShown">
+        <form name="destroyPlayForm">
+          <fieldset>
+          <legend>Delete this playlist?</legend>
+            <p>{{pendingPlaylist.title}}</p>
+            <button ng-click="deletePlaylist($parent.pendingPlaylist)">Yes, do it!</button>
+          </fieldset>
+        </form>
+      </modal-dialog>
+    <div class="all-playlists">
+      <div class="playlist-header-container">
+        <h2 class="playlist-header">Playlists</h2>
+        <button class="icon-button" ng-click="toggleCreateModal()"><i class="fa fa-plus-circle fa-med"></i></button>
+      </div>
+      <div ng-repeat="playlist in models.playlists" class="each-playlist">
+        <div class="clickable-playlist" ng-click="makeCurrent(playlist)">{{playlist.title}}</div>
+        <div><button class="delete-button icon-button" title="delete playlist" ng-click="pendingDeletePlaylist(playlist)"><i class="fa fa-trash"></i></button></div>
+      </div>
+    </div>
+    <div ng-show="models.playlists.length === 0" class="empty-placeholder">
+        Your group doesn't have any playlists. Click the button above to create one.
+    </div>
+    <div class="droplist">
+      <h1>{{models.currentPlaylist.title}}</h1>
+      <p>{{models.currentPlaylist.description}}</p>
+      <div ng-show="!models.currentPlaylist.songs.length" class="empty-placeholder">
+        There are no songs in this playlist.
+      </div>
+      <ul dnd-list="models.currentPlaylist"
+      dnd-drop="dropCallback(event, index, song, external, type)">
+        <li ng-repeat="song in models.currentPlaylist.songs | orderBy: playlistSongs.listPosition track by $index"
+        ng-mousedown="models.selected=song" 
+        dnd-draggable="song"
+        dnd-moved="models.currentPlaylist.splice($index, 1)"
+        dnd-effect-allowed="move"
+        ng-class="{'selected': models.selected === item}"
+        >
+          <button class="delete-button icon-button" title="remove song" ng-click="deleteSong($index)"><i class="fa fa-times-circle-o fa-lg"></i></button>
+          <div class="info">
+            <song-view song="song" index="$index" ></song-view>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <footer>
+    <player></player>
+  </footer>

@@ -1,0 +1,48 @@
+<nav-bar></nav-bar>
+<div class="song-visualizer-page">
+  <div class="page-content">
+    <div> 
+    <song-view song="song" index="0" ></song-view>
+    <div class="song-visualizer">
+      <div class="waveform-container" ng-click="setPlayTime($event)"></div>
+      <div class="comment-pin-container">
+        <div class="pin-container" ng-show="!pinningComment"></div>
+        <input min="0" max="1" step="0.01" type="range" style="width:{{width}}" ng-model="commentTime" ng-show="pinningComment" class="comment-slider"/>
+        <div class="selected-comment-container" ng-show="commentSelected()">
+          <div class="selected-comment"></div>
+        </div>
+      </div>
+    </div>
+    <br>
+    <div class="comments-container">
+      <h3 class="comments-header"> Comments </h3>
+      <div class="comments">
+        <div class="comment-list">
+          <div ng-repeat="comment in comments" ng-mouseover="setSelectedComment(comment)">
+            <img class="nav-avatar-img comment" ng-src="{{user.avatarURL}}" alt="avatar">
+            <p class="comment">{{ comment.note }} @ {{ formatTime(comment.time) }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="add-comment">
+        <div> Add Comment </div>
+        <form class="comment-form">
+          <fieldset>
+          <input type="text" ng-model="comment">
+          <div ng-click="pinComment()">
+            <i class="fa fa-map-pin fa-lg click-pin"></i>
+          </div>
+          <button ng-click="addComment(comment)"> Submit </button>
+          </fieldset>
+          <div class="field-message">Click the pin to comment on a specific part of the song</div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <br>
+  <br>
+</div>
+  <footer>
+    <player></player>
+  </footer>
+</div>
