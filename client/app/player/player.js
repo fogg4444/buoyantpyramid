@@ -92,6 +92,8 @@ angular.module('jam.player', [])
     } else {
       $scope.audio.pause();
     }
+    // TODO: use broadcastEvent function here
+    // broadcastEvent('TOGGLE_PLAY');
     $rootScope.$broadcast('audioPlayerEvent', 'TOGGLE_PLAY');
   };
 

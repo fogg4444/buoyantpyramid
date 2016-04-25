@@ -19,7 +19,7 @@ var addCompressedLink = function(songID, compressedID, amplitudeData) {
     .then(function(song) {
       if (song) {
         song.updateAttributes({
-          'compressedAddress': 'https://' + awsConfig.bucket + '.s3.amazonaws.com/audio/' + compressedID,
+          'compressedAddress': compressedID,
           'amplitudeData': amplitudeData
         });
         resolve();

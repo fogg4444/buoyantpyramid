@@ -245,6 +245,10 @@ angular.module('jam.songsFactory', [])
   };
 
   var choose = function(index, location, playlist) {
+    console.log('Choose -- : ', songQueue);
+    console.log('Index: ', index);
+    console.log('playlist: ', playlist);
+
     if (songIndex === +index && currentLocation === location) {
       notifyObservers('TOGGLE_PLAY');
     } else {
