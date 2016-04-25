@@ -6,17 +6,17 @@
   </div>
   <div class="player-buttons">
     <div class='play-button-container'>
-<!--       <button class='icon-button' ng-disabled="!playable" ng-click="changeTrack('back')">
+      <button class='icon-button' ng-disabled="!playable" ng-click="changeTrack('back')">
         <i class="fa fa-fast-backward fa-lg"></i>
-      </button> -->
+      </button>
       <button class='icon-button' ng-disabled="!playable" ng-click="togglePlay()">
         <i ng-class="{'fa fa-play fa-lg': audio.paused, 'fa fa-pause fa-lg': !audio.paused}"></i>
       </button>
-<!--       <button class='icon-button' ng-disabled="!playable" ng-click="changeTrack('forward')">
+      <button class='icon-button' ng-disabled="!playable" ng-click="changeTrack('forward')">
         <i class="fa fa-fast-forward fa-lg"></i>
-      </button> -->
+      </button>
     </div>
-<!--     <div class="input-group volume" ng-hide='!!isTouchDevice'>
+    <div class="input-group volume" ng-hide='!!isTouchDevice'>
       <div class="vol-slider-container">
         <input type="range" min="0" max="1" class="vol-slider" ng-model="audio.volume" step="0.05" ng-mouseup="snapVol()">
       </div>
@@ -24,10 +24,10 @@
         <i ng-class="{'fa fa-volume-off fa-lg': muted, 'fa fa-volume-down fa-lg': !muted, 'fa fa-volume-up fa-lg': !muted && audio.volume > 0.5}"></i>
       </button>
     </div>
- --><!--     <div class="input-group speed">
+    <div class="input-group speed">
       <button class="icon-button speed-button" ng-click="setSpeed(-1)"><i class="fa fa-angle-double-left fa-lg"></i></button>
       <div class="speed-label">{{audio.playbackRate}}x</div>
       <button class='icon-button speed-button' ng-click="setSpeed(1)"><i class="fa fa-angle-double-right fa-lg"></i></button>
-    </div> -->
+    </div>
   </div>
 </div>

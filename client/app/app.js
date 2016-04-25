@@ -26,48 +26,48 @@ angular.module('jam', [
       templateUrl: 'app/auth/login.html',
       controller: 'AuthController'
     })
-    // .when('/login/:email', {
-    //   templateUrl: 'app/auth/login.html',
-    //   controller: 'AuthController'
-    // })
-    // .when('/song/:id', {
-    //   templateUrl: 'app/song/song.html',
-    //   controller: 'SongController',
-    //   controllerAs: 'songCtrl',
-    //   authenticate: true
-    // })
+    .when('/login/:email', {
+      templateUrl: 'app/auth/login.html',
+      controller: 'AuthController'
+    })
+    .when('/song/:id', {
+      templateUrl: 'app/song/song.html',
+      controller: 'SongController',
+      controllerAs: 'songCtrl',
+      authenticate: true
+    })
     .when('/songs', {
       templateUrl: 'app/songs/songs.html',
       controller: 'SongsController',
       controllerAs: 'songCtrl',
       authenticate: true
     })
-    // .when('/profile', {
-    //   templateUrl: 'app/profile/profile.html',
-    //   controller: 'ProfileController',
-    //   authenticate: true
-    // })
+    .when('/profile', {
+      templateUrl: 'app/profile/profile.html',
+      controller: 'ProfileController',
+      authenticate: true
+    })
     .when('/upload', {
       templateUrl: 'app/upload/upload.html',
       controller: 'UploadController',
       authenticate: true
     })
-    // .when('/groups', {
-    //   templateUrl: 'app/groups/groups.html',
-    //   controller: 'GroupsController',
-    //   authenticate: true
-    // })
-    // .when('/group/settings', {
-    //   templateUrl: 'app/groups/settings.html',
-    //   controller: 'SettingsController',
-    //   authenticate: true
-    // })
-    // .when('/playlists', {
-    //   templateUrl: 'app/playlist/playlist.html',
-    //   controller: 'PlaylistController',
-    //   controllerAs: 'playlistCtrl',
-    //   authenticate: true
-    // })
+    .when('/groups', {
+      templateUrl: 'app/groups/groups.html',
+      controller: 'GroupsController',
+      authenticate: true
+    })
+    .when('/group/settings', {
+      templateUrl: 'app/groups/settings.html',
+      controller: 'SettingsController',
+      authenticate: true
+    })
+    .when('/playlists', {
+      templateUrl: 'app/playlist/playlist.html',
+      controller: 'PlaylistController',
+      controllerAs: 'playlistCtrl',
+      authenticate: true
+    })
     .otherwise({
       redirectTo: '/songs'
     });
