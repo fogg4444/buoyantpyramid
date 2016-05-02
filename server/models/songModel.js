@@ -58,7 +58,7 @@ var updateSong = function(song) {
 
 
 var replaceAt = function(string, index, character) {
-  return string.substr(0, index) + character + string.substr(index+character.length);
+  return string.substr(0, index) + character + string.substr(index + character.length);
 };
 
 // TODO: why is this a promise?
@@ -69,7 +69,7 @@ var requestFileCompression = function(song) {
     var fileDestination = 'https://' + awsConfig.bucket + '.s3.amazonaws.com/audio/';
 
     var compressedFileName = song.dataValues.uniqueHash;
-    var period = compressedFileName.lastIndexOf(".");
+    var period = compressedFileName.lastIndexOf('.');
     if (period) {
       compressedFileName = replaceAt(compressedFileName, period, '_');
     }
@@ -81,6 +81,7 @@ var requestFileCompression = function(song) {
       'input': song.dataValues.address,
       'outputs': [
         {
+          'public': true,
           'url': fileDestination + compressedFileName + '.mp3',
           // this credential correspondes to zencoder credential nickname
           'credentials': awsConfig.bucket,
@@ -88,7 +89,7 @@ var requestFileCompression = function(song) {
         }
       ],
     };
-
+    console.log('url is ' + url);
     request.post(
       url,
       { json: params },
