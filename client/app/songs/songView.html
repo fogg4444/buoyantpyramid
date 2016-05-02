@@ -9,7 +9,7 @@
   </div>
 
   <div class="song-title-container">
-    <span class="song-title" ng-class="{'current-song': isPlaying}" ng-click="editTitle = true;" ng-hide="editTitle">{{ song.title }}</span>
+    <span class="song-title" ng-class="{'current-song': isPlaying}" ng-click="editTitle = true;" ng-hide="editTitle">{{ song.title || 'Untitled' }}</span>
     <input class="song-title" ng-show="editTitle" focus-if="editTitle" type="text" ng-model="song.title" ng-blur="editTitle=false; updateSong()" />
 
     <a href="{{songUrl}}" ng-hide="arrowBack" ><button class="icon-button goto-song accent-color"><i class="fa  fa-2x fa-arrow-right"></i></button></a>
