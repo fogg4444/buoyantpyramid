@@ -51,10 +51,10 @@ var createS3Policy = function (contentType, callback) {
 var getS3Policy = function (req, res) {
   createS3Policy(req.body.fileType, function (creds, err) {
     if (!err) {
-      console.log('No error creating s3 policy: ', creds);
+      // console.log('No error creating s3 policy: ', creds);
       return res.status(200).send(creds);
     } else {
-      console.log('Error creating s3 policy');
+      // console.log('Error creating s3 policy');
       return res.status(500).send(err);
     }
   });
@@ -74,7 +74,7 @@ var catchUpload = function (req, res, next) {
     // });
     
     file.on('end', function () {
-      console.log('File [' + fieldname + '] Finished');
+      // console.log('File [' + fieldname + '] Finished');
       req.filename = filename;
       next();
     });
@@ -85,7 +85,7 @@ var catchUpload = function (req, res, next) {
   // });
 
   busboy.on('finish', function () {
-    console.log('Done parsing form!');
+    // console.log('Done parsing form!');
     res.writeHead(303, { Connection: 'close', Location: '/' });
     res.end();
   });
