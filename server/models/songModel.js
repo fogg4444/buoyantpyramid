@@ -19,7 +19,7 @@ var addCompressedLink = function(songID, compressedID, amplitudeData) {
     .then(function(song) {
       if (song) {
         song.updateAttributes({
-          'compressedAddress': 'https://' + awsConfig.bucket + '.s3.amazonaws.com/audio/' + compressedID,
+          'compressedAddress': compressedID,
           'amplitudeData': amplitudeData
         });
         resolve();
@@ -57,20 +57,32 @@ var updateSong = function(song) {
 };
 
 
+var replaceAt = function(string, index, character) {
+  return string.substr(0, index) + character + string.substr(index+character.length);
+};
+
 // TODO: why is this a promise?
 var requestFileCompression = function(song) {
   return new Promise(function (resolve, reject) {    
     var url = config.ZENCODER_COMPRESSION_SERVER;
     var fileSource = song.dataValues.address;
-    var fileDestination = 'https://s3-us-west-1.amazonaws.com/jamrecordtest/audio/';
+    var fileDestination = 'https://' + awsConfig.bucket + '.s3.amazonaws.com/audio/';
+
+    var compressedFileName = song.dataValues.uniqueHash;
+    var period = compressedFileName.lastIndexOf(".");
+    if (period) {
+      compressedFileName = replaceAt(compressedFileName, period, '_');
+    }
+
+    console.log('New file name zencoder: ', compressedFileName, period);
 
     var params = {
       'api_key': config.ZENCODER_API_KEY,
       'input': song.dataValues.address,
       'outputs': [
         {
-          'url': fileDestination + song.dataValues.uniqueHash + '.mp3',
-          'credentials': 'jamrecordtest',
+          'url': fileDestination + compressedFileName + '.mp3',
+          'credentials': awsConfig.bucket,
           'audio_normalize': true
         }
       ],

@@ -4,12 +4,33 @@
   <div class="mobile-menu-icon"><button class='icon-button' ng-click="toggleMenu()" title='open navigation menu'><i class="fa fa-bars"></i></button></div>
   <nav ng-class="{show: showMenu}">
     <ul class="nav-list" >
-      <li class="nav-item"><a href="/#/groups"><i class="fa fa-group fa-lg"></i> Groups</a>
-        <div class="badge" ng-show="user.invites.length">{{user.invites.length}}</div>
+      <li class="nav-item">
+        <a href="/#/groups">
+          <i class="fa fa-group fa-lg"></i>
+          Groups
+        </a>
+        <div class="badge" ng-show="user.invites.length">
+          {{user.invites.length}}
+        </div>
       </li>
-      <li class="nav-item"><a href="/#/songs"><i class="fa fa-music fa-lg"></i> Songs</a></li>
-      <li class="nav-item"><a href="/#/playlists"><i class="fa fa-list-ul fa-lg"></i> Playlists</a></li>
-      <li class="nav-item"><a href="/#/upload"><i class="fa fa-upload fa-lg"></i> Upload</a></li>
+      <li class="nav-item">
+        <a href="/#/songs">
+          <i class="fa fa-music fa-lg"></i>
+          Songs
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="/#/playlists">
+          <i class="fa fa-list-ul fa-lg"></i>
+          Playlists
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="/#/upload">
+          <i class="fa fa-upload fa-lg"></i>
+          Upload
+        </a>
+      </li>
       <li class="nav-item">
         <a href=# class="dropdown-avatar">
           <img class="nav-avatar-img" ng-src="{{user.avatarURL}}" alt="avatar">
@@ -17,9 +38,24 @@
         </a>
         <div class="submenu-container">
           <ul class="submenu">
-            <li><span class="menu-category elipsis-end"><i class="fa fa-microphone"></i> {{ user.displayName }}</span></li>
-            <li><a href='/#/profile'>Profile <i class="fa fa-user"></i></a></li>
-            <li><a href="#" ng-click="logout()">Logout <i class="fa fa-sign-out"></i></a></li>
+            <li>
+              <span class="menu-category elipsis-end">
+                <!-- <i class="fa fa-microphone"></i> -->
+                {{ user.displayName }}
+              </span>
+            </li>
+            <li>
+              <a href='/#/profile'>
+                Profile
+                <i class="fa fa-user"></i>
+              </a>
+            </li>
+            <li>
+              <a href="#" ng-click="logout()">
+                Logout
+                <i class="fa fa-sign-out"></i>
+              </a>
+            </li>
           </ul>
         </div>
       </li>
