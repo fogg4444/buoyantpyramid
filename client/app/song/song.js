@@ -39,7 +39,10 @@ angular.module('jam.song', [])
     var max = _.max(rawAmplitudes);
     var scale = 100 / max;
     scaledAmplitudes = rawAmplitudes.map(function(amp) {
-      return amp * scale;
+      // return amp * scale;
+      
+      // UNTIL WE ACTUALLY HAVE WAVFORMS:
+      return Math.random() * 90 + 10;
     });
   })
   .then(function () {
