@@ -57,6 +57,11 @@ var addSong = function (req, res, next) {
   SongModel.addSong(dbSongEntry)
   .then(function(songDbReturn) {
     dbSong = songDbReturn;
+    
+    // tell client song is added to database
+    res.json('Song added to database, beginning file compression');
+    // carry on with compression...
+
     return SongModel.requestFileCompression(songDbReturn);
   })
   .then(function(zencoderBodyResponse) {
