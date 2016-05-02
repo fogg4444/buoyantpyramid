@@ -50,7 +50,7 @@
     <div ng-show="data.songs.length === 0" class="empty-placeholder">
       your group doesn't have any songs yet. you should <a href="/#/upload">upload</a> some
     </div>
-    <div ng-repeat="song in data.songs | filter:query" class="song">
+    <div ng-repeat="song in data.songs | filter:query | orderBy:'-dateUploaded'" class="song">
       <div class="song-info">
         <div class="song-buttons">
         <button class="icon-button" title="add a comment" ng-click="toggleCommentModal(song, $parent.user.id)">

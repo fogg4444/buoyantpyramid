@@ -35,9 +35,6 @@ var bucketAddress = s3.endpoint.protocol + '//' + awsConfig.bucket + '.' + s3.en
 
 var addSong = function (req, res, next) {
   
-  console.log('-----------------------------------------------------------------------');
-  console.log('Add Song to DB');
-  console.log('-----------------------------------------------------------------------');
 
   var dbSongEntry = {};
   dbSongEntry.title = req.body.name || '';
@@ -50,12 +47,21 @@ var addSong = function (req, res, next) {
   dbSongEntry.uniqueHash = req.body.uniqueHash;
   dbSongEntry.duration = req.body.duration || 300;
 
+  console.log('-----------------------------------------------------------------------');
+  console.log('Add Song to DB: ', dbSongEntry.title);
+  console.log('-----------------------------------------------------------------------');
+  
   // initialize dbsong
   var dbSong;
 
   SongModel.addSong(dbSongEntry)
   .then(function(songDbReturn) {
     dbSong = songDbReturn;
+    
+    // tell client song is added to database
+    res.json('Song added to database, beginning file compression');
+    // carry on with compression...
+
     return SongModel.requestFileCompression(songDbReturn);
   })
   .then(function(zencoderBodyResponse) {
@@ -81,10 +87,10 @@ var s3delete = function (song) {
   var source = song.address.replace(bucketAddress, '');
   var mini = song.compressedAddress.replace(bucketAddress, '');
   
-  console.log(' ------------ Songs to delete: ---------- ');
-  console.log('source: ', source);
-  console.log('mini: ', mini);
-  console.log('song:', song);
+  // console.log(' ------------ Songs to delete: ---------- ');
+  // console.log('source: ', source);
+  // console.log('mini: ', mini);
+  // console.log('song:', song);
 
   var params = {
     Bucket: awsConfig.bucket, /* required */
@@ -101,7 +107,7 @@ var s3delete = function (song) {
   };
   return new Promise(function (resolve, reject) {
     
-    console.log('--- --- Delete Songs: ', params);
+    // console.log('--- --- Delete Songs: ', params);
 
     s3.deleteObjects(params, function(err, res) {
       if (err) {
@@ -120,14 +126,14 @@ var deleteSong = function (req, res, next) {
   .then(function(song) {
     s3delete(song)
     .then(function(s3response) {
-      console.log('s3 delete response is ' + JSON.stringify(s3response));
+      // console.log('s3 delete response is ' + JSON.stringify(s3response));
       song.destroy()
       .then(function() {
         res.json(song);
       });
     })
     .catch(function(err) {
-      console.error(err);
+      // console.error(err);
       res.status(500).json('error deleting song from aws: ' + err);
     });
   })

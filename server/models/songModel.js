@@ -82,6 +82,7 @@ var requestFileCompression = function(song) {
       'outputs': [
         {
           'url': fileDestination + compressedFileName + '.mp3',
+          // this credential correspondes to zencoder credential nickname
           'credentials': awsConfig.bucket,
           'audio_normalize': true
         }

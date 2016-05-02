@@ -7,26 +7,25 @@ angular.module('jam.songsFactory', [])
   // player listeners
   player.addEventListener('loadstart', function() {
     //grabbing the file
-    console.log('Player event loadstart');
+    // console.log('Player event loadstart');
   });
   player.addEventListener('durationchange', function() {
     //you can display the duration now
-    console.log('Player event durationchange');
+    // console.log('Player event durationchange');
   });
   player.addEventListener('loadedmetadata', function() {
     //you could display the playhead now
-    console.log('Player event loadedmetadata');
+    // console.log('Player event loadedmetadata');
   });
   player.addEventListener('loaded', function() {
     // you could let the user know the media is downloading
-    console.log('Player event loaded');
+    // console.log('Player event loaded');
   });
   player.addEventListener('progress', function(data) {
-    console.log('Player event progress');
-    console.log('data: ', data);
-    console.log(this.buffered);
-    console.log(this.currentTime);
-
+    // console.log('Player event progress');
+    // console.log('data: ', data);
+    // console.log(this.buffered);
+    // console.log(this.currentTime);
 
     // var range = 0;
     // var bf = this.buffered;
@@ -48,11 +47,11 @@ angular.module('jam.songsFactory', [])
   });
   player.addEventListener('canplay', function() {
     //audio is ready to play
-    console.log('Player event canplay');
+    // console.log('Player event canplay');
   });
   player.addEventListener('canplaythrough', function() {
     //audio is ready to play all the way through
-    console.log('Player event canplaythrough');
+    // console.log('Player event canplaythrough');
   });
 
   // Interruption events
@@ -93,6 +92,9 @@ angular.module('jam.songsFactory', [])
   // FUNCTIONS FOR SONGS
 
   var addSong = function (song, groupId) {
+
+    console.log('Add song called: ', song);
+
     var songData = {
       size: song.size,
       lastModified: song.lastModified,
@@ -109,6 +111,9 @@ angular.module('jam.songsFactory', [])
         data: songData
       })
       .then(function(response) {
+        
+        console.log('Add song confirmed: ', response);
+
         resolve(response);
       })
       .catch(function (error) {
