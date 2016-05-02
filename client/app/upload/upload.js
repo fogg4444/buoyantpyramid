@@ -67,17 +67,14 @@ angular
     };
 
     var successCallback = function (file, response) {
-      Users.getUserData()
-      .then(function(user) {
-        getAudioLength(file, function(duration) {
-          file.duration = duration;
-          return Songs.addSong(file, user.currentGroupId);
-        });
-      })
-      .then(function(data) {
-        // console.log('Song added: ', data);
-      })
-      .catch(console.error);
+      getAudioLength(file, function(duration) {
+        file.duration = duration;
+        Songs.addSong(file, file.groupId)
+        .then(function(data) {
+          // console.log('Song added: ', data);
+        })
+        .catch(console.error);
+      });
     };
 
     $scope.cancelUpload = function(file) {
@@ -88,9 +85,14 @@ angular
     };
 
     $scope.upload = function(file) {
-      file.editing = false;
-      UploadFactory.upload(file, 'audio', successCallback, console.error, progressCallback);
-      file.progressPercentage = 0;
+      Users.getUserData()
+      .then(function(user) {
+        file.groupId = user.currentGroupId;
+        file.editing = false;
+        UploadFactory.upload(file, 'audio', successCallback, console.error, progressCallback);
+        file.progressPercentage = 0;
+      })
+      .catch(console.error);
     };
 
     // for multiple files:
