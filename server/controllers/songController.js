@@ -13,25 +13,32 @@ AWS.config.update({
 var s3 = new AWS.S3();
 var bucketAddress = s3.endpoint.protocol + '//' + awsConfig.bucket + '.' + s3.endpoint.hostname + s3.endpoint.pathname;
 
-var addCompressedLink = function (req, res, next) {
-  var songID = req.body.songID;
-  var compressedID = req.body.compressedID;
-  var amplitudeData = req.body.amplitudeData;
+// var addCompressedLink = function (req, res, next) {
+//   console.log('add compressed link');
+  
+//   var songID = req.body.songID;
+//   var compressedID = req.body.compressedID;
+//   var amplitudeData = req.body.amplitudeData;
 
-  SongModel.addCompressedLink(songID, compressedID, amplitudeData)
-  .then(function(data) {
-    console.log('Did it!');
-    res.sendStatus(200);
-  })
-  .catch(function(err) {
-    console.log('Fail!');
-    res.sendStatus(500);
-    // TODO: figure out the correct code here!
-  });
+//   SongModel.addCompressedLink(songID, compressedID, amplitudeData)
+//   .then(function(data) {
+//     console.log('Did it!');
+//     res.sendStatus(200);
+//   })
+//   .catch(function(err) {
+//     console.log('Fail!');
+//     res.sendStatus(500);
+//     // TODO: figure out the correct code here!
+//   });
 
-};
+// };
 
 var addSong = function (req, res, next) {
+  
+  console.log('-----------------------------------------------------------------------');
+  console.log('Add Song to DB');
+  console.log('-----------------------------------------------------------------------');
+
   var dbSongEntry = {};
   dbSongEntry.title = req.body.name || '';
   dbSongEntry.description = req.body.description || '';
@@ -69,20 +76,33 @@ var s3delete = function (song) {
   // delete both original and compressed files from aws
   song.address = song.address || 'dummy';
   song.compressedAddress = song.compressedAddress || 'dummy';
+  
+
+  var source = song.address.replace(bucketAddress, '');
+  var mini = song.compressedAddress.replace(bucketAddress, '');
+  
+  console.log(' ------------ Songs to delete: ---------- ');
+  console.log('source: ', source);
+  console.log('mini: ', mini);
+  console.log('song:', song);
+
   var params = {
     Bucket: awsConfig.bucket, /* required */
     Delete: { /* required */
       Objects: [ /* required */
         {
-          Key: song.address.replace(bucketAddress, ''), /* required */
+          Key: source, /* required */
         },
         {
-          Key: song.compressedAddress.replace(bucketAddress, ''), /* required */
+          Key: mini, /* required */
         }
       ],
     },
   };
   return new Promise(function (resolve, reject) {
+    
+    console.log('--- --- Delete Songs: ', params);
+
     s3.deleteObjects(params, function(err, res) {
       if (err) {
         reject(err);
@@ -153,7 +173,7 @@ var updateSong = function (req, res, next) {
 };
 
 module.exports = {
-  addCompressedLink: addCompressedLink,
+  // addCompressedLink: addCompressedLink,
   addSong: addSong,
   deleteSong: deleteSong,
   getComments: getComments,

@@ -2,7 +2,82 @@ angular.module('jam.songsFactory', [])
 
 .factory('Songs', ['$http', '$q', function (http, q) {
 
-  var player = new Audio(); 
+  var player = new Audio();
+
+  // player listeners
+  player.addEventListener('loadstart', function() {
+    //grabbing the file
+    console.log('Player event loadstart');
+  });
+  player.addEventListener('durationchange', function() {
+    //you can display the duration now
+    console.log('Player event durationchange');
+  });
+  player.addEventListener('loadedmetadata', function() {
+    //you could display the playhead now
+    console.log('Player event loadedmetadata');
+  });
+  player.addEventListener('loaded', function() {
+    // you could let the user know the media is downloading
+    console.log('Player event loaded');
+  });
+  player.addEventListener('progress', function(data) {
+    console.log('Player event progress');
+    console.log('data: ', data);
+    console.log(this.buffered);
+    console.log(this.currentTime);
+
+
+    // var range = 0;
+    // var bf = this.buffered;
+    // var time = this.currentTime;
+
+    // while(!(bf.start(range) <= time && time <= bf.end(range))) {
+    //     range += 1;
+    // }
+    // var loadStartPercentage = bf.start(range) / this.duration;
+    // var loadEndPercentage = bf.end(range) / this.duration;
+    // var loadPercentage = loadEndPercentage - loadStartPercentage;
+
+    // console.log('Progess data:');
+    // console.log('Load start percentage: ', loadStartPercentage);
+    // console.log('Load End percentage: ', loadEndPercentage);
+    // console.log('Load percentage: ', loadPercentage);
+
+
+  });
+  player.addEventListener('canplay', function() {
+    //audio is ready to play
+    console.log('Player event canplay');
+  });
+  player.addEventListener('canplaythrough', function() {
+    //audio is ready to play all the way through
+    console.log('Player event canplaythrough');
+  });
+
+  // Interruption events
+  player.addEventListener('suspend', function() {
+    // Media data is no longer being fetched even though the file has not been entirely downloaded.
+    // console.log('Player event suspend');
+  });
+  player.addEventListener('abort', function() {
+    // Media data download has been aborted but not due to an error.
+    // console.log('Player event ');
+  });
+  player.addEventListener('error', function() {
+    // An error is encountered while media data is being download.
+    // console.log('Player event abort');
+  });
+  player.addEventListener('emptied', function() {
+    // The media buffer has been emptied, possibly due to an error or because the load() method was invoked to reload it.
+    // console.log('Player event emptied');
+  });
+  player.addEventListener('stalled', function() {
+    // Media data is unexpectedly no longer available.
+    // console.log('Player event stalled');
+  });
+
+
 
   // stores all songs and current playlist songs
   var songQueue = {songs: [], playlist: []};
@@ -245,6 +320,11 @@ angular.module('jam.songsFactory', [])
   };
 
   var choose = function(index, location, playlist) {
+    console.log('Choose -- : ', songQueue);
+    console.log('Index: ', index);
+    console.log('playlist: ', playlist);
+    console.log('Player: ', player);
+
     if (songIndex === +index && currentLocation === location) {
       notifyObservers('TOGGLE_PLAY');
     } else {
@@ -258,7 +338,7 @@ angular.module('jam.songsFactory', [])
       notifyObservers('CHANGE_SONG');
       playable = true;
     }
-  };
+  }; 
 
   var checkReset = function(songId, location) {
     if (location === currentLocation) {

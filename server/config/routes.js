@@ -14,14 +14,14 @@ var io = require('socket.io').listen(server);  //pass a http.Server instance
 
 var routing = function (app, express) {
 
-  var apiRoutes = express.Router(); 
+  var apiRoutes = express.Router();
 
   apiRoutes.post('/users/signup', User.signup);
   apiRoutes.post('/users/login', User.login);
   
   // secret unprotected routes from compression server
   // TODO: make this secret an actual secret
-  apiRoutes.post('/addCompressedLink/secret', Song.addCompressedLink);
+  // apiRoutes.post('/addCompressedLink/secret', Song.addCompressedLink);
 
   // EVERYTHING BELOW THIS WILL NEED A JWT TOKEN!!!
   apiRoutes.use(helpers.verifyToken);
