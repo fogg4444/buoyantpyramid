@@ -80,13 +80,14 @@ var sendEmailInvite = function(group, email) {
       group.addUser(user, {role: 'pending'})
       .then(function() {
         var data = {
-          from: 'Jam Record <jamrecord@samples.mailgun.org>',
+          from: 'Audiopile <audiopile@samples.mailgun.org>',
           to: email,
           subject: 'Hello',
-          text: 'You\'ve been invited to join ' + group.name + ' at JamRecord!\n' +
-                'Follow the link below to sign up\n' +
-                'Link: http://localhost:3000/#/login/' + email + '\n' + 
-                'Please use the following temporary password: ' + password
+          text: 'You\'ve been invited to join ' + group.name + ' at Audiopile!\n\n' +
+                'Click the link below and login with the following credentials:\n' +
+                '\temail: ' + email + '\n' +
+                '\tpassword: ' + password + '\n\n' +
+                'http://www.audiopile.rocks/#/login/' + email + '\n'
         };
          
         mailgun.messages().send(data, function (error, body) {
