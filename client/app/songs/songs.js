@@ -83,7 +83,16 @@ angular.module('jam.songs', [])
   $scope.refreshSongs = function() {
     Songs.getAllSongs($scope.user.currentGroupId)
     .then(function(songs) {
-      $scope.data.songs = songs;
+      console.log('Refresh all songs: ', songs);
+      $scope.data.songs = songs.sort(function(a, b) {
+        if ( a.createdAt > b.createdAt ) {
+          return -1;
+        } else if ( a.createdAt < b.createdAt ) {
+          return 1;
+        } else {
+          return 0;
+        }
+      });
     })
     .catch(console.error);
   };
