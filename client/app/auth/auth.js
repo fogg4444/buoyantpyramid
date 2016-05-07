@@ -79,11 +79,10 @@ function ($scope, $window, $location, $routeParams, Users) {
   $scope.backImage = {
     'background-image': 'url(assets/bands/' + $scope.images[Math.floor(Math.random() * $scope.images.length)] + ')'
   };
+
   $scope.$on('$viewContentLoaded', function() {
     if ($routeParams.email) {
       $scope.toggleLogin();
     }
   });
-
-
 }]);
