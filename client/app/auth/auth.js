@@ -7,10 +7,10 @@ function ($scope, $window, $location, $routeParams, Users) {
   $scope.loginError = '';
   $scope.signupError = '';
   $scope.user = {};
-  $scope.user.email = $routeParams.email || '';
 
   $scope.toggleLogin = function () {
-    $scope.user.email = $scope.user.password = '';
+    $scope.user.email = $routeParams.email || '';
+    $scope.user.password = '';
     $scope.loginForm.$setPristine();
     $scope.showLogin = !$scope.showLogin;
     if ($scope.showSignup && $scope.showLogin) {
@@ -80,4 +80,9 @@ function ($scope, $window, $location, $routeParams, Users) {
     'background-image': 'url(assets/bands/' + $scope.images[Math.floor(Math.random() * $scope.images.length)] + ')'
   };
 
+  $scope.$on('$viewContentLoaded', function() {
+    if ($routeParams.email) {
+      $scope.toggleLogin();
+    }
+  });
 }]);

@@ -119,9 +119,12 @@ var sendInvite = function(req, res, next) {
         }
       });
     } else {
-      return Group.sendEmailInvite(groupId, email)
-      .then(function (result) {
-        res.json(result);
+      return Group.getGroup(groupId)
+      .then(function(group) {
+        return Group.sendEmailInvite(group, email)
+        .then(function (result) {
+          res.json(result);
+        });
       });
     }
   })
