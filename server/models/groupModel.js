@@ -6,6 +6,8 @@ var UserGroups = db.UserGroups;
 var UserModel = require('./userModel.js');
 var config = require('../config/config');
 var mailgun = require('mailgun-js')({apiKey: config.mailgun.api_key, domain: config.mailgun.domain});
+var Promise = require('bluebird');
+
 
 var addUser = function (groupId, userId, role) {
   return new Promise(function (resolve, reject) {

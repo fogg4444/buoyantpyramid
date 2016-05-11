@@ -3,6 +3,7 @@ var Group = db.Group;
 var Playlist = db.Playlist;
 var Song = db.Song;
 var PlaylistSongs = db.PlaylistSongs;
+var Promise = require('bluebird');
 
 var addSong = function(songId, playlistId) {
   return new Promise(function(resolve, reject) {
