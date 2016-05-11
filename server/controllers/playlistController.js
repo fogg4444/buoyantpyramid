@@ -1,4 +1,3 @@
-var db = require('../db/database');
 var Playlist = require('../models/playlistModel');
 
 var addSong = function (req, res, next) {

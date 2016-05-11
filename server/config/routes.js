@@ -5,6 +5,7 @@ var Playlist = require('../controllers/playlistController');
 var User = require('../controllers/userController');
 var Upload = require('../controllers/upload');
 var Comment = require('../controllers/commentController');
+var Info = require('../controllers/infoController');
 
 var http = require('http');
 var express = require('express');
@@ -19,9 +20,8 @@ var routing = function (app, express) {
   apiRoutes.post('/users/signup', User.signup);
   apiRoutes.post('/users/login', User.login);
   
-  // secret unprotected routes from compression server
-  // TODO: make this secret an actual secret
-  // apiRoutes.post('/addCompressedLink/secret', Song.addCompressedLink);
+  // info
+  apiRoutes.get('/info', Info.audioPileStatusUpdate);
 
   // EVERYTHING BELOW THIS WILL NEED A JWT TOKEN!!!
   apiRoutes.use(helpers.verifyToken);
@@ -70,8 +70,6 @@ var routing = function (app, express) {
   // Upload handling
   apiRoutes.post('/s3/', Upload.getS3Data);
   apiRoutes.post('/upload/', Upload.catchUpload);
-
-
 
   // Send email invites
   apiRoutes.post('/groups/:id/invite', Group.sendInvite);
