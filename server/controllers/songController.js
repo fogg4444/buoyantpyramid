@@ -47,10 +47,6 @@ var addSong = function (req, res, next) {
   dbSongEntry.uniqueHash = req.body.uniqueHash;
   dbSongEntry.duration = req.body.duration || 300;
 
-  console.log('-----------------------------------------------------------------------');
-  console.log('Add Song to DB: ', dbSongEntry.title);
-  console.log('-----------------------------------------------------------------------');
-  
   // initialize dbsong
   var dbSong;
 
@@ -59,7 +55,7 @@ var addSong = function (req, res, next) {
     dbSong = songDbReturn;
     
     // tell client song is added to database
-    res.json('Song added to database, beginning file compression');
+    res.json(dbSong);
     // carry on with compression...
 
     return SongModel.requestFileCompression(songDbReturn);

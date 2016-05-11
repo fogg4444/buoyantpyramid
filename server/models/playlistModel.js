@@ -17,7 +17,6 @@ var addSong = function(songId, playlistId) {
           listPosition: count
         })
         .then(function(response) {
-          console.log(JSON.stringify(response));
           resolve(response); // return the playlistSongs row
         });
       })

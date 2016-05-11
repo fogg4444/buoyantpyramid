@@ -106,7 +106,7 @@ describe('Playlist Controller', function() {
       var res = {};
 
       res.json = function(jsonresponse) {
-
+        // console.log('jsonresponse is: ' + JSON.stringify(jsonresponse));
         expect(jsonresponse[0].title).to.eql('Margaritaville');
         done();
       };

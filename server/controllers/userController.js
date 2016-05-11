@@ -64,7 +64,7 @@ var login = function (req, res, next) {
       return user.comparePassword(password)
         .then(function (didMatch) {
           if (didMatch) {
-            var token = jwt.sign(user.toJSON(), JWT_SECRET, { expiresInMinutes: 60 * 24 });
+            var token = jwt.sign(user.toJSON(), JWT_SECRET, { expiresIn: 60 * 60 * 24 });
             User.compileUserData(user)
             .then(function(compiledUser) {
               res.json({
@@ -88,7 +88,7 @@ var setAvatar = function(req, res, next) {
 
   user.update({avatarUrl: req.filename})
   .then(function(user) {
-    var token = jwt.sign(user.toJSON(), JWT_SECRET, { expiresInMinutes: 60 * 24 });
+    var token = jwt.sign(user.toJSON(), JWT_SECRET, { expiresIn: 60 * 60 * 24 });
     User.compileUserData(user)
     .then(function(compiledUser) {
       res.json({
@@ -114,7 +114,7 @@ var signup = function (req, res, next) {
     } else {
       User.createUser(email, displayName, password)
       .then(function (user) {
-        var token = jwt.sign(user.toJSON(), JWT_SECRET, { expiresInMinutes: 60 * 24 });
+        var token = jwt.sign(user.toJSON(), JWT_SECRET, { expiresIn: 60 * 60 * 24 });
         User.compileUserData(user).then(function (compiledUser) {
           res.json({
             token: token,
@@ -137,7 +137,7 @@ var updateProfile = function(req, res, next) {
   var user = req.user;
   user.update(req.body)
   .then(function(user) {
-    var token = jwt.sign(user.toJSON(), JWT_SECRET, { expiresInMinutes: 60 * 24 });
+    var token = jwt.sign(user.toJSON(), JWT_SECRET, { expiresIn: 60 * 60 * 24 });
     User.compileUserData(user)
     .then(function(compiledUser) {
       res.json({
