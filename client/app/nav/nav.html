@@ -4,6 +4,14 @@
   <div class="mobile-menu-icon"><button class='icon-button' ng-click="toggleMenu()" title='open navigation menu'><i class="fa fa-bars"></i></button></div>
   <nav ng-class="{show: showMenu}">
     <ul class="nav-list" >
+      <!-- Info -->
+      <li class="nav-item">
+        <a href="/#/info">
+          <i class="fa fa-info-circle fa-lg"></i>
+          Information
+        </a>
+      </li>
+      <!-- Groups -->
       <li class="nav-item">
         <a href="/#/groups">
           <i class="fa fa-group fa-lg"></i>
@@ -13,24 +21,28 @@
           {{user.invites.length}}
         </div>
       </li>
+      <!-- Songs -->
       <li class="nav-item">
         <a href="/#/songs">
           <i class="fa fa-music fa-lg"></i>
           Songs
         </a>
       </li>
+      <!-- Playlists -->
       <li class="nav-item">
         <a href="/#/playlists">
           <i class="fa fa-list-ul fa-lg"></i>
           Playlists
         </a>
       </li>
+      <!-- Upload -->
       <li class="nav-item">
         <a href="/#/upload">
           <i class="fa fa-upload fa-lg"></i>
           Upload
         </a>
       </li>
+      <!-- Dropdown -->
       <li class="nav-item">
         <a href=# class="dropdown-avatar">
           <img class="nav-avatar-img" ng-src="{{user.avatarURL}}" alt="avatar">
