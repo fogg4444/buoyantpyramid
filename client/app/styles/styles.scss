@@ -1573,3 +1573,33 @@ rzslider .rz-pointer:after {
   background-color: #dff0d8;
   color: #3c763d;
 }
+
+
+// ------------------ Information page ---------------------
+
+.team-container {
+  width: 100%;
+  height: 100%;
+  /*border: red solid 1px;*/
+  clear: both;
+  text-align: left;
+}
+
+.info-avatar {
+  /*border: blue solid 2px;*/
+  height: 100px;
+  display:inline-block;
+  margin: 10px;
+
+  img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+  }
+
+  span {
+    position: relative;
+    top: -48%;
+  }
+}
+

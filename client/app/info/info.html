@@ -1,0 +1,84 @@
+<nav-bar></nav-bar>
+<div class="info">
+  <div class="page-content">
+    <h1>AudioPile Information</h1>
+
+      <p>This web application has been an idea of mine since early 2015. I play the drum-set and keyboards in several bands active in the San Francisco Bay Area. Last year I was attending rehearsals and playing shows up to three times a week. In an effort to capture and remember this endless stream of music I started recording everything with a Zoom H4n recorder.</p>
+
+      <p>I soon encountered problems with this method. Setting up the h4 for optimum recording requires cryptic button pushing which was not easy in fast paced rehearsal sessions and live performance environments. I found myself recording with little regard for optimum gain level or file format. My file management quickly crumbled under the weight of attempting to organize dozens of 30-40 minute long WAV files. These files were not easy to share due to their size and not easy to listen to with such a low recording volume. The prospect of manual post production to repair these recordings was discouraging. This application is designed to automate away a number of these problems.</p>
+
+      <p>Files uploaded to AudioPile undergo a multi-step process which allows them to be easily shared and listened to by groups or individuals.</p>
+
+      <p>When a file is uploaded the source is stored inside Amazon’s S3 file storage system. This source file remains untouched and can be downloaded in it’s original format at any time. After upload is complete the second step begins. Zencoder, a third party transcoding service downloads the source file from S3 and creates it’s own copy. This copy is then volume normalized (gain raised to maximum possible without clipping) and transcoded to 256kbps MP3. This compressed version is then uploaded back to S3 and stored alongside the original.</p>
+
+      <p>When listen to your audio on AudioPile you are hearing the volume normalized, MP3 version of the file you originally uploaded. This allows streaming on mobile devices with a capable internet connection and compatibility with most browsers.</p>
+
+      <p>I hope you get some use out of this tool! Please read the FAQ below and if you still have any questions, suggestions or criticisms please send them my way!</p>
+
+      <p>-Brian Fogg</p>
+    <ul>
+      <h3>FAQ</h3>
+      <li><a ng-click="scrollTo('usage')">What is this for?</a></li>
+      <li><a ng-click="scrollTo('upload')">What can I upload?</a></li>
+      <li><a ng-click="scrollTo('cost')">How much does this cost?</a></li>
+      <li><a ng-click="scrollTo('change-password')">I can't change my password! Where is the button for that?</a></li>
+      <li><a ng-click="scrollTo('stats')">How many people are using this service right now?</a></li>
+      <li><a ng-click="scrollTo('team')">Who's building all this?</a></li>
+      <li><a ng-click="scrollTo('todo')">Todo List</a></li>
+
+    </ul>
+
+      <h3 id="usage">What is this for?</h3>
+      <p>AudioPile is a web utility for easily uploading and delivering audio files.</p>
+      
+      <h3 id="upload">What can I upload?</h3>
+      <p>Audio is transcoded through <a href="https://zencoder.com/">Zencoder</a>. They claim to be able to process just about any audio format but we have not tested this extensively. Wav and mp3's definitely work.</p>
+      
+      <h3 id="cost">How much does this cost?</h3>
+      <p>Lucky you, it's free right now. This project has very few users and I'm personally footing the bill for now. Financials will eventually be published.</p>
+
+      <h3 id="change-password">I can't change my password! Where is the button for that?</h3>
+      <p>It's on the todo list.</p>
+      
+      <h3 id="stats">How many people are using this service right now?</h3>
+      <p>Stats coming soon...</p>
+      
+      <h3 id="team">Who's building all this?</h3>
+      
+      <div class='team-container'>
+        <div class='info-avatar'>
+          <a href="http://www.brianfogg.com">
+            <img src="https://avatars1.githubusercontent.com/u/10378675?v=3&s=460" alt="Brian's beautuful face">
+            <span>Brian Fogg</span>
+          </a>
+        </div>
+        <div class='info-avatar'>
+          <a href="https://github.com/ZanderSparrow">
+            <img src="https://avatars0.githubusercontent.com/u/13124705?v=3&s=400" alt="Sondra's beautiful face">
+            <span>Sondra Silverhawk</span>
+          </a>
+        </div>
+        <div class='info-avatar'>
+          <a href="https://github.com/epaepke">
+            <img src="https://avatars0.githubusercontent.com/u/10649202?v=3&s=400" alt="Erick's beautiful face">
+            <span>Erick Paepke</span>
+          </a>
+        </div>
+        <div class='info-avatar'>
+          <a href="https://github.com/steryereo">
+            <img src="https://avatars2.githubusercontent.com/u/332167?v=3&s=400" alt="Nick's beautiful face">
+            <span>Nick Echols</span>
+          </a>
+        </div>
+      </div>
+
+      <h3 id="todo">TodoList</h3>
+      <ul>
+        <li>Download both original and compressed</li>
+        <li>Usage stats in this FAQ</li>
+        <li>Utility based monetization with extreme transparency. We have to charge eventually.</li>
+        <li></li>
+        <li></li>
+      </ul>
+  </div>
+</div>
