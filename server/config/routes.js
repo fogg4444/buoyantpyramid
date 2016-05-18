@@ -20,12 +20,13 @@ var routing = function (app, express) {
   apiRoutes.post('/users/signup', User.signup);
   apiRoutes.post('/users/login', User.login);
   
-  // info
-  apiRoutes.get('/info', Info.audioPileStatusUpdate);
 
   // EVERYTHING BELOW THIS WILL NEED A JWT TOKEN!!!
   apiRoutes.use(helpers.verifyToken);
 
+  // info
+  apiRoutes.get('/info', Info.audioPileStatusUpdate);
+  
   // Song related requests
   apiRoutes.delete('/songs/:id', Song.deleteSong);
   apiRoutes.get('/songs/:id', Song.getSong);

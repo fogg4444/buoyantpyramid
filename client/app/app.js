@@ -12,6 +12,7 @@ angular.module('jam', [
   'jam.groupsFactory',
   'jam.uploadsFactory',
   'jam.songsFactory',
+  'jam.infoFactory',
   'jam.info',
   'ngRoute',
   'ngAnimate',
