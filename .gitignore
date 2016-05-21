@@ -56,5 +56,7 @@ server/uploadInbox/*
 # ignore testFiles
 test/compression_server/testFiles/*
 
+# ignore db backup folder
+backup/postgres-backup/*
 
 
