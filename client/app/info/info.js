@@ -13,5 +13,4 @@ angular.module('jam.info', [])
     $scope.songCount = res.data.songCount;
   });
   
-
 }]);
