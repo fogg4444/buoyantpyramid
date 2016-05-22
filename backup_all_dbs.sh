@@ -22,7 +22,7 @@ number_of_days=30
 databases=`/usr/local/bin/psql -l -t | cut -d'|' -f1 | sed -e 's/ //g' -e '/^$/d'`
 
 # make new directory
-mkdir $backup_dir/$backup_date
+mkdir $backup_dir$backup_date
 
 for i in $databases; do
   if [ "$i" != "template0" ] && [ "$i" != "template1" ]; then
