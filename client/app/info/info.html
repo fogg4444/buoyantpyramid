@@ -3,10 +3,6 @@
   <div class="page-content">
     <h1>AudioPile Information</h1>
 
-      <p>This web application has been an idea of mine since early 2015. I play the drum-set and keyboards in several bands active in the San Francisco Bay Area. Last year I was attending rehearsals and playing shows up to three times a week. In an effort to capture and remember this endless stream of music I started recording everything with a Zoom H4n recorder.</p>
-
-      <p>I soon encountered problems with this method. Setting up the h4 for optimum recording requires cryptic button pushing which was not easy in fast paced rehearsal sessions and live performance environments. I found myself recording with little regard for optimum gain level or file format. My file management quickly crumbled under the weight of attempting to organize dozens of 30-40 minute long WAV files. These files were not easy to share due to their size and not easy to listen to with such a low recording volume. The prospect of manual post production to repair these recordings was discouraging. This application is designed to automate away a number of these problems.</p>
-
       <p>Files uploaded to AudioPile undergo a multi-step process which allows them to be easily shared and listened to by groups or individuals.</p>
 
       <p>When a file is uploaded the source is stored inside Amazon’s S3 file storage system. This source file remains untouched and can be downloaded in it’s original format at any time. After upload is complete the second step begins. Zencoder, a third party transcoding service downloads the source file from S3 and creates it’s own copy. This copy is then volume normalized (gain raised to maximum possible without clipping) and transcoded to 256kbps MP3. This compressed version is then uploaded back to S3 and stored alongside the original.</p>
