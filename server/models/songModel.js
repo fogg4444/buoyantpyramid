@@ -43,7 +43,7 @@ var getComments = function(songId) {
     })
     .catch(function(err) {
       reject(err);
-    })
+    });
   });
 };
 
