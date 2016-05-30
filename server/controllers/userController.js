@@ -116,24 +116,24 @@ var signup = function (req, res, next) {
     if (user) {
       res.status(400).json('User already exists');
     } else {
-      User.createUser(email, displayName, password)
-      .then(function (user) {
-        var token = jwt.sign(user.toJSON(), JWT_SECRET, { expiresIn: 60 * 60 * 24 });
-        User.compileUserData(user).then(function (compiledUser) {
-          res.json({
-            token: token,
-            user: compiledUser
-          });
-        });  
-      })
-      .catch(function(error) {
-        res.status(400).json('could not create user');
-      });
+      return User.createUser(email, displayName, password)
     }
+  })
+  .then(function (user) {
+    this.user = user;
+    return User.compileUserData(user);
+  })
+  .then(function (compiledUser) {
+    var token = jwt.sign(this.user.toJSON(), JWT_SECRET, { expiresIn: 60 * 60 * 24 });
+    res.json({
+      token: token,
+      user: compiledUser
+    });
   })
   .catch(function (error) {
     next(error);
-  });
+  })
+  .bind({});
 };
 
 
