@@ -13,21 +13,23 @@ var addUser = function (groupId, userId, role) {
   return new Promise(function (resolve, reject) {
     getGroup(groupId)
     .then(function (group) {
-      User.findOne({
+      this.group = group;
+      return User.findOne({
         where: { id: userId },
         attributes: { exclude: ['password'] }
-      })
-      .then(function (user) {
-        group.addUser(user, {role: role})
-        .then(function () {
-          resolve(user);
-        });
       });
+    })
+    .then(function (user) {
+      this.user = user;
+      return this.group.addUser(user, {role: role})
+    })
+    .then(function () {
+      resolve(this.user);
     })
     .catch(function(error) {
       reject(error);
     });
-  });
+  }).bind({});
 };
 
 var createGroup = function (name) {
