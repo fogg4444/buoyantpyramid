@@ -16,9 +16,6 @@ var addSong = function(songId, playlistId) {
         playlistId: playlistId,
         listPosition: count
       });
-    })
-    .catch(function(error) {
-      reject(error);
     });
 };
 
@@ -47,6 +44,9 @@ var getSongs = function(playlistId) {
         } else {
           resolve([]);
         }
+      })
+      .catch(function(err) {
+        reject(err);
       });
   });
 };
