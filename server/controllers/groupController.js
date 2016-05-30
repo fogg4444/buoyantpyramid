@@ -13,7 +13,7 @@ var addUser = function(req, res, next) {
   .then(function(user) {
     res.json(user);
   })
-  .catch(function (error) {
+  .catch(function(error) {
     next(error);
   });
 };
@@ -25,7 +25,7 @@ var createGroup = function(req, res, next) {
   .then(function(group) {
     res.json(group);
   })
-  .catch(function (error) {
+  .catch(function(error) {
     next(error);
   });
 };
@@ -36,7 +36,7 @@ var getUsers = function(req, res, next) {
   var groupId = req.params.id;
 
   Group.getUsers(groupId)
-  .then(function (users) {
+  .then(function(users) {
     res.json(users);
   })
   .catch(function(err) {
@@ -49,10 +49,10 @@ var getPlaylists = function(req, res, next) {
 
   Group.getGroup(groupId)
   .then(function(group) {
-    group.getPlaylists()
-    .then(function (playlists) {
-      res.json(playlists);
-    });
+    return group.getPlaylists();
+  })
+  .then(function(playlists) {
+    res.json(playlists);
   })
   .catch(function(err) {
     next(err);
@@ -64,10 +64,10 @@ var getSongs = function(req, res, next) {
 
   Group.getGroup(groupId)
   .then(function(group) {
-    group.getSongs()
-    .then(function (songs) {
-      res.json(songs);   
-    });
+    return group.getSongs();
+  })
+  .then(function(songs) {
+    res.json(songs);   
   })
   .catch(function(err) {
     next(err);
@@ -105,15 +105,15 @@ var sendInvite = function(req, res, next) {
   var groupId = req.params.id;
 
   UserModel.getUser({email: email})
-  .then(function (user) {
+  .then(function(user) {
     if (user) {
       return Group.getUserGroup(user.id, groupId)
-      .then(function (userGroup) {
+      .then(function(userGroup) {
         if (userGroup) {
           res.status(400).json('User is already a member');
         } else {
           Group.addUser(groupId, user.id, 'pending')
-          .then(function (user) {
+          .then(function(user) {
             res.json(user);
           });
         }
@@ -122,13 +122,13 @@ var sendInvite = function(req, res, next) {
       return Group.getGroup(groupId)
       .then(function(group) {
         return Group.sendEmailInvite(group, email)
-        .then(function (result) {
+        .then(function(result) {
           res.json(result);
         });
       });
     }
   })
-  .catch(function (error) {
+  .catch(function(error) {
     res.json(error);
   });
 };
