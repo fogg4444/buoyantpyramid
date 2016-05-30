@@ -6,9 +6,11 @@ var Promise = require('bluebird');
 
 var countUsers = function() {
   return new Promise(function(resolve, reject) {
-    User.count().then(function(userCount) {
+    User.count()
+    .then(function(userCount) {
       resolve(userCount);
-    }).catch(function(err) {
+    })
+    .catch(function(err) {
       reject(err);
     });
   });
@@ -16,10 +18,11 @@ var countUsers = function() {
 
 var countSongs = function() {
   return new Promise(function(resolve, reject) {
-    Song.count().then(function(songCount) {
-      console.log('count songs!: ', songCount);
+    Song.count()
+    .then(function(songCount) {
       resolve(songCount);
-    }).catch(function(err) {
+    })
+    .catch(function(err) {
       reject(err);
     });
   });
