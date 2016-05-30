@@ -5,27 +5,11 @@ var Promise = require('bluebird');
 
 
 var countUsers = function() {
-  return new Promise(function(resolve, reject) {
-    User.count()
-    .then(function(userCount) {
-      resolve(userCount);
-    })
-    .catch(function(err) {
-      reject(err);
-    });
-  });
+  return User.count();
 };
 
 var countSongs = function() {
-  return new Promise(function(resolve, reject) {
-    Song.count()
-    .then(function(songCount) {
-      resolve(songCount);
-    })
-    .catch(function(err) {
-      reject(err);
-    });
-  });
+  return Song.count();
 };
 
 module.exports = {
