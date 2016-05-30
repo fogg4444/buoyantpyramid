@@ -120,22 +120,20 @@ var deleteSong = function (req, res, next) {
 
   SongModel.getSong(songId)
   .then(function(song) {
-    s3delete(song)
-    .then(function(s3response) {
-      // console.log('s3 delete response is ' + JSON.stringify(s3response));
-      song.destroy()
-      .then(function() {
-        res.json(song);
-      });
-    })
-    .catch(function(err) {
-      // console.error(err);
-      res.status(500).json('error deleting song from aws: ' + err);
-    });
+    this.song = song;
+    return s3delete(song);
+  })
+  .then(function(s3response) {
+    // console.log('s3 delete response is ' + JSON.stringify(s3response));
+    return this.song.destroy();
+  })
+  .then(function() {
+    res.json(this.song);
   })
   .catch(function(err) {
     next(err);
-  });
+  })
+  .bind({});
 };
 
 var getComments = function (req, res, next) {
