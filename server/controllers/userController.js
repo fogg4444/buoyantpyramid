@@ -116,7 +116,7 @@ var signup = function (req, res, next) {
     if (user) {
       res.status(400).json('User already exists');
     } else {
-      return User.createUser(email, displayName, password)
+      return User.createUser(email, displayName, password);
     }
   })
   .then(function (user) {
@@ -141,18 +141,20 @@ var updateProfile = function(req, res, next) {
   var user = req.user;
   user.update(req.body)
   .then(function(user) {
-    var token = jwt.sign(user.toJSON(), JWT_SECRET, { expiresIn: 60 * 60 * 24 });
-    User.compileUserData(user)
-    .then(function(compiledUser) {
-      res.json({
-        user: compiledUser,
-        token: token
-      });
+    this.user = user;
+    return User.compileUserData(user);
+  })
+  .then(function(compiledUser) {
+    var token = jwt.sign(this.user.toJSON(), JWT_SECRET, { expiresIn: 60 * 60 * 24 });
+    res.json({
+      user: compiledUser,
+      token: token
     });
   })
   .catch(function(error) {
     next(error);
-  });
+  })
+  .bind({});
 };
 
 
