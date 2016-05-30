@@ -21,7 +21,7 @@ var addUser = function (groupId, userId, role) {
     })
     .then(function (user) {
       this.user = user;
-      return this.group.addUser(user, {role: role})
+      return this.group.addUser(user, {role: role});
     })
     .then(function () {
       resolve(this.user);
@@ -81,27 +81,26 @@ var sendEmailInvite = function(group, email) {
   return new Promise(function (resolve, reject) {
     UserModel.createUser(email, 'anonymous', password)
     .then(function (user) {
-      group.addUser(user, {role: 'pending'})
-      .then(function() {
-        var data = {
-          from: 'Audiopile <audiopile@samples.mailgun.org>',
-          to: email,
-          subject: 'Hello',
-          text: 'You\'ve been invited to join ' + group.name + ' at Audiopile!\n\n' +
-                'Click the link below and login with the following credentials:\n' +
-                '\temail: ' + email + '\n' +
-                '\tpassword: ' + password + '\n\n' +
-                'http://www.audiopile.rocks/#/login/' + email + '\n'
-        };
-         
-        mailgun.messages().send(data, function (error, body) {
-          if (error) {
-            reject(error);
-          } else {
-            resolve('Email sent successfully');
-          }  
-        }); 
-      });
+      return group.addUser(user, {role: 'pending'});
+    })
+    .then(function() {
+      var data = {
+        from: 'Audiopile <audiopile@samples.mailgun.org>',
+        to: email,
+        subject: 'Hello',
+        text: 'You\'ve been invited to join ' + group.name + ' at Audiopile!\n\n' +
+              'Click the link below and login with the following credentials:\n' +
+              '\temail: ' + email + '\n' +
+              '\tpassword: ' + password + '\n\n' +
+              'http://www.audiopile.rocks/#/login/' + email + '\n'
+      };  
+      mailgun.messages().send(data, function (error, body) {
+        if (error) {
+          reject(error);
+        } else {
+          resolve('Email sent successfully');
+        }  
+      }); 
     })
     .catch(function (error) {
       reject(error);
