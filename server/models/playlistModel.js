@@ -6,28 +6,20 @@ var PlaylistSongs = db.PlaylistSongs;
 var Promise = require('bluebird');
 
 var addSong = function(songId, playlistId) {
-  return new Promise(function(resolve, reject) {
-    Song.findById(songId)
+  return Song.findById(songId)
     .then(function(song) {
-      PlaylistSongs.count({ where: { playlistId: playlistId } })
-      .then(function(count) {
-        PlaylistSongs.create({
-          songId: songId,
-          playlistId: playlistId,
-          listPosition: count
-        })
-        .then(function(response) {
-          resolve(response); // return the playlistSongs row
-        });
-      })
-      .catch(function(error) {
-        reject(error);
+      return PlaylistSongs.count({ where: { playlistId: playlistId } });
+    })
+    .then(function(count) {
+      return PlaylistSongs.create({
+        songId: songId,
+        playlistId: playlistId,
+        listPosition: count
       });
     })
     .catch(function(error) {
       reject(error);
     });
-  });
 };
 
 var createPlaylist = function(groupId, title, description) {
@@ -61,7 +53,7 @@ var getSongs = function(playlistId) {
 
 var updatePositions = function(playlistId, positions) {
   return new Promise(function(resolve, reject) {
-    PlaylistSongs.findAll({ where: {playlistId: playlistId }})
+    PlaylistSongs.findAll({ where: { playlistId: playlistId } })
       .then(function(playlistSongs) {
         for (var i = 0; i < playlistSongs.length; i++) {
           PlaylistSongs.update(

@@ -33,11 +33,11 @@ var createUser = function (email, displayName, password) {
         email: email,
         password: password,
         currentGroupId: group.id
-      })
+      });
     })
     .then(function (user) {
       this.user = user;
-      return this.group.addUser(user, {role: 'admin'})
+      return this.group.addUser(user, {role: 'admin'});
     })
     .then(function () {
       resolve(this.user);
