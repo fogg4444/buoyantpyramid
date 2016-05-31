@@ -97,7 +97,13 @@ angular.module('jam.song', [])
       .attr('height', function(d) {
         return d;
       })
-      .attr('fill', '#999');
+      .attr('fill', function(d, i) {
+        if ((i / scaledAmplitudes.length) < ($scope.audio.currentTime / $scope.song.duration) && $scope.songInPlayer) {
+          return '#99D1B2';
+        } else {
+          return '#999';
+        }
+      });
 
     d3.select('body').selectAll('.comment-pin-container')
       .style('height', pinHeight * 2 + 'px')
