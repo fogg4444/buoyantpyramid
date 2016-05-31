@@ -9,7 +9,8 @@
 Audio organization platform for team collaboration among recording artists
 
 ## Brief Demo
-[![Demo](http://img.youtube.com/vi/eFnGx2wbRRE/0.jpg)](https://www.youtube.com/watch?v=eFnGx2wbRRE "Demo - Playing Songs")
+Press the image below to access demo video
+[![Demo](http://i.imgur.com/GhqG14C.png)](https://www.youtube.com/watch?v=eFnGx2wbRRE "Demo - Playing Songs")
 
 ## Team
   - __Product Owner__: Brian Fogg
