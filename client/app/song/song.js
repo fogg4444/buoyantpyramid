@@ -20,7 +20,7 @@ angular.module('jam.song', [])
   var pinWidth = 12;
   var pinHeight = 20;
   var barPadding = 1;
-  var initialDelay = 2000;
+  var initialDelay = 750;
   var scaledAmplitudes;
 
   $scope.width = waveWidth + 'px';

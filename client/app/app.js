@@ -165,6 +165,10 @@ angular.module('jam', [
         }
       };
 
+      $scope.showLoadingWheel = function () {
+        return !$scope.song.compressedAddress && $scope.song.compressedAddress === '';
+      };
+
       $scope.setIsPlaying();
     }]
   };
