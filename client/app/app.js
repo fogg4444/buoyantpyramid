@@ -165,11 +165,9 @@ angular.module('jam', [
         }
       };
 
-      // $scope.showLoadingWheel = function () {
-      //   console.log('scope song :', $scope.song);
-      //   return !(!!$scope.song.compressedAddress && $scope.song.compressedAddress !== undefined);
-      // };
-      $scope.showLoadingWheel = false;
+      $scope.showLoadingWheel = function () {
+        return !$scope.song.compressedAddress && $scope.song.compressedAddress === '';
+      };
 
       $scope.setIsPlaying();
     }]
