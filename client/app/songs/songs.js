@@ -103,6 +103,8 @@ angular.module('jam.songs', [])
     $scope.pendingSong.index = index;
   };
 
+  // $scope.loadingBoolean = false;
+
   $scope.deleteSong = function(index) {
     var song = $scope.data.songs[index];
     Songs.checkReset(song.id, 'songs');
