@@ -12,6 +12,8 @@ angular.module('jam', [
   'jam.groupsFactory',
   'jam.uploadsFactory',
   'jam.songsFactory',
+  'jam.infoFactory',
+  'jam.info',
   'ngRoute',
   'ngAnimate',
   'ngFileUpload',
@@ -66,6 +68,11 @@ angular.module('jam', [
       templateUrl: 'app/playlist/playlist.html',
       controller: 'PlaylistController',
       controllerAs: 'playlistCtrl',
+      authenticate: true
+    })
+    .when('/info', {
+      templateUrl: 'app/info/info.html',
+      controller: 'InfoController',
       authenticate: true
     })
     .otherwise({

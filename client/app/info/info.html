@@ -1,0 +1,89 @@
+<nav-bar></nav-bar>
+<div class="info">
+  <div class="page-content">
+    <h1>AudioPile Information</h1>
+
+      <p>Files uploaded to AudioPile undergo a multi-step process which allows them to be easily shared and listened to by groups or individuals.</p>
+
+      <p>When a file is uploaded the source is stored inside Amazon’s S3 file storage system. This source file remains untouched and can be downloaded in it’s original format at any time. After upload is complete the second step begins. Zencoder, a third party transcoding service downloads the source file from S3 and creates it’s own copy. This copy is then volume normalized (gain raised to maximum possible without clipping) and transcoded to 256kbps MP3. This compressed version is then uploaded back to S3 and stored alongside the original.</p>
+
+      <p>When listen to your audio on AudioPile you are hearing the volume normalized, MP3 version of the file you originally uploaded. This allows streaming on mobile devices with a capable internet connection and compatibility with most browsers.</p>
+
+      <p>I hope you get some use out of this tool! Please read the FAQ below and if you still have any questions, suggestions or criticisms please send them my way!</p>
+
+      <p>-Brian Fogg</p>
+    <ul>
+      <h3>FAQ</h3>
+      <li><a ng-click="scrollTo('usage')">What is this for?</a></li>
+      <li><a ng-click="scrollTo('upload')">What can I upload?</a></li>
+      <li><a ng-click="scrollTo('cost')">How much does this cost?</a></li>
+      <li><a ng-click="scrollTo('change-password')">I can't change my password! Where is the button for that?</a></li>
+      <li><a ng-click="scrollTo('stats')">How many people are using this service?</a></li>
+      <li><a ng-click="scrollTo('team')">Who's building all this?</a></li>
+      <li><a ng-click="scrollTo('todo')">Todo List</a></li>
+    </ul>
+      
+      <span id="usage"></span>
+      <h3>What is this for?</h3>
+      <p>AudioPile is a web utility for easily uploading and delivering audio files.</p>
+      
+      <span id="upload"></span>
+      <h3>What can I upload?</h3>
+      <p>Audio is transcoded through <a href="https://zencoder.com/">Zencoder</a>. They claim to be able to process just about any audio format but we have not tested this extensively. Wav and mp3's definitely work.</p>
+      
+      <span id="cost"></span>
+      <h3>How much does this cost?</h3>
+      <p>Lucky you, it's free right now. This project has very few users and I'm personally footing the bill for now. Financials will eventually be published.</p>
+      
+      <span id="change-password"></span>
+      <h3>I can't change my password! Where is the button for that?</h3>
+      <p>It's on the todo list.</p>
+      
+      <span id="stats"></span>
+      <h3>How many people are using this service?</h3>
+      <p>As of this moment, {{userCount}} users have uploaded {{songCount}} pieces of audio!</p>
+      
+      <span id="team"></span>
+      <h3>Who's building all this?</h3>
+      
+      <div class='team-container'>
+        <div class='info-avatar'>
+          <a href="http://www.brianfogg.com">
+            <img src="https://avatars1.githubusercontent.com/u/10378675?v=3&s=460" alt="Brian's beautuful face">
+            <span>Brian Fogg</span>
+          </a>
+        </div>
+        <div class='info-avatar'>
+          <a href="https://github.com/ZanderSparrow">
+            <img src="https://avatars0.githubusercontent.com/u/13124705?v=3&s=400" alt="Sondra's beautiful face">
+            <span>Sondra Silverhawk</span>
+          </a>
+        </div>
+        <div class='info-avatar'>
+          <a href="https://github.com/epaepke">
+            <img src="https://avatars0.githubusercontent.com/u/10649202?v=3&s=400" alt="Erick's beautiful face">
+            <span>Erick Paepke</span>
+          </a>
+        </div>
+        <div class='info-avatar'>
+          <a href="https://github.com/steryereo">
+            <img src="https://avatars2.githubusercontent.com/u/332167?v=3&s=400" alt="Nick's beautiful face">
+            <span>Nick Echols</span>
+          </a>
+        </div>
+      </div>
+
+      <span id="todo"></span>
+      <h3>TodoList</h3>
+      <ul>
+        <li>Download both original and compressed</li>
+        <li>Usage stats in this FAQ</li>
+        <li>Utility based monetization with extreme transparency. We have to charge eventually.</li>
+        <li></li>
+        <li></li>
+      </ul>
+  </div>
+  <footer>
+    <player></player>
+  </footer>
+</div>

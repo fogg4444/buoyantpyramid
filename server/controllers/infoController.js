@@ -1,19 +1,19 @@
 var Info = require('../models/infoModel');
 
 var audioPileStatusUpdate = function(req, res) {
-  var status = 'AudioPile Stats || ';
+  var stats = {};
 
   Info.countUsers()
   .then(function(userCount) {
     return userCount;
   })
   .then(function(userCount) {
-    status = status + 'Users:' + userCount;
+    stats.userCount = userCount;
     return Info.countSongs();
   })
-  .then(function(countSongs) {
-    status = status + '  Songs:' + countSongs;
-    res.json(status);
+  .then(function(songCount) {
+    stats.songCount = songCount;
+    res.json(stats);
   })
   .catch(function(err) {
     console.log('Error getting info: ', err);
