@@ -6,13 +6,16 @@ var audioPileStatusUpdate = function(req, res) {
   Info.countUsers()
   .then(function(userCount) {
     return userCount;
-  }).then(function(userCount) {
+  })
+  .then(function(userCount) {
     stats.userCount = userCount;
     return Info.countSongs();
-  }).then(function(songCount) {
+  })
+  .then(function(songCount) {
     stats.songCount = songCount;
     res.json(stats);
-  }).catch(function(err) {
+  })
+  .catch(function(err) {
     console.log('Error getting info: ', err);
   });
 };
