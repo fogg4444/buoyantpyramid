@@ -62,6 +62,9 @@ var getPlaylists = function(req, res, next) {
 var getSongs = function(req, res, next) {
   var groupId = req.params.id;
 
+  console.log('--- --- Get songs first: ', groupId);
+
+
   Group.getGroup(groupId)
   .then(function(group) {
     return group.getSongs();

@@ -84,6 +84,7 @@ angular.module('jam.songs', [])
     Songs.getAllSongs($scope.user.currentGroupId)
     .then(function(songs) {
       console.log('Refresh all songs: ', songs);
+<<<<<<< Updated upstream
       $scope.data.songs = songs.sort(function(a, b) {
         if ( a.createdAt > b.createdAt ) {
           return -1;
@@ -92,6 +93,17 @@ angular.module('jam.songs', [])
         } else {
           return 0;
         }
+=======
+
+      $scope.data.songs = songs.sort(function(a, b) {
+        console.log('data: ', a, b);
+        if (a.createdAt > b.createdAt)
+          return -1;
+        else if (a.createdAt < b.createdAt)
+          return 1;
+        else 
+          return 0;
+>>>>>>> Stashed changes
       });
     })
     .catch(console.error);
