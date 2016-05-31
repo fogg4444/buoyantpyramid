@@ -13,7 +13,7 @@ var addSong = function (songData) {
 };
 
 var addCompressedLink = function(songID, compressedID, amplitudeData) {
-  console.log('--- --- Add compressed link Song.find() update DB', songID, compressedID);
+  // console.log('--- --- Add compressed link Song.find() update DB', songID, compressedID);
   return new Promise(function(resolve, reject) {
     Song.find({where: {id: songID}})
     .then(function(song) {
@@ -40,6 +40,9 @@ var getComments = function(songId) {
       } else {
         resolve([]);
       }
+    })
+    .catch(function(err) {
+      reject(err);
     });
   });
 };
@@ -73,7 +76,7 @@ var requestFileCompression = function(song) {
       compressedFileName = replaceAt(compressedFileName, period, '_');
     }
 
-    console.log('New file name zencoder: ', compressedFileName, period);
+    // console.log('New file name zencoder: ', compressedFileName, period);
 
     var params = {
       'api_key': config.ZENCODER_API_KEY,
@@ -88,16 +91,16 @@ var requestFileCompression = function(song) {
         }
       ],
     };
-    console.log('url is ' + url);
+    // console.log('url is ' + url);
     request.post(
       url,
       { json: params },
       function (error, response, body) {
         if (error) {
-          console.log('--- --- Request compression error: ', error);
+          // console.log('--- --- Request compression error: ', error);
           reject(error);
         } else if (!error && response.statusCode === 201) {
-          console.log(' --- --- Successful creation of new audio on zencoder: ', body);
+          // console.log(' --- --- Successful creation of new audio on zencoder: ', body);
           resolve(body);
         }
       }

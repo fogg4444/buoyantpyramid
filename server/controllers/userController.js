@@ -58,29 +58,31 @@ var login = function (req, res, next) {
 
   User.getUser({email: email})
   .then(function (user) {
+    this.user = user;
     if (!user) {
       res.status(404).json('User does not exist');
     } else {
-      return user.comparePassword(password)
-        .then(function (didMatch) {
-          if (didMatch) {
-            var token = jwt.sign(user.toJSON(), JWT_SECRET, { expiresIn: 60 * 60 * 24 });
-            User.compileUserData(user)
-            .then(function(compiledUser) {
-              res.json({
-                token: token,
-                user: compiledUser
-              });
-            });
-          } else {
-            res.status(401).json('Incorrect password');
-          }
-        });
+      return user.comparePassword(password);
     }
+  })
+  .then(function (didMatch) {
+    if (didMatch) {
+      return User.compileUserData(this.user);
+    } else {
+      res.status(401).json('Incorrect password');
+    }
+  })
+  .then(function(compiledUser) {
+    var token = jwt.sign(this.user.toJSON(), JWT_SECRET, { expiresIn: 60 * 60 * 24 });
+    res.json({
+      token: token,
+      user: compiledUser
+    });
   })
   .catch(function (error) {
     next(error);
-  });
+  })
+  .bind({});
 };
 
 var setAvatar = function(req, res, next) {
@@ -88,18 +90,20 @@ var setAvatar = function(req, res, next) {
 
   user.update({avatarUrl: req.filename})
   .then(function(user) {
-    var token = jwt.sign(user.toJSON(), JWT_SECRET, { expiresIn: 60 * 60 * 24 });
-    User.compileUserData(user)
-    .then(function(compiledUser) {
-      res.json({
-        user: compiledUser,
-        token: token
-      });
+    this.user = user;
+    return User.compileUserData(user);
+  })
+  .then(function(compiledUser) {
+    var token = jwt.sign(this.user.toJSON(), JWT_SECRET, { expiresIn: 60 * 60 * 24 });
+    res.json({
+      user: compiledUser,
+      token: token
     });
   })
   .catch(function(error) {
     next(error);
-  });
+  })
+  .bind({});
 };
 
 var signup = function (req, res, next) {
@@ -112,24 +116,24 @@ var signup = function (req, res, next) {
     if (user) {
       res.status(400).json('User already exists');
     } else {
-      User.createUser(email, displayName, password)
-      .then(function (user) {
-        var token = jwt.sign(user.toJSON(), JWT_SECRET, { expiresIn: 60 * 60 * 24 });
-        User.compileUserData(user).then(function (compiledUser) {
-          res.json({
-            token: token,
-            user: compiledUser
-          });
-        });  
-      })
-      .catch(function(error) {
-        res.status(400).json('could not create user');
-      });
+      return User.createUser(email, displayName, password);
     }
+  })
+  .then(function (user) {
+    this.user = user;
+    return User.compileUserData(user);
+  })
+  .then(function (compiledUser) {
+    var token = jwt.sign(this.user.toJSON(), JWT_SECRET, { expiresIn: 60 * 60 * 24 });
+    res.json({
+      token: token,
+      user: compiledUser
+    });
   })
   .catch(function (error) {
     next(error);
-  });
+  })
+  .bind({});
 };
 
 
@@ -137,18 +141,20 @@ var updateProfile = function(req, res, next) {
   var user = req.user;
   user.update(req.body)
   .then(function(user) {
-    var token = jwt.sign(user.toJSON(), JWT_SECRET, { expiresIn: 60 * 60 * 24 });
-    User.compileUserData(user)
-    .then(function(compiledUser) {
-      res.json({
-        user: compiledUser,
-        token: token
-      });
+    this.user = user;
+    return User.compileUserData(user);
+  })
+  .then(function(compiledUser) {
+    var token = jwt.sign(this.user.toJSON(), JWT_SECRET, { expiresIn: 60 * 60 * 24 });
+    res.json({
+      user: compiledUser,
+      token: token
     });
   })
   .catch(function(error) {
     next(error);
-  });
+  })
+  .bind({});
 };
 
 

@@ -27,26 +27,25 @@ var createUser = function (email, displayName, password) {
       name: displayName,
     })
     .then(function (group) {
-      User.create({
+      this.group = group;
+      return User.create({
         displayName: displayName,
         email: email,
         password: password,
         currentGroupId: group.id
-      })
-      .then(function (user) {
-        group.addUser(user, {role: 'admin'})
-        .then(function () {
-          resolve(user);
-        });
-      })
-      .catch(function (error) {
-        reject(error);
       });
+    })
+    .then(function (user) {
+      this.user = user;
+      return this.group.addUser(user, {role: 'admin'});
+    })
+    .then(function () {
+      resolve(this.user);
     })
     .catch(function (error) {
       reject(error);
     });
-  });
+  }).bind({});
 };
 
 var getGroups = function(userId) {
