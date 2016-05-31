@@ -57,11 +57,8 @@ sh ./pomander.sh
 
 1. Update config files on primary server
   (do this manually)
-2. Update config files on compression_server
-  (do this manually)
 
 from project root
-
 3. Install dependencies
 
   npm install;
@@ -90,7 +87,8 @@ from project root
   cd ./compression_server;
   npm start
 
-### --- Using Docker ---
+
+### --- Using Docker --- This is a mess...
 
 
 install with these instructions:
@@ -109,8 +107,7 @@ list running containers
 show latest created container
   docker ps -l
 
-
-
+--- helpful commands ---
 Delete all containers
   docker rm $(docker ps -a -q)
 
