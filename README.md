@@ -4,9 +4,12 @@
 [![Stories in Done](https://badge.waffle.io/BuoyantPyramid/buoyantpyramid.svg?label=done&title=Done)](http://waffle.io/BuoyantPyramid/buoyantpyramid)
 [![Build Status](https://travis-ci.org/BuoyantPyramid/buoyantpyramid.svg?branch=master)](https://travis-ci.org/BuoyantPyramid/buoyantpyramid)
 
-# JAM RECORD
+# [Audiopile](http://audiopile.rocks)
 
 Audio organization platform for team collaboration among recording artists
+
+## Brief Demo
+[![Demo](http://img.youtube.com/vi/eFnGx2wbRRE/0.jpg)](https://www.youtube.com/watch?v=eFnGx2wbRRE "Demo - Playing Songs")
 
 ## Team
   - __Product Owner__: Brian Fogg
