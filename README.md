@@ -9,7 +9,7 @@
 Audio organization platform for team collaboration among recording artists
 
 ## Brief Demo
-Click the image below to access demo video
+Click the image below to access a demo video
 [![Demo](http://i.imgur.com/GhqG14C.png)](https://www.youtube.com/watch?v=eFnGx2wbRRE "Demo - Playing Songs")
 
 ## Team
