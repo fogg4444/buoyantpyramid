@@ -22,7 +22,7 @@ angular.module('jam', [
   'dndLists',
   'focus-if'
 ])
-.config(function ($routeProvider, $httpProvider) {
+.config(function ($routeProvider, $httpProvider, $locationProvider) {
   $routeProvider
     .when('/login/', {
       templateUrl: 'app/auth/login.html',
@@ -82,6 +82,8 @@ angular.module('jam', [
   // We add our $httpInterceptor into the array
   // of interceptors. Think of it like middleware for your ajax calls
   $httpProvider.interceptors.push('AttachTokens');
+  // Get rid of the '#' in the urls
+  $locationProvider.html5Mode(true);
 })
 .directive('navBar', function() {
   return {
