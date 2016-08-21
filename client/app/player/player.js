@@ -10,6 +10,8 @@ angular.module('jam.player', [])
   $scope.playable = Songs.getPlayable();
   $scope.timeSliderDisabled = !$scope.playable || $scope.isTouchDevice;
 
+  // $scope.modelTime = 0;
+
   $scope.snapVol = function() {
     if ($scope.audio.volume < 0.05) {
       $scope.mute();
@@ -20,6 +22,17 @@ angular.module('jam.player', [])
 
   setInterval(function() { $scope.$apply(); }, 200);
 
+  // $scope.audio.addEventListener('timeupdate', function(data) {
+
+  //   // console.log('TIME UPDATE', data.path[0].currentTime);
+  //   console.log('TIME UPDATE', $scope.audio);
+  //   var time = data.path[0].currentTime;
+
+  //   $scope.modelTime = time;
+  //   // $scope.$apply();
+  //   // $rootScope.$broadcast('audio.currentTime', this);
+  // });
+  
   $scope.showSpeed = false;
   
   $scope.$watch(function(scope) {
@@ -33,11 +46,11 @@ angular.module('jam.player', [])
     }
   });
 
-  $scope.$watch(function(scope) {
-    return scope.audio.currentTime;
-  }, function(newV, oldV) {
-    $scope.timeFormat = Songs.timeFormat(newV);
-  });
+  // $scope.$watch(function(scope) {
+  //   return scope.audio.currentTime;
+  // }, function(newV, oldV) {
+  //   $scope.timeFormat = Songs.timeFormat(newV);
+  // });
 
   $scope.stop = function () {
     $scope.audio.pause();
