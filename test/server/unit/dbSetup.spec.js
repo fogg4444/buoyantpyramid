@@ -1,17 +1,22 @@
+var config = require('../../../server/config/config');
 var chai = require('chai');
 var expect = chai.expect; // we are using the "expect" style of Chai
 var sinon = require('sinon');
 var db = require('../../../server/db/database');
 var testHelpers = require('../testHelpers.js');
 
+var UserModel = require('../../../server/models/userModel');
 
-testHelpers.rebuildDb(function() {
-  db.User.findAll().then(function(res) {
-    console.log('res', res);
+describe('Clear the test datbase and make sure it worked!', function() {
+  before(function(done) {
+    // double check that you are not reseting the production database! This may not work on the server, remove second conditional if that is the case
+    if (process.env.JAMRUN === 'test' && config.connectionString === 'postgres://localhost:5432/jamstest') {
+      testHelpers.rebuildDb(function() {
+        done();
+      });
+    }
   });
-});
 
-describe('DB setup fresh', function() {
   it('there should be no Users', function() {
     db.User.findAll()
     .then(function(res) {
@@ -55,3 +60,19 @@ describe('DB setup fresh', function() {
     });
   });
 });
+
+describe('Adding Users', function() {
+  it('should add one user', function() {
+
+    console.log('Add one user');
+
+    UserModel.createUser('test@gmail.com', 'testUser1', 'testpassword')
+    .then(function(res) {
+      console.log('res: ', res.dataValues)
+    })
+
+    expect(true).to.equal(false);
+
+  });
+});
+
