@@ -36,9 +36,8 @@ describe('CartSummary', function() {
         price: 40
       }
     ]);
-
     expect(cartSummary.getSubtotal()).to.equal(300);
-
-
   });
+
+  
 });

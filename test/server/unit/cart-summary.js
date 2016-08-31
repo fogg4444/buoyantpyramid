@@ -4,12 +4,15 @@ var CartSummary = function(items) {
 };
 
 CartSummary.prototype.getSubtotal = function() {
-  var total = 0;
-  for (var item in this._items) {
-    var thisItem = this._items[item];
-    total = total + thisItem.price * thisItem.quantity;
+  // var total = 0;
+
+  if (this._items.length) {
+    return this._items.reduce(function(subtotal, item) {
+      return subtotal + (item.price * item.quantity)
+    }, 0);
   }
-  return total
+
+  return 0;
 };
 
 module.exports = CartSummary;
