@@ -18,10 +18,6 @@ function putS3
   string="PUT\n\n$content_type\n$date\n$acl\n/$bucket$aws_path$file"
   signature=$(echo -en "${string}" | openssl sha1 -hmac "${S3SECRET}" -binary | base64)
 
-  echo $file
-  echo $aws_path
-  echo $date
-
   curl -X PUT -T "$path/$file" \
     -H "Host: $bucket.s3.amazonaws.com" \
     -H "Date: $date" \
@@ -40,13 +36,3 @@ putS3 ./postgres-backup $filename $S3_PATH
 
 rm ./postgres-backup/$filename
 
-
-
-
-
-
-
-
-    # "startPSQL": "pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log start",
-
-    # "stopPSQL": "pg_ctl -D /usr/local/var/postgres stop -s -m fast"
