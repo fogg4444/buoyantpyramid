@@ -9,7 +9,8 @@ var UserModel = require('../../../server/models/userModel');
 
 describe('Clear the test datbase and make sure it worked!', function() {
   before(function(done) {
-    // double check that you are not reseting the production database! This may not work on the server, remove second conditional if that is the case
+    // double check that you are not reseting the production database!
+    // This may not work on the server, remove second conditional if that is the case
     if (process.env.JAMRUN === 'test' && config.connectionString === 'postgres://localhost:5432/jamstest') {
       testHelpers.rebuildDb(function() {
         done();
@@ -62,17 +63,23 @@ describe('Clear the test datbase and make sure it worked!', function() {
 });
 
 describe('Adding Users', function() {
-  it('should add one user', function() {
-
-    console.log('Add one user');
-
+  it('should add one user', function(done) {
     UserModel.createUser('test@gmail.com', 'testUser1', 'testpassword')
     .then(function(res) {
-      console.log('res: ', res.dataValues)
+      expect(res.displayName).to.equal('testUser1');
+      done();
+    });
+  });
+  it('should not allow multiple users with the same email', function(done) {
+    UserModel.createUser('test@gmail.com', 'testUser2', 'testpassword2')
+    .then(function(res) {
+      // expect(res.displayName).to.equal('testUser1');
+      // done();
     })
-
-    expect(true).to.equal(false);
-
+    .catch(function(err) {
+      expect(err.message).to.equal('Validation error');
+      done();
+    });
   });
 });
 

@@ -28,7 +28,13 @@ var rebuildDb = function (done) {
     return PlaylistSongs.sync();
   })
   .then(function () {
-    return PlaylistSongs.destroy({where: {}});
+    return User.destroy({where: {}});
+  })
+  .then(function() {
+    return Group.destroy({where: {}});
+  })
+  .then(function () {
+    return UserGroups.destroy({where: {}});
   })
   .then(function () {
     return Playlist.destroy({where: {}});
@@ -37,13 +43,7 @@ var rebuildDb = function (done) {
     return Song.destroy({where: {}});
   })
   .then(function () {
-    return UserGroups.destroy({where: {}});
-  })
-  .then(function () {
-    return User.destroy({where: {}});
-  })
-  .then(function() {
-    return Group.destroy({where: {}});
+    return PlaylistSongs.destroy({where: {}});
   })
   .then(function() {
     done();
