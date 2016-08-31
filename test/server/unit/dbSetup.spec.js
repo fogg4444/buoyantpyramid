@@ -6,8 +6,9 @@ var db = require('../../../server/db/database');
 var testHelpers = require('../testHelpers.js');
 
 var UserModel = require('../../../server/models/userModel');
+var GroupModel = require('../../../server/models/groupModel');
 
-describe('Clear the test datbase and make sure it worked!', function() {
+describe('Clear DB: ', function() {
   before(function(done) {
     // double check that you are not reseting the production database!
     // This may not work on the server, remove second conditional if that is the case
@@ -62,10 +63,14 @@ describe('Clear the test datbase and make sure it worked!', function() {
   });
 });
 
-describe('Adding Users', function() {
+describe('Adding Users: ', function() {
+
+  var currentGroupId = undefined;
+
   it('should add one user', function(done) {
     UserModel.createUser('test@gmail.com', 'testUser1', 'testpassword')
     .then(function(res) {
+      currentGroupId = res.dataValues.currentGroupId;
       expect(res.displayName).to.equal('testUser1');
       done();
     });
@@ -73,10 +78,17 @@ describe('Adding Users', function() {
   it('should not allow multiple users with the same email', function(done) {
     UserModel.createUser('test@gmail.com', 'testUser2', 'testpassword2')
     .then(function(res) {
-      done()
+      done();
     })
     .catch(function(err) {
       expect(err.message).to.equal('Validation error');
+      done();
+    });
+  });
+  it('user should have group with own name', function(done) {
+    GroupModel.getGroup(currentGroupId)
+    .then(function(res) {
+      expect(res.dataValues.name).to.equal('testUser1');
       done();
     });
   });
