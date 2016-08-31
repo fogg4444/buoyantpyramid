@@ -32,6 +32,7 @@
 //   });
 // });
 
+// TODO: get these tests into my test framework
 // describe('Group Model', function () {
 //   it('should be a Sequelize model', function () {
 //     expect(Group).to.be.instanceOf(Sequelize.Model);
