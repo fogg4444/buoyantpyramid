@@ -2,6 +2,7 @@ var config = require('../../../server/config/config');
 var chai = require('chai');
 var expect = chai.expect; // we are using the "expect" style of Chai
 var sinon = require('sinon');
+var Sequelize = require('sequelize');
 var db = require('../../../server/db/database');
 var testHelpers = require('../testHelpers.js');
 
@@ -72,6 +73,18 @@ describe('Adding Users: ', function() {
     .then(function(res) {
       currentGroupId = res.dataValues.currentGroupId;
       expect(res.displayName).to.equal('testUser1');
+      done();
+    });
+  });
+  it('User should be a Sequelize model', function () {
+    expect(db.User).to.be.instanceOf(Sequelize.Model);
+  });
+  it('should have a schema with fields: id, email, displayName, password', function (done) {
+    db.User.describe().then(function(schema) {
+      expect(schema.id).to.exist;
+      expect(schema.email).to.exist;
+      expect(schema.displayName).to.exist;
+      expect(schema.password).to.exist;
       done();
     });
   });

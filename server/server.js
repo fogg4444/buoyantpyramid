@@ -5,8 +5,6 @@ var http = require('http');
 var app = express();
 var path = require('path');
 
-var db = database.makeNewSequelize()
-
 var normalizePort = function(val) {
   var port = parseInt(val, 10);
   if (isNaN(port)) {
