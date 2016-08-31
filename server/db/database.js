@@ -4,9 +4,12 @@ var Sequelize = require('sequelize');
 var bcrypt = require('bcrypt-nodejs');
 var Promise = require('bluebird');
 
-
 var sqldebug = process.env.SQL_DEBUG || false;
 var db = new Sequelize(config.connectionString, {logging: sqldebug});
+
+// var makeNewSequelize = function() {
+//   return new Sequelize(config.connectionString, {logging: sqldebug})
+// };
 
 // Define table schemas
 var User = db.define('user', {
@@ -251,14 +254,15 @@ User.sync()
   });
 
 module.exports = {
-  db: db,
+  db: db, // this will cause problems in the entire app if commented out. Sequalize will not work anywhere!
   User: User,
   Group: Group,
   UserGroups: UserGroups,
   Song: Song,
   Playlist: Playlist,
   PlaylistSongs: PlaylistSongs,
-  Comment: Comment
+  Comment: Comment,
+  // makeNewSequelize: makeNewSequelize
 };
 
 // Command to drop all tables in postgres

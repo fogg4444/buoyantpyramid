@@ -1,55 +1,54 @@
-// var dbModels = require('../../server/db/database.js');
-// var Song = dbModels.Song; 
-// var User = dbModels.User; 
-// var Group = dbModels.Group; 
-// var Playlist = dbModels.Playlist;
-// var PlaylistSongs = dbModels.PlaylistSongs;
-// var UserGroups = dbModels.UserGroups; 
+var dbModels = require('../../server/db/database.js');
+var Song = dbModels.Song; 
+var User = dbModels.User; 
+var Group = dbModels.Group; 
+var Playlist = dbModels.Playlist;
+var PlaylistSongs = dbModels.PlaylistSongs;
+var UserGroups = dbModels.UserGroups; 
 
 
-// dbModels.db.options.logging = false;
+dbModels.db.options.logging = false;
 
-// // rebuild test database
-// var rebuildDb = function (done) {
-//   User.sync()
-//   .then(function () {
-//     return Group.sync();
-//   })
-//   .then(function() {
-//     return UserGroups.sync();
-//   })
-//   .then(function() {
-//     return Playlist.sync();
-//   })
-//   .then(function() {
-//     return Song.sync();
-//   })
-//   .then(function() {
-//     return PlaylistSongs.sync();
-//   })
-//   .then(function () {
-//     return PlaylistSongs.destroy({where: {}});
-//   })
-//   .then(function () {
-//     return Playlist.destroy({where: {}});
-//   })
-//   .then(function () {
-//     return Song.destroy({where: {}});
-//   })
-//   .then(function () {
-//     return UserGroups.destroy({where: {}});
-//   })
-//   .then(function () {
-//     return User.destroy({where: {}});
-//   })
-//   .then(function() {
-//     return Group.destroy({where: {}});
-//   })
-//   .then(function() {
-//     done();
-//   });
-// };
-
+// rebuild test database
+var rebuildDb = function (done) {
+  User.sync()
+  .then(function () {
+    return Group.sync();
+  })
+  .then(function() {
+    return UserGroups.sync();
+  })
+  .then(function() {
+    return Playlist.sync();
+  })
+  .then(function() {
+    return Song.sync();
+  })
+  .then(function() {
+    return PlaylistSongs.sync();
+  })
+  .then(function () {
+    return PlaylistSongs.destroy({where: {}});
+  })
+  .then(function () {
+    return Playlist.destroy({where: {}});
+  })
+  .then(function () {
+    return Song.destroy({where: {}});
+  })
+  .then(function () {
+    return UserGroups.destroy({where: {}});
+  })
+  .then(function () {
+    return User.destroy({where: {}});
+  })
+  .then(function() {
+    return Group.destroy({where: {}});
+  })
+  .then(function() {
+    done();
+  });
+};
 
 // // Define api request bodies
 // var songReq = {
@@ -89,10 +88,10 @@
 
 
 
-// module.exports = {
-//   rebuildDb: rebuildDb,
+module.exports = {
+  rebuildDb: rebuildDb,
 //   songReq: songReq,
 //   groupReq: groupReq, 
 //   addSongReq: addSongReq,
 //   playlistReq: playlistReq
-// };
+};
