@@ -73,8 +73,7 @@ describe('Adding Users', function() {
   it('should not allow multiple users with the same email', function(done) {
     UserModel.createUser('test@gmail.com', 'testUser2', 'testpassword2')
     .then(function(res) {
-      // expect(res.displayName).to.equal('testUser1');
-      // done();
+      done()
     })
     .catch(function(err) {
       expect(err.message).to.equal('Validation error');
