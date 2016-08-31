@@ -19,7 +19,7 @@
     "killnode": "killall -9 node",
     "startPSQL": "pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log start",
     "stopPSQL": "pg_ctl -D /usr/local/var/postgres stop -s -m fast",
-    "newTests": "pwd"
+    "newTests": "mocha test --recursive --watch"
   },
   "repository": {
     "type": "git",
@@ -57,7 +57,7 @@
   },
   "devDependencies": {
     "browser-sync": "2.11.1",
-    "chai": "3.5.0",
+    "chai": "^3.5.0",
     "eslint": "2.4.0",
     "eslint-config-hackreactor": "git://github.com/hackreactor-labs/eslint-config-hackreactor",
     "eslint-plugin-react": "4.2.1",
