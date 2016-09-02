@@ -12,4 +12,4 @@ env:
 
 before_script:
   - psql --version
-  - psql -c 'create database jamstest;' -U postgres
+  - psql -c 'create database testjams;' -U postgres
