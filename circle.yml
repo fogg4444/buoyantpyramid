@@ -1,27 +1,8 @@
-database:
-  override:
-    - psql -c 'create database testjams;' -U postgres
 
 machine:
+  database:
+    override:
+      - psql -c 'create database testjams;' -U postgres
   environment:
     JAMRUN: test
     JAMRECORD_TEST_CONNECTION_STRING: postgres://localhost:5432/testjams
-
-
-
-
-    # language: node_js
-    # node_js:
-    #   - 'stable'
-    # addons:
-    #   postgresql: "9.3"
-
-    # #services:
-    # #  - postgresql
-
-    # env:
-    # - JAMRUN=test JAMRECORD_TEST_CONNECTION_STRING=postgres://localhost:5432/testjams
-
-    # before_script:
-    #   - psql --version
-    #   - psql -c 'create database testjams;' -U postgres
