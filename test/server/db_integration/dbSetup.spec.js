@@ -13,7 +13,7 @@ describe('Clear DB: ', function() {
   before(function(done) {
     // double check that you are not reseting the production database!
     // This may not work on the server, remove second conditional if that is the case
-    if (process.env.JAMRUN === 'test' && config.connectionString === 'postgres://localhost:5432/jamstest') {
+    if (process.env.JAMRUN === 'test') {
       testHelpers.rebuildDb(function() {
         done();
       });

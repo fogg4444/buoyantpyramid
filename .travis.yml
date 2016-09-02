@@ -7,6 +7,9 @@ addons:
 #services:
 #  - postgresql
 
+env:
+- JAMRUN=test
+
 before_script:
   - psql --version
   - psql -c 'create database jamstest;' -U postgres
