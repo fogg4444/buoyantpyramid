@@ -7,8 +7,6 @@ machine:
   environment:
     JAMRUN: test
     JAMRECORD_TEST_CONNECTION_STRING: postgres://localhost:5432/testjams
-    MOCHA_FILE: $CIRCLE_TEST_REPORTS/junit/test-results.xml
-
 
 test:
   override:
@@ -16,3 +14,5 @@ test:
         environment:
           JAMRUN: test
           JAMRECORD_TEST_CONNECTION_STRING: postgres://localhost:5432/testjams
+          MOCHA_FILE: $CIRCLE_TEST_REPORTS/junit/test-results.xml
+
