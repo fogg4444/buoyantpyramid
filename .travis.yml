@@ -9,6 +9,7 @@ addons:
 
 env:
 - JAMRUN=test
+- JAMRECORD_TEST_CONNECTION_STRING=postgres://localhost:5432/testjams
 
 before_script:
   - psql --version
