@@ -1,8 +1,8 @@
 
+database:
+  override:
+    - psql -c 'create database testjams;' -U postgres
 machine:
-  database:
-    override:
-      - psql -c 'create database testjams;' -U postgres
   environment:
     JAMRUN: test
     JAMRECORD_TEST_CONNECTION_STRING: postgres://localhost:5432/testjams
