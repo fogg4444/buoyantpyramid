@@ -10,6 +10,8 @@ var UserModel = require('../../../server/models/userModel');
 var GroupModel = require('../../../server/models/groupModel');
 
 describe('Clear DB: ', function() {
+  this.timeout(15000);
+
   before(function(done) {
     // double check that you are not reseting the production database!
     // This may not work on the server, remove second conditional if that is the case
@@ -65,6 +67,8 @@ describe('Clear DB: ', function() {
 });
 
 describe('Adding Users: ', function() {
+  this.timeout(15000);
+
   console.log('============================= ADDING USERS ==============================')
 
   before(function(done) {
@@ -75,6 +79,8 @@ describe('Adding Users: ', function() {
       console.log('=== 2 === BEFORE REBUILD DB');
 
       testHelpers.rebuildDb(function() {
+        console.log('=== 2.5 === BEFORE REBUILD DB');
+
         done();
       });
     }
