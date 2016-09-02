@@ -16,7 +16,7 @@
     "restartForever": "forever restart server/server.js && forever restart compression_server/bin/www",
     "killnode": "killall -9 node",
     "startPSQL": "pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log start",
-    "stopPSQL": "pg_ctl -D /usr/local/var/postgres stop -s -m fast",
+    "stopPSQL": "pg_ctl -D /usr/local/var/postgres stop -s -m fast"
   },
   "repository": {
     "type": "git",
