@@ -17,51 +17,60 @@ describe('Clear DB: ', function() {
     // This may not work on the server, remove second conditional if that is the case
     if (process.env.JAMRUN === 'test') {
       testHelpers.rebuildDb(function() {
+        console.log('--- --- --- clear db first time');
+
         done();
       });
     }
   });
 
-  it('there should be no Users', function() {
+  it('there should be no Users', function(done) {
     db.User.findAll()
     .then(function(res) {
       expect(res.length).to.equal(0);
+      done()
     });
   });
-  it('there should be no Groups', function() {
+  it('there should be no Groups', function(done) {
     db.Group.findAll()
     .then(function(res) {
       expect(res.length).to.equal(0);
+      done()
     });
   });
-  it('there should be no Songs', function() {
+  it('there should be no Songs', function(done) {
     db.Song.findAll()
     .then(function(res) {
       expect(res.length).to.equal(0);
+      done()
     });
   });
-  it('there should be no Playlists', function() {
+  it('there should be no Playlists', function(done) {
     db.Playlist.findAll()
     .then(function(res) {
       expect(res.length).to.equal(0);
+      done()
     });
   });
-  it('there should be no Comments', function() {
+  it('there should be no Comments', function(done) {
     db.Comment.findAll()
     .then(function(res) {
       expect(res.length).to.equal(0);
+      done()
     });
   });
-  it('there should be no UserGroups', function() {
+  it('there should be no UserGroups', function(done) {
     db.UserGroups.findAll()
     .then(function(res) {
       expect(res.length).to.equal(0);
+      done()
     });
   });
-  it('there should be no PlaylistSongs', function() {
+  it('there should be no PlaylistSongs', function(done) {
     db.PlaylistSongs.findAll()
     .then(function(res) {
       expect(res.length).to.equal(0);
+      done()
     });
   });
 });
@@ -97,10 +106,10 @@ describe('Adding Users: ', function() {
       done();
     });
   });
-  it('User should be a Sequelize model', function () {
+  it('User should be a Sequelize model', function (done) {
     console.log('=== 4 ===');
-
     expect(db.User).to.be.instanceOf(Sequelize.Model);
+    done()
   });
   it('should have a schema with fields: id, email, displayName, password', function (done) {
     console.log('=== 5 ===');
@@ -120,6 +129,8 @@ describe('Adding Users: ', function() {
       done();
     })
     .catch(function(err) {
+      console.log('=== 6.5 ===');
+
       expect(err.message).to.equal('Validation error')
       done();
     });

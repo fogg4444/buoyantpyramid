@@ -46,6 +46,7 @@ var rebuildDb = function (done) {
     return PlaylistSongs.destroy({where: {}});
   })
   .then(function() {
+    console.log('============== REBUILD DB DOES RUN! ======================')
     done();
   });
 };
