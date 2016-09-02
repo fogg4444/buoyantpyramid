@@ -43,8 +43,8 @@ var User = db.define('user', {
     type: Sequelize.INTEGER,
     allowNull: false
   }
-}, {
-  classMethods: {
+},
+  { classMethods: {
     hashPassword: function(password) {
       var hashAsync = Promise.promisify(bcrypt.hash);
       return hashAsync(password, null, null).bind(this);
@@ -59,9 +59,9 @@ var User = db.define('user', {
   hooks: {
     beforeCreate: function(user, options) {
       return this.hashPassword(user.password)
-        .then(function(hash) {
-          user.password = hash;
-        });
+      .then(function(hash) {
+        user.password = hash;
+      });
     },
   }
 });
