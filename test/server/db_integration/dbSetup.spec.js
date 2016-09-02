@@ -65,10 +65,25 @@ describe('Clear DB: ', function() {
 });
 
 describe('Adding Users: ', function() {
+  console.log('============================= ADDING USERS ==============================')
+
+  before(function(done) {
+    console.log('=== 1 === BEFORE REBUILD DB');
+    // double check that you are not reseting the production database!
+    // This may not work on the server, remove second conditional if that is the case
+    if (process.env.JAMRUN === 'test') {
+      console.log('=== 2 === BEFORE REBUILD DB');
+
+      testHelpers.rebuildDb(function() {
+        done();
+      });
+    }
+  });
 
   var currentGroupId = undefined;
-
   it('should add one user', function(done) {
+    console.log('=== 3 ===');
+
     UserModel.createUser('test@gmail.com', 'testUser1', 'testpassword')
     .then(function(res) {
       currentGroupId = res.dataValues.currentGroupId;
@@ -77,9 +92,12 @@ describe('Adding Users: ', function() {
     });
   });
   it('User should be a Sequelize model', function () {
+    console.log('=== 4 ===');
+
     expect(db.User).to.be.instanceOf(Sequelize.Model);
   });
   it('should have a schema with fields: id, email, displayName, password', function (done) {
+    console.log('=== 5 ===');
     db.User.describe().then(function(schema) {
       expect(schema.id).to.exist;
       expect(schema.email).to.exist;
@@ -89,16 +107,20 @@ describe('Adding Users: ', function() {
     });
   });
   it('should not allow multiple users with the same email', function(done) {
+    console.log('=== 6 ===');
+
     UserModel.createUser('test@gmail.com', 'testUser2', 'testpassword2')
     .then(function(res) {
       done();
     })
     .catch(function(err) {
-      expect(err.message).to.equal('Validation error');
+      expect(err.message).to.equal('Validation error')
       done();
     });
   });
   it('user should have group with own name', function(done) {
+    console.log('=== 7s ===');
+
     GroupModel.getGroup(currentGroupId)
     .then(function(res) {
       expect(res.dataValues.name).to.equal('testUser1');
