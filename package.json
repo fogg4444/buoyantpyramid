@@ -6,9 +6,7 @@
   "scripts": {
     "clean": "rimraf dist/*",
     "open:dev": "opener http://localhost:3000",
-    "test": "NODE_ENV=test JAMRUN=test mocha  --recursive test",
-    "test_webserver": "NODE_ENV=test JAMRUN=test mocha  --recursive  test/server/",
-    "testserver2": " mocha test/compression_server/compressionTest.js",
+    "test": "NODE_ENV=test JAMRUN=test mocha test --recursive",
     "setup": "node sessionSetup.js",
     "lint": "./node_modules/eslint/bin/eslint.js .",
     "start": "gulp",
@@ -19,7 +17,6 @@
     "killnode": "killall -9 node",
     "startPSQL": "pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log start",
     "stopPSQL": "pg_ctl -D /usr/local/var/postgres stop -s -m fast",
-    "newtest": "NODE_ENV=test JAMRUN=test mocha test --recursive --watch"
   },
   "repository": {
     "type": "git",
